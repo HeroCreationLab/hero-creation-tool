@@ -27,12 +27,6 @@ for (let i in user.race) {
     } 
 }
 
-for (let k in srdRace){
-    if (srdRace[k].subraces){
-        console.log(srdRace[k].subraces)
-    }
-}
-
 module.exports.srdRace = srdRace;
 
 //how to focus on the JSon race section
