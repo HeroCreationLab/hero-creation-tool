@@ -1,36 +1,63 @@
 
-//inporting File Syst and HTTP Module
 const fs = require('fs');
-const http = require('http');
+
+/*
+Author: Alexander Sedore
+Date: 12/19/2020
+Version: 0.1
+Stripping a given JSON of all non SRD content and exporting the object for future use.
+*/
 
 let user = JSON.parse(fs.readFileSync('races.json'));
-let srdRace = [];
-userRace = user.race;
+let srdRaces = [];
 let raceCount = 0;
 
-for (let i in userRace) {
-    if (userRace[i].srd) {
-        srdRace.push(userRace[i]);
-        srdRace[raceCount].subraces = [];
-        console.log(userRace[i]);
-        if (userRace[i].subraces){
-            for (let x in userRace[i].subraces){
-                console.log(userRace[i].subraces[x]);
-                if (userRace[i].subraces[x].srd){
-                    console.log("Has srd.");
-                    srdRace[raceCount].subraces.push(userRace[i].subraces[x]);
+for (let race of user.race) {
+    if (race.srd == true) {
+        srdRaces.push(race);
+    } 
+}
+for (let race of srdRaces) {
+    if (race.subraces) {
+        for (let subrace of race.subraces){
+            if (subrace.srd != true){
+                race.subraces.splice(race.subraces.indexOf(subrace),1);
+            }
+        }
+    }
+}
+console.log(srdRaces)
+/*for (let k in srdRaces){
+    if (srdRaces[k].subraces){
+        console.log(srdRaces[k].subraces)
+    }
+}*/
+
+/*
+for (let i in user.race) {
+    if (user.race[i].srd == true) {
+        srdRace.push(user.race[i]);
+        if (user.race[i].subraces){
+            for (let x = 0; x < user.race[i].subraces.length; x++){
+                if (user.race[i].subraces[x].srd != true){
+                    let removed = srdRace[raceCount].subraces.splice(x, 1);
+                    x --;
                 }
             }
         }
-        raceCount ++; 
+        raceCount ++;
     } 
 }
 
+for (let k in srdRace){
+    if (srdRace[k].subraces){
+        console.log(srdRace[k].subraces)
+    }
+}
 
+module.exports.srdRace = srdRace;*/
 
-//console.log(SrdRace);
 //how to focus on the JSon race section
-//console.log(user);
 
 /*
 var name = user.race[0].name; //getting the races name
