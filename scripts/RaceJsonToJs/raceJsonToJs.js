@@ -1,4 +1,5 @@
 
+const { SSL_OP_NETSCAPE_CA_DN_BUG } = require('constants');
 const fs = require('fs');
 
 /*
@@ -26,7 +27,7 @@ for (let i in user.race) {
         raceCount ++;
     } 
 }
-
+fs.writeFileSync('./srdRaces.json', JSON.stringify(srdRaces));
 module.exports.srdRaces = srdRaces;
 
 //how to focus on the JSon race section
