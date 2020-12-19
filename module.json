@@ -3,7 +3,7 @@
     "title": "Hero Creation Tool",
     "description": "A foundry version of the roll20 Charactermancer.",
     "version": "0.1",
-    "author": ["Alex", "Dan", "Andrew", "Coco", "Roy"],
+    "author": ["Alex", "Dan", "Andrew", "Coco", "Roy", "Lyle"],
     "minimumCoreVersion": "0.7.8",
     "compatibleCoreVersion": "0.7.8",
     "scripts": [
