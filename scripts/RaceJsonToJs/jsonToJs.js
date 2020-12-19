@@ -12,28 +12,6 @@ let user = JSON.parse(fs.readFileSync('races.json'));
 let srdRaces = [];
 let raceCount = 0;
 
-for (let race of user.race) {
-    if (race.srd == true) {
-        srdRaces.push(race);
-    } 
-}
-for (let race of srdRaces) {
-    if (race.subraces) {
-        for (let subrace of race.subraces){
-            if (subrace.srd != true){
-                race.subraces.splice(race.subraces.indexOf(subrace),1);
-            }
-        }
-    }
-}
-console.log(srdRaces)
-/*for (let k in srdRaces){
-    if (srdRaces[k].subraces){
-        console.log(srdRaces[k].subraces)
-    }
-}*/
-
-/*
 for (let i in user.race) {
     if (user.race[i].srd == true) {
         srdRace.push(user.race[i]);
@@ -55,7 +33,7 @@ for (let k in srdRace){
     }
 }
 
-module.exports.srdRace = srdRace;*/
+module.exports.srdRace = srdRace;
 
 //how to focus on the JSon race section
 
