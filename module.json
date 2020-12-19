@@ -1,6 +1,6 @@
 {
     "name": "hero-creation-tool",
-    "title": "Hero Creation Tool",
+    "title": "Hero Creation Tool for DnD5E",
     "description": "A foundry version of the roll20 Charactermancer.",
     "version": "0.1",
     "author": ["Alex", "Dan", "Andrew", "Coco", "Roy", "Lyle"],
