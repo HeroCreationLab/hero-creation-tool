@@ -15,8 +15,7 @@ Hooks.on('renderActorSheet', (app, html, data) => {
         heroCreationTools = new heroCreationTools();
     }
     //   let actorId = data.actor._id;
-    let button = $(`<button>Hi </button>` + data.actor._id);
-    html.closest('.app').find('.open-stat-drawer').remove();
+    let button = $(`<button >Hi </button>` + data.actor._id);
     let titleElement = html.closest('.app').find('.window-title');
     button.insertAfter(titleElement);
 });
