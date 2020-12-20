@@ -56,9 +56,15 @@
   </body>
   <button onclick="openTab(event, 'raceDiv')"> Next </button>
 </div>
-
 <div id="raceDiv" class="tabcontent"></div>
-<div id="classDiv" class="tabcontent"></div>
+<div id="classDiv" class="tabcontent">
+  <select id="class-dropdown" name="Class"></select>
+  <script>
+    var index = getIndex();
+    populateList("class-dropdown", index, "index");
+  </script>
+</div>
+
 <div id="abDiv" class="tabcontent">
   <iframe
     src="https://app.roll20.net/compendium/dnd5e/Rules:Ability%20Scores?sharedCompendium=9372385&amp;charmancer=true#toc_1"
@@ -288,8 +294,24 @@
     </div>
   </div>
 
-  <script src="/scripts/hero-creation-tool.js"></script>
-  <script src="/scripts/importJson.js"></script>
-  <script src="/scripts/toggleButton.js"></script>
 
+<script src="/scripts/hero-creation-tool.js"></script>
+<script src="/scripts/importJson.js"></script>
+<script src="/scripts/toggleButton.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
+<!--Importing Database JSs (temporary solution until we have a cloud server)-->
+<script src="/scripts/database/class-jsons/class-barbarian.js"></script>
+<script src="/scripts/database/class-jsons/class-bard.js"></script>
+<script src="/scripts/database/class-jsons/class-cleric.js"></script>
+<script src="/scripts/database/class-jsons/class-druid.js"></script>
+<script src="/scripts/database/class-jsons/class-fighter.js"></script>
+<script src="/scripts/database/class-jsons/class-monk.js"></script>
+<script src="/scripts/database/class-jsons/class-paladin.js"></script>
+<script src="/scripts/database/class-jsons/class-ranger.js"></script>
+<script src="/scripts/database/class-jsons/class-rogue.js"></script>
+<script src="/scripts/database/class-jsons/class-sorcerer.js"></script>
+<script src="/scripts/database/class-jsons/class-warlock.js"></script>
+<script src="/scripts/database/class-jsons/class-wizard.js"></script>
+<script src="/scripts/database/class-jsons/index.js"></script>
 </html>
