@@ -7,12 +7,10 @@ function openTab(evt, className) {
     }
     tablinks = document.getElementsByClassName("tablinks");
     for (i = 0; i < tablinks.length; i++) {
-      console.log(tablinks[i]);
       tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
     document.getElementById(className).style.display = "block";
     evt.currentTarget.className += " active";
-    console.log(evt);
 }
 
 module.exports = {openTab};

@@ -1,9 +1,12 @@
+
 .tabs {
   display: flex;
   width: 100%;
   justify-content: space-evenly;
 }
-
+.window-app .window-content .tabs {
+  flex: 0;
+}
 /* Style the buttons inside the tab */
 .tablinks {
   background-color: inherit;
