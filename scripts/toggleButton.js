@@ -15,4 +15,4 @@ function openTab(evt, className) {
     console.log(evt);
 }
 
-module.exports.openTab = openTab;
+module.exports = {openTab};
