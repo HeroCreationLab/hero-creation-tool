@@ -48,6 +48,7 @@
   border-top: none;
 }
 
+<<<<<<< HEAD
 
 /* Spells */
 .stat-flex-container {
@@ -85,3 +86,10 @@
 }
 
 
+=======
+.smaller{
+  text-align: center;
+  max-width: 50px;
+  float: right;
+}
+>>>>>>> main
