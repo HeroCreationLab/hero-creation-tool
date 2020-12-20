@@ -79,13 +79,50 @@ function populateList(id, object, typeJson){
     dropdown.selectIndex = 0;
     //check if the file is a index or not
     //console.log(typeJson);
+    /*
+    class{}, subclass[{}], classfeature{}, subclassfeature{}, races[{}], subraces[{}], backgrounds[{}], features[{}], optionalfeatures[{}], index {}, items [{}], spell
+    done: race, index, subrace
+    */
+   let option;
     if (typeJson == "index"){
-        let option;
-        for (k in object){
+        for (a in object){
             option = document.createElement('option');
-            option.text = k;
-            option.value = index[k];
+            option.text = a;
+            option.value = index[a];
             dropdown.add(option);
         }
+    } else if (typeJson == "race"){
+        for (race in object){
+            option = document.createElement('option');
+            option.text = race.name;
+            option.value = race;
+            dropdown.add(option); 
+        }
+
+    } else if (typeJson == "subrace"){
+        for (subRace in object){
+            option = document.createElement('option');
+            option.text = subRace.name;
+            option.vaule = subRace;
+            dropdown.add(option);
+
+        }
     }
+}
+
+/*
+Populate a spell selelect dropdownlist based on id, spell caster, the level of the caster and a given spell list.
+Input : ID: string, spellClass: int, level: int, spellList: jsonObject
+*/
+function populateSpellList(id, spellClass, level, spellList){
+
+}
+
+/*
+Populate a item selcelct dropdownlist based on id the type of item.
+Input : ID: string, itemType: char
+Output: N/A
+*/
+function populateItemList(id, itemType){
+
 }
