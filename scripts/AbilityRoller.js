@@ -1,9 +1,18 @@
 function roll4d6b3()
 {
-const statString = '4d6kh3';
+    
+}
+
+function standardArray()
+{
+    const statArray = [15,14,13,12,10,8];
+    return statArray;
+}
+
+/*    const statString = '4d6kh3';
 
 const numRolls = 6;
-const totalArray = [];
+const finalArray = [];
 const stats = Array(numRolls).fill(0).map(e=>new Roll(statString).roll());
 
 const {faces, rolls} = stats[0].terms[0];
@@ -20,7 +29,7 @@ for(let {parts, total} of stats) {
   tableRows += `<tr style="text-align:center">`;
   tableRows += parts[0].rolls.map(({result}) => `<td ${colorSetter(result, 1, faces)}>${result}</td>`).join('');
   tableRows += `<td style="border-left:1px solid #000; ${colorSetter(total, totalLow, totalHigh)}">${total}</td></tr>`;
-  totalArray.push(total);
+  finalArray.push(total);
   finalSum += total;
 }
 
@@ -47,7 +56,7 @@ let content = `
 
 
 ChatMessage.create({content});
-console.log(totalArray);
+console.log(finalArray);
 
 function colorSetter(number,low,high)
 {
@@ -56,11 +65,5 @@ function colorSetter(number,low,high)
   return '';
 }
 
-return totalArray;
-}
-
-function standardArray()
-{
-    const statArray = [15,14,13,12,10,8];
-    return statArray;
-}
+return finalArray;
+*/
