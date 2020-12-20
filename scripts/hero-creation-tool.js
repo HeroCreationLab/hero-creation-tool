@@ -1,3 +1,7 @@
+/* Coco Liang
+ version 0.1
+ This object is a pop-up window to edit the actor's inital levels and stuffs
+ */
 class HeroCreationTools extends Application {
     
     constructor() {
@@ -7,8 +11,8 @@ class HeroCreationTools extends Application {
     static get defaultOptions() {
         const options = super.defaultOptions;
         options.template = "modules/hero-creation-tool/templates/app.html";
-        options.width = 'auto';
-        options.height = 'auto';
+        options.width = 700;
+        options.height = 700;
         options.title = "Hero Creation";
         return options;
     }
@@ -19,11 +23,13 @@ class HeroCreationTools extends Application {
     }
 }
 
+/* links to the css document */
 var link = document.createElement('link');  
 link.rel = 'stylesheet';  
 link.type = 'text/css'; 
 link.href = '../styles/hero-creation-tool.css';  
 
+/* This hooks onto the rendering actor sheet and makes a new object */
 Hooks.on('renderActorSheet', (app, html, data) => { 
    
     if (app.actor.data.type === 'npc') return;
