@@ -1,13 +1,17 @@
-.tabs > buttons{
+.tab > buttons{
   background: rgba(253, 253, 253, 0);
   color:	black;
   font-size:16px;
-  border: 2px white;
-  padding: 10px;
   border-radius: 1px;
   width: 100px;
-  margin: 1 1px;
   line-height: 14px;
   display: inline-block;
+  background-color: inherit;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
 
 }
+
