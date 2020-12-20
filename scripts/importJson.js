@@ -43,25 +43,25 @@ Author: Alexander Sedore
 Date: 12/19/2020
 Version: 0.1
 Takes a Json object, the type of Json it is and the file name and saves it into the database and returns the filepath to the newly created json.
-Input: obj:[{}], jsonType: string, fileName: string
+Input: obj:[{}], typeJson: string, fileName: string
 Output: filePath: string
 */
-function saveJson(object, jsonType, fileName){
+function saveJson(object, typeJson, fileName){
     let filePath = '../database';
     if (typeJson == "spell"){
-        filePath = filepath + '/spell-jsons/' + fileName;
+        filePath = filePath + '/spell-jsons/' + fileName;
     } else if (typeJson == "race"){
-        filePath = filepath + '/race-jsons/' + fileName;
+        filePath = filePath + '/race-jsons/' + fileName;
     }else if (typeJson == "language"){
-        filePath = filepath + '/language-jsons/' + fileName;
+        filePath = filePath + '/language-jsons/' + fileName;
     }else if (typeJson == "item"){
-        filePath = filepath + '/item-jsons/' + fileName;
+        filePath = filePath + '/item-jsons/' + fileName;
     }else if (typeJson == "feat"){
-        filePath = filepath + '/feat-jsons/' + fileName;
+        filePath = filePath + '/feat-jsons/' + fileName;
     }else if (typeJson == "background"){
-        filePath = filepath + '/background-jsons/' + fileName;
+        filePath = filePath + '/background-jsons/' + fileName;
     } else {
-        filePath = filepath + '/class-jsons/' + fileName;
+        filePath = filePath + '/class-jsons/' + fileName;
     }
     fs.writeFileSync(filePath, JSON.stringify(object));
     return filePath;
