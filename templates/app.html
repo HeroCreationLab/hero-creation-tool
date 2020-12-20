@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="../styles/hero-creation-tool.css">
-  </head>
-    <!--buttons toggle show hide of divs of each section-->
-    <div class="tabs"> 
-      <button class="tablinks" onclick="openTab(event, 'startDiv')"> Start </button>
-      <button class="tablinks" onclick="openTab(event, 'raceDiv')"> Race </button>
-      <button class="tablinks" onclick="openTab(event, 'classDiv')"> Class </button>
-      <button class="tablinks" onclick="openTab(event, 'abDiv')"> Abilities </button>
-      <button class="tablinks" onclick="openTab(event, 'backgroundDiv')"> Background </button>
-      <button class="tablinks" onclick="openTab(event, 'eqDiv')"> Equipment </button>
-      <button class="tablinks" onclick="openTab(event, 'spDiv')"> Spells </button>
-      <button class="tablinks" onclick="openTab(event, 'featsDiv')"> Feats </button>
-      <button class="tablinks" onclick="openTab(event, 'bioDiv')"> Bio </button>
-      <button class="tablinks" onclick="openTab(event, 'reviewDiv')"> Review </button>
-    </div>
-      <!-- OK WE ARE PRETENDING THAT WE CAN LOAD THINGS, 
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../styles/hero-creation-tool.css">
+</head>
+<!--buttons toggle show hide of divs of each section-->
+<div class="tabs">
+  <button class="tablinks" onclick="openTab(event, 'startDiv')"> Start </button>
+  <button class="tablinks" onclick="openTab(event, 'raceDiv')"> Race </button>
+  <button class="tablinks" onclick="openTab(event, 'classDiv')"> Class </button>
+  <button class="tablinks" onclick="openTab(event, 'abDiv')"> Abilities </button>
+  <button class="tablinks" onclick="openTab(event, 'backgroundDiv')"> Background </button>
+  <button class="tablinks" onclick="openTab(event, 'eqDiv')"> Equipment </button>
+  <button class="tablinks" onclick="openTab(event, 'spDiv')"> Spells </button>
+  <button class="tablinks" onclick="openTab(event, 'featsDiv')"> Feats </button>
+  <button class="tablinks" onclick="openTab(event, 'bioDiv')"> Bio </button>
+  <button class="tablinks" onclick="openTab(event, 'reviewDiv')"> Review </button>
+</div>
+<!-- OK WE ARE PRETENDING THAT WE CAN LOAD THINGS, 
         COPY AND PASTE UR HTML FILE INTO THE BELOW WHEN YOU WANT TO TEST 
       *****************************************
       *****************************************
@@ -32,18 +33,181 @@
       IN YOUR HTML/TESTING PHASE OR JUST LEAVE IT AND
       WE WILL FIGURE IT OUT AT THE END. PLZ MERCY TY
     -->
-      <div id ="startDiv" class="tabcontent"></div>
-      <div id ="raceDiv" class="tabcontent"></div>
-      <div id ="classDiv" class="tabcontent"></div>
-      <div id ="abDiv" class="tabcontent"></div>
-      <div id ="backgroundDiv" class="tabcontent"></div>
-      <div id ="eqDiv" class="tabcontent"></div>
-      <div id ="spDiv" class="tabcontent"></div>
-      <div id ="featsDiv" class="tabcontent"> </div>
-      <div id ="bioDiv" class="tabcontent"></div>
-      <div id ="reviewDiv" class="tabcontent"></div>
+<script>openTab(event, 'startDiv')</script>
+<div id="startDiv" class="tabcontent">
+  <h1 style="font-family: 'Modesto Condensed';">
+    Welcome to the Hero Creation Tool for DnD 5e!
+  </h1>
 
-      <script src="/scripts/hero-creation-tool.js"></script>
-      <script src="/scripts/importJson.js"></script>
-      <script src="/scripts/toggleButton.js"></script>
+  <body>
+    The Hero Creation Tool is a step-by-step process for creating a character in your tabletop game.
+    Changes are saved as you progress, but the character sheet is only updated upon completion.
+
+    <br><br> The Hero Creation Tool currently supports Dungeons & Dragons 5th Edition SRD material from the Players
+    HandBook.
+    You can add further content through the import function of the module (to be implemented?) or by creating custom
+    modules in the creation tool.
+
+
+    <br><br><b>Your Adventure Awaits!</b>
+    <br><br><b>
+      Get started by clicking Next.
+    </b>
+  </body>
+</div>
+<div id="raceDiv" class="tabcontent"></div>
+<div id="classDiv" class="tabcontent"></div>
+<div id="abDiv" class="tabcontent">
+  <iframe
+  src="https://app.roll20.net/compendium/dnd5e/Rules:Ability%20Scores?sharedCompendium=9372385&amp;charmancer=true#toc_1"
+  style="width: 100%; height: 45%;" frameborder="0"></iframe>
+  <form class="flexcol prototype" autocomplete="off">
+   
+    <button name="roll_stats"> Roll For Stats</button>
+    <div class="form-group">
+      <input type="number" id="number1" placeholder="19">
+      <select name="stats" id="stat1">
+        <option value="STR">Strength</option>
+        <option value="DEX">Dexterity</option>
+        <option value="CON">Constitution</option>
+        <option value="INT">Intelligence</option>
+        <option value="WIS">Wisdom</option>
+        <option value="CHAR">Charisma</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <input type="number" id="number2" placeholder="19">
+      <select name="stats" id="stat2">
+        <option value="STR">Strength</option>
+        <option value="DEX">Dexterity</option>
+        <option value="CON">Constitution</option>
+        <option value="INT">Intelligence</option>
+        <option value="WIS">Wisdom</option>
+        <option value="CHAR">Charisma</option>
+      </select>
+    </div>
+    <div class="form-group">
+
+      <input type="number" id="number3" placeholder="19">
+      <select name="stats" id="stat3">
+        <option value="STR">Strength</option>
+        <option value="DEX">Dexterity</option>
+        <option value="CON">Constitution</option>
+        <option value="INT">Intelligence</option>
+        <option value="WIS">Wisdom</option>
+        <option value="CHAR">Charisma</option>
+      </select>
+
+    </div>
+
+    <div class="form-group">
+
+      <input type="number" id="number4" placeholder="19">
+      <select name="stats" id="stat4">
+        <option value="STR">Strength</option>
+        <option value="DEX">Dexterity</option>
+        <option value="CON">Constitution</option>
+        <option value="INT">Intelligence</option>
+        <option value="WIS">Wisdom</option>
+        <option value="CHAR">Charisma</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+
+      <input type="number" id="number5" placeholder="19">
+      <select name="stats" id="stat5">
+        <option value="STR">Strength</option>
+        <option value="DEX">Dexterity</option>
+        <option value="CON">Constitution</option>
+        <option value="INT">Intelligence</option>
+        <option value="WIS">Wisdom</option>
+        <option value="CHAR">Charisma</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+
+      <input type="number" id="number6" placeholder="19">
+      <select name="stats" id="stat6">
+        <option value="STR">Strength</option>
+        <option value="DEX">Dexterity</option>
+        <option value="CON">Constitution</option>
+        <option value="INT">Intelligence</option>
+        <option value="WIS">Wisdom</option>
+        <option value="CHAR">Charisma</option>
+      </select>
+    </div>
+
+
+  </form>
+
+
+
+
+
+
+</div>
+<div id="backgroundDiv" class="tabcontent"></div>
+<div id="eqDiv" class="tabcontent"></div>
+<div id="spDiv" class="tabcontent"></div>
+<div id="featsDiv" class="tabcontent"> </div>
+<div id="bioDiv" class="tabcontent">
+  <h1 style="font-family: 'Modesto Condensed';"> Biography</h1>
+  <div class=tabs>
+    <form class="flexcol prototype" autocomplete="off">
+      <div class="form-group">
+        <label>Character Name</label>
+        <input type="text" id="character_name" name="name" placeholder="Name"><br><br>
+      </div>
+      <div style="border-radius: 20px">
+        <!--
+                TO DO: 
+                Connect with actor object so that the shared url is linked to the race specified if one is selected
+                if no race is selected, should show PHB Race page
+              -->
+        <iframe
+          src="https://app.roll20.net/compendium/dnd5e/Races:Gnome?sharedCompendium=9372385&amp;charmancer=true#content"
+          style="width: 100%; height: calc(100% - 5px);" frameborder="0"></iframe>
+      </div>
+      <div class="form-group">
+        <label style="font-family: 'Signika';">Age </label>
+        <input type="text" id="character_age" name="age" placeholder="Age"><br><br>
+      </div>
+      <div class="form-group">
+        <label style="font-family: 'Signika';">Height </label>
+        <input type="text" id="character_height" name="height" placeholder="Height"><br><br>
+      </div>
+      <div class="form-group">
+        <label style="font-family: 'Signika';">Weight </label>
+        <input type="text" id="character_weight" name="weight" placeholder="Weight"><br><br>
+      </div>
+      <div class="form-group">
+        <label style="font-family: 'Signika';">Eyes </label>
+        <input type="color" id="character_eye" name="eye" placeholder="Eye">
+        <input type="text" id="character_eye" name="eye" placeholder="Eye"><br><br>
+      </div>
+      <div class="form-group">
+        <label style="font-family: 'Signika';">Hair </label>
+        <input type="color" id="character_hair" name="hair" placeholder="Hair">
+        <input type="text" id="character_hair" name="hair" placeholder="Hair"><br><br>
+      </div>
+      <div class="form-group">
+        <label style="font-family: 'Signika';">Skin </label>
+        <input type="color" id="character_skin" name="skin" placeholder="Skin">
+        <input type="text" id="character_skin" name="skin" placeholder="Skin"><br><br>
+      </div>
+      <button type="submit" Value="Next"> Next </button>
+    </form>
+  </div>
+</div>
+<div id="reviewDiv" class="tabcontent"></div>
+
+
+
+<script src="/scripts/hero-creation-tool.js"></script>
+<script src="/scripts/importJson.js"></script>
+<script src="/scripts/toggleButton.js"></script>
+
 </html>
