@@ -1,10 +1,18 @@
 <h1> Biography</h1>
 <div class = tabs>
-    
 <form class ="flexcol prototype" autocomplete="off">
     <div class="form-group">
       <label>Character Name</label>
       <input type="text" id="character_name" name="name" placeholder="Name" ><br><br>         
+    </div>
+    <div style ="border-radius: 20px">
+      <!--
+        TO DO: 
+        Connect with actor object so that the shared url is linked to the race specified if one is selected
+        if no race is selected, should show PHB Race page
+      -->
+      <iframe src="https://app.roll20.net/compendium/dnd5e/Races:Gnome?sharedCompendium=9372385&amp;charmancer=true#content"
+      style="width: 100%; height: calc(100% - 5px);" frameborder="0"></iframe>
     </div>
     <div class="form-group">
       <label>Age </label>
