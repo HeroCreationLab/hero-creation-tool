@@ -611,6 +611,6 @@ classObj={
     ]
 };
 
-function returnClass(){
+function returnClassBarb(){
     return classObj;
 }

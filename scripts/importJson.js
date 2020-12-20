@@ -64,15 +64,10 @@ function saveJson(object, typeJson, fileName){
 }
 /*
 Populate a selcelct dropdownlist based on id and filepath for a index json.
-Input : ID: string, filePath: string, typeJson: string
+Input : ID: string, object: Json Array, typeJson: string
 Output: N/A
 */
-function populateList(id, filePath, typeJson){
-   
-    const fs = require('fs');
-    // console.log(typeJson);
-    // console.log(id);
-    // console.log(filePath);
+function populateList(id, object, typeJson){
      //initialize drop down list and add default value
     let dropdown = document.getElementById(id);
     dropdown.length = 0;
@@ -84,36 +79,13 @@ function populateList(id, filePath, typeJson){
     dropdown.selectIndex = 0;
     //check if the file is a index or not
     //console.log(typeJson);
-    let index = JSON.parse(fs.readFileSync(filePath));
-    console.log(index);
-    let option;
-    for (k in index){
-        option = document.createElement('option');
-        option.text = k;
-        option.value = index[k];
-        dropdown.add(option);
-    }
     if (typeJson == "index"){
-        /*//if it is then populate it using the first element of the object array
-        "/database/class-jsons/index.json" = filepath
-        class-dropdown = "id"
-        typeJson: "index"
-        index
-        [{"barbarian": "class-barbarian.json", 
-            "bard": "class-bard.json",
-            "cleric": "class-cleric.json",
-            "druid": "class-druid.json",
-            "fighter": "class-fighter.json",
-            "monk": "class-monk.json",
-            "paladin": "class-paladin.json",
-            "ranger": "class-ranger.json",
-            "rogue": "class-rogue.json",
-            "sorcerer": "class-sorcerer.json",
-            "warlock": "class-warlock.json",
-            "wizard": "class-wizard.json"
-        }]*/
-        
-    } else {
-
+        let option;
+        for (k in object){
+            option = document.createElement('option');
+            option.text = k;
+            option.value = index[k];
+            dropdown.add(option);
+        }
     }
 }
