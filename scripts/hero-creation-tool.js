@@ -4,8 +4,10 @@
  */
 class HeroCreationTools extends Application {
     
-    constructor() {
+    constructor(app, html) {
         super();
+        this.app = app;
+        this.html = html;
     }
 
     static get defaultOptions() {
@@ -21,6 +23,36 @@ class HeroCreationTools extends Application {
         this.actorId = actorId;
         this.render(true);
     }
+
+    _updateAbilityScores(values) {
+        /**
+         * Take out this random pre-fill when done
+         */
+        for (var i = 0; i < 6; i++) {
+            values.push(Math.floor(Math.random() * 6) + 1);
+        }
+        
+        this.app.object.data.data.abilities.str.value = values[0];
+        this.app.object.data.data.abilities.dex.value = values[1];
+        this.app.object.data.data.abilities.con.value = values[2];
+        this.app.object.data.data.abilities.int.value = values[3];
+        this.app.object.data.data.abilities.wis.value = values[4];
+        this.app.object.data.data.abilities.cha.value = values[5];
+    
+    }
+
+    activateListeners(html){
+        html.find(".abilitySubmit").click(ev => {
+            /**
+             * TODO:
+             * Change the on click event to a button in the review tab.
+             * Get values from the current Application and send it to data.
+             */
+            let values = [];
+            this._updateAbilityScores(values);
+            this.app.render();
+        });
+    }
 }
 
 /* links to the css document */
@@ -35,14 +67,19 @@ Hooks.on('renderActorSheet', (app, html, data) => {
     if (app.actor.data.type === 'npc') return;
     let actorId = data.actor._id;
 
-    configure_hero = new HeroCreationTools();
+    configure_hero = new HeroCreationTools(app, html);
     
     let button = $(`<a class="header-button configure_hero"}>Hero Creation</a>`);
     button.click(ev =>{
         console.log("button pressed!");
         configure_hero.openForActor(actorId);
+        
+        
+        console.log(configure_hero);
     });
+    html.closest('.app').find('.configure_hero').remove();
     let titleElement = html.closest('.app').find('.configure-sheet');
     button.insertBefore(titleElement);
 
+    
 });
