@@ -32,7 +32,32 @@
       IN YOUR HTML/TESTING PHASE OR JUST LEAVE IT AND
       WE WILL FIGURE IT OUT AT THE END. PLZ MERCY TY
     -->
+    <script>openTab(event, 'startDiv')</script>
       <div id ="startDiv" class="tabcontent">
+        <h1 style="font-family: 'Modesto Condensed';">
+            Welcome to the Hero Creation Tool for DnD 5e!
+        </h1>
+        <body>
+        The Hero Creation Tool is a step-by-step process for creating a character in your tabletop game. 
+        Changes are saved as you progress, but the character sheet is only updated upon completion.
+        
+        <br><br> The Hero Creation Tool currently supports Dungeons & Dragons 5th Edition SRD material from the Players HandBook. 
+        You can add further content through the import function of the module (to be implemented?) or by creating custom modules in the creation tool.
+        
+        
+        <br><br><b>Your Adventure Awaits!</b>
+        <br><br><b>
+            Get started by clicking Next.
+        </b>
+        </body>    
+      </div>
+
+      <div id ="raceDiv" class="tabcontent"></div>
+      <div id ="classDiv" class="tabcontent"></div>
+      <div id ="abDiv" class="tabcontent"></div>
+      <div id ="backgroundDiv" class="tabcontent"></div>
+      <div id ="eqDiv" class="tabcontent"></div>
+      <div id ="spDiv" class="tabcontent">
         <h1>Spells</h1>
         <div class="stat-flex-container">
             <div class="stat-box">
@@ -98,54 +123,55 @@
 
           </iframe>
         </div>
-
       </div>
-
-      <div id ="raceDiv" class="tabcontent"></div>
-      <div id ="classDiv" class="tabcontent"></div>
-      <div id ="abDiv" class="tabcontent"></div>
-      <div id ="backgroundDiv" class="tabcontent"></div>
-      <div id ="eqDiv" class="tabcontent"></div>
-      <div id ="spDiv" class="tabcontent"></div>
       <div id ="featsDiv" class="tabcontent"> </div>
-      <div id ="bioDiv" class="tabcontent">
-        <h1> Biography</h1>
+      <div id ="bioDiv" class="tabcontent"> 
+        <h1 style="font-family: 'Modesto Condensed';"> Biography</h1>
+        <div class = tabs>
         <form class ="flexcol prototype" autocomplete="off">
-          <div class="form-group">
-            <label>Character Name</label>
-            <input type="text" id="character_name" name="name" placeholder="Name" ><br><br>         
-          </div>
-          <div class="form-group">
-            <label>Age </label>
-            <input type="text" id="character_age" name="age" placeholder="Age"><br><br>         
-          </div>
-          <div class="form-group">
-            <label>Height </label>
-            <input type="text" id="character_height" name="height" placeholder="Height"><br><br>         
-          </div>
-          <div class="form-group">
-            <label>Weight </label>
-            <input type="text" id="character_weight" name="weight" placeholder="Weight" ><br><br>         
-          </div>
-          <div class="form-group">
-            <label>Eyes </label>
-            <input type="color" id="character_eye" name="eye" placeholder="Eye">
-            <input type="text" id="character_eye" name="eye" placeholder="Eye" ><br><br>         
-          </div>
-          <div class="form-group">
-            <label>Hair </label>
-            <input type="color" id="character_hair" name="hair" placeholder="Hair" > 
-            <input type="text" id="character_hair" name="hair" placeholder="Hair" ><br><br>         
-          </div>
-          <div class="form-group">
-            <label>Skin </label>
-            <input type="color" id="character_skin" name="skin" placeholder="Skin">
-            <input type="text" id="character_skin" name="skin" placeholder="Skin" ><br><br>         
-          </div>      
-          <button  type="submit" Value = "Next"> Next </button>
-        </form>
-      
-
+            <div class="form-group">
+              <label>Character Name</label>
+              <input type="text" id="character_name" name="name" placeholder="Name" ><br><br>         
+            </div>
+            <div style ="border-radius: 20px">
+              <!--
+                TO DO: 
+                Connect with actor object so that the shared url is linked to the race specified if one is selected
+                if no race is selected, should show PHB Race page
+              -->
+              <iframe src="https://app.roll20.net/compendium/dnd5e/Races:Gnome?sharedCompendium=9372385&amp;charmancer=true#content"
+              style="width: 100%; height: calc(100% - 5px);" frameborder="0"></iframe>
+            </div>
+            <div class="form-group">
+              <label  style="font-family: 'Signika';">Age </label>
+              <input type="text" id="character_age" name="age" placeholder="Age"><br><br>         
+            </div>
+            <div class="form-group">
+              <label  style="font-family: 'Signika';">Height </label>
+              <input type="text" id="character_height" name="height" placeholder="Height"><br><br>         
+            </div>
+            <div class="form-group">
+              <label  style="font-family: 'Signika';">Weight </label>
+              <input type="text" id="character_weight" name="weight" placeholder="Weight" ><br><br>         
+            </div>
+            <div class="form-group">
+              <label  style="font-family: 'Signika';">Eyes </label>
+              <input type="color" id="character_eye" name="eye" placeholder="Eye">
+              <input type="text" id="character_eye" name="eye" placeholder="Eye" ><br><br>         
+            </div>
+            <div class="form-group">
+              <label  style="font-family: 'Signika';">Hair </label>
+              <input type="color" id="character_hair" name="hair" placeholder="Hair" > 
+              <input type="text" id="character_hair" name="hair" placeholder="Hair" ><br><br>         
+            </div>
+            <div class="form-group">
+              <label  style="font-family: 'Signika';">Skin </label>
+              <input type="color" id="character_skin" name="skin" placeholder="Skin">
+              <input type="text" id="character_skin" name="skin" placeholder="Skin" ><br><br>         
+            </div>      
+            <button  type="submit" Value = "Next"> Next </button>
+          </form>
+        </div>
       </div>
       <div id ="reviewDiv" class="tabcontent"></div>
 
