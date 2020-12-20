@@ -1,7 +1,4 @@
 
-const { SSL_OP_NETSCAPE_CA_DN_BUG } = require('constants');
-const fs = require('fs');
-
 /*
 Author: Alexander Sedore
 Date: 12/19/2020
@@ -71,20 +68,33 @@ Input : ID: string, filePath: string, typeJson: string
 Output: N/A
 */
 function populateList(id, filePath, typeJson){
-    //initialize drop down list and add default value
-    /*
+   
+    const fs = require('fs');
+    // console.log(typeJson);
+    // console.log(id);
+    // console.log(filePath);
+     //initialize drop down list and add default value
     let dropdown = document.getElementById(id);
     dropdown.length = 0;
+
     let defaultOption = document.createElement('option');
     defaultOption.text = 'Choose your class';
 
     dropdown.add(defaultOption);
     dropdown.selectIndex = 0;
-    */
     //check if the file is a index or not
+    //console.log(typeJson);
+    let index = JSON.parse(fs.readFileSync(filePath));
+    console.log(index);
+    let option;
+    for (k in index){
+        option = document.createElement('option');
+        option.text = k;
+        option.value = index[k];
+        dropdown.add(option);
+    }
     if (typeJson == "index"){
-        //if it is then populate it using the first element of the object array
-        /*
+        /*//if it is then populate it using the first element of the object array
         "/database/class-jsons/index.json" = filepath
         class-dropdown = "id"
         typeJson: "index"
@@ -101,14 +111,9 @@ function populateList(id, filePath, typeJson){
             "sorcerer": "class-sorcerer.json",
             "warlock": "class-warlock.json",
             "wizard": "class-wizard.json"
-        }]
-        */
-       let index = JSON.parse(fs.readFileSync(filePath));
-       console.log(index[0]);
+        }]*/
+        
     } else {
 
     }
 }
-
-populateList("class-dropdown", "/database/class-jsons/index.json", "index");
-module.exports = {importJson, saveJson, populateList};
