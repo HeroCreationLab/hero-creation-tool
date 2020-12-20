@@ -147,23 +147,82 @@
         <option value="CHAR">Charisma</option>
       </select>
     </div>
-  </form>
-</div>
+      </form>
+    </div>
 
-<div id="backgroundDiv" class="tabcontent"></div>
-<div id="eqDiv" class="tabcontent"></div>
-<div id="spDiv" class="tabcontent"></div>
-<div id="featsDiv" class="tabcontent"> </div>
-<div id="bioDiv" class="tabcontent">
-  <h1 style="font-family: 'Modesto Condensed';"> Biography</h1>
-  <div class=tabs>
-    <form class="flexcol prototype" autocomplete="off">
-      <div class="form-group">
-        <label>Character Name</label>
-        <input type="text" id="character_name" name="name" placeholder="Name"><br><br>
+    <div id ="spDiv" class="tabcontent">
+      <h1>Spells</h1>
+      <div class="stat-flex-container">
+          <div class="stat-box">
+            <h3>_</h3>
+            <label for="">Strength</label>
+          </div>
+          <div class="stat-box">
+            <h3>_</h3>
+            <label for="">Dexterity</label>
+          </div>
+          <div class="stat-box">
+            <h3>_</h3>
+            <label for="">Constitution</label>
+          </div>
+          <div class="stat-box">
+            <h3>_</h3>
+            <label for="">Intelligence</label>
+          </div>
+          <div class="stat-box">
+            <h3>_</h3>
+            <label for="">Wisdom</label>
+          </div>
+          <div class="stat-box">
+            <h3>_</h3>
+            <label for="">Charisma</label>
+          </div>
+        </div>
+
+      <div class="info-panel">
+        <div class="info-item">
+          Hit Points:
+        </div>
+        <div class="info-item">
+          Suggest Abilites:
+        </div>
+        <div class="info-item">
+          Class Spellcasting Ability:
+        </div>
       </div>
-      <div style="border-radius: 20px">
-        <!--
+
+      <div class="flex-separator">
+        <div style="width: 50%">
+          <form class ="flexcol prototype" action="">
+            <label for="CLASS">CLASS __</label>
+            <select name="" id=""></select>
+            <select name="" id=""></select>
+            <select name="" id=""></select>
+            <select name="" id=""></select>
+            <label for="CLASS">CLASS __</label>
+            <select name="" id=""></select>
+            <select name="" id=""></select>
+            <select name="" id=""></select>
+            <select name="" id=""></select>
+          </form>
+        </div>
+        <iframe src="https://app.roll20.net/compendium/dnd5e/Rules:Spells?sharedCompendium=9371676&amp;charmancer=true#toc_1/" frameborder="0"></iframe>
+      </div>
+
+    </div>
+
+      <div id ="featsDiv" class="tabcontent"> </div>
+      <div id ="bioDiv" class="tabcontent"> 
+        <h1 style="font-family: 'Modesto Condensed';"> Biography</h1>
+        <div class = tabs>
+        <form class ="flexcol prototype" autocomplete="off">
+            <div class="form-group">
+              <label>Character Name</label>
+              <input type="text" id="character_name" name="name" placeholder="Name" ><br><br>         
+            </div>
+            <div style ="border-radius: 20px">
+              <!--
+                <div style="border-radius: 20px">
                 TO DO: 
                 Connect with actor object so that the shared url is linked to the race specified if one is selected
                 if no race is selected, should show PHB Race page

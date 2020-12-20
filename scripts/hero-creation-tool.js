@@ -39,10 +39,8 @@ Hooks.on('renderActorSheet', (app, html, data) => {
     
     let button = $(`<a class="header-button configure_hero"}>Hero Creation</a>`);
     button.click(ev =>{
-        console.log("button pressed!");
         configure_hero.openForActor(actorId);
     });
     let titleElement = html.closest('.app').find('.configure-sheet');
     button.insertBefore(titleElement);
-
 });
