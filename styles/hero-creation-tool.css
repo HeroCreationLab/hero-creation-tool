@@ -90,6 +90,22 @@
   justify-content: space-between;
 }
 
+.review-container {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-evenly;
+}
+
+.review-container > div {
+  width: 100%;
+  margin: 0;
+  padding: 10px;
+}
+
+.review-container:nth-child(odd) {
+  background: lightgray;
+}
+
 .smaller{
   text-align: center;
   max-width: 50px;

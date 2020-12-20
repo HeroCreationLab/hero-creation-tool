@@ -39,7 +39,7 @@ for (let i = 0; i < subclassFeature.length; i++) {
     }
 }
 
-let combined = {"class": [srdClass], "classFeature": [srdClassFeature], "subclassFeature": [srdSubclassFeature]}
+let combined = {"class": srdClass, "classFeature": srdClassFeature, "subclassFeature": srdSubclassFeature}
 
 fs.writeFileSync(path, JSON.stringify(combined));
 }
