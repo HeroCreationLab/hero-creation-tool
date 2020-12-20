@@ -1,0 +1,12 @@
+button.first{
+  background: rgba(0, 0, 0, 0.0);
+  color:	#dbd9cd;
+  font-size:16px;
+  border: 2px white;
+  padding: 10px;
+  border-radius: 1px;
+  width: 100px;
+  margin: 1 1px;
+
+  line-height: 14px;
+}
