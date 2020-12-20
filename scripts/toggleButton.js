@@ -13,4 +13,7 @@ function openTab(evt, className) {
     evt.currentTarget.className += " active";
 }
 
+
 module.exports = {openTab};
+
+
