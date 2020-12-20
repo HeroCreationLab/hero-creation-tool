@@ -5,17 +5,30 @@
     <link rel="stylesheet" href="../styles/hero-creation-tool.css">
     <script src="../scripts/hero-creation-tool.js"></script>
     <script src="../scripts/importJson.js"></script>
- 
-
+    <script src="../scripts/toggleButton.js"></script>
   </head>
 
- 
- <div width = 100px height= 700px>
- 
-    <!--buttons toggle show hide of divs of each section-->
+  <script>
+  function openTab(evt, className) {
+      var i, tabcontent, tablinks;
+
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        console.log(tablinks[i]);
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(className).style.display = "block";
+      evt.currentTarget.className += " active";
+      console.log(evt);
+  }
+  </script>
+   <!--buttons toggle show hide of divs of each section-->
     <div class="tabs">
-      
-      <button class="tablinks"onclick="openTab(event, 'startDiv')"> Start </button>
+      <button class="tablinks" onclick="openTab(event, 'startDiv')"> Start </button>
       <button class="tablinks" onclick="openTab(event, 'raceDiv')"> Race </button>
       <button class="tablinks" onclick="openTab(event, 'classDiv')"> Class </button>
       <button class="tablinks" onclick="openTab(event, 'abDiv')"> Abilities </button>
@@ -58,24 +71,6 @@
       Review
     </div>
 
-    <script>
-      function openTab(evt, tabName) {
-      var i, tabcontent, tablinks;
-
-      tabcontent = document.getElementsByClassName("tabcontent");
-      for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-      }
-      tablinks = document.getElementsByClassName("tablinks");
-      for (i = 0; i < tablinks.length; i++) {
-        console.log(tablinks[i]);
-        tablinks[i].tabName = tablinks[i].tabName.replace(" active", "");
-      }
-      document.getElementById(tabName).style.display = "block";
-      evt.currentTarget.tabName += " active";
-      console.log(evt);
-    }
-     </script>
   
 </html>
 
