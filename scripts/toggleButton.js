@@ -12,8 +12,3 @@ function openTab(evt, className) {
     document.getElementById(className).style.display = "block";
     evt.currentTarget.className += " active";
 }
-
-
-module.exports = {openTab};
-
-

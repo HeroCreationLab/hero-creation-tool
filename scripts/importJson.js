@@ -1,7 +1,4 @@
 
-const { SSL_OP_NETSCAPE_CA_DN_BUG } = require('constants');
-const fs = require('fs');
-
 /*
 Author: Alexander Sedore
 Date: 12/19/2020
@@ -13,7 +10,6 @@ Output: object [{}]
 */
 
 function importJson(filePath, typeJson){
-    
     let obj = JSON.parse(fs.readFileSync(filePath));
     if (typeJson == "spell"){
         let spell = obj.spell;
@@ -66,6 +62,30 @@ function saveJson(object, typeJson, fileName){
     fs.writeFileSync(filePath, JSON.stringify(object));
     return filePath;
 }
+/*
+Populate a selcelct dropdownlist based on id and filepath for a index json.
+Input : ID: string, object: Json Array, typeJson: string
+Output: N/A
+*/
+function populateList(id, object, typeJson){
+     //initialize drop down list and add default value
+    let dropdown = document.getElementById(id);
+    dropdown.length = 0;
 
-module.exports.importJson = importJson;
-module.exports.saveJson = saveJson;
+    let defaultOption = document.createElement('option');
+    defaultOption.text = 'Choose your class';
+
+    dropdown.add(defaultOption);
+    dropdown.selectIndex = 0;
+    //check if the file is a index or not
+    //console.log(typeJson);
+    if (typeJson == "index"){
+        let option;
+        for (k in object){
+            option = document.createElement('option');
+            option.text = k;
+            option.value = index[k];
+            dropdown.add(option);
+        }
+    }
+}

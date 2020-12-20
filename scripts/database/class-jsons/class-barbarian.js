@@ -1,4 +1,4 @@
-{
+classObj={
     "class": [
         {
             "name": "Barbarian",
@@ -609,4 +609,8 @@
     "subclassFeature": [
         []
     ]
+};
+
+function returnClassBarb(){
+    return classObj;
 }

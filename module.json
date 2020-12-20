@@ -9,10 +9,25 @@
     "scripts": [
         "scripts/hero-creation-tool.js", 
         "scripts/toggleButton.js", 
-        "scripts/importJson.js"
+        "scripts/importJson.js",
+        "scripts/database/class-jsons/class-barbarian.js",
+        "scripts/database/class-jsons/class-bard.js",
+        "scripts/database/class-jsons/class-cleric.js",
+        "scripts/database/class-jsons/class-fighter.js",
+        "scripts/database/class-jsons/class-monk.js",
+        "scripts/database/class-jsons/class-paladin.js",
+        "scripts/database/class-jsons/class-ranger.js",
+        "scripts/database/class-jsons/class-rogue.js",
+        "scripts/database/class-jsons/class-sorcerer.js",
+        "scripts/database/class-jsons/class-warlock.js",
+        "scripts/database/class-jsons/class-wizard.js",
+        "scripts/database/class-jsons/index.js"
     ],
     "styles": [
         "styles/hero-creation-tool.css"
+    ],
+    "templates": [
+        "templates/app.html"
     ],
     "system": "dnd5e",
     "url": "https://github.com/AndrewJiangB/hero-creation-tool"
