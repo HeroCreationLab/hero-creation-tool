@@ -13,7 +13,6 @@ Output: object [{}]
 */
 
 function importJson(filePath, typeJson){
-    
     let obj = JSON.parse(fs.readFileSync(filePath));
     if (typeJson == "spell"){
         let spell = obj.spell;
@@ -66,6 +65,50 @@ function saveJson(object, typeJson, fileName){
     fs.writeFileSync(filePath, JSON.stringify(object));
     return filePath;
 }
+/*
+Populate a selcelct dropdownlist based on id and filepath for a index json.
+Input : ID: string, filePath: string, typeJson: string
+Output: N/A
+*/
+function populateList(id, filePath, typeJson){
+    //initialize drop down list and add default value
+    /*
+    let dropdown = document.getElementById(id);
+    dropdown.length = 0;
+    let defaultOption = document.createElement('option');
+    defaultOption.text = 'Choose your class';
 
-module.exports.importJson = importJson;
-module.exports.saveJson = saveJson;
+    dropdown.add(defaultOption);
+    dropdown.selectIndex = 0;
+    */
+    //check if the file is a index or not
+    if (typeJson == "index"){
+        //if it is then populate it using the first element of the object array
+        /*
+        "/database/class-jsons/index.json" = filepath
+        class-dropdown = "id"
+        typeJson: "index"
+        index
+        [{"barbarian": "class-barbarian.json", 
+            "bard": "class-bard.json",
+            "cleric": "class-cleric.json",
+            "druid": "class-druid.json",
+            "fighter": "class-fighter.json",
+            "monk": "class-monk.json",
+            "paladin": "class-paladin.json",
+            "ranger": "class-ranger.json",
+            "rogue": "class-rogue.json",
+            "sorcerer": "class-sorcerer.json",
+            "warlock": "class-warlock.json",
+            "wizard": "class-wizard.json"
+        }]
+        */
+       let index = JSON.parse(fs.readFileSync(filePath));
+       console.log(index[0]);
+    } else {
+
+    }
+}
+
+populateList("class-dropdown", "/database/class-jsons/index.json", "index");
+module.exports = {importJson, saveJson, populateList};

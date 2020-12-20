@@ -32,9 +32,50 @@
       IN YOUR HTML/TESTING PHASE OR JUST LEAVE IT AND
       WE WILL FIGURE IT OUT AT THE END. PLZ MERCY TY
     -->
-      <div id ="startDiv" class="tabcontent"></div>
+      <div id ="startDiv" class="tabcontent">
+        <h1 style="text-align:center">
+          Welcome to the Hero Creation Tool for DnD 5e!
+        </h1>
+        <body>
+        The Hero Creation Tool is a step-by-step process that makes building a character simple and streamlined. 
+        Changes are saved as you progress, but the character sheet is only updated when you review the data at the end.
+        <br><br><b>Your Adventure Awaits!</b>
+        <br><br> The Hero Creation Tool currently only supports Dungeons & Dragons 5th Edition SRD from the Players Hand Book. 
+        You can add further content through the import function of the module or by creating custom modules on the fly in the creation tool.
+        <br><br><b>
+            Get started by clicking Next.
+        </b>
+        </body>
+      </div>
       <div id ="raceDiv" class="tabcontent"></div>
-      <div id ="classDiv" class="tabcontent"></div>
+      <div id ="classDiv" class="tabcontent">
+        <select id="class-dropdown" name="Class"></select>
+        <script>
+          //get list of database jsons 
+          //let indexJson = importJson("/database/class-jsons/index.json", "class");
+          
+          populateList("class-dropdown", "/database/class-jsons/index.json", "index");
+          // go through json and populate drop down list with name data
+          // [{"barbarian": "class-barbarian.json", "bard": "class-bard.json",
+          //     "cleric": "class-cleric.json",
+          //     "druid": "class-druid.json",
+          //     "fighter": "class-fighter.json",
+          //     "monk": "class-monk.json",
+          //     "paladin": "class-paladin.json",
+          //     "ranger": "class-ranger.json",
+          //     "rogue": "class-rogue.json",
+          //     "sorcerer": "class-sorcerer.json",
+          //     "warlock": "class-warlock.json",
+          //     "wizard": "class-wizard.json"
+          //     }]
+
+          //create drop downbox
+          // use handleBarHelper()
+          //on selection display import json attached to the drop down list.
+
+          //populate screen with json data
+        </script>
+      </div>
       <div id ="abDiv" class="tabcontent"></div>
       <div id ="backgroundDiv" class="tabcontent"></div>
       <div id ="eqDiv" class="tabcontent"></div>
