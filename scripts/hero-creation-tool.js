@@ -26,8 +26,8 @@ class HeroCreationTools extends Application {
 /* links to the css document */
 var link = document.createElement('link');  
 link.rel = 'stylesheet';  
-link.type = 'text/css'; 
-link.href = '../styles/hero-creation-tool.css';  
+link.type = '/text/css'; 
+link.href = '/styles/hero-creation-tool.css';  
 
 /* This hooks onto the rendering actor sheet and makes a new object */
 Hooks.on('renderActorSheet', (app, html, data) => { 
