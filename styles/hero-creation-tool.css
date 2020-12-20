@@ -8,8 +8,9 @@
   flex: 0;
 }
 /* Style the buttons inside the tab */
+
 .tablinks {
-  font-family: 'Signika', 'Modesto Condensed', 'Arial';
+  font-family: 'Modesto Condensed', 'Signika', 'Arial';
   background-color: inherit;
   margin-top: 10px;
   height: 40px;
@@ -18,7 +19,7 @@
   border: none;
   outline: none;
   transition: 0.3s;
-  font-size: 15px;
+  font-size: 1.1rem;
   display: inline-block;
   text-align: center;
 }
