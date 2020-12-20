@@ -20,7 +20,7 @@ for (let classElement of json.class) {
         }
     }
 }
-let classFeature = json.classFeature
+let classFeature = json.classFeature;
 srdClassFeature = classFeature;
 for (let i = 0; i < classFeature.length; i++) {
     if (!classFeature[i].srd) {
@@ -37,7 +37,7 @@ for (let i = 0; i < subclassFeature.length; i++) {
     }
 }
 writePath = "../database/class-jsons/" + path;
-let combined = {"class": srdClass, "classFeature": srdClassFeature, "subclassFeature": srdSubclassFeature}
+let combined = {"class": srdClass, "classFeature": srdClassFeature, "subclassFeature": srdSubclassFeature};
 fs.writeFileSync(writePath, JSON.stringify(combined));
 }
 
