@@ -6,56 +6,70 @@
     <script src="../scripts/hero-creation-tool.js"></script>
     <script src="../scripts/importJson.js"></script>
     <script src="../scripts/toggleButton.js"></script>
-
   </head>
 
+  <script>
+  function openTab(evt, className) {
+      var i, tabcontent, tablinks;
 
- <div width = 100px height= 700px>
- 
-    <!--buttons toggle show hide of divs of each section-->
-    <div id="tabs" class="tabs">
-      <button id="startButton"> Start </button>
-      <button id="raceButton"> Race </button>
-      <button id="classButton"> Class </button>
-      <button id ="abButtons"> Abilities </button>
-      <button id ="backgroundButton"> Background </button>
-      <button id ="eqButton"> Equipment </button>
-      <button id ="spButton"> Spells </button>
-      <button id ="featsButton"> Feats </button>
-      <button id ="bioButton"> Bio </button>
-      <button id ="reviewButton"> Review </button>
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        console.log(tablinks[i]);
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(className).style.display = "block";
+      evt.currentTarget.className += " active";
+      console.log(evt);
+  }
+  </script>
+   <!--buttons toggle show hide of divs of each section-->
+    <div class="tabs">
+      <button class="tablinks" onclick="openTab(event, 'startDiv')"> Start </button>
+      <button class="tablinks" onclick="openTab(event, 'raceDiv')"> Race </button>
+      <button class="tablinks" onclick="openTab(event, 'classDiv')"> Class </button>
+      <button class="tablinks" onclick="openTab(event, 'abDiv')"> Abilities </button>
+      <button class="tablinks" onclick="openTab(event, 'backgroundDiv')"> Background </button>
+      <button class="tablinks" onclick="openTab(event, 'eqDiv')"> Equipment </button>
+      <button class="tablinks" onclick="openTab(event, 'spDiv')"> Spells </button>
+      <button class="tablinks" onclick="openTab(event, 'featsDiv')"> Feats </button>
+      <button class="tablinks" onclick="openTab(event, 'bioDiv')"> Bio </button>
+      <button class="tablinks" onclick="openTab(event, 'reviewDiv')"> Review </button>
     </div>
-    <div id ="startDiv">
+
+    <div id ="startDiv" class="tabcontent">
       Start
     </div>
-    <div id ="raceDiv">
+    <div id ="raceDiv" class="tabcontent">
       Race
     </div>
-    <div id ="classDiv">
+    <div id ="classDiv" class="tabcontent">
       Class
     </div>
-    <div id ="abDiv">
+    <div id ="abDiv" class="tabcontent">
       Abs
     </div>
-    <div id ="backgroundDiv">
+    <div id ="backgroundDiv" class="tabcontent">
       Background
     </div>
-    <div id ="eqDiv">
+    <div id ="eqDiv" class="tabcontent">
       Equipment
     </div>
-    <div id ="spDiv">
+    <div id ="spDiv" class="tabcontent">
       Spell
     </div>
-    <div id ="featsDiv">
+    <div id ="featsDiv" class="tabcontent">
       Feats
     </div>
-    <div id ="bioDiv">
+    <div id ="bioDiv" class="tabcontent">
       Bio
     </div>
-    <div id ="reviewDiv">
+    <div id ="reviewDiv" class="tabcontent">
       Review
     </div>
-
 
   
 </html>
