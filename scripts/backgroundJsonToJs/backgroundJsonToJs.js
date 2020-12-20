@@ -9,7 +9,8 @@ for (let i in background) {
         srdBackgrounds.push(background[i]);
     } 
 }
-
-console.log(srdBackgrounds);
+//fs.writeFileSync('date.json', JSON.stringify(today));
+fs.writeFileSync('../../database/background-jsons/srdBackgrounds.json', JSON.stringify(srdBackgrounds));
+//console.log(srdBackgrounds);
 
 //module.exports.srdBackgrounds = srdBackgrounds;
