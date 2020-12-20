@@ -1,13 +1,34 @@
-.tabs > buttons{
-  background: rgba(253, 253, 253, 0);
-  color:	black;
-  font-size:16px;
-  border: 2px white;
-  padding: 10px;
-  border-radius: 1px;
-  width: 100px;
-  margin: 1 1px;
-  line-height: 14px;
-  display: inline-block;
+.tabs > button {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  display: inline;
+}
 
+/* Style the buttons inside the tab */
+.tabs button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tabs button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tabs button.active {
+  background-color: #ccc;
+}
+
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
 }
