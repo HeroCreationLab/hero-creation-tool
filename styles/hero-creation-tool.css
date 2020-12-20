@@ -94,7 +94,7 @@
   display: flex;
   flex-flow: column;
   justify-content: space-evenly;
-  font-family: 'Modesto Condensed';"
+  font-family: 'Modesto Condensed';
 }
 
 .review-container > div {
