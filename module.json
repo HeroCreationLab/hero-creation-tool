@@ -21,7 +21,14 @@
         "scripts/database/class-jsons/class-sorcerer.js",
         "scripts/database/class-jsons/class-warlock.js",
         "scripts/database/class-jsons/class-wizard.js",
-        "scripts/database/class-jsons/index.js"
+        "scripts/database/class-jsons/index.js",
+        "scripts/database/background-jsons/srdBackgrounds.js",
+        "scripts/database/feat-jsons/srdFeats.js",
+        "scripts/database/feat-jsons/srdOptionalFeats.js",
+        "scripts/language-jsons/srdLanguages.js",
+        "scripts/race-jsons/srdRaces.js",
+        "scripts/spell-json/srdSpells.js",
+        "scripts/item-jsons/srdItems.js"
     ],
     "styles": [
         "styles/hero-creation-tool.css"

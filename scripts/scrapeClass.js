@@ -20,7 +20,6 @@ for (let classElement of json.class) {
         }
     }
 }
-
 let classFeature = json.classFeature
 srdClassFeature = classFeature;
 for (let i = 0; i < classFeature.length; i++) {
@@ -29,7 +28,6 @@ for (let i = 0; i < classFeature.length; i++) {
         i--;
     }
 }
-
 let subclassFeature = json.subclassFeature
 srdSubclassFeature = subclassFeature;
 for (let i = 0; i < subclassFeature.length; i++) {
@@ -38,24 +36,17 @@ for (let i = 0; i < subclassFeature.length; i++) {
         i--;
     }
 }
-
-let combined = {"class": [srdClass], "classFeature": [srdClassFeature], "subclassFeature": [srdSubclassFeature]}
-
-fs.writeFileSync(path, JSON.stringify(combined));
+writePath = "../database/class-jsons/" + path;
+let combined = {"class": srdClass, "classFeature": srdClassFeature, "subclassFeature": srdSubclassFeature}
+fs.writeFileSync(writePath, JSON.stringify(combined));
 }
 
 let classes = ["barbarian", "bard", "cleric", "druid", "fighter", "monk", "paladin", "ranger", "rogue", "sorcerer", "warlock", "wizard"];
 
 for (let c of classes) {
     console.log(`Cleaned ${c}`)
-    cleanSRDClasses(`./database/class-jsons/class-${c}.json`);
+    cleanSRDClasses(`class-${c}.json`);
 }
-
-
-
-
-
-
 
 // fs.writeFileSync('../../database/background-jsons/srdBackgrounds.json', JSON.stringify(srdBackgrounds));
 
