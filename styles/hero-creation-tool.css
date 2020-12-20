@@ -1,19 +1,18 @@
 .tabs > button {
-  overflow: hidden;
-  border: 1px solid #ccc;
   background-color: #f1f1f1;
-  display: inline;
+  display: inline-block;
+  height: 55px;
 }
 
 /* Style the buttons inside the tab */
 .tabs button {
   background-color: inherit;
-  float: left;
   border: none;
   outline: none;
-  cursor: pointer;
   transition: 0.3s;
-  font-size: 17px;
+  font-size: 15px;
+  display: inline-block;
+  text-align: center;
 }
 
 /* Change background color of buttons on hover */
