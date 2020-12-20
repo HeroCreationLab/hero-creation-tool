@@ -21,7 +21,9 @@
         "scripts/database/class-jsons/class-sorcerer.js",
         "scripts/database/class-jsons/class-warlock.js",
         "scripts/database/class-jsons/class-wizard.js",
-        "scripts/database/class-jsons/index.js"
+        "scripts/database/class-jsons/index.js",
+        "scripts/database/class-jsons/srdRaces.js"
+        
     ],
     "styles": [
         "styles/hero-creation-tool.css"
