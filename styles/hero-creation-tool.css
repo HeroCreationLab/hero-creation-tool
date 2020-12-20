@@ -1,12 +1,13 @@
-button.first{
-  background: rgba(0, 0, 0, 0.0);
-  color:	#dbd9cd;
+.tabs > buttons{
+  background: rgba(253, 253, 253, 0);
+  color:	black;
   font-size:16px;
   border: 2px white;
   padding: 10px;
   border-radius: 1px;
   width: 100px;
   margin: 1 1px;
-
   line-height: 14px;
+  display: inline-block;
+
 }
