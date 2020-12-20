@@ -1,7 +1,31 @@
 function roll4d6b3()
 {
+    const statroll1 = Math.floor(Math.random() * 6) + 1;
+    const statroll2 = Math.floor(Math.random() * 6) + 1;
+    const statroll3 = Math.floor(Math.random() * 6) + 1;
+    const statroll4 = Math.floor(Math.random() * 6) + 1;
+    const statArray = [];
+    statArray.push(statroll1);
+    statArray.push(statroll2);
+    statArray.push(statroll3);
+    statArray.push(statroll4);
+    var newStatArray = removeSmallest(statArray);
+    
+    var sumStat = 0;
+    for (var i = 0; i < newStatArray.length; i++) {
+        sumStat += newStatArray[i]
+      }
+      console.log(statArray);
+      console.log(newStatArray);
+      console.log(sumStat);
+      return sumStat;
     
 }
+function removeSmallest(numbers) {
+    const smallest = Math.min.apply(null, numbers);
+    const pos = numbers.indexOf(smallest);
+    return numbers.slice(0, pos).concat(numbers.slice(pos + 1));
+};
 
 function standardArray()
 {
@@ -9,6 +33,14 @@ function standardArray()
     return statArray;
 }
 
+function createStatArray()
+{
+    const statArray = [roll4d6b3(),roll4d6b3(),roll4d6b3(),roll4d6b3(),roll4d6b3(),roll4d6b3()];
+    console.log(statArray);
+    return statArray;
+}
+
+createStatArray();
 /*    const statString = '4d6kh3';
 
 const numRolls = 6;
