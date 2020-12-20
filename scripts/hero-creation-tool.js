@@ -29,7 +29,7 @@ class HeroCreationTools extends Application {
          * Take out this random pre-fill when done
          */
         for (var i = 0; i < 6; i++) {
-            values.push(Math.floor(Math.random() * 6) + 1);
+            values.push(roll4d6b3());
         }
         
         this.app.object.data.data.abilities.str.value = values[0];
@@ -81,5 +81,29 @@ Hooks.on('renderActorSheet', (app, html, data) => {
     let titleElement = html.closest('.app').find('.configure-sheet');
     button.insertBefore(titleElement);
 
-    
 });
+function roll4d6b3()
+{
+    const statroll1 = Math.floor(Math.random() * 6) + 1;
+    const statroll2 = Math.floor(Math.random() * 6) + 1;
+    const statroll3 = Math.floor(Math.random() * 6) + 1;
+    const statroll4 = Math.floor(Math.random() * 6) + 1;
+    const statArray = [];
+    
+    statArray.push(statroll1);
+    statArray.push(statroll2);
+    statArray.push(statroll3);
+    statArray.push(statroll4);
+    
+    var newStatArray = removeSmallest(statArray);
+    var sumStat = 0;
+    for (var i = 0; i < newStatArray.length; i++) {
+        sumStat += newStatArray[i]
+      }
+      return sumStat; 
+}
+function removeSmallest(numbers) {
+    const smallest = Math.min.apply(null, numbers);
+    const pos = numbers.indexOf(smallest);
+    return numbers.slice(0, pos).concat(numbers.slice(pos + 1));
+};
