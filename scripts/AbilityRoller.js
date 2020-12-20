@@ -15,9 +15,6 @@ function roll4d6b3()
     for (var i = 0; i < newStatArray.length; i++) {
         sumStat += newStatArray[i]
       }
-      console.log(statArray);
-      console.log(newStatArray);
-      console.log(sumStat);
       return sumStat;
     
 }
