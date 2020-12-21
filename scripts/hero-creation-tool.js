@@ -24,11 +24,21 @@ class HeroCreationTools extends Application {
         this.render(true);
     }
 
-    _updateAbilityScores(values, stat_block) {
-        /**
-         * Take out this random pre-fill when done
-         */
+    _checkDuplicate(listValues){
+        /**Check that there are no repeats */
+        for (var x = 0; x < listValues.length; x++) {
+            for (var y = 0; y < listValues.length; y++) {
+                if (listValues[x] == listValues[y] && x != y){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
+    _updateAbilityScores(values, stat_block) {
+
+        //Getting the stat
         values[0] = document.getElementById("number1").value;
         values[1] = document.getElementById("number2").value;
         values[2] = document.getElementById("number3").value;
@@ -36,36 +46,42 @@ class HeroCreationTools extends Application {
         values[4] = document.getElementById("number5").value;
         values[5] = document.getElementById("number6").value;
 
+        //Getting the type of stat
+        stat_block.push(document.getElementById("stat1").value);
+        stat_block.push(document.getElementById("stat2").value);
+        stat_block.push(document.getElementById("stat3").value);
+        stat_block.push(document.getElementById("stat4").value);
+        stat_block.push(document.getElementById("stat5").value);
+        stat_block.push(document.getElementById("stat6").value);
 
-        stat_block.push(document.getElementById("stat1").value)
-        stat_block.push(document.getElementById("stat2").value)
-        stat_block.push(document.getElementById("stat3").value)
-        stat_block.push(document.getElementById("stat4").value)
-        stat_block.push(document.getElementById("stat5").value)
-        stat_block.push(document.getElementById("stat6").value)
 
-        console.log(stat_block);
-        console
-
-        for (var i = 0; i < stat_block.length; i++) {
-            if (stat_block[i] == "STR") {
-                this.app.object.data.data.abilities.str.value = values[i];
+        if (this._checkDuplicate(stat_block) == false){
+                
+            for (var i = 0; i < stat_block.length; i++) {
+                if (stat_block[i] == "STR") {
+                    this.app.object.data.data.abilities.str.value = values[i];
+                }
+                else if (stat_block[i] == "DEX") {
+                    this.app.object.data.data.abilities.dex.value = values[i];
+                }
+                else if (stat_block[i] == "CON") {
+                    this.app.object.data.data.abilities.con.value = values[i];
+                }
+                else if (stat_block[i] == "INT") {
+                    this.app.object.data.data.abilities.int.value = values[i];
+                }
+                else if (stat_block[i] == "WIS") {
+                    this.app.object.data.data.abilities.wis.value = values[i];
+                }
+                else if (stat_block[i] == "CHAR") {
+                    this.app.object.data.data.abilities.cha.value = values[i];
+                }
             }
-            else if (stat_block[i] == "DEX") {
-                this.app.object.data.data.abilities.dex.value = values[i];
-            }
-            else if (stat_block[i] == "CON") {
-                this.app.object.data.data.abilities.con.value = values[i];
-            }
-            else if (stat_block[i] == "INT") {
-                this.app.object.data.data.abilities.int.value = values[i];
-            }
-            else if (stat_block[i] == "WIS") {
-                this.app.object.data.data.abilities.wis.value = values[i];
-            }
-            else if (stat_block[i] == "CHAR") {
-                this.app.object.data.data.abilities.cha.value = values[i];
-            }
+            return true;
+        }
+        else {
+            alert("You cannot have two of the same category.");
+            return false;
         }
 
     }
@@ -74,7 +90,6 @@ class HeroCreationTools extends Application {
 
         html.find(".abilityRandomize").click(ev => {
             let values = [];
-            let stat_block = [];
 
             for (var i = 0; i < 6; i++) {
                 values.push(roll4d6b3());
@@ -94,8 +109,10 @@ class HeroCreationTools extends Application {
              */
             let values = [];
             let stat_block = [];
-            this._updateAbilityScores(values, stat_block);
+            if (this._updateAbilityScores(values, stat_block)){
             this.app.render();
+            openTab(ev, 'backgroundDiv');
+            }
         });
     }
 }
@@ -116,9 +133,7 @@ Hooks.on('renderActorSheet', (app, html, data) => {
 
     let button = $(`<a class="header-button configure_hero"}>Hero Creation</a>`);
     button.click(ev => {
-        console.log("button pressed!");
         configure_hero.openForActor(actorId);
-        console.log(configure_hero);
     });
     html.closest('.app').find('.configure_hero').remove();
     let titleElement = html.closest('.app').find('.configure-sheet');
@@ -140,7 +155,7 @@ function roll4d6b3() {
     var newStatArray = removeSmallest(statArray);
     var sumStat = 0;
     for (var i = 0; i < newStatArray.length; i++) {
-        sumStat += newStatArray[i]
+        sumStat += newStatArray[i];
     }
     return sumStat;
 }
