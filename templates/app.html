@@ -52,7 +52,8 @@
     margin-right: auto; display: block; border: none">
     <br>
   </body>
-  <button onclick="openTab(event, 'raceDiv')"> Next </button>
+  <!-- next button -->
+  <div class="nextButton" onclick="openTab(event, 'raceDiv')">Next</div>
 </div>
 
 <div id="raceDiv" class="tabcontent">
@@ -64,6 +65,7 @@
     var races = getRaces();
     populateList("race-dropdown", races, false);
   </script>
+  <div class="raceSubmit nextButton" >Next</div>
 </div>
 
 <div id="classDiv" class="tabcontent">
@@ -72,6 +74,7 @@
     var index = getIndex();
     populateList("class-dropdown", index, true);
   </script>
+  <div class="classSubmit nextButton" >Next</div>
 </div>
 
 <div id="abDiv" class="tabcontent">
@@ -81,7 +84,7 @@
     style="width: 100%; height: 45%;" frameborder="0"></iframe>
   <form class="flexcol prototype" autocomplete="off">
 
-    <div style="text-align: center" class ="abilityRandomize divButton">Roll for stats</div>
+    <div class ="abilityRandomize rollButton">Roll for stats</div>
     <p style="text-align: center"> Standard Array: 15 | 14 | 13 | 12 | 10 | 8</p>
     
     <div class="form-group">
@@ -155,8 +158,9 @@
         <option value="CHAR"selected>Charisma</option>
       </select>
     </div>
-    <div style="text-align: right;" class="abilitySubmit divButton" >Next</div>
     </form>
+    <!-- next button -->
+    <div class="abilitySubmit nextButton" >Next</div>
   </div>
 
   <div id ="backgroundDiv" class="tabcontent">
@@ -173,7 +177,7 @@
               populateList("bg-dropdown", background, false);
             </script>
 
-          </div>x
+          </div>
           <h2>Skill Proficiences</h2>
           <p id="skill-proficiencies">...</p>
           <h2>Language Proficiencies</h2>
@@ -197,6 +201,8 @@
       </div>
       <iframe src="https://app.roll20.net/compendium/dnd5e/Backgrounds:Acolyte?sharedCompendium=9371676&amp;charmancer=true#content" frameborder="0"></iframe>
     </div>
+    <!-- next button -->
+    <div class="backgroundSubmit nextButton" >Next</div>
   </div>
 
   <div id ="eqDiv" class="tabcontent">
@@ -236,6 +242,8 @@
       </div>
       <iframe src="https://app.roll20.net/compendium/dnd5e/Rules:Equipment?sharedCompendium=9371676&amp;charmancer=true#toc_1" frameborder="0"></iframe>
     </div>
+    <!-- next button -->
+    <div class="equipmentSubmit nextButton" >Next</div>
   </div>
 
   <div id ="spDiv" class="tabcontent">
@@ -296,6 +304,8 @@
       </div>
       <iframe src="https://app.roll20.net/compendium/dnd5e/Rules:Spells?sharedCompendium=9371676&amp;charmancer=true#toc_1/" frameborder="0"></iframe>
     </div>
+    <!-- next button -->
+    <div class="spellsSubmit nextButton" >Next</div>
   </div>
 
   <div id ="featsDiv" class="tabcontent">
@@ -315,6 +325,8 @@
       -->
     </select><br><br><br>
     <button onclick="openTab(event, 'bioDiv')"> Next</button>
+    <!-- next button -->
+    <div class="featsSubmit nextButton" >Next</div>
   </div>
 
 
@@ -364,10 +376,12 @@
           <input type="color" id="character_skin" name="skin" placeholder="Skin">
           <input type="text" id="character_skin" name="skin" placeholder="Skin"><br><br>
         </div>
-        <button type="submit" Value="Next"> Next </button>
       </form>
     </div>
+    <!-- next button -->
+    <div class="bioSubmit nextButton" >Next</div>
   </div>
+
   <div id="reviewDiv" class="tabcontent">
     <h1 style="font-family: 'Modesto Condensed';">Review</h1>
     <div class="review-container">

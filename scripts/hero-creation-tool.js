@@ -101,6 +101,12 @@ class HeroCreationTools extends Application {
             document.getElementById("number5").value = values[4];
             document.getElementById("number6").value = values[5];
         });
+        html.find(".raceSubmit").click(ev => {
+            openTab(ev, 'classDiv');
+        });
+        html.find(".classSubmit").click(ev => {
+            openTab(ev, 'abDiv');
+        });
         html.find(".abilitySubmit").click(ev => {
             /**
              * TODO:
@@ -112,7 +118,23 @@ class HeroCreationTools extends Application {
             if (this._updateAbilityScores(values, stat_block)){
             this.app.render();
             openTab(ev, 'backgroundDiv');
+            
             }
+        });
+        html.find(".backgroundSubmit").click(ev => {
+            openTab(ev, 'eqDiv');
+        });
+        html.find(".equipmentSubmit").click(ev => {
+            openTab(ev, 'spDiv');
+        });
+        html.find(".spellsSubmit").click(ev => {
+            openTab(ev, 'featsDiv');
+        });
+        html.find(".featsSubmit").click(ev => {
+            openTab(ev, 'bioDiv');
+        });
+        html.find(".bioSubmit").click(ev => {
+            openTab(ev, 'reviewDiv');
         });
     }
 }
