@@ -109,7 +109,16 @@ Populate a spell selelect dropdownlist based on id, spell caster, the level of t
 Input : ID: string, spellClass: int, level: int, spellList: jsonObject
 */
 function populateSpellList(id, spellClass, level, spellList){
+    let dropdown = document.getElementById(id);
+    dropdown.length = 0;
 
+    let defaultOption = document.createElement('option');
+    defaultOption.text = 'Choose your class';
+
+    dropdown.add(defaultOption);
+    dropdown.selectIndex = 0;
+
+    let option;
 }
 
 /*
