@@ -1,5 +1,3 @@
-
-const fs = require('fs');
 /*
 Author: Alexander Sedore
 Date: 12/19/2020
@@ -68,16 +66,16 @@ Author: Alexander Sedore
 Date: 12/20/2020
 Version: 0.2
 Populate a selcelct dropdownlist based on id and filepath for a index json.
-Input : ID: string, object: Json Array, isIndex: boolean
+Input : ID: string, object: Json Array, isIndex: boolean, defaaultName: string
 Output: N/A
 */
-function populateList(id, object, isIndex){
+function populateList(id, object, isIndex, defaultName){
      //initialize drop down list and add default value
     let dropdown = document.getElementById(id);
     dropdown.length = 0;
 
     let defaultOption = document.createElement('option');
-    defaultOption.text = 'Choose your class';
+    defaultOption.text = `Choose your ${defaultName}`;
 
     dropdown.add(defaultOption);
     dropdown.selectIndex = 0;
