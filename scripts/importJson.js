@@ -8,6 +8,8 @@ Input: filePath: string, typeJson: string
 Output: object [{}]
 */
 
+
+
 function importJson(filePath, typeJson){
     let obj = JSON.parse(fs.readFileSync(filePath));
     if (typeJson == "spell"){
@@ -82,7 +84,7 @@ function populateList(id, object, isIndex, defaultName){
 
     let option;
     if (isIndex){
-        for (let a in object){
+        for (a in object){
             option = document.createElement('option');
             option.text = a;
             option.value = a;
@@ -180,10 +182,31 @@ function isUsable(spellClassName, spellSubClassName, background, race, spell){
 /*
 Populate a item selcelct dropdownlist based on id the type of item.
 Input : ID: string, itemType: char
+Populate a selcelct dropdownlist based on id and filepath for a index json.
+Input : ID: string, object: Json Array, typeJson: string
 Output: N/A
 */
-function populateItemList(id, itemType){
+function populateRaceList(id, object, typeJson){
+   //initialize drop down list and add default value
+   let dropdown = document.getElementById(id);
+   dropdown.length = 0;
 
+   let defaultOption = document.createElement('option');
+   defaultOption.text = 'Choose your class';
+
+   dropdown.add(defaultOption);
+   dropdown.selectIndex = 0;
+   //check if the file is a index or not
+   //console.log(typeJson);
+   if (typeJson == "index"){
+       let option;
+       for (k in object){
+           option = document.createElement('option');
+           option.text = k;
+           option.value = index[k];
+           dropdown.add(option);
+       }
+   }
 }
 /* Testing
 let spellList = JSON.parse(fs.readFileSync("./spells-phb.json"));
