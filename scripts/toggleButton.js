@@ -1,4 +1,5 @@
 function openTab(evt, className) {
+    console.log(evt)
     var i, tabcontent, tablinks;
 
     tabcontent = document.getElementsByClassName("tabcontent");
@@ -11,4 +12,23 @@ function openTab(evt, className) {
     }
     document.getElementById(className).style.display = "block";
     evt.currentTarget.className += " active";
+}
+
+function openSelector(evt) {
+  console.log(evt)
+  selector = document.getElementById("equip-select");
+  selectedValue = selector.selectedIndex;
+
+  console.log(selectedValue)
+
+  if (selectedValue == 2) {
+    $('#class-equip').css("display", "none")
+    $('#gold-equip').css("display", "inline-block")
+  } else if (selectedValue == 1) {
+    $('#class-equip').css("display", "inline-block")
+    $('#gold-equip').css("display", "none")
+  } else {
+    $('#class-equip').css("display", "none")
+    $('#gold-equip').css("display", "none")
+  }
 }
