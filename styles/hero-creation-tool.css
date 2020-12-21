@@ -8,6 +8,10 @@
   flex: 0;
 }
 
+.apply-font h1, .apply-font h2{
+  font-family: 'Modesto Condensed', 'Signika', 'Arial';
+}
+
 .form__select--margin > select{
   margin-bottom: 20px;
 }
@@ -23,7 +27,7 @@
   line-height: 0;
   border: none;
   outline: none;
-  transition: 0.3s;
+  transition: all 0.3s;
   font-size: 1.1rem;
   display: inline-block;
   text-align: center;
@@ -39,6 +43,11 @@
 .vertical-flex {
   display: flex;
   flex-flow: column;
+}
+
+.horizontal-flex {
+  display: flex;
+  flex-flow: row;
 }
 
 /* Change background color of buttons on hover */
@@ -66,6 +75,11 @@
   display: inline-block;
   padding: 6px 12px;
   border-top: none;
+}
+
+/* Equipment */
+#class-equip, #gold-equip {
+  display: none;
 }
 
 /* Spells */
@@ -104,7 +118,7 @@
   display: flex;
   flex: column;
   justify-content: space-between;
-  min-height: 350px;
+  min-height: 90%;
 }
 
 

@@ -195,10 +195,45 @@
 
   <div id ="eqDiv" class="tabcontent">
     <h1 style="font-family: 'Modesto Condensed';">Equipment</h1>
+    <div class="flex-separator">
+      <div style="width: 50%">
+        <form class ="flexcol prototype form__select--margin" action="">
+          <div class="light-pane vertical-flex" > 
+            <h3>How would you like to choose your equipment?</h3>
+            <select name="equip-select" id="equip-select" onChange="openSelector(event)">
+              <option value="">Choose</option>
+              <option>Class Equipment</option>
+              <option>Starting Wealth (PBH)</option>
+            </select>
+          </div>
+
+          <div id="class-equip">
+            <h1>Placeholder</h1>
+            <form class ="flexcol form__select--margin" action="">
+                <label for="placeholder">placeholder</label> <br>
+                <select name="placeholder" id="placeholder"></select>
+            </form>
+            <h2>Equipment from Background</h2>
+          </div>
+
+          <div id="gold-equip">
+              <h1>Starting Gold</h1>
+              <div class="horizontal-flex" >
+                <button style="flex-shrink: 3; margin-right: 30px;">5d4x10</button> 
+                <input type="number">
+              </div>
+              <br>
+              <p>You have chosen starting gold and do not get equipment from your background.</p>
+          </div>
+
+        </form>
+      </div>
+      <iframe src="https://app.roll20.net/compendium/dnd5e/Rules:Equipment?sharedCompendium=9371676&amp;charmancer=true#toc_1" frameborder="0"></iframe>
+    </div>
   </div>
 
   <div id ="spDiv" class="tabcontent">
-    <h1 style="font-family: 'Modesto Condensed';">Spells</h1>
+    <!-- <h1 style="font-family: 'Modesto Condensed';">Spells</h1>
     <div class="stat-flex-container">
       <div class="stat-box">
         <h3>_</h3>
@@ -236,17 +271,17 @@
       <div class="info-item">
         Class Spellcasting Ability:
       </div>
-    </div>
+    </div> -->
 
     <div class="flex-separator">
       <div style="width: 50%">
-        <form class ="flexcol prototype" action="">
-          <label for="CLASS">CLASS __</label>
+        <form class ="flexcol prototype form__select--margin" action="">
+          <label for="CLASS">CLASS PLACEHOLDER</label>
           <select name="" id=""></select>
           <select name="" id=""></select>
           <select name="" id=""></select>
           <select name="" id=""></select>
-          <label for="CLASS">CLASS __</label>
+          <label for="CLASS">CLASS PLACEHOLDER</label>
           <select name="" id=""></select>
           <select name="" id=""></select>
           <select name="" id=""></select>
