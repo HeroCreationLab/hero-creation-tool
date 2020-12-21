@@ -1,4 +1,3 @@
-
 /*
 Author: Alexander Sedore
 Date: 12/19/2020
@@ -92,7 +91,7 @@ function populateList(id, object, isIndex){
             dropdown.add(option);
         }
     } else{
-        for (obj of object){
+        for (let obj of object){
             option = document.createElement('option');
             option.text = obj.name;
             option.vaule = obj;
@@ -110,7 +109,7 @@ function populateList(id, object, isIndex){
 Populate a spell selelect dropdownlist based on id, spell caster, the level of the caster and a given spell list.
 Input : ID: string, spellClass: int, spellSubClass: string, level: int, spellList: jsonObject
 */
-function populateSpellList(id, spellClassName, spellSubClass, level, spellList){
+function populateSpellList(id, spellClassName, spellSubClassName, level, background, race, spellList){
     let dropdown = document.getElementById(id);
     dropdown.length = 0;
 
@@ -121,10 +120,9 @@ function populateSpellList(id, spellClassName, spellSubClass, level, spellList){
     dropdown.selectIndex = 0;
 
     let option;
-    let spellClassList;
 
-    for (let spell in spellList){
-        if (level == spell.level){;
+    for (let spell of spellList){
+        if (level == spell.level){
             if(isUsable(spellClassName, spellSubClassName, background, race, spell)){
                 option = document.createElement('option');
                 option.text = spell.name;
@@ -162,6 +160,23 @@ function isUsable(spellClassName, spellSubClassName, background, race, spell){
 
     //check race list if available
     let raceList = spell.races;
+    if (raceList){
+        for (race of raceList){
+            if (race == race.name){
+                return true;
+            }
+        }
+    }
+
+    //check backgrounds if available
+    let backgrounds = spell.backgrounds;
+    if(backgrounds){
+        for (back of backgrounds){
+            if (background == back.name){
+                return true;
+            }
+        }
+    }
     return false;
 }
 /*
@@ -193,3 +208,6 @@ function populateRaceList(id, object, typeJson){
        }
    }
 }
+/* Testing
+let spellList = JSON.parse(fs.readFileSync("./spells-phb.json"));
+fs.writeFileSync("./output.json", JSON.stringify(populateSpellList("here", "Cleric", "Life", 0, "Half-Orc", "Acolyte", spellList)));*/
