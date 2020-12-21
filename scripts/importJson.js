@@ -68,7 +68,7 @@ function saveJson(object, typeJson, fileName){
 Author: Alexander Sedore
 Date: 12/20/2020
 Version: 0.2
-Populate a selcelct dropdownlist based on id and filepath for a index json.
+Populate a select dropdownlist based on id and filepath for an index json.
 Input : ID: string, object: Json Array, isIndex: boolean
 Output: N/A
 */
@@ -102,7 +102,7 @@ function populateList(id, object, isIndex){
 }
 
 /*
-Populate a selcelct dropdownlist based on id and filepath for a index json.
+Populate a select dropdownlist based on id and filepath for a index json.
 Input : ID: string, object: Json Array, typeJson: string
 Output: N/A
 */
