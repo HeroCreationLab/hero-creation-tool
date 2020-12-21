@@ -15,11 +15,8 @@ function openTab(evt, className) {
 }
 
 function openSelector(evt) {
-  console.log(evt)
   selector = document.getElementById("equip-select");
   selectedValue = selector.selectedIndex;
-
-  console.log(selectedValue)
 
   if (selectedValue == 2) {
     $('#class-equip').css("display", "none")
