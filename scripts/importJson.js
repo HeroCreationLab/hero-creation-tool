@@ -90,7 +90,7 @@ function populateList(id, object, isIndex){
             dropdown.add(option);
         }
     } else{
-        for (obj in object){
+        for (obj of object){
             option = document.createElement('option');
             option.text = obj.name;
             option.vaule = obj;
