@@ -55,4 +55,12 @@ function onSelectRace() {
       }
    }
    document.getElementById("race-ability").innerHTML = abilityText.slice(0,-2);
+
+   raceFeatures = "";
+   for (feature of Object.values(raceJson.entries)) {
+      raceFeatures += "<h2> " + feature.name + " </h2> ";
+      raceFeatures += "<div class='feature-body' > " + feature.entries[0] + " </div>";
+   }
+   
+   document.getElementById("race-features").innerHTML = raceFeatures;
 }
