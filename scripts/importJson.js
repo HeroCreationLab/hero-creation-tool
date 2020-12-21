@@ -9,6 +9,8 @@ Input: filePath: string, typeJson: string
 Output: object [{}]
 */
 
+
+
 function importJson(filePath, typeJson){
     let obj = JSON.parse(fs.readFileSync(filePath));
     if (typeJson == "spell"){
@@ -97,36 +99,32 @@ function populateList(id, object, isIndex){
             dropdown.add(option);
         }
     }
-
-    option = document.createElement('option');
-    option.text = 'Custom';
-    option.value = 'Custom';
-    dropdown.add(option);
 }
 
 /*
-Populate a spell selelect dropdownlist based on id, spell caster, the level of the caster and a given spell list.
-Input : ID: string, spellClass: int, level: int, spellList: jsonObject
-*/
-function populateSpellList(id, spellClass, level, spellList){
-    let dropdown = document.getElementById(id);
-    dropdown.length = 0;
-
-    let defaultOption = document.createElement('option');
-    defaultOption.text = 'Choose your class';
-
-    dropdown.add(defaultOption);
-    dropdown.selectIndex = 0;
-
-    let option;
-    
-}
-
-/*
-Populate a item selcelct dropdownlist based on id the type of item.
-Input : ID: string, itemType: char
+Populate a selcelct dropdownlist based on id and filepath for a index json.
+Input : ID: string, object: Json Array, typeJson: string
 Output: N/A
 */
-function populateItemList(id, itemType){
+function populateRaceList(id, object, typeJson){
+   //initialize drop down list and add default value
+   let dropdown = document.getElementById(id);
+   dropdown.length = 0;
 
+   let defaultOption = document.createElement('option');
+   defaultOption.text = 'Choose your class';
+
+   dropdown.add(defaultOption);
+   dropdown.selectIndex = 0;
+   //check if the file is a index or not
+   //console.log(typeJson);
+   if (typeJson == "index"){
+       let option;
+       for (k in object){
+           option = document.createElement('option');
+           option.text = k;
+           option.value = index[k];
+           dropdown.add(option);
+       }
+   }
 }
