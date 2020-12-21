@@ -10,6 +10,7 @@
         "scripts/hero-creation-tool.js", 
         "scripts/toggleButton.js", 
         "scripts/importJson.js",
+        "scripts/generalFunctions.js",
         "scripts/database/class-jsons/class-barbarian.js",
         "scripts/database/class-jsons/class-bard.js",
         "scripts/database/class-jsons/class-cleric.js",

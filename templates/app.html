@@ -56,7 +56,16 @@
   </body>
   <button onclick="openTab(event, 'raceDiv')"> Next </button>
 </div>
-<div id="raceDiv" class="tabcontent"></div>
+<div id="raceDiv" class="tabcontent">
+  <h1 style="font-family: 'Modesto Condensed';">
+    First choose your race!
+  </h1>
+  <select id="race-dropdown" name="race-dropdown"></select>
+  <script>
+    var races = getRaces();
+    populateList("race-dropdown", races, false);
+  </script>
+</div>
 <div id="classDiv" class="tabcontent">
   <select id="class-dropdown" name="Class"></select>
   <script>
@@ -334,6 +343,9 @@
   </div>
 
 
+</div>
+<div id="reviewDiv" class="tabcontent"></div>
+<script src="/scripts/generalFunctions.js"></script>
 <script src="/scripts/hero-creation-tool.js"></script>
 <script src="/scripts/importJson.js"></script>
 <script src="/scripts/toggleButton.js"></script>
@@ -352,6 +364,7 @@
 <script src="/scripts/database/class-jsons/class-sorcerer.js"></script>
 <script src="/scripts/database/class-jsons/class-warlock.js"></script>
 <script src="/scripts/database/class-jsons/class-wizard.js"></script>
+<script src="/scripts/database/class-jsons/srdRaces.js"></script>
 <script src="/scripts/database/class-jsons/index.js"></script>
 <script src="scripts/database/background-jsons/srdBackgrounds.js"></script>
 <script src="scripts/database/feat-jsons/srdFeats.js"></script>
