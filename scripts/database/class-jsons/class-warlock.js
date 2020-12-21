@@ -1,5 +1,1037 @@
-classObj ={"class":[{"name":"Warlock","source":"PHB","page":105,"srd":true,"hd":{"number":1,"faces":8},"proficiency":["wis","cha"],"spellcastingAbility":"cha","casterProgression":"pact","startingProficiencies":{"armor":["light"],"weapons":["simple"],"skills":[{"choose":{"from":["arcana","deception","history","intimidation","investigation","nature","religion"],"count":2}}]},"startingEquipment":{"additionalFromBackground":true,"default":["(a) a {@item light crossbow|phb} and {@item crossbow bolts (20)|phb|20 bolts} or (b) any {@filter simple weapon|items|source=phb|category=basic|type=simple weapon}","(a) a {@item component pouch|phb} or (b) an {@item arcane focus|phb}","(a) a {@item scholar's pack|phb} or (b) a {@item dungeoneer's pack|phb}","{@item Leather armor|phb}, any {@filter simple weapon|items|source=phb|category=basic|type=simple weapon}, and two {@item dagger|phb|daggers}"],"goldAlternative":"{@dice 4d4 × 10|4d4 × 10|Starting Gold}","defaultData":[{"a":["light crossbow|phb","crossbow bolts (20)|phb"],"b":[{"equipmentType":"weaponSimple"}]},{"a":["component pouch|phb"],"b":["arcane focus|phb"]},{"a":["scholar's pack|phb"],"b":["dungeoneer's pack|phb"]},{"_":["Leather armor|phb",{"equipmentType":"weaponSimple"},{"item":"dagger|phb","quantity":2}]}]},"multiclassing":{"requirements":{"cha":13},"proficienciesGained":{"armor":["light"],"weapons":["simple"]}},"classTableGroups":[{"colLabels":["{@filter Cantrips Known|spells|level=0|class=Warlock}","{@filter Spells Known|spells|class=Warlock}","Spell Slots","Slot Level","{@filter Invocations Known|optionalfeatures|feature type=ei}"],"rows":[[2,2,1,"{@filter 1st|spells|level=1|class=Warlock}",0],[2,3,2,"{@filter 1st|spells|level=1|class=Warlock}",2],[2,4,2,"{@filter 2nd|spells|level=2|class=Warlock}",2],[3,5,2,"{@filter 2nd|spells|level=2|class=Warlock}",2],[3,6,2,"{@filter 3rd|spells|level=3|class=Warlock}",3],[3,7,2,"{@filter 3rd|spells|level=3|class=Warlock}",3],[3,8,2,"{@filter 4th|spells|level=4|class=Warlock}",4],[3,9,2,"{@filter 4th|spells|level=4|class=Warlock}",4],[3,10,2,"{@filter 5th|spells|level=5|class=Warlock}",5],[4,10,2,"{@filter 5th|spells|level=5|class=Warlock}",5],[4,11,3,"{@filter 5th|spells|level=5|class=Warlock}",5],[4,11,3,"{@filter 5th|spells|level=5|class=Warlock}",6],[4,12,3,"{@filter 5th|spells|level=5|class=Warlock}",6],[4,12,3,"{@filter 5th|spells|level=5|class=Warlock}",6],[4,13,3,"{@filter 5th|spells|level=5|class=Warlock}",7],[4,13,3,"{@filter 5th|spells|level=5|class=Warlock}",7],[4,14,4,"{@filter 5th|spells|level=5|class=Warlock}",7],[4,14,4,"{@filter 5th|spells|level=5|class=Warlock}",8],[4,15,4,"{@filter 5th|spells|level=5|class=Warlock}",8],[4,15,4,"{@filter 5th|spells|level=5|class=Warlock}",8]]}],"classFeatures":["Pact Magic|Warlock||1","Spell Versatility|Warlock||1|UAClassFeatureVariants",{"classFeature":"Otherworldly Patron|Warlock||1","gainSubclassFeature":true},"Eldritch Invocations|Warlock||2","Pact Boon|Warlock||3","Ability Score Improvement|Warlock||4","Proficiency Versatility|Warlock||4|UAClassFeatureVariants","Eldritch Versatility|Warlock||4|TCE",{"classFeature":"Otherworldly Patron feature|Warlock||6","gainSubclassFeature":true},"Ability Score Improvement|Warlock||8","Proficiency Versatility|Warlock||8|UAClassFeatureVariants",{"classFeature":"Otherworldly Patron feature|Warlock||10","gainSubclassFeature":true},"Mystic Arcanum (6th level)|Warlock||11","Ability Score Improvement|Warlock||12","Proficiency Versatility|Warlock||12|UAClassFeatureVariants","Mystic Arcanum (7th level)|Warlock||13",{"classFeature":"Otherworldly Patron feature|Warlock||14","gainSubclassFeature":true},"Mystic Arcanum (8th level)|Warlock||15","Ability Score Improvement|Warlock||16","Proficiency Versatility|Warlock||16|UAClassFeatureVariants","Mystic Arcanum (9th level)|Warlock||17","Ability Score Improvement|Warlock||19","Proficiency Versatility|Warlock||19|UAClassFeatureVariants","Eldritch Master|Warlock||20"],"subclassTitle":"Otherworldly Patron","subclasses":[{"name":"The Fiend","shortName":"Fiend","source":"PHB","page":109,"srd":true,"additionalSpells":[{"expanded":{"1":["burning hands","command"],"2":["blindness/deafness","scorching ray"],"3":["fireball","stinking cloud"],"4":["fire shield","wall of fire"],"5":["flame strike","hallow"]}}],"subclassFeatures":["The Fiend|Warlock||Fiend||1","Dark One's Own Luck|Warlock||Fiend||6","Fiendish Resilience|Warlock||Fiend||10","Hurl Through Hell|Warlock||Fiend||14"]}],"fluff":[{"name":"Warlock","type":"section","entries":["With a pseudodragon curled on his shoulder, a young elf in golden robes smiles warmly, weaving a magical charm into his honeyed words and bending the palace sentinel to his will.","As flames spring to life in her hands, a wizened human whispers the secret name of her demonic patron, infusing her spell with fiendish magic.","Shifting his gaze between a battered tome and the odd alignment of the stars overhead, a wild-eyed tiefling chants the mystic ritual that will open a doorway to a distant world.","Warlocks are seekers of the knowledge that lies hidden in the fabric of the multiverse. Through pacts made with mysterious beings of supernatural power, warlocks unlock magical effects both subtle and spectacular. Drawing on the ancient knowledge of beings such as fey nobles, demons, devils, hags, and alien entities of the Far Realm, warlocks piece together arcane secrets to bolster their own power.",{"type":"entries","name":"Sworn and Beholden","entries":["A warlock is defined by a pact with an otherworldly being. Sometimes the relationship between warlock and patron is like that of a cleric and a deity, though the beings that serve as patrons for warlocks are not gods. A warlock might lead a cult dedicated to a demon prince, an archdevil, or an utterly alien entity—beings not typically served by clerics. More often, though, the arrangement is similar to that between a master and an apprentice. The warlock learns and grows in power, at the cost of occasional services performed on the patron's behalf.","The magic bestowed on a warlock ranges from minor but lasting alterations to the warlock's being (such as the ability to see in darkness or to read any language) to access to powerful spells. Unlike bookish wizards, warlocks supplement their magic with some facility at hand-to-hand combat. They are comfortable in light armor and know how to use simple weapons."]},{"type":"entries","name":"Delvers into Secrets","entries":["Warlocks are driven by an insatiable need for knowledge and power, which compels them into their pacts and shapes their lives. This thirst drives warlocks into their pacts and shapes their later careers as well.","Stories of warlocks binding themselves to fiends are widely known. But many warlocks serve patrons that are not fiendish. Sometimes a traveler in the wilds comes to a strangely beautiful tower, meets its fey lord or lady, and stumbles into a pact without being fully aware of it. And sometimes, while poring over tomes of forbidden lore, a brilliant but crazed student's mind is opened to realities beyond the material world and to the alien beings that dwell in the outer void.","Once a pact is made, a warlock's thirst for knowledge and power can't be slaked with mere study and research. No one makes a pact with such a mighty patron if he or she doesn't intend to use the power thus gained. Rather, the vast majority of warlocks spend their days in active pursuit of their goals, which typically means some kind of adventuring. Furthermore, the demands of their patrons drive warlocks toward adventure."]},{"type":"entries","name":"Creating a Warlock","entries":["As you make your warlock character, spend some time thinking about your patron and the obligations that your pact imposes upon you. What led you to make the pact, and how did you make contact with your patron? Were you seduced into summoning a devil, or did you seek out the ritual that would allow you to make contact with an alien elder god? Did you search for your patron, or did your patron find and choose you? Do you chafe under the obligations of your pact or serve joyfully in anticipation of the rewards promised to you?","Work with your DM to determine how big a part your pact will play in your character's adventuring career. Your patron's demands might drive you into adventures, or they might consist entirely of small favors you can do between adventures.","What kind of relationship do you have with your patron? Is it friendly, antagonistic, uneasy, or romantic? How important does your patron consider you to be? What part do you play in your patron's plans? Do you know other servants of your patron?","How does your patron communicate with you? If you have a familiar, it might occasionally speak with your patron's voice. Some warlocks find messages from their patrons etched on trees, mingled among tea leaves, or adrift in the clouds—messages that only the warlock can see. Other warlocks converse with their patrons in dreams or waking visions, or deal only with intermediaries.",{"type":"entries","name":"Quick Build","entries":["You can make a warlock quickly by following these suggestions. First, Charisma should be your highest ability score, followed by Constitution. Second, choose the {@background charlatan} background. Third, choose the {@spell eldritch blast} and {@spell chill touch} cantrips, along with the 1st-level spells {@spell charm person} and {@spell witch bolt}."]}]}],"page":105,"source":"PHB"},{"type":"section","entries":[{"type":"quote","entries":["You think me mad? I think true insanity is being content to live a life of mortal drudgery when knowledge and power is there for the taking in the realm beyond."],"by":"Xarren, herald of Acamar"},"Warlocks are finders and keepers of secrets. They push at the edge of our understanding of the world, always seeking to expand their expertise. Where sages or wizards might heed a clear sign of danger and end their research, a warlock plunges ahead, heedless of the cost. Thus, it takes a peculiar mixture of intelligence, curiosity, and recklessness to produce a warlock. Many folk would describe that combination as evidence of madness. Warlocks see it as a demonstration of bravery.","Warlocks are defined by two elements that work in concert to forge their path into this class. The first element is the event or circumstances that led to a warlock's entering into a pact with a planar entity. The second one is the nature of the entity a warlock is bound to. Unlike clerics, who typically embrace a deity and that god's ethos, a warlock might have no love for a patron, or vice versa.","The sections that follow provide ways to embellish a warlock character that could generate some intriguing story and roleplaying opportunities.",{"type":"entries","name":"Patron's Attitude","entries":["Every relationship is a two-way street, but in the case of warlocks and their patrons it's not necessarily true that both sides of the street are the same width or made of the same stuff. The feeling that a warlock holds for their patron, whether positive or negative, might be reciprocated by the patron, or the two participants in the pact might view one another with opposing emotions.","When you determine the attitude your warlock character holds toward your patron, also consider how things look from the patron's perspective. How does your patron behave toward you? Is your patron a friend and ally, or an enemy that grants you power only because you forced a pact upon it?",{"type":"table","caption":"Patron Attitudes","colLabels":["{@dice d6}","Attitude"],"colStyles":["col-1 text-center","col-11"],"rows":[[{"type":"cell","roll":{"exact":1}},"Your patron has guided and helped your family for generations and is kindly toward you."],[{"type":"cell","roll":{"exact":2}},"Each interaction with your capricious patron is a surprise, whether pleasant or painful."],[{"type":"cell","roll":{"exact":3}},"Your patron is the spirit of a long-dead hero who sees your pact as a way for it to continue to influence the world."],[{"type":"cell","roll":{"exact":4}},"Your patron is a strict disciplinarian but treats you with a measure of respect."],[{"type":"cell","roll":{"exact":5}},"Your patron tricked you into a pact and treats you as a slave."],[{"type":"cell","roll":{"exact":6}},"You are mostly left to your own devices with no interference from your patron. Sometimes you dread the demands it will make when it does appear."]]}]},{"type":"entries","name":"Special Terms of the Pact","entries":["A pact can range from a loose agreement to a formal contract with lengthy, detailed clauses and lists of requirements. The terms of a pact—what a warlock must do to receive a patron's favor—are always dictated by the patron. On occasion, those terms include a special proviso that might seem odd or whimsical, but warlocks take these dictates as seriously as they do the other requirements of their pacts.","Does your character have a pact that requires you to change your behavior in an unusual or seemingly frivolous way? Even if your patron hasn't imposed such a duty on you already, that's not to say it couldn't still happen.",{"type":"table","caption":"Special Terms","colLabels":["{@dice d6}","Term"],"colStyles":["col-1 text-center","col-11"],"rows":[[{"type":"cell","roll":{"exact":1}},"When directed, you must take immediate action against a specific enemy of your patron."],[{"type":"cell","roll":{"exact":2}},"Your pact tests your willpower; you are required to abstain from alcohol and other intoxicants."],[{"type":"cell","roll":{"exact":3}},"At least once a day, you must inscribe or carve your patron's name or symbol on the wall of a building."],[{"type":"cell","roll":{"exact":4}},"You must occasionally conduct bizarre rituals to maintain your pact."],[{"type":"cell","roll":{"exact":5}},"You can never wear the same outfit twice, since your patron finds such predictability to be boring."],[{"type":"cell","roll":{"exact":6}},"When you use an eldritch invocation, you must speak your patron's name aloud or risk incurring its displeasure."]]}]},{"type":"entries","name":"Binding Mark","entries":["Some patrons make a habit of, and often enjoy, marking the warlocks under their sway in some fashion. A binding mark makes it clear—to those who know about such things—that the individual in question is bound to the patron's service. A warlock might take advantage of such a mark, claiming it as proof of one's pact, or might want to keep it under wraps (if possible) to avoid the difficulties it might bring.","If your warlock's pact comes with a binding mark, how you feel about displaying it probably depends on the nature of your relationship with the one who gave it to you. Is the mark a source of pride or something you are secretly ashamed of?",{"type":"table","caption":"Binding Marks","colLabels":["d6","Mark"],"colStyles":["col-1 text-center","col-11"],"rows":[["1","One of your eyes looks the same as one of your patron's eyes."],["2","Each time you wake up, the small blemish on your face appears in a different place."],["3","You display outward symptoms of a disease but suffer no ill effects from it."],["4","Your tongue is an unnatural color."],["5","You have a vestigial tail."],["6","Your nose glows in the dark."]]}]}],"page":53,"source":"XGE"}]}],"classFeature":[[]],"subclassFeature":[[]]};
+classObj={
+    "class": {
+        "name": "Warlock",
+        "source": "PHB",
+        "page": 105,
+        "srd": true,
+        "hd": {
+            "number": 1,
+            "faces": 8
+        },
+        "proficiency": [
+            "wis",
+            "cha"
+        ],
+        "spellcastingAbility": "cha",
+        "casterProgression": "pact",
+        "startingProficiencies": {
+            "armor": [
+                "light"
+            ],
+            "weapons": [
+                "simple"
+            ],
+            "skills": [
+                {
+                    "choose": {
+                        "from": [
+                            "arcana",
+                            "deception",
+                            "history",
+                            "intimidation",
+                            "investigation",
+                            "nature",
+                            "religion"
+                        ],
+                        "count": 2
+                    }
+                }
+            ]
+        },
+        "startingEquipment": {
+            "additionalFromBackground": true,
+            "default": [
+                "(a) a {@item light crossbow|phb} and {@item crossbow bolts (20)|phb|20 bolts} or (b) any {@filter simple weapon|items|source=phb|category=basic|type=simple weapon}",
+                "(a) a {@item component pouch|phb} or (b) an {@item arcane focus|phb}",
+                "(a) a {@item scholar's pack|phb} or (b) a {@item dungeoneer's pack|phb}",
+                "{@item Leather armor|phb}, any {@filter simple weapon|items|source=phb|category=basic|type=simple weapon}, and two {@item dagger|phb|daggers}"
+            ],
+            "goldAlternative": "{@dice 4d4 × 10|4d4 × 10|Starting Gold}",
+            "defaultData": [
+                {
+                    "a": [
+                        "light crossbow|phb",
+                        "crossbow bolts (20)|phb"
+                    ],
+                    "b": [
+                        {
+                            "equipmentType": "weaponSimple"
+                        }
+                    ]
+                },
+                {
+                    "a": [
+                        "component pouch|phb"
+                    ],
+                    "b": [
+                        "arcane focus|phb"
+                    ]
+                },
+                {
+                    "a": [
+                        "scholar's pack|phb"
+                    ],
+                    "b": [
+                        "dungeoneer's pack|phb"
+                    ]
+                },
+                {
+                    "_": [
+                        "Leather armor|phb",
+                        {
+                            "equipmentType": "weaponSimple"
+                        },
+                        {
+                            "item": "dagger|phb",
+                            "quantity": 2
+                        }
+                    ]
+                }
+            ]
+        },
+        "multiclassing": {
+            "requirements": {
+                "cha": 13
+            },
+            "proficienciesGained": {
+                "armor": [
+                    "light"
+                ],
+                "weapons": [
+                    "simple"
+                ]
+            }
+        },
+        "classTableGroups": [
+            {
+                "colLabels": [
+                    "{@filter Cantrips Known|spells|level=0|class=Warlock}",
+                    "{@filter Spells Known|spells|class=Warlock}",
+                    "Spell Slots",
+                    "Slot Level",
+                    "{@filter Invocations Known|optionalfeatures|feature type=ei}"
+                ],
+                "rows": [
+                    [
+                        2,
+                        2,
+                        1,
+                        "{@filter 1st|spells|level=1|class=Warlock}",
+                        0
+                    ],
+                    [
+                        2,
+                        3,
+                        2,
+                        "{@filter 1st|spells|level=1|class=Warlock}",
+                        2
+                    ],
+                    [
+                        2,
+                        4,
+                        2,
+                        "{@filter 2nd|spells|level=2|class=Warlock}",
+                        2
+                    ],
+                    [
+                        3,
+                        5,
+                        2,
+                        "{@filter 2nd|spells|level=2|class=Warlock}",
+                        2
+                    ],
+                    [
+                        3,
+                        6,
+                        2,
+                        "{@filter 3rd|spells|level=3|class=Warlock}",
+                        3
+                    ],
+                    [
+                        3,
+                        7,
+                        2,
+                        "{@filter 3rd|spells|level=3|class=Warlock}",
+                        3
+                    ],
+                    [
+                        3,
+                        8,
+                        2,
+                        "{@filter 4th|spells|level=4|class=Warlock}",
+                        4
+                    ],
+                    [
+                        3,
+                        9,
+                        2,
+                        "{@filter 4th|spells|level=4|class=Warlock}",
+                        4
+                    ],
+                    [
+                        3,
+                        10,
+                        2,
+                        "{@filter 5th|spells|level=5|class=Warlock}",
+                        5
+                    ],
+                    [
+                        4,
+                        10,
+                        2,
+                        "{@filter 5th|spells|level=5|class=Warlock}",
+                        5
+                    ],
+                    [
+                        4,
+                        11,
+                        3,
+                        "{@filter 5th|spells|level=5|class=Warlock}",
+                        5
+                    ],
+                    [
+                        4,
+                        11,
+                        3,
+                        "{@filter 5th|spells|level=5|class=Warlock}",
+                        6
+                    ],
+                    [
+                        4,
+                        12,
+                        3,
+                        "{@filter 5th|spells|level=5|class=Warlock}",
+                        6
+                    ],
+                    [
+                        4,
+                        12,
+                        3,
+                        "{@filter 5th|spells|level=5|class=Warlock}",
+                        6
+                    ],
+                    [
+                        4,
+                        13,
+                        3,
+                        "{@filter 5th|spells|level=5|class=Warlock}",
+                        7
+                    ],
+                    [
+                        4,
+                        13,
+                        3,
+                        "{@filter 5th|spells|level=5|class=Warlock}",
+                        7
+                    ],
+                    [
+                        4,
+                        14,
+                        4,
+                        "{@filter 5th|spells|level=5|class=Warlock}",
+                        7
+                    ],
+                    [
+                        4,
+                        14,
+                        4,
+                        "{@filter 5th|spells|level=5|class=Warlock}",
+                        8
+                    ],
+                    [
+                        4,
+                        15,
+                        4,
+                        "{@filter 5th|spells|level=5|class=Warlock}",
+                        8
+                    ],
+                    [
+                        4,
+                        15,
+                        4,
+                        "{@filter 5th|spells|level=5|class=Warlock}",
+                        8
+                    ]
+                ]
+            }
+        ],
+        "classFeatures": [
+            "Pact Magic|Warlock||1",
+            "Spell Versatility|Warlock||1|UAClassFeatureVariants",
+            {
+                "classFeature": "Otherworldly Patron|Warlock||1",
+                "gainSubclassFeature": true
+            },
+            "Eldritch Invocations|Warlock||2",
+            "Pact Boon|Warlock||3",
+            "Ability Score Improvement|Warlock||4",
+            "Proficiency Versatility|Warlock||4|UAClassFeatureVariants",
+            "Eldritch Versatility|Warlock||4|TCE",
+            {
+                "classFeature": "Otherworldly Patron feature|Warlock||6",
+                "gainSubclassFeature": true
+            },
+            "Ability Score Improvement|Warlock||8",
+            "Proficiency Versatility|Warlock||8|UAClassFeatureVariants",
+            {
+                "classFeature": "Otherworldly Patron feature|Warlock||10",
+                "gainSubclassFeature": true
+            },
+            "Mystic Arcanum (6th level)|Warlock||11",
+            "Ability Score Improvement|Warlock||12",
+            "Proficiency Versatility|Warlock||12|UAClassFeatureVariants",
+            "Mystic Arcanum (7th level)|Warlock||13",
+            {
+                "classFeature": "Otherworldly Patron feature|Warlock||14",
+                "gainSubclassFeature": true
+            },
+            "Mystic Arcanum (8th level)|Warlock||15",
+            "Ability Score Improvement|Warlock||16",
+            "Proficiency Versatility|Warlock||16|UAClassFeatureVariants",
+            "Mystic Arcanum (9th level)|Warlock||17",
+            "Ability Score Improvement|Warlock||19",
+            "Proficiency Versatility|Warlock||19|UAClassFeatureVariants",
+            "Eldritch Master|Warlock||20"
+        ],
+        "subclassTitle": "Otherworldly Patron",
+        "subclasses": [
+            {
+                "name": "The Fiend",
+                "shortName": "Fiend",
+                "source": "PHB",
+                "page": 109,
+                "srd": true,
+                "additionalSpells": [
+                    {
+                        "expanded": {
+                            "1": [
+                                "burning hands",
+                                "command"
+                            ],
+                            "2": [
+                                "blindness/deafness",
+                                "scorching ray"
+                            ],
+                            "3": [
+                                "fireball",
+                                "stinking cloud"
+                            ],
+                            "4": [
+                                "fire shield",
+                                "wall of fire"
+                            ],
+                            "5": [
+                                "flame strike",
+                                "hallow"
+                            ]
+                        }
+                    }
+                ],
+                "subclassFeatures": [
+                    "The Fiend|Warlock||Fiend||1",
+                    "Dark One's Own Luck|Warlock||Fiend||6",
+                    "Fiendish Resilience|Warlock||Fiend||10",
+                    "Hurl Through Hell|Warlock||Fiend||14"
+                ]
+            }
+        ],
+        "fluff": [
+            {
+                "name": "Warlock",
+                "type": "section",
+                "entries": [
+                    "With a pseudodragon curled on his shoulder, a young elf in golden robes smiles warmly, weaving a magical charm into his honeyed words and bending the palace sentinel to his will.",
+                    "As flames spring to life in her hands, a wizened human whispers the secret name of her demonic patron, infusing her spell with fiendish magic.",
+                    "Shifting his gaze between a battered tome and the odd alignment of the stars overhead, a wild-eyed tiefling chants the mystic ritual that will open a doorway to a distant world.",
+                    "Warlocks are seekers of the knowledge that lies hidden in the fabric of the multiverse. Through pacts made with mysterious beings of supernatural power, warlocks unlock magical effects both subtle and spectacular. Drawing on the ancient knowledge of beings such as fey nobles, demons, devils, hags, and alien entities of the Far Realm, warlocks piece together arcane secrets to bolster their own power.",
+                    {
+                        "type": "entries",
+                        "name": "Sworn and Beholden",
+                        "entries": [
+                            "A warlock is defined by a pact with an otherworldly being. Sometimes the relationship between warlock and patron is like that of a cleric and a deity, though the beings that serve as patrons for warlocks are not gods. A warlock might lead a cult dedicated to a demon prince, an archdevil, or an utterly alien entity—beings not typically served by clerics. More often, though, the arrangement is similar to that between a master and an apprentice. The warlock learns and grows in power, at the cost of occasional services performed on the patron's behalf.",
+                            "The magic bestowed on a warlock ranges from minor but lasting alterations to the warlock's being (such as the ability to see in darkness or to read any language) to access to powerful spells. Unlike bookish wizards, warlocks supplement their magic with some facility at hand-to-hand combat. They are comfortable in light armor and know how to use simple weapons."
+                        ]
+                    },
+                    {
+                        "type": "entries",
+                        "name": "Delvers into Secrets",
+                        "entries": [
+                            "Warlocks are driven by an insatiable need for knowledge and power, which compels them into their pacts and shapes their lives. This thirst drives warlocks into their pacts and shapes their later careers as well.",
+                            "Stories of warlocks binding themselves to fiends are widely known. But many warlocks serve patrons that are not fiendish. Sometimes a traveler in the wilds comes to a strangely beautiful tower, meets its fey lord or lady, and stumbles into a pact without being fully aware of it. And sometimes, while poring over tomes of forbidden lore, a brilliant but crazed student's mind is opened to realities beyond the material world and to the alien beings that dwell in the outer void.",
+                            "Once a pact is made, a warlock's thirst for knowledge and power can't be slaked with mere study and research. No one makes a pact with such a mighty patron if he or she doesn't intend to use the power thus gained. Rather, the vast majority of warlocks spend their days in active pursuit of their goals, which typically means some kind of adventuring. Furthermore, the demands of their patrons drive warlocks toward adventure."
+                        ]
+                    },
+                    {
+                        "type": "entries",
+                        "name": "Creating a Warlock",
+                        "entries": [
+                            "As you make your warlock character, spend some time thinking about your patron and the obligations that your pact imposes upon you. What led you to make the pact, and how did you make contact with your patron? Were you seduced into summoning a devil, or did you seek out the ritual that would allow you to make contact with an alien elder god? Did you search for your patron, or did your patron find and choose you? Do you chafe under the obligations of your pact or serve joyfully in anticipation of the rewards promised to you?",
+                            "Work with your DM to determine how big a part your pact will play in your character's adventuring career. Your patron's demands might drive you into adventures, or they might consist entirely of small favors you can do between adventures.",
+                            "What kind of relationship do you have with your patron? Is it friendly, antagonistic, uneasy, or romantic? How important does your patron consider you to be? What part do you play in your patron's plans? Do you know other servants of your patron?",
+                            "How does your patron communicate with you? If you have a familiar, it might occasionally speak with your patron's voice. Some warlocks find messages from their patrons etched on trees, mingled among tea leaves, or adrift in the clouds—messages that only the warlock can see. Other warlocks converse with their patrons in dreams or waking visions, or deal only with intermediaries.",
+                            {
+                                "type": "entries",
+                                "name": "Quick Build",
+                                "entries": [
+                                    "You can make a warlock quickly by following these suggestions. First, Charisma should be your highest ability score, followed by Constitution. Second, choose the {@background charlatan} background. Third, choose the {@spell eldritch blast} and {@spell chill touch} cantrips, along with the 1st-level spells {@spell charm person} and {@spell witch bolt}."
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "page": 105,
+                "source": "PHB"
+            },
+            {
+                "type": "section",
+                "entries": [
+                    {
+                        "type": "quote",
+                        "entries": [
+                            "You think me mad? I think true insanity is being content to live a life of mortal drudgery when knowledge and power is there for the taking in the realm beyond."
+                        ],
+                        "by": "Xarren, herald of Acamar"
+                    },
+                    "Warlocks are finders and keepers of secrets. They push at the edge of our understanding of the world, always seeking to expand their expertise. Where sages or wizards might heed a clear sign of danger and end their research, a warlock plunges ahead, heedless of the cost. Thus, it takes a peculiar mixture of intelligence, curiosity, and recklessness to produce a warlock. Many folk would describe that combination as evidence of madness. Warlocks see it as a demonstration of bravery.",
+                    "Warlocks are defined by two elements that work in concert to forge their path into this class. The first element is the event or circumstances that led to a warlock's entering into a pact with a planar entity. The second one is the nature of the entity a warlock is bound to. Unlike clerics, who typically embrace a deity and that god's ethos, a warlock might have no love for a patron, or vice versa.",
+                    "The sections that follow provide ways to embellish a warlock character that could generate some intriguing story and roleplaying opportunities.",
+                    {
+                        "type": "entries",
+                        "name": "Patron's Attitude",
+                        "entries": [
+                            "Every relationship is a two-way street, but in the case of warlocks and their patrons it's not necessarily true that both sides of the street are the same width or made of the same stuff. The feeling that a warlock holds for their patron, whether positive or negative, might be reciprocated by the patron, or the two participants in the pact might view one another with opposing emotions.",
+                            "When you determine the attitude your warlock character holds toward your patron, also consider how things look from the patron's perspective. How does your patron behave toward you? Is your patron a friend and ally, or an enemy that grants you power only because you forced a pact upon it?",
+                            {
+                                "type": "table",
+                                "caption": "Patron Attitudes",
+                                "colLabels": [
+                                    "{@dice d6}",
+                                    "Attitude"
+                                ],
+                                "colStyles": [
+                                    "col-1 text-center",
+                                    "col-11"
+                                ],
+                                "rows": [
+                                    [
+                                        {
+                                            "type": "cell",
+                                            "roll": {
+                                                "exact": 1
+                                            }
+                                        },
+                                        "Your patron has guided and helped your family for generations and is kindly toward you."
+                                    ],
+                                    [
+                                        {
+                                            "type": "cell",
+                                            "roll": {
+                                                "exact": 2
+                                            }
+                                        },
+                                        "Each interaction with your capricious patron is a surprise, whether pleasant or painful."
+                                    ],
+                                    [
+                                        {
+                                            "type": "cell",
+                                            "roll": {
+                                                "exact": 3
+                                            }
+                                        },
+                                        "Your patron is the spirit of a long-dead hero who sees your pact as a way for it to continue to influence the world."
+                                    ],
+                                    [
+                                        {
+                                            "type": "cell",
+                                            "roll": {
+                                                "exact": 4
+                                            }
+                                        },
+                                        "Your patron is a strict disciplinarian but treats you with a measure of respect."
+                                    ],
+                                    [
+                                        {
+                                            "type": "cell",
+                                            "roll": {
+                                                "exact": 5
+                                            }
+                                        },
+                                        "Your patron tricked you into a pact and treats you as a slave."
+                                    ],
+                                    [
+                                        {
+                                            "type": "cell",
+                                            "roll": {
+                                                "exact": 6
+                                            }
+                                        },
+                                        "You are mostly left to your own devices with no interference from your patron. Sometimes you dread the demands it will make when it does appear."
+                                    ]
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "entries",
+                        "name": "Special Terms of the Pact",
+                        "entries": [
+                            "A pact can range from a loose agreement to a formal contract with lengthy, detailed clauses and lists of requirements. The terms of a pact—what a warlock must do to receive a patron's favor—are always dictated by the patron. On occasion, those terms include a special proviso that might seem odd or whimsical, but warlocks take these dictates as seriously as they do the other requirements of their pacts.",
+                            "Does your character have a pact that requires you to change your behavior in an unusual or seemingly frivolous way? Even if your patron hasn't imposed such a duty on you already, that's not to say it couldn't still happen.",
+                            {
+                                "type": "table",
+                                "caption": "Special Terms",
+                                "colLabels": [
+                                    "{@dice d6}",
+                                    "Term"
+                                ],
+                                "colStyles": [
+                                    "col-1 text-center",
+                                    "col-11"
+                                ],
+                                "rows": [
+                                    [
+                                        {
+                                            "type": "cell",
+                                            "roll": {
+                                                "exact": 1
+                                            }
+                                        },
+                                        "When directed, you must take immediate action against a specific enemy of your patron."
+                                    ],
+                                    [
+                                        {
+                                            "type": "cell",
+                                            "roll": {
+                                                "exact": 2
+                                            }
+                                        },
+                                        "Your pact tests your willpower; you are required to abstain from alcohol and other intoxicants."
+                                    ],
+                                    [
+                                        {
+                                            "type": "cell",
+                                            "roll": {
+                                                "exact": 3
+                                            }
+                                        },
+                                        "At least once a day, you must inscribe or carve your patron's name or symbol on the wall of a building."
+                                    ],
+                                    [
+                                        {
+                                            "type": "cell",
+                                            "roll": {
+                                                "exact": 4
+                                            }
+                                        },
+                                        "You must occasionally conduct bizarre rituals to maintain your pact."
+                                    ],
+                                    [
+                                        {
+                                            "type": "cell",
+                                            "roll": {
+                                                "exact": 5
+                                            }
+                                        },
+                                        "You can never wear the same outfit twice, since your patron finds such predictability to be boring."
+                                    ],
+                                    [
+                                        {
+                                            "type": "cell",
+                                            "roll": {
+                                                "exact": 6
+                                            }
+                                        },
+                                        "When you use an eldritch invocation, you must speak your patron's name aloud or risk incurring its displeasure."
+                                    ]
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "entries",
+                        "name": "Binding Mark",
+                        "entries": [
+                            "Some patrons make a habit of, and often enjoy, marking the warlocks under their sway in some fashion. A binding mark makes it clear—to those who know about such things—that the individual in question is bound to the patron's service. A warlock might take advantage of such a mark, claiming it as proof of one's pact, or might want to keep it under wraps (if possible) to avoid the difficulties it might bring.",
+                            "If your warlock's pact comes with a binding mark, how you feel about displaying it probably depends on the nature of your relationship with the one who gave it to you. Is the mark a source of pride or something you are secretly ashamed of?",
+                            {
+                                "type": "table",
+                                "caption": "Binding Marks",
+                                "colLabels": [
+                                    "d6",
+                                    "Mark"
+                                ],
+                                "colStyles": [
+                                    "col-1 text-center",
+                                    "col-11"
+                                ],
+                                "rows": [
+                                    [
+                                        "1",
+                                        "One of your eyes looks the same as one of your patron's eyes."
+                                    ],
+                                    [
+                                        "2",
+                                        "Each time you wake up, the small blemish on your face appears in a different place."
+                                    ],
+                                    [
+                                        "3",
+                                        "You display outward symptoms of a disease but suffer no ill effects from it."
+                                    ],
+                                    [
+                                        "4",
+                                        "Your tongue is an unnatural color."
+                                    ],
+                                    [
+                                        "5",
+                                        "You have a vestigial tail."
+                                    ],
+                                    [
+                                        "6",
+                                        "Your nose glows in the dark."
+                                    ]
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "page": 53,
+                "source": "XGE"
+            }
+        ]
+    },
+    "classFeature": [
+        {
+            "name": "Otherworldly Patron",
+            "source": "PHB",
+            "page": 105,
+            "srd": true,
+            "className": "Warlock",
+            "classSource": "PHB",
+            "level": 1,
+            "entries": [
+                "At 1st level, you have struck a bargain with an otherworldly being chosen from the list of available patrons. Your choice grants you features at 1st level and again at 6th, 10th, and 14th level."
+            ]
+        },
+        {
+            "name": "Pact Magic",
+            "source": "PHB",
+            "page": 105,
+            "srd": true,
+            "className": "Warlock",
+            "classSource": "PHB",
+            "level": 1,
+            "entries": [
+                "Your arcane research and the magic bestowed on you by your patron have given you facility with spells. See {@book chapter 10|PHB|10} for the general rules of spellcasting and {@book chapter 11|PHB|11} for the {@filter warlock spell list|spells|class=warlock}.",
+                {
+                    "type": "entries",
+                    "name": "Cantrips",
+                    "entries": [
+                        "You know two cantrips of your choice from the warlock spell list. You learn additional warlock cantrips of your choice at higher levels, as shown in the Cantrips Known column of the Warlock table."
+                    ]
+                },
+                {
+                    "type": "entries",
+                    "name": "Spell Slots",
+                    "entries": [
+                        "The Warlock table shows how many spell slots you have to cast your {@filter warlock spells|spells|class=warlock} of 1st through 5th level. The table also shows what the level of those slots is; all of your spell slots are the same level. To cast one of your warlock spells of 1st level or higher, you must expend a spell slot. You regain all expended spell slots when you finish a short or long rest.",
+                        "For example, when you are 5th level, you have two 3rd-level spell slots. To cast the 1st-level spell {@spell witch bolt}, you must spend one of those slots, and you cast it as a 3rd-level spell."
+                    ]
+                },
+                {
+                    "type": "entries",
+                    "name": "Spells Known of 1st Level and Higher",
+                    "entries": [
+                        "At 1st level, you know two 1st-level spells of your choice from the warlock spell list.",
+                        "The Spells Known column of the Warlock table shows when you learn more warlock spells of your choice of 1st level and higher. A spell you choose must be of a level no higher than what's shown in the table's Slot Level column for your level. When you reach 6th level, for example, you learn a new warlock spell, which can be 1st, 2nd, or 3rd level.",
+                        "Additionally, when you gain a level in this class, you can choose one of the warlock spells you know and replace it with another spell from the warlock spell list, which also must be of a level for which you have spell slots."
+                    ]
+                },
+                {
+                    "type": "entries",
+                    "name": "Spellcasting Ability",
+                    "entries": [
+                        "Charisma is your spellcasting ability for your warlock spells, so you use your Charisma whenever a spell refers to your spellcasting ability. In addition, you use your Charisma modifier when setting the saving throw DC for a warlock spell you cast and when making an attack roll with one.",
+                        {
+                            "type": "abilityDc",
+                            "name": "Spell",
+                            "attributes": [
+                                "cha"
+                            ]
+                        },
+                        {
+                            "type": "abilityAttackMod",
+                            "name": "Spell",
+                            "attributes": [
+                                "cha"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "entries",
+                    "name": "Spellcasting Focus",
+                    "entries": [
+                        "You can use an {@item arcane focus|phb} as a spellcasting focus for your warlock spells."
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Eldritch Invocations",
+            "source": "PHB",
+            "page": 105,
+            "srd": true,
+            "className": "Warlock",
+            "classSource": "PHB",
+            "level": 2,
+            "entries": [
+                "In your study of occult lore, you have unearthed eldritch invocations, fragments of forbidden knowledge that imbue you with an abiding magical ability.",
+                {
+                    "type": "inlineBlock",
+                    "entries": [
+                        "At 2nd level, you gain two eldritch invocations of your choice. A list of the available options can be found on the {@filter Optional Features|optionalfeatures|Feature Type=EI} page. When you gain certain warlock levels, you gain additional invocations of your choice."
+                    ]
+                },
+                "Additionally, when you gain a level in this class, you can choose one of the invocations you know and replace it with another invocation that you could learn at that level.",
+                "A level prerequisite in an invocation refers to warlock level, not character level."
+            ]
+        },
+        {
+            "name": "Pact Boon",
+            "source": "PHB",
+            "page": 105,
+            "srd": true,
+            "className": "Warlock",
+            "classSource": "PHB",
+            "level": 3,
+            "entries": [
+                "At 3rd level, your otherworldly patron bestows a gift upon you for your loyal service. You gain one of the following features of your choice.",
+                {
+                    "type": "options",
+                    "count": 1,
+                    "entries": [
+                        {
+                            "type": "refOptionalfeature",
+                            "optionalfeature": "Pact of the Chain"
+                        },
+                        {
+                            "type": "refOptionalfeature",
+                            "optionalfeature": "Pact of the Blade"
+                        },
+                        {
+                            "type": "refOptionalfeature",
+                            "optionalfeature": "Pact of the Tome"
+                        },
+                        {
+                            "type": "refOptionalfeature",
+                            "optionalfeature": "Pact of the Star Chain|UATheFaithful"
+                        },
+                        {
+                            "type": "refOptionalfeature",
+                            "optionalfeature": "Pact of the Talisman|UAClassFeatureVariants"
+                        },
+                        {
+                            "type": "refOptionalfeature",
+                            "optionalfeature": "Pact of the Talisman|TCE"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Ability Score Improvement",
+            "source": "PHB",
+            "page": 105,
+            "srd": true,
+            "className": "Warlock",
+            "classSource": "PHB",
+            "level": 4,
+            "entries": [
+                "When you reach 4th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+                "If your DM allows the use of feats, you may instead take a {@5etools feat|feats.html}."
+            ]
+        },
+        {
+            "name": "Otherworldly Patron feature",
+            "source": "PHB",
+            "page": 105,
+            "srd": true,
+            "className": "Warlock",
+            "classSource": "PHB",
+            "level": 6,
+            "entries": [
+                "At 6th level, you gain a feature granted by your Otherworldly Patron."
+            ]
+        },
+        {
+            "name": "Ability Score Improvement",
+            "source": "PHB",
+            "page": 105,
+            "srd": true,
+            "className": "Warlock",
+            "classSource": "PHB",
+            "level": 8,
+            "entries": [
+                "When you reach 8th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+                "If your DM allows the use of feats, you may instead take a {@5etools feat|feats.html}."
+            ]
+        },
+        {
+            "name": "Otherworldly Patron feature",
+            "source": "PHB",
+            "page": 105,
+            "srd": true,
+            "className": "Warlock",
+            "classSource": "PHB",
+            "level": 10,
+            "entries": [
+                "At 10th level, you gain a feature granted by your Otherworldly Patron."
+            ]
+        },
+        {
+            "name": "Mystic Arcanum (6th level)",
+            "source": "PHB",
+            "page": 105,
+            "srd": true,
+            "className": "Warlock",
+            "classSource": "PHB",
+            "level": 11,
+            "entries": [
+                "At 11th level, your patron bestows upon you a magical secret called an arcanum. Choose one {@filter 6th-level spell from the warlock spell list|spells|level=6|class=Warlock} as this arcanum.",
+                "You can cast your arcanum spell once without expending a spell slot. You must finish a long rest before you can do so again.",
+                "At higher levels, you gain more warlock spells of your choice that can be cast in this way: one 7th-level spell at 13th level, one 8th-level spell at 15th level, and one 9th-level spell at 17th level. You regain all uses of your Mystic Arcanum when you finish a long rest."
+            ]
+        },
+        {
+            "name": "Ability Score Improvement",
+            "source": "PHB",
+            "page": 105,
+            "srd": true,
+            "className": "Warlock",
+            "classSource": "PHB",
+            "level": 12,
+            "entries": [
+                "When you reach 12th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+                "If your DM allows the use of feats, you may instead take a {@5etools feat|feats.html}."
+            ]
+        },
+        {
+            "name": "Mystic Arcanum (7th level)",
+            "source": "PHB",
+            "page": 105,
+            "srd": true,
+            "className": "Warlock",
+            "classSource": "PHB",
+            "level": 13,
+            "entries": [
+                "At 13th level, your patron bestows upon you a magical secret called an arcanum. Choose one {@filter 7th-level spell from the warlock spell list|spells|level=7|class=Warlock} as this arcanum.",
+                "You can cast your arcanum spell once without expending a spell slot. You must finish a long rest before you can do so again."
+            ]
+        },
+        {
+            "name": "Otherworldly Patron feature",
+            "source": "PHB",
+            "page": 105,
+            "srd": true,
+            "className": "Warlock",
+            "classSource": "PHB",
+            "level": 14,
+            "entries": [
+                "At 14th level, you gain a feature granted by your Otherworldly Patron."
+            ]
+        },
+        {
+            "name": "Mystic Arcanum (8th level)",
+            "source": "PHB",
+            "page": 105,
+            "srd": true,
+            "className": "Warlock",
+            "classSource": "PHB",
+            "level": 15,
+            "entries": [
+                "At 15th level, your patron bestows upon you a magical secret called an arcanum. Choose one {@filter 8th-level spell from the warlock spell list|spells|level=8|class=Warlock} as this arcanum.",
+                "You can cast your arcanum spell once without expending a spell slot. You must finish a long rest before you can do so again."
+            ]
+        },
+        {
+            "name": "Ability Score Improvement",
+            "source": "PHB",
+            "page": 105,
+            "srd": true,
+            "className": "Warlock",
+            "classSource": "PHB",
+            "level": 16,
+            "entries": [
+                "When you reach 16th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+                "If your DM allows the use of feats, you may instead take a {@5etools feat|feats.html}."
+            ]
+        },
+        {
+            "name": "Mystic Arcanum (9th level)",
+            "source": "PHB",
+            "page": 105,
+            "srd": true,
+            "className": "Warlock",
+            "classSource": "PHB",
+            "level": 17,
+            "entries": [
+                "At 17th level, your patron bestows upon you a magical secret called an arcanum. Choose one {@filter 9th-level spell from the warlock spell list|spells|level=9|class=Warlock} as this arcanum.",
+                "You can cast your arcanum spell once without expending a spell slot. You must finish a long rest before you can do so again."
+            ]
+        },
+        {
+            "name": "Ability Score Improvement",
+            "source": "PHB",
+            "page": 105,
+            "srd": true,
+            "className": "Warlock",
+            "classSource": "PHB",
+            "level": 19,
+            "entries": [
+                "When you reach 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+                "If your DM allows the use of feats, you may instead take a {@5etools feat|feats.html}."
+            ]
+        },
+        {
+            "name": "Eldritch Master",
+            "source": "PHB",
+            "page": 105,
+            "srd": true,
+            "className": "Warlock",
+            "classSource": "PHB",
+            "level": 20,
+            "entries": [
+                "At 20th level, you can draw on your inner reserve of mystical power while entreating your patron to regain expended spell slots. You can spend 1 minute entreating your patron for aid to regain all your expended spell slots from your Pact Magic feature. Once you regain spell slots with this feature, you must finish a long rest before you can do so again."
+            ]
+        }
+    ],
+    "subclassFeature": [
+        {
+            "name": "The Fiend",
+            "source": "PHB",
+            "page": 109,
+            "srd": true,
+            "className": "Warlock",
+            "classSource": "PHB",
+            "subclassShortName": "Fiend",
+            "subclassSource": "PHB",
+            "level": 1,
+            "entries": [
+                "You have made a pact with a fiend from the lower planes of existence, a being whose aims are evil, even if you strive against those aims. Such beings desire the corruption or destruction of all things, ultimately including you. Fiends powerful enough to forge a pact include demon lords such as Demogorgon, Orcus, Fraz'Urb-luu, and Baphomet; archdevils such as Asmodeus, Dispater, Mephistopheles, and Belial; pit fiends and balors that are especially mighty; and ultroloths and other lords of the yugoloths.",
+                {
+                    "type": "entries",
+                    "name": "Expanded Spell List",
+                    "entries": [
+                        "The Fiend lets you choose from an expanded list of spells when you learn a warlock spell. The following spells are added to the warlock spell list for you.",
+                        {
+                            "type": "table",
+                            "caption": "Fiend Expanded Spells",
+                            "colLabels": [
+                                "Spell Level",
+                                "Spells"
+                            ],
+                            "colStyles": [
+                                "col-2 text-center",
+                                "col-10"
+                            ],
+                            "rows": [
+                                [
+                                    "1st",
+                                    "{@spell burning hands}, {@spell command}"
+                                ],
+                                [
+                                    "2nd",
+                                    "{@spell blindness/deafness}, {@spell scorching ray}"
+                                ],
+                                [
+                                    "3rd",
+                                    "{@spell fireball}, {@spell stinking cloud}"
+                                ],
+                                [
+                                    "4th",
+                                    "{@spell fire shield}, {@spell wall of fire}"
+                                ],
+                                [
+                                    "5th",
+                                    "{@spell flame strike}, {@spell hallow}"
+                                ]
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "refSubclassFeature",
+                    "subclassFeature": "Dark One's Blessing|Warlock||Fiend||1"
+                }
+            ]
+        },
+        {
+            "name": "Dark One's Blessing",
+            "source": "PHB",
+            "page": 109,
+            "srd": true,
+            "className": "Warlock",
+            "classSource": "PHB",
+            "subclassShortName": "Fiend",
+            "subclassSource": "PHB",
+            "level": 1,
+            "header": 1,
+            "entries": [
+                "Starting at 1st level, when you reduce a hostile creature to 0 hit points, you gain temporary hit points equal to your Charisma modifier + your warlock level (minimum of 1)."
+            ]
+        },
+        {
+            "name": "Dark One's Own Luck",
+            "source": "PHB",
+            "page": 109,
+            "srd": true,
+            "className": "Warlock",
+            "classSource": "PHB",
+            "subclassShortName": "Fiend",
+            "subclassSource": "PHB",
+            "level": 6,
+            "header": 2,
+            "entries": [
+                "Starting at 6th level, you can call on your patron to alter fate in your favor. When you make an ability check or a saving throw, you can use this feature to add a {@dice d10} to your roll. You can do so after seeing the initial roll but before any of the roll's effects occur.",
+                "Once you use this feature, you can't use it again until you finish a short or long rest."
+            ]
+        },
+        {
+            "name": "Fiendish Resilience",
+            "source": "PHB",
+            "page": 109,
+            "srd": true,
+            "className": "Warlock",
+            "classSource": "PHB",
+            "subclassShortName": "Fiend",
+            "subclassSource": "PHB",
+            "level": 10,
+            "header": 2,
+            "entries": [
+                "Starting at 10th level, you can choose one damage type when you finish a short or long rest. You gain resistance to that damage type until you choose a different one with this feature. Damage from magical weapons or silver weapons ignores this resistance."
+            ]
+        },
+        {
+            "name": "Hurl Through Hell",
+            "source": "PHB",
+            "page": 109,
+            "srd": true,
+            "className": "Warlock",
+            "classSource": "PHB",
+            "subclassShortName": "Fiend",
+            "subclassSource": "PHB",
+            "level": 14,
+            "header": 2,
+            "entries": [
+                "Starting at 14th level, when you hit a creature with an attack, you can use this feature to instantly transport the target through the lower planes. The creature disappears and hurtles through a nightmare landscape.",
+                "At the end of your next turn, the target returns to the space it previously occupied, or the nearest unoccupied space. If the target is not a fiend, it takes {@damage 10d10} psychic damage as it reels from its horrific experience.",
+                "Once you use this feature, you can't use it again until you finish a long rest."
+            ]
+        }
+    ]
+};
 
-function returnClassWar(){
+
+function getClassWarlock(){
     return classObj;
 }
