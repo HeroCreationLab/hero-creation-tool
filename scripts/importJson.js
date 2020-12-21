@@ -94,7 +94,7 @@ function populateList(id, object, isIndex, defaultName){
         for (let obj of object){
             option = document.createElement('option');
             option.text = obj.name;
-            option.vaule = obj;
+            option.value = JSON.stringify(obj);
             dropdown.add(option);
         }
     }
@@ -114,7 +114,7 @@ function populateSpellList(id, spellClassName, spellSubClassName, level, backgro
     dropdown.length = 0;
 
     let defaultOption = document.createElement('option');
-    defaultOption.text = 'Choose your class';
+    defaultOption.text = 'Choose your spell';
 
     dropdown.add(defaultOption);
     dropdown.selectIndex = 0;
@@ -126,7 +126,7 @@ function populateSpellList(id, spellClassName, spellSubClassName, level, backgro
             if(isUsable(spellClassName, spellSubClassName, background, race, spell)){
                 option = document.createElement('option');
                 option.text = spell.name;
-                option.vaule = spell;
+                option.value = JSON.stringify(spell);
                 dropdown.add(option);
             }
         }
@@ -179,34 +179,9 @@ function isUsable(spellClassName, spellSubClassName, background, race, spell){
     }
     return false;
 }
-/*
-Populate a item selcelct dropdownlist based on id the type of item.
-Input : ID: string, itemType: char
-Populate a selcelct dropdownlist based on id and filepath for a index json.
-Input : ID: string, object: Json Array, typeJson: string
-Output: N/A
-*/
-function populateRaceList(id, object, typeJson){
-   //initialize drop down list and add default value
-   let dropdown = document.getElementById(id);
-   dropdown.length = 0;
 
-   let defaultOption = document.createElement('option');
-   defaultOption.text = 'Choose your class';
+function populateItemList(id, items, typeItem, itemName){
 
-   dropdown.add(defaultOption);
-   dropdown.selectIndex = 0;
-   //check if the file is a index or not
-   //console.log(typeJson);
-   if (typeJson == "index"){
-       let option;
-       for (k in object){
-           option = document.createElement('option');
-           option.text = k;
-           option.value = index[k];
-           dropdown.add(option);
-       }
-   }
 }
 /* Testing
 let spellList = JSON.parse(fs.readFileSync("./spells-phb.json"));
