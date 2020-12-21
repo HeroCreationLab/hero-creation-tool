@@ -2,24 +2,28 @@ const fs = require('fs');
 
 
 function cleanSRDClasses(path) {
-let json = JSON.parse(fs.readFileSync(path));
-let srdClass;
-let srdClassFeature;
-let srdSubclassFeature;
+    let json = JSON.parse(fs.readFileSync(path));
+    let srdClass = [];
+    let srdClassFeature;
+    let srdSubclassFeature;
 
-for (let classElement of json.class) {
-    if (classElement.srd) {
-        srdClass = classElement;
-        if (classElement.subclasses) {
-            for (let subclass = 0; subclass < classElement.subclasses.length; subclass++) {
-                if (!classElement.subclasses[subclass].srd) {
-                    srdClass.subclasses.splice(subclass, 1);
-                    subclass--;
+    for (let classElement of json.spell) {
+        if (classElement.srd == true) {
+            srdClass = classElement;
+            if (classElement.subclasses) {
+                for (let subclass = 0; subclass < classElement.subclasses.length; subclass++) {
+                    if (!classElement.subclasses[subclass].srd) {
+                        srdClass.subclasses.splice(subclass, 1);
+                        subclass--;
+                    }
                 }
             }
         }
     }
+    
 }
+
+
 let classFeature = json.classFeature;
 srdClassFeature = classFeature;
 for (let i = 0; i < classFeature.length; i++) {
@@ -39,7 +43,6 @@ for (let i = 0; i < subclassFeature.length; i++) {
 writePath = "../database/class-jsons/" + path;
 let combined = {"class": srdClass, "classFeature": srdClassFeature, "subclassFeature": srdSubclassFeature};
 fs.writeFileSync(writePath, JSON.stringify(combined));
-}
 
 let classes = ["barbarian", "bard", "cleric", "druid", "fighter", "monk", "paladin", "ranger", "rogue", "sorcerer", "warlock", "wizard"];
 
