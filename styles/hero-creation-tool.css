@@ -8,12 +8,12 @@
   flex: 0;
 }
 
-.form__select--margin > select{
-  margin-bottom: 20px;
+.apply-font h1, .apply-font h2{
+  font-family: 'Modesto Condensed', 'Signika', 'Arial';
 }
 
-.info-body {
-  
+.form__select--margin > select{
+  margin-bottom: 20px;
 }
 
 /* Style the buttons inside the tab */
@@ -27,7 +27,7 @@
   line-height: 0;
   border: none;
   outline: none;
-  transition: 0.3s;
+  transition: all 0.3s;
   font-size: 1.1rem;
   display: inline-block;
   text-align: center;
@@ -43,6 +43,11 @@
 .vertical-flex {
   display: flex;
   flex-flow: column;
+}
+
+.horizontal-flex {
+  display: flex;
+  flex-flow: row;
 }
 
 /* Change background color of buttons on hover */
@@ -70,6 +75,11 @@
   display: inline-block;
   padding: 6px 12px;
   border-top: none;
+}
+
+/* Equipment */
+#class-equip, #gold-equip {
+  display: none;
 }
 
 /* Spells */
@@ -108,7 +118,7 @@
   display: flex;
   flex: column;
   justify-content: space-between;
-  min-height: 350px;
+  min-height: 90%;
 }
 
 
@@ -134,4 +144,29 @@
   text-align: center;
   max-width: 50px;
   float: right;
+}
+
+.divButton {
+	box-shadow:inset 0px 0px 15px 3px #23395e;
+	background:linear-gradient(to bottom, #2e466e 5%, #415989 100%);
+	background-color:#2e466e;
+	border-radius:17px;
+	border:1px solid #1f2f47;
+	display:inline-flex;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	padding:6px 13px;
+	text-decoration:none;
+  text-shadow:0px 1px 0px #263666;
+  margin: auto;
+}
+.divButton:hover {
+	background:linear-gradient(to bottom, #415989 5%, #2e466e 100%);
+	background-color:#415989;
+}
+.divButton:active {
+	position:relative;
+	top:1px;
 }
