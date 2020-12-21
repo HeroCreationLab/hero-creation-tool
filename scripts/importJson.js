@@ -95,7 +95,7 @@ function populateList(id, object, isIndex){
         for (obj of object){
             option = document.createElement('option');
             option.text = obj.name;
-            option.vaule = obj;
+            option.value = JSON.stringify(obj);
             dropdown.add(option);
         }
     }
