@@ -83,14 +83,14 @@ function populateList(id, object, isIndex){
 
     let option;
     if (isIndex){
-        for (a in object){
+        for (let a in object){
             option = document.createElement('option');
             option.text = a;
             option.value = a;
             dropdown.add(option);
         }
     } else{
-        for (obj in object){
+        for (let obj in object){
             option = document.createElement('option');
             option.text = obj.name;
             option.vaule = obj;
@@ -106,9 +106,9 @@ function populateList(id, object, isIndex){
 
 /*
 Populate a spell selelect dropdownlist based on id, spell caster, the level of the caster and a given spell list.
-Input : ID: string, spellClass: int, level: int, spellList: jsonObject
+Input : ID: string, spellClass: int, spellSubClass: string, level: int, spellList: jsonObject
 */
-function populateSpellList(id, spellClass, level, spellList){
+function populateSpellList(id, spellClassName, spellSubClass, level, spellList){
     let dropdown = document.getElementById(id);
     dropdown.length = 0;
 
@@ -119,8 +119,49 @@ function populateSpellList(id, spellClass, level, spellList){
     dropdown.selectIndex = 0;
 
     let option;
-}
+    let spellClassList;
 
+    for (let spell in spellList){
+        if (level == spell.level){;
+            if(isUsable(spellClassName, spellSubClassName, background, race, spell)){
+                option = document.createElement('option');
+                option.text = spell.name;
+                option.vaule = spell;
+                dropdown.add(option);
+            }
+        }
+    }
+}
+/* 
+returns wether the class is capable of casting a spell based on class requirements/subclass requirements
+Input: spellClassName: string, spellSubClassName: string, background: string, race: race, spellClassList: object
+Output: boolean
+*/
+function isUsable(spellClassName, spellSubClassName, background, race, spell){
+    //check the class list for the class name
+    
+    let classList = spell.classes.fromClassList;
+    if(classList){
+        for (let spellClass of classList){
+            if (spellClass.name == spellClassName){
+                return true;
+            }
+        }
+    }
+    //check the subclass list if available.
+    let subClassList = spell.classes.fromSubClass;
+    if (subClassList){
+        for (let subSpellClass of subClassList){
+            if (subSpellClass.class.name == spellClassName && subSpellClass.subclass.name == spellSubClassName){
+                return true;
+            }
+        }
+    }
+
+    //check race list if available
+    let raceList = spell.races;
+    return false;
+}
 /*
 Populate a item selcelct dropdownlist based on id the type of item.
 Input : ID: string, itemType: char
