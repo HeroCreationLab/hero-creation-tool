@@ -54,6 +54,7 @@
   </body>
   <button onclick="openTab(event, 'raceDiv')"> Next </button>
 </div>
+
 <div id="raceDiv" class="tabcontent">
   <h1 style="font-family: 'Modesto Condensed';">
     First choose your race!
@@ -64,6 +65,7 @@
     populateList("race-dropdown", races, false);
   </script>
 </div>
+
 <div id="classDiv" class="tabcontent">
   <select id="class-dropdown" name="Class"></select>
   <script>
@@ -164,10 +166,14 @@
         <form class ="flexcol prototype form__select--margin" action="">
           <div class="light-pane vertical-flex" > 
             <h3>Choose a Background</h3>
-            <select name="bg" id="bg">
-              <option value="">Choose</option>
-            </select>
-          </div>
+            <!-- populate backgrounds -->
+            <select name="bg-dropdown" id="bg-dropdown"></select>
+            <script>
+              var background = getBackgrounds();
+              populateList("bg-dropdown", background, false);
+            </script>
+
+          </div>x
           <h2>Skill Proficiences</h2>
           <p id="skill-proficiencies">...</p>
           <h2>Language Proficiencies</h2>
@@ -233,7 +239,7 @@
   </div>
 
   <div id ="spDiv" class="tabcontent">
-    <!-- <h1 style="font-family: 'Modesto Condensed';">Spells</h1>
+    <h1 style="font-family: 'Modesto Condensed';">Spells</h1>
     <div class="stat-flex-container">
       <div class="stat-box">
         <h3>_</h3>
@@ -271,7 +277,7 @@
       <div class="info-item">
         Class Spellcasting Ability:
       </div>
-    </div> -->
+    </div>
 
     <div class="flex-separator">
       <div style="width: 50%">

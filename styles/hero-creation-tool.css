@@ -35,9 +35,10 @@
 
 .light-pane {
   display: inline-block;
-  background: rgb(235, 235, 235);
+  background: white;
   border-radius: 20px;
   padding: 20px;
+  margin: 20px;
 }
 
 .vertical-flex {
