@@ -62,12 +62,12 @@
   src="https://app.roll20.net/compendium/dnd5e/Rules:Ability%20Scores?sharedCompendium=9372385&amp;charmancer=true#toc_1"
   style="width: 100%; height: 45%;" frameborder="0"></iframe>
   <form class="flexcol prototype" autocomplete="off">
-   
-    <button name="roll_stats" id="roll_stats"> Roll For Stats</button>
+    <div style="text-align: center" class ="abilityRandomize">Roll for stats</div>
+    <p style="text-align: center"> Standard Array: 15 | 14 | 13 | 12 | 10 | 8</p>
     <div class="form-group">
-      <input type="number" id="number1" placeholder="19">
+      <input type="number" id="number1" placeholder="10">
       <select name="stats" id="stat1">
-        <option value="STR">Strength</option>
+        <option value="STR" selected>Strength</option>
         <option value="DEX">Dexterity</option>
         <option value="CON">Constitution</option>
         <option value="INT">Intelligence</option>
@@ -77,10 +77,10 @@
     </div>
 
     <div class="form-group">
-      <input type="number" id="number2" placeholder="19">
+      <input type="number" id="number2" placeholder="10">
       <select name="stats" id="stat2">
         <option value="STR">Strength</option>
-        <option value="DEX">Dexterity</option>
+        <option value="DEX" selected>Dexterity</option>
         <option value="CON">Constitution</option>
         <option value="INT">Intelligence</option>
         <option value="WIS">Wisdom</option>
@@ -88,27 +88,24 @@
       </select>
     </div>
     <div class="form-group">
+      <input type="number" id="number3" placeholder="10">
+      <select name="stats" id="stat3" >
+        <option value="STR">Strength</option>
+        <option value="DEX">Dexterity</option>
+        <option value="CON" selected>Constitution</option>
+        <option value="INT">Intelligence</option>
+        <option value="WIS">Wisdom</option>
+        <option value="CHAR">Charisma</option>
+      </select>
 
-      <input type="number" id="number3" placeholder="19">
-      <select name="stats" id="stat3">
+    </div>
+    <div class="form-group">
+      <input type="number" id="number4" placeholder="10">
+      <select name="stats" id="stat4" >
         <option value="STR">Strength</option>
         <option value="DEX">Dexterity</option>
         <option value="CON">Constitution</option>
-        <option value="INT">Intelligence</option>
-        <option value="WIS">Wisdom</option>
-        <option value="CHAR">Charisma</option>
-      </select>
-
-    </div>
-
-    <div class="form-group">
-
-      <input type="number" id="number4" placeholder="19">
-      <select name="stats" id="stat4">
-        <option value="STR">Strength</option>
-        <option value="DEX">Dexterity</option>
-        <option value="CON">Constitution</option>
-        <option value="INT">Intelligence</option>
+        <option value="INT"selected>Intelligence</option>
         <option value="WIS">Wisdom</option>
         <option value="CHAR">Charisma</option>
       </select>
@@ -116,30 +113,30 @@
 
     <div class="form-group">
 
-      <input type="number" id="number5" placeholder="19">
+      <input type="number" id="number5" placeholder="10">
       <select name="stats" id="stat5">
         <option value="STR">Strength</option>
         <option value="DEX">Dexterity</option>
         <option value="CON">Constitution</option>
         <option value="INT">Intelligence</option>
-        <option value="WIS">Wisdom</option>
+        <option value="WIS"selected>Wisdom</option>
         <option value="CHAR">Charisma</option>
       </select>
     </div>
 
     <div class="form-group">
 
-      <input type="number" id="number6" placeholder="19">
-      <select name="stats" class="abiltySubmit" id="stat6">
+      <input type="number" id="number6" placeholder="10">
+      <select name="stats" id="stat6">
         <option value="STR">Strength</option>
         <option value="DEX">Dexterity</option>
         <option value="CON">Constitution</option>
         <option value="INT">Intelligence</option>
         <option value="WIS">Wisdom</option>
-        <option value="CHAR">Charisma</option>
+        <option value="CHAR"selected>Charisma</option>
       </select>
     </div>
-    <div class="abilitySubmit">Submit</button>
+    <div style="text-align: right;" onclick ="openTab(event, 'backgroundDiv')"class="abilitySubmit" >Next</div>
 
   </form>
 

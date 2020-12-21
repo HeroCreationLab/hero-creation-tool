@@ -85,7 +85,6 @@ class HeroCreationTools extends Application {
             document.getElementById("number4").value = values[3];
             document.getElementById("number5").value = values[4];
             document.getElementById("number6").value = values[5];
-            this._updateAbilityScores(values, stat_block);
         });
         html.find(".abilitySubmit").click(ev => {
             /**
