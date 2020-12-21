@@ -1,3 +1,4 @@
+
 /*
 Author: Alexander Sedore
 Date: 12/19/2020
@@ -67,17 +68,17 @@ function saveJson(object, typeJson, fileName){
 Author: Alexander Sedore
 Date: 12/20/2020
 Version: 0.2
-Populate a selcelct dropdownlist based on id and filepath for a index json.
-Input : ID: string, object: Json Array, isIndex: boolean, defaaultName: string
+Populate a select dropdownlist based on id and filepath for an index json.
+Input : ID: string, object: Json Array, isIndex: boolean
 Output: N/A
 */
-function populateList(id, object, isIndex, defaultName){
+function populateList(id, object, isIndex){
      //initialize drop down list and add default value
     let dropdown = document.getElementById(id);
     dropdown.length = 0;
 
     let defaultOption = document.createElement('option');
-    defaultOption.text = `Choose your ${defaultName}`;
+    defaultOption.text = 'Choose your class';
 
     dropdown.add(defaultOption);
     dropdown.selectIndex = 0;
@@ -91,98 +92,39 @@ function populateList(id, object, isIndex, defaultName){
             dropdown.add(option);
         }
     } else{
-        for (let obj of object){
+        for (obj of object){
             option = document.createElement('option');
             option.text = obj.name;
             option.value = JSON.stringify(obj);
             dropdown.add(option);
         }
     }
-
-    option = document.createElement('option');
-    option.text = 'Custom';
-    option.value = 'Custom';
-    dropdown.add(option);
 }
 
 /*
-Populate a spell selelect dropdownlist based on id, spell caster, the level of the caster and a given spell list.
-Input : ID: string, spellClass: int, spellSubClass: string, level: int, spellList: jsonObject
+Populate a select dropdownlist based on id and filepath for a index json.
+Input : ID: string, object: Json Array, typeJson: string
+Output: N/A
 */
-function populateSpellList(id, spellClassName, spellSubClassName, level, background, race, spellList){
-    let dropdown = document.getElementById(id);
-    dropdown.length = 0;
+function populateRaceList(id, object, typeJson){
+   //initialize drop down list and add default value
+   let dropdown = document.getElementById(id);
+   dropdown.length = 0;
 
-    let defaultOption = document.createElement('option');
-    defaultOption.text = 'Choose your spell';
+   let defaultOption = document.createElement('option');
+   defaultOption.text = 'Choose your class';
 
-    dropdown.add(defaultOption);
-    dropdown.selectIndex = 0;
-
-    let option;
-
-    for (let spell of spellList){
-        if (level == spell.level){
-            if(isUsable(spellClassName, spellSubClassName, background, race, spell)){
-                option = document.createElement('option');
-                option.text = spell.name;
-                option.value = JSON.stringify(spell);
-                dropdown.add(option);
-            }
-        }
-    }
+   dropdown.add(defaultOption);
+   dropdown.selectIndex = 0;
+   //check if the file is a index or not
+   //console.log(typeJson);
+   if (typeJson == "index"){
+       let option;
+       for (k in object){
+           option = document.createElement('option');
+           option.text = k;
+           option.value = index[k];
+           dropdown.add(option);
+       }
+   }
 }
-/* 
-returns wether the class is capable of casting a spell based on class requirements/subclass requirements
-Input: spellClassName: string, spellSubClassName: string, background: string, race: race, spellClassList: object
-Output: boolean
-*/
-function isUsable(spellClassName, spellSubClassName, background, race, spell){
-    //check the class list for the class name
-    
-    let classList = spell.classes.fromClassList;
-    if(classList){
-        for (let spellClass of classList){
-            if (spellClass.name == spellClassName){
-                return true;
-            }
-        }
-    }
-    //check the subclass list if available.
-    let subClassList = spell.classes.fromSubClass;
-    if (subClassList){
-        for (let subSpellClass of subClassList){
-            if (subSpellClass.class.name == spellClassName && subSpellClass.subclass.name == spellSubClassName){
-                return true;
-            }
-        }
-    }
-
-    //check race list if available
-    let raceList = spell.races;
-    if (raceList){
-        for (race of raceList){
-            if (race == race.name){
-                return true;
-            }
-        }
-    }
-
-    //check backgrounds if available
-    let backgrounds = spell.backgrounds;
-    if(backgrounds){
-        for (back of backgrounds){
-            if (background == back.name){
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-function populateItemList(id, items, typeItem, itemName){
-
-}
-/* Testing
-let spellList = JSON.parse(fs.readFileSync("./spells-phb.json"));
-fs.writeFileSync("./output.json", JSON.stringify(populateSpellList("here", "Cleric", "Life", 0, "Half-Orc", "Acolyte", spellList)));*/

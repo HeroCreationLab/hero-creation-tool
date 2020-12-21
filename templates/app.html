@@ -48,28 +48,42 @@
     You can add further content through the import function of the module (to be implemented?) or by creating custom
     modules in the creation tool.
     <br><br><b>Your Adventure Awaits! Get started by clicking Next.</b><br>  
-    <img src ="https://i.imgur.com/BUOdcoh.png"  style=" width: 50%; margin-left: auto;
+    <img src ="https://i.imgur.com/UoQolQ2.png"  style=" width: 50%; margin-left: auto;
     margin-right: auto; display: block; border: none">
     <br>
   </body>
-  <button onclick="openTab(event, 'raceDiv')"> Next </button>
+  <!-- next button -->
+  <div class="nextButton" onclick="openTab(event, 'raceDiv')">Next</div>
 </div>
+
 <div id="raceDiv" class="tabcontent">
   <h1 style="font-family: 'Modesto Condensed';">
     First choose your race!
   </h1>
-  <select id="race-dropdown" name="race-dropdown"></select>
-  <script>
-    var races = getRaces();
-    populateList("race-dropdown", races, false);
-  </script>
+  <div class="info-body">
+    <select id="race-dropdown" name="race-dropdown" onclick="onSelectRace()"></select>
+    <script>
+      var races = getRaces();
+      populateList("race-dropdown", races, false, "race");
+    </script>
+  </div>
+  <h2>Ability Score Increase </h2>
+  <div id="race-ability" name="race-ability"></div>
+  <h2>Speed</h2>
+  <div id="race-speed" name="race-speed"></div>
+  <!-- <h2>Language Proficiencies</h2> -->
+  <!-- <div id="race-language" name="race-language"></div> -->
+  <div id="race-features" name="race-features"></div>
+  <div class="raceSubmit nextButton" >Next</div>
 </div>
+
 <div id="classDiv" class="tabcontent">
   <select id="class-dropdown" name="Class"></select>
   <script>
     var index = getIndex();
     populateList("class-dropdown", index, true);
   </script>
+  <div class="classSubmit nextButton" >Next</div>
 </div>
 
 <div id="abDiv" class="tabcontent">
@@ -79,11 +93,13 @@
     style="width: 100%; height: 45%;" frameborder="0"></iframe>
   <form class="flexcol prototype" autocomplete="off">
 
-    <button name="roll_stats"> Roll For Stats</button>
+    <div class ="abilityRandomize rollButton">Roll for stats</div>
+    <p style="text-align: center"> Standard Array: 15 | 14 | 13 | 12 | 10 | 8</p>
+    
     <div class="form-group">
-      <input type="number" id="number1" placeholder="19">
+      <input type="number" id="number1" placeholder="10">
       <select name="stats" id="stat1">
-        <option value="STR">Strength</option>
+        <option value="STR" selected>Strength</option>
         <option value="DEX">Dexterity</option>
         <option value="CON">Constitution</option>
         <option value="INT">Intelligence</option>
@@ -93,10 +109,10 @@
     </div>
 
     <div class="form-group">
-      <input type="number" id="number2" placeholder="19">
+      <input type="number" id="number2" placeholder="10">
       <select name="stats" id="stat2">
         <option value="STR">Strength</option>
-        <option value="DEX">Dexterity</option>
+        <option value="DEX" selected>Dexterity</option>
         <option value="CON">Constitution</option>
         <option value="INT">Intelligence</option>
         <option value="WIS">Wisdom</option>
@@ -105,56 +121,55 @@
     </div>
     <div class="form-group">
 
-      <input type="number" id="number3" placeholder="19">
-      <select name="stats" id="stat3">
+      <input type="number" id="number3" placeholder="10">
+      <select name="stats" id="stat3" >
+        <option value="STR">Strength</option>
+        <option value="DEX">Dexterity</option>
+        <option value="CON" selected>Constitution</option>
+        <option value="INT">Intelligence</option>
+        <option value="WIS">Wisdom</option>
+        <option value="CHAR">Charisma</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <input type="number" id="number4" placeholder="10">
+      <select name="stats" id="stat4" >
         <option value="STR">Strength</option>
         <option value="DEX">Dexterity</option>
         <option value="CON">Constitution</option>
-        <option value="INT">Intelligence</option>
+        <option value="INT"selected>Intelligence</option>
         <option value="WIS">Wisdom</option>
         <option value="CHAR">Charisma</option>
       </select>
     </div>
 
     <div class="form-group">
-
-      <input type="number" id="number4" placeholder="19">
-      <select name="stats" id="stat4">
-        <option value="STR">Strength</option>
-        <option value="DEX">Dexterity</option>
-        <option value="CON">Constitution</option>
-        <option value="INT">Intelligence</option>
-        <option value="WIS">Wisdom</option>
-        <option value="CHAR">Charisma</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-
-      <input type="number" id="number5" placeholder="19">
+      <input type="number" id="number5" placeholder="10">
       <select name="stats" id="stat5">
         <option value="STR">Strength</option>
         <option value="DEX">Dexterity</option>
         <option value="CON">Constitution</option>
         <option value="INT">Intelligence</option>
-        <option value="WIS">Wisdom</option>
+        <option value="WIS"selected>Wisdom</option>
         <option value="CHAR">Charisma</option>
       </select>
     </div>
 
     <div class="form-group">
-
-      <input type="number" id="number6" placeholder="19">
+      <input type="number" id="number6" placeholder="10">
       <select name="stats" id="stat6">
         <option value="STR">Strength</option>
         <option value="DEX">Dexterity</option>
         <option value="CON">Constitution</option>
         <option value="INT">Intelligence</option>
         <option value="WIS">Wisdom</option>
-        <option value="CHAR">Charisma</option>
+        <option value="CHAR"selected>Charisma</option>
       </select>
     </div>
     </form>
+    <!-- next button -->
+    <div class="abilitySubmit nextButton" >Next</div>
   </div>
 
   <div id ="backgroundDiv" class="tabcontent">
@@ -164,9 +179,13 @@
         <form class ="flexcol prototype form__select--margin" action="">
           <div class="light-pane vertical-flex" > 
             <h3>Choose a Background</h3>
-            <select name="bg" id="bg">
-              <option value="">Choose</option>
-            </select>
+            <!-- populate backgrounds -->
+            <select name="bg-dropdown" id="bg-dropdown"></select>
+            <script>
+              var background = getBackgrounds();
+              populateList("bg-dropdown", background, false);
+            </script>
+
           </div>
           <h2>Skill Proficiences</h2>
           <p id="skill-proficiencies">...</p>
@@ -191,10 +210,49 @@
       </div>
       <iframe src="https://app.roll20.net/compendium/dnd5e/Backgrounds:Acolyte?sharedCompendium=9371676&amp;charmancer=true#content" frameborder="0"></iframe>
     </div>
+    <!-- next button -->
+    <div class="backgroundSubmit nextButton" >Next</div>
   </div>
 
   <div id ="eqDiv" class="tabcontent">
     <h1 style="font-family: 'Modesto Condensed';">Equipment</h1>
+    <div class="flex-separator">
+      <div style="width: 50%">
+        <form class ="flexcol prototype form__select--margin" action="">
+          <div class="light-pane vertical-flex" > 
+            <h3>How would you like to choose your equipment?</h3>
+            <select name="equip-select" id="equip-select" onChange="openSelector(event)">
+              <option value="">Choose</option>
+              <option>Class Equipment</option>
+              <option>Starting Wealth (PBH)</option>
+            </select>
+          </div>
+
+          <div id="class-equip">
+            <h1>Placeholder</h1>
+            <form class ="flexcol form__select--margin" action="">
+                <label for="placeholder">placeholder</label> <br>
+                <select name="placeholder" id="placeholder"></select>
+            </form>
+            <h2>Equipment from Background</h2>
+          </div>
+
+          <div id="gold-equip">
+              <h1>Starting Gold</h1>
+              <div class="horizontal-flex" >
+                <button style="flex-shrink: 3; margin-right: 30px;">5d4x10</button> 
+                <input type="number">
+              </div>
+              <br>
+              <p>You have chosen starting gold and do not get equipment from your background.</p>
+          </div>
+
+        </form>
+      </div>
+      <iframe src="https://app.roll20.net/compendium/dnd5e/Rules:Equipment?sharedCompendium=9371676&amp;charmancer=true#toc_1" frameborder="0"></iframe>
+    </div>
+    <!-- next button -->
+    <div class="equipmentSubmit nextButton" >Next</div>
   </div>
 
   <div id ="spDiv" class="tabcontent">
@@ -240,13 +298,13 @@
 
     <div class="flex-separator">
       <div style="width: 50%">
-        <form class ="flexcol prototype" action="">
-          <label for="CLASS">CLASS __</label>
+        <form class ="flexcol prototype form__select--margin" action="">
+          <label for="CLASS">CLASS PLACEHOLDER</label>
           <select name="" id=""></select>
           <select name="" id=""></select>
           <select name="" id=""></select>
           <select name="" id=""></select>
-          <label for="CLASS">CLASS __</label>
+          <label for="CLASS">CLASS PLACEHOLDER</label>
           <select name="" id=""></select>
           <select name="" id=""></select>
           <select name="" id=""></select>
@@ -255,9 +313,30 @@
       </div>
       <iframe src="https://app.roll20.net/compendium/dnd5e/Rules:Spells?sharedCompendium=9371676&amp;charmancer=true#toc_1/" frameborder="0"></iframe>
     </div>
+    <!-- next button -->
+    <div class="spellsSubmit nextButton" >Next</div>
   </div>
 
-  <div id ="featsDiv" class="tabcontent"></div>
+  <div id ="featsDiv" class="tabcontent">
+    <h1 style="font-family: 'Modesto Condensed';">Features</h1>
+    <h3>A feat represents accomplishment, determination, and expertise. It is the reward for hard work.</h3>
+    <p>You really haven't done anything yet</p><br><br>
+    <label style="font-size: large;"for ="first_level_feat"> (Optional) First Level Feature</label>
+    <select name = "first_level_feat" id = "first_level_feat">
+      <script>
+        var feats = getFeats();
+        populateList("first_level_feat",feats, false, "feats");
+      </script>
+      <option selected> None </option>
+
+      <!--
+        code here to load json feats into a drop down list thanks someone !
+      -->
+    </select><br><br><br>
+    <button onclick="openTab(event, 'bioDiv')"> Next</button>
+    <!-- next button -->
+    <div class="featsSubmit nextButton" >Next</div>
+  </div>
 
 
   <div id ="bioDiv" class="tabcontent"> 
@@ -306,10 +385,12 @@
           <input type="color" id="character_skin" name="skin" placeholder="Skin">
           <input type="text" id="character_skin" name="skin" placeholder="Skin"><br><br>
         </div>
-        <button type="submit" Value="Next"> Next </button>
       </form>
     </div>
+    <!-- next button -->
+    <div class="bioSubmit nextButton" >Next</div>
   </div>
+
   <div id="reviewDiv" class="tabcontent">
     <h1 style="font-family: 'Modesto Condensed';">Review</h1>
     <div class="review-container">
@@ -347,6 +428,8 @@
 <script src="/scripts/hero-creation-tool.js"></script>
 <script src="/scripts/importJson.js"></script>
 <script src="/scripts/toggleButton.js"></script>
+<script src="/scripts/AbilityRoller.js"></script>
+<script src="/scripts/sendData.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 
 <!--Importing Database JSs (temporary solution until we have a cloud server)-->
