@@ -48,7 +48,7 @@
     You can add further content through the import function of the module (to be implemented?) or by creating custom
     modules in the creation tool.
     <br><br><b>Your Adventure Awaits! Get started by clicking Next.</b><br>  
-    <img src ="https://i.imgur.com/BUOdcoh.png"  style=" width: 50%; margin-left: auto;
+    <img src ="https://i.imgur.com/UoQolQ2.png"  style=" width: 50%; margin-left: auto;
     margin-right: auto; display: block; border: none">
     <br>
   </body>
@@ -298,7 +298,24 @@
     </div>
   </div>
 
-  <div id ="featsDiv" class="tabcontent"></div>
+  <div id ="featsDiv" class="tabcontent">
+    <h1 style="font-family: 'Modesto Condensed';">Features</h1>
+    <h3>A feat represents accomplishment, determination, and expertise. It is the reward for hard work.</h3>
+    <p>You really haven't done anything yet</p><br><br>
+    <label style="font-size: large;"for ="first_level_feat"> (Optional) First Level Feature</label>
+    <select name = "first_level_feat" id = "first_level_feat">
+      <script>
+        var feats = getFeats();
+        populateList("first_level_feat",feats, false, "feats");
+      </script>
+      <option selected> None </option>
+
+      <!--
+        code here to load json feats into a drop down list thanks someone !
+      -->
+    </select><br><br><br>
+    <button onclick="openTab(event, 'bioDiv')"> Next</button>
+  </div>
 
 
   <div id ="bioDiv" class="tabcontent"> 
