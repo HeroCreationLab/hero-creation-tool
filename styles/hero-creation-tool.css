@@ -4,9 +4,14 @@
   width: 100%;
   justify-content: space-evenly;
 }
-.window-app .window-content .tabs {
+.window-content .tabs {
   flex: 0;
 }
+
+.form__select--margin > select{
+  margin-bottom: 20px;
+}
+
 /* Style the buttons inside the tab */
 
 .tablinks {
@@ -22,6 +27,18 @@
   font-size: 1.1rem;
   display: inline-block;
   text-align: center;
+}
+
+.light-pane {
+  display: inline-block;
+  background: rgb(235, 235, 235);
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.vertical-flex {
+  display: flex;
+  flex-flow: column;
 }
 
 /* Change background color of buttons on hover */
@@ -83,18 +100,20 @@
 }
 
 .flex-separator {
-  height: 350px;
   width:100%;
   display: flex;
   flex: column;
   justify-content: space-between;
+  min-height: 350px;
 }
 
+
+/* review items */
 .review-container {
   display: flex;
   flex-flow: column;
   justify-content: space-evenly;
-  font-family: 'Modesto Condensed';"
+  font-family: 'Modesto Condensed';
 }
 
 .review-container > div {
