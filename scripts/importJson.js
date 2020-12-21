@@ -9,6 +9,8 @@ Input: filePath: string, typeJson: string
 Output: object [{}]
 */
 
+
+
 function importJson(filePath, typeJson){
     let obj = JSON.parse(fs.readFileSync(filePath));
     if (typeJson == "spell"){
@@ -63,11 +65,14 @@ function saveJson(object, typeJson, fileName){
     return filePath;
 }
 /*
+Author: Alexander Sedore
+Date: 12/20/2020
+Version: 0.2
 Populate a selcelct dropdownlist based on id and filepath for a index json.
-Input : ID: string, object: Json Array, typeJson: string
+Input : ID: string, object: Json Array, isIndex: boolean
 Output: N/A
 */
-function populateList(id, object, typeJson){
+function populateList(id, object, isIndex){
      //initialize drop down list and add default value
     let dropdown = document.getElementById(id);
     dropdown.length = 0;
@@ -77,52 +82,49 @@ function populateList(id, object, typeJson){
 
     dropdown.add(defaultOption);
     dropdown.selectIndex = 0;
-    //check if the file is a index or not
-    //console.log(typeJson);
-    /*
-    class{}, subclass[{}], classfeature{}, subclassfeature{}, races[{}], subraces[{}], backgrounds[{}], features[{}], optionalfeatures[{}], index {}, items [{}], spell
-    done: race, index, subrace
-    */
-   let option;
-    if (typeJson == "index"){
+
+    let option;
+    if (isIndex){
         for (a in object){
             option = document.createElement('option');
             option.text = a;
-            option.value = index[a];
+            option.value = a;
             dropdown.add(option);
         }
-    } else if (typeJson == "race"){
-        for (race in object){
+    } else{
+        for (obj of object){
             option = document.createElement('option');
-            option.text = race.name;
-            option.value = race;
-            dropdown.add(option); 
-        }
-
-    } else if (typeJson == "subrace"){
-        for (subRace in object){
-            option = document.createElement('option');
-            option.text = subRace.name;
-            option.vaule = subRace;
+            option.text = obj.name;
+            option.vaule = obj;
             dropdown.add(option);
-
         }
     }
 }
 
 /*
-Populate a spell selelect dropdownlist based on id, spell caster, the level of the caster and a given spell list.
-Input : ID: string, spellClass: int, level: int, spellList: jsonObject
-*/
-function populateSpellList(id, spellClass, level, spellList){
-
-}
-
-/*
-Populate a item selcelct dropdownlist based on id the type of item.
-Input : ID: string, itemType: char
+Populate a selcelct dropdownlist based on id and filepath for a index json.
+Input : ID: string, object: Json Array, typeJson: string
 Output: N/A
 */
-function populateItemList(id, itemType){
+function populateRaceList(id, object, typeJson){
+   //initialize drop down list and add default value
+   let dropdown = document.getElementById(id);
+   dropdown.length = 0;
 
+   let defaultOption = document.createElement('option');
+   defaultOption.text = 'Choose your class';
+
+   dropdown.add(defaultOption);
+   dropdown.selectIndex = 0;
+   //check if the file is a index or not
+   //console.log(typeJson);
+   if (typeJson == "index"){
+       let option;
+       for (k in object){
+           option = document.createElement('option');
+           option.text = k;
+           option.value = index[k];
+           dropdown.add(option);
+       }
+   }
 }

@@ -41,6 +41,7 @@ Hooks.on('renderActorSheet', (app, html, data) => {
     button.click(ev =>{
         configure_hero.openForActor(actorId);
     });
+    window.heroMancer.foundryCharacter = app;
     let titleElement = html.closest('.app').find('.configure-sheet');
     button.insertBefore(titleElement);
 });
