@@ -1,0 +1,8 @@
+.stat-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.stat-container div {
+    height: 80px;
+}

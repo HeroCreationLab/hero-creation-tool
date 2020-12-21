@@ -132,13 +132,14 @@ Hooks.on('renderActorSheet', (app, html, data) => {
     configure_hero = new HeroCreationTools(app, html);
 
     let button = $(`<a class="header-button configure_hero"}>Hero Creation</a>`);
-    button.click(ev => {
+    button.click(ev =>{
         configure_hero.openForActor(actorId);
     });
+    window.heroMancer = {};
+    window.heroMancer.foundryCharacter = app;
     html.closest('.app').find('.configure_hero').remove();
     let titleElement = html.closest('.app').find('.configure-sheet');
     button.insertBefore(titleElement);
-
 });
 function roll4d6b3() {
     const statroll1 = Math.floor(Math.random() * 6) + 1;
