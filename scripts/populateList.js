@@ -125,7 +125,7 @@ function isUsable(spellClassName, spellSubClassName, background, race, spell){
 Author: Alexander Sedore
 Date: 12/21/2020
 Version: 0.2
-This function only adds to a dropdownlist that you have ALREADY INITIALIZED DOES NOT RESET LIST***
+This function only adds to a dropdownlist that you have ALREADY INITIALIZED, IT DOES NOT RESET THE LIST***
 Adds item to drop down list by id as based on either matching category and type or name
 Input: 
 string id: id property of dropdownlist
