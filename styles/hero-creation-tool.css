@@ -41,6 +41,19 @@
   margin: 20px;
 }
 
+.horizontal-flex {
+  display: flex;
+  flex-flow: row;
+}
+
+.flex-half {
+  flex: 6
+}
+
+.flex-sixth {
+  flex: 2
+}
+
 .vertical-flex {
   display: flex;
   flex-flow: column;
