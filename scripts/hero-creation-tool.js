@@ -80,7 +80,7 @@ class HeroCreationTools extends Application {
             return true;
         }
         else {
-            alert("You cannot have two of the same category.");
+            alert("You don't have all six abilities scores, check if you have some repeated or missing one.");
             return false;
         }
 
@@ -115,6 +115,7 @@ class HeroCreationTools extends Application {
         });
         html.find(".classSubmit").click(ev => {
             openTab(ev, 'abDiv');
+            rollAbilities(); // rolls a random set of scores as you move to the Abilities tab (need to find a way of doing this if you click directly there)
         });
         html.find(".abilitySubmit").click(ev => {
             /**
