@@ -145,6 +145,32 @@ link.rel = 'stylesheet';
 link.type = '/text/css';
 link.href = '/styles/hero-creation-tool.css';
 
+
+Hooks.on('renderActorDirectory', (app,  html, data) => {
+    configure_hero = new HeroCreationTools(app, html);
+
+    let button = document.createElement('button');
+    button.innerHTML = 'Hero Creation Tool';
+    button.addEventListener("click", function () {
+        console.log("on HCT button")
+        configure_hero.openForActor(null);
+    });
+    window.heroMancer = {};
+    window.heroMancer.foundryCharacter = app;
+    html.closest('.app').find('.configure_hero').remove();
+    //let titleElement = html.closest('.app').find('.configure-sheet');
+    //button.insertBefore(titleElement);
+
+    this.section = document.createElement('section')
+    this.section.classList.add('hero-creation-tool');
+    this.section.style.cssText = "margin: 3px; display: flex; align-items: center; justify-content: flex-start; max-height: fit-content;"
+    this.section.appendChild(button);
+
+    // Add menu before directory header
+    const dirHeader = html[0].querySelector('.directory-header');
+    dirHeader.parentNode.insertBefore(this.section, dirHeader);
+});
+
 /* This hooks onto the rendering actor sheet and makes a new object */
 Hooks.on('renderActorSheet', (app, html, data) => {
 
