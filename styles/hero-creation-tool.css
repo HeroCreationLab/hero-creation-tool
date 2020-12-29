@@ -199,3 +199,7 @@
 	background:linear-gradient(to bottom, #415989 5%, #2e466e 100%);
 	background-color:#415989;
 }
+
+.clickableText:hover {
+  text-decoration: underline;
+}

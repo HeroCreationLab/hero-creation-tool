@@ -88,15 +88,11 @@ class HeroCreationTools extends Application {
 
     activateListeners(html) {
 
-        html.find(".abilityRandomize").click(ev => {
-            rollAbilities();
-        });
-        html.find(".abilityStandard").click(ev => {
-            prepareStandardArray();
-        });
-        html.find(".abilityPointBuy").click(ev => {
-            preparePointBuy();
-        });
+        html.find("#ability-mod-table-toggle").click(ev => toggleAbilityScoresAndModifiersTable());
+        html.find("#abilityRandomize").click(ev => rollAbilities());
+        html.find("#abilityStandard").click(ev => prepareStandardArray());
+        html.find("#abilityPointBuy").click(ev => preparePointBuy());
+        html.find("#abilityManual").click(ev => manualAbilities());
         html.find(".abilityUp").click(ev => {
             const stat = ev.currentTarget.id;
             const i = stat.charAt(stat.length-1);
@@ -107,9 +103,7 @@ class HeroCreationTools extends Application {
             const i = stat.charAt(stat.length-1);
             decreaseAbility(i);
         });
-        html.find(".abilityManual").click(ev => {
-            manualAbilities();
-        });
+
         html.find(".raceSubmit").click(ev => {
             openTab(ev, 'classDiv');
         });
@@ -380,3 +374,11 @@ function removeSmallest(numbers) {
     const pos = numbers.indexOf(smallest);
     return numbers.slice(0, pos).concat(numbers.slice(pos + 1));
 };
+
+function toggleAbilityScoresAndModifiersTable() {
+    console.log("toggling table");
+    if($("#ability-scores-modes-table").is(":visible"))
+          $("#ability-scores-modes-table").hide();
+        else
+          $("#ability-scores-modes-table").show();
+  }
