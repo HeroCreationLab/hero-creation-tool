@@ -208,6 +208,7 @@ function rollAbilities() {
     togglePointBuyScore(false);
     toggleAbilityUpDownButtons(false, false);
     setAbilityInputs(values);
+    updateAbilityModifiers();
 }
 
 function prepareStandardArray() {
@@ -218,6 +219,7 @@ function prepareStandardArray() {
     togglePointBuyScore(false);
     toggleAbilityUpDownButtons(false, false);
     setAbilityInputs(values);
+    updateAbilityModifiers();
 }
 
 function preparePointBuy() {
@@ -227,6 +229,7 @@ function preparePointBuy() {
     togglePointBuyScore(true);
     toggleAbilityUpDownButtons(true, false);
     setAbilityInputs(8);
+    updateAbilityModifiers();
 }
 
 function manualAbilities() {
@@ -236,6 +239,7 @@ function manualAbilities() {
     togglePointBuyScore(false);
     toggleAbilityUpDownButtons(true, true);
     setAbilityInputs(10);
+    updateAbilityModifiers();
 }
 
 function togglePointBuyScore(isPointBuy) {
@@ -265,6 +269,7 @@ function changeAbility(i, up) {
         const disableUps = newPoints >= maxPoints;
         console.log(`i: ${i} - points: ${newPoints}/${maxPoints} - disableUps: ${disableUps} - newValue: ${newValue}`)
         for(let j=0; j<6; j++) {
+
             if(j+1 != i){
                 $("#up"+(j+1)).prop( "disabled", disableUps );
             }
@@ -272,7 +277,9 @@ function changeAbility(i, up) {
         
         if(newValue == 15) {
             $("#up"+i).prop("disabled", true);
+            $("#down"+i).prop("disabled", false);
         } else if(newValue == 8) {
+            $("#up"+i).prop("disabled", false);
             $("#down"+i).prop("disabled", true);
         } else {
             $("#up"+i).prop("disabled", disableUps);
@@ -295,6 +302,7 @@ function changeAbility(i, up) {
 
     currentPointsElement.innerHTML = newPoints;
     stat.value = newValue;
+    updateAbilityModifiers();
 }
 
 function increaseAbility(i) {
@@ -376,9 +384,15 @@ function removeSmallest(numbers) {
 };
 
 function toggleAbilityScoresAndModifiersTable() {
-    console.log("toggling table");
     if($("#ability-scores-modes-table").is(":visible"))
-          $("#ability-scores-modes-table").hide();
-        else
-          $("#ability-scores-modes-table").show();
-  }
+        $("#ability-scores-modes-table").hide();
+    else
+        $("#ability-scores-modes-table").show();
+}
+
+function updateAbilityModifiers() {
+    for(let i=0; i<6; i++) {
+        const mod = Math.floor( (document.getElementById("number"+(i+1)).valueAsNumber - 10) / 2);
+        document.getElementById("mod"+(i+1)).innerHTML = mod >= 0 ? "+"+mod : mod;
+    }
+}
