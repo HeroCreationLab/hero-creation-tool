@@ -28,6 +28,9 @@ class HeroCreationTools extends Application {
         /**Check that there are no repeats */
         for (var x = 0; x < listValues.length; x++) {
             for (var y = 0; y < listValues.length; y++) {
+                if(!listValues[x]) {
+                    return true;
+                }
                 if (listValues[x] == listValues[y] && x != y){
                     return true;
                 }
@@ -88,15 +91,11 @@ class HeroCreationTools extends Application {
 
     activateListeners(html) {
 
-        html.find(".abilityRandomize").click(ev => {
-            rollAbilities();
-        });
-        html.find(".abilityStandard").click(ev => {
-            prepareStandardArray();
-        });
-        html.find(".abilityPointBuy").click(ev => {
-            preparePointBuy();
-        });
+        html.find("#ability-mod-table-toggle").click(ev => toggleAbilityScoresAndModifiersTable());
+        html.find("#abilityRandomize").click(ev => rollAbilities());
+        html.find("#abilityStandard").click(ev => prepareStandardArray());
+        html.find("#abilityPointBuy").click(ev => preparePointBuy());
+        html.find("#abilityManual").click(ev => manualAbilities());
         html.find(".abilityUp").click(ev => {
             const stat = ev.currentTarget.id;
             const i = stat.charAt(stat.length-1);
@@ -107,9 +106,7 @@ class HeroCreationTools extends Application {
             const i = stat.charAt(stat.length-1);
             decreaseAbility(i);
         });
-        html.find(".abilityManual").click(ev => {
-            manualAbilities();
-        });
+
         html.find(".raceSubmit").click(ev => {
             openTab(ev, 'classDiv');
         });
@@ -214,6 +211,7 @@ function rollAbilities() {
     togglePointBuyScore(false);
     toggleAbilityUpDownButtons(false, false);
     setAbilityInputs(values);
+    updateAbilityModifiers();
 }
 
 function prepareStandardArray() {
@@ -224,6 +222,7 @@ function prepareStandardArray() {
     togglePointBuyScore(false);
     toggleAbilityUpDownButtons(false, false);
     setAbilityInputs(values);
+    updateAbilityModifiers();
 }
 
 function preparePointBuy() {
@@ -233,6 +232,7 @@ function preparePointBuy() {
     togglePointBuyScore(true);
     toggleAbilityUpDownButtons(true, false);
     setAbilityInputs(8);
+    updateAbilityModifiers();
 }
 
 function manualAbilities() {
@@ -242,6 +242,7 @@ function manualAbilities() {
     togglePointBuyScore(false);
     toggleAbilityUpDownButtons(true, true);
     setAbilityInputs(10);
+    updateAbilityModifiers();
 }
 
 function togglePointBuyScore(isPointBuy) {
@@ -251,40 +252,27 @@ function togglePointBuyScore(isPointBuy) {
 
 function changeAbility(i, up) {
     let stat = document.getElementById("number"+i);
-    let value = stat.valueAsNumber;
-    let cost = 1;
-    if(up && value > 12)
-        cost++;
-    else if(!up && value > 13)
-        cost++;
-
+    const value = stat.valueAsNumber;
     const isPointBuy = $('#point-buy-score').is(":visible");
-
-    const currentPointsElement = document.getElementById("point-buy-current-score");
-    const currentPoints = parseInt(currentPointsElement.innerHTML);
-    const maxPoints = parseInt(document.getElementById("point-buy-max-score").innerHTML);
-   
-    const newPoints = up ? currentPoints + cost : currentPoints - cost;
     const newValue = value + (up ? 1 : -1);
 
-    if(isPointBuy){
-        const disableUps = newPoints >= maxPoints;
-        console.log(`i: ${i} - points: ${newPoints}/${maxPoints} - disableUps: ${disableUps} - newValue: ${newValue}`)
-        for(let j=0; j<6; j++) {
-            if(j+1 != i){
-                $("#up"+(j+1)).prop( "disabled", disableUps );
-            }
-        }
-        
-        if(newValue == 15) {
-            $("#up"+i).prop("disabled", true);
-        } else if(newValue == 8) {
-            $("#down"+i).prop("disabled", true);
-        } else {
-            $("#up"+i).prop("disabled", disableUps);
-            $("#down"+i).prop("disabled", false);
-        }
+    stat.value = newValue;
 
+    if(isPointBuy) {
+        const cost = (up && value > 12) || (!up && value > 13) ? 2 : 1;
+        const currentPointsElement = document.getElementById("point-buy-current-score");
+        const currentPoints = parseInt(currentPointsElement.innerHTML);
+        const maxPoints = parseInt(document.getElementById("point-buy-max-score").innerHTML);
+        const newPoints = up ? currentPoints + cost : currentPoints - cost;
+        currentPointsElement.innerHTML = newPoints;
+
+        for(let j=1; j<7; j++) {
+            const v = document.getElementById("number"+j).valueAsNumber;
+            const disableUp = (newPoints >= maxPoints) || (v == 15);
+            const disableDown = (v == 8);
+            $("#up"+j).prop("disabled", disableUp);
+            $("#down"+j).prop("disabled", disableDown);
+        }
         // TODO do this on a notification? l18n?
         if(newPoints > maxPoints)
             alert("You have gone over the maximum points allowed for Point Buy");
@@ -298,9 +286,7 @@ function changeAbility(i, up) {
             $("#down"+i).prop("disabled", false);
         }
     }
-
-    currentPointsElement.innerHTML = newPoints;
-    stat.value = newValue;
+    updateAbilityModifiers();
 }
 
 function increaseAbility(i) {
@@ -380,3 +366,17 @@ function removeSmallest(numbers) {
     const pos = numbers.indexOf(smallest);
     return numbers.slice(0, pos).concat(numbers.slice(pos + 1));
 };
+
+function toggleAbilityScoresAndModifiersTable() {
+    if($("#ability-scores-modes-table").is(":visible"))
+        $("#ability-scores-modes-table").hide();
+    else
+        $("#ability-scores-modes-table").show();
+}
+
+function updateAbilityModifiers() {
+    for(let i=0; i<6; i++) {
+        const mod = Math.floor( (document.getElementById("number"+(i+1)).valueAsNumber - 10) / 2);
+        document.getElementById("mod"+(i+1)).innerHTML = mod >= 0 ? "+"+mod : mod;
+    }
+}
