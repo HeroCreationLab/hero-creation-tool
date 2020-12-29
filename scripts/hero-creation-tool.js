@@ -160,7 +160,7 @@ Hooks.on('renderActorDirectory', (app,  html, data) => {
     configure_hero = new HeroCreationTools(app, html);
 
     let button = document.createElement('button');
-    button.innerHTML = 'Hero Creation Tool';
+    button.innerHTML = '<i class="fas fa-dice-d20"></i>Hero Creation Tool';
     button.addEventListener("click", function () {
         console.log("on HCT button")
         configure_hero.openForActor(null);
@@ -189,7 +189,7 @@ Hooks.on('renderActorSheet', (app, html, data) => {
 
     configure_hero = new HeroCreationTools(app, html);
 
-    let button = $(`<a class="header-button configure_hero"}>Hero Creation</a>`);
+    let button = $(`<a class="header-button configure_hero"}><i class="fas fa-dice-d20"></i>Hero Creation</a>`);
     button.click(ev =>{
         configure_hero.openForActor(actorId);
     });
