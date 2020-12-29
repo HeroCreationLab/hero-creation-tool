@@ -93,78 +93,95 @@
     style="width: 100%; height: 45%;" frameborder="0"></iframe>
   <form class="flexcol prototype" autocomplete="off">
 
-    <div class ="abilityRandomize rollButton">Roll for stats</div>
-    <p style="text-align: center"> Standard Array: 15 | 14 | 13 | 12 | 10 | 8</p>
-    
-    <div class="form-group">
-      <input type="number" id="number1" placeholder="10">
-      <select name="stats" id="stat1">
-        <option value="STR" selected>Strength</option>
+    <div class="horizontal-flex">
+      <button type="button" style="text-align: center" class="abilityRandomize divButton">Roll 4d6 keep 3</button>
+      <button type="button" style="text-align: center" class="abilityStandard divButton">Standard Array</button>
+      <button type="button" style="text-align: center" class="abilityPointBuy divButton">Point Buy</button>
+      <button type="button" style="text-align: center" class="abilityManual divButton">Manual Entry</button>
+    </div>
+    <p style="text-align: center" id="point-buy-score" hidden> Point Buy Score: <span id="point-buy-current-score">0</span> / <span id="point-buy-max-score">27</span></p>
+    <div class="form-group horizontal-flex">
+      <input class="flex-sixth" type="number" id="number1" placeholder="10">
+      <button class="flex-sixth abilityUp" type="button" hidden id="up1">↑</button>
+      <button class="flex-sixth abilityDown" type="button" hidden id="down1">↓</button>
+      <select class="flex-half" name="stats" id="stat1">
+        <option value="" disabled selected>Select ability..</option>
+        <option value="STR" >Strength</option>
         <option value="DEX">Dexterity</option>
         <option value="CON">Constitution</option>
         <option value="INT">Intelligence</option>
         <option value="WIS">Wisdom</option>
-        <option value="CHAR">Charisma</option>
+        <option value="CHA">Charisma</option>
       </select>
     </div>
-
-    <div class="form-group">
-      <input type="number" id="number2" placeholder="10">
-      <select name="stats" id="stat2">
+    <div class="form-group horizontal-flex">
+      <input class="flex-sixth" type="number" id="number2" placeholder="10">
+      <button class="flex-sixth abilityUp" type="button" hidden id="up2">↑</button>
+      <button class="flex-sixth abilityDown" type="button" hidden id="down2">↓</button>
+      <select class="flex-half" name="stats" id="stat2">
+        <option value="" disabled selected>Select ability..</option>
         <option value="STR">Strength</option>
-        <option value="DEX" selected>Dexterity</option>
+        <option value="DEX" >Dexterity</option>
         <option value="CON">Constitution</option>
         <option value="INT">Intelligence</option>
         <option value="WIS">Wisdom</option>
-        <option value="CHAR">Charisma</option>
+        <option value="CHA">Charisma</option>
       </select>
     </div>
-    <div class="form-group">
-
+    <div class="form-group horizontal-flex">
       <input type="number" id="number3" placeholder="10">
-      <select name="stats" id="stat3" >
+      <button class="flex-sixth abilityUp" type="button" hidden id="up3">↑</button>
+      <button class="flex-sixth abilityDown" type="button" hidden id="down3">↓</button>
+      <select class="flex-half" name="stats" id="stat3" >
+        <option value="" disabled selected>Select ability..</option>
         <option value="STR">Strength</option>
         <option value="DEX">Dexterity</option>
-        <option value="CON" selected>Constitution</option>
+        <option value="CON">Constitution</option>
         <option value="INT">Intelligence</option>
         <option value="WIS">Wisdom</option>
-        <option value="CHAR">Charisma</option>
+        <option value="CHA">Charisma</option>
       </select>
     </div>
-
-    <div class="form-group">
+    <div class="form-group horizontal-flex">
       <input type="number" id="number4" placeholder="10">
-      <select name="stats" id="stat4" >
+      <button class="flex-sixth abilityUp" type="button" hidden id="up4">↑</button>
+      <button class="flex-sixth abilityDown" type="button" hidden id="down4">↓</button>
+      <select class="flex-half" name="stats" id="stat4" >
+        <option value="" disabled selected>Select ability..</option>
         <option value="STR">Strength</option>
         <option value="DEX">Dexterity</option>
         <option value="CON">Constitution</option>
-        <option value="INT"selected>Intelligence</option>
+        <option value="INT">Intelligence</option>
         <option value="WIS">Wisdom</option>
-        <option value="CHAR">Charisma</option>
+        <option value="CHA">Charisma</option>
       </select>
     </div>
-
-    <div class="form-group">
+    <div class="form-group horizontal-flex">
       <input type="number" id="number5" placeholder="10">
-      <select name="stats" id="stat5">
-        <option value="STR">Strength</option>
-        <option value="DEX">Dexterity</option>
-        <option value="CON">Constitution</option>
-        <option value="INT">Intelligence</option>
-        <option value="WIS"selected>Wisdom</option>
-        <option value="CHAR">Charisma</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <input type="number" id="number6" placeholder="10">
-      <select name="stats" id="stat6">
+      <button class="flex-sixth abilityUp" type="button" hidden id="up5">↑</button>
+      <button class="flex-sixth abilityDown" type="button" hidden id="down5">↓</button>
+      <select class="flex-half" name="stats" id="stat5">
+        <option value="" disabled selected>Select ability..</option>
         <option value="STR">Strength</option>
         <option value="DEX">Dexterity</option>
         <option value="CON">Constitution</option>
         <option value="INT">Intelligence</option>
         <option value="WIS">Wisdom</option>
-        <option value="CHAR"selected>Charisma</option>
+        <option value="CHA">Charisma</option>
+      </select>
+    </div>
+    <div class="form-group horizontal-flex">
+      <input type="number" id="number6" placeholder="10">
+      <button class="flex-sixth abilityUp" type="button" hidden id="up6">↑</button>
+      <button class="flex-sixth abilityDown" type="button" hidden id="down6">↓</button>
+      <select class="flex-half" name="stats" id="stat6">
+        <option value="" disabled selected>Select ability..</option>
+        <option value="STR">Strength</option>
+        <option value="DEX">Dexterity</option>
+        <option value="CON">Constitution</option>
+        <option value="INT">Intelligence</option>
+        <option value="WIS">Wisdom</option>
+        <option value="CHA">Charisma</option>
       </select>
     </div>
     </form>

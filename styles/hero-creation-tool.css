@@ -41,6 +41,11 @@
   margin: 20px;
 }
 
+.horizontal-flex {
+  display: flex;
+  flex-flow: row;
+}
+
 .vertical-flex {
   display: flex;
   flex-flow: column;

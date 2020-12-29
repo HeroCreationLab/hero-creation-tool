@@ -80,7 +80,7 @@ class HeroCreationTools extends Application {
             return true;
         }
         else {
-            alert("You cannot have two of the same category.");
+            alert("You don't have all six abilities scores, check if you have some repeated or missing one.");
             return false;
         }
 
@@ -89,23 +89,33 @@ class HeroCreationTools extends Application {
     activateListeners(html) {
 
         html.find(".abilityRandomize").click(ev => {
-            let values = [];
-
-            for (var i = 0; i < 6; i++) {
-                values.push(roll4d6b3());
-            }
-            document.getElementById("number1").value = values[0];
-            document.getElementById("number2").value = values[1];
-            document.getElementById("number3").value = values[2];
-            document.getElementById("number4").value = values[3];
-            document.getElementById("number5").value = values[4];
-            document.getElementById("number6").value = values[5];
+            rollAbilities();
+        });
+        html.find(".abilityStandard").click(ev => {
+            prepareStandardArray();
+        });
+        html.find(".abilityPointBuy").click(ev => {
+            preparePointBuy();
+        });
+        html.find(".abilityUp").click(ev => {
+            const stat = ev.currentTarget.id;
+            const i = stat.charAt(stat.length-1);
+            increaseAbility(i);
+        });
+        html.find(".abilityDown").click(ev => {
+            const stat = ev.currentTarget.id;
+            const i = stat.charAt(stat.length-1);
+            decreaseAbility(i);
+        });
+        html.find(".abilityManual").click(ev => {
+            manualAbilities();
         });
         html.find(".raceSubmit").click(ev => {
             openTab(ev, 'classDiv');
         });
         html.find(".classSubmit").click(ev => {
             openTab(ev, 'abDiv');
+            rollAbilities(); // rolls a random set of scores as you move to the Abilities tab (need to find a way of doing this if you click directly there)
         });
         html.find(".abilitySubmit").click(ev => {
             /**
@@ -163,6 +173,163 @@ Hooks.on('renderActorSheet', (app, html, data) => {
     let titleElement = html.closest('.app').find('.configure-sheet');
     button.insertBefore(titleElement);
 });
+
+function rollAbilities() {
+    console.log(`preparing random ability array`);
+    let values = [];
+    for (var i = 0; i < 6; i++) {
+        values.push(roll4d6b3());
+    }
+    values.sort(function(a, b) {
+        return b - a;
+    });
+    toggleAbilitySelects(true);
+    toggleAbilityInputs(false);
+    togglePointBuyScore(false);
+    toggleAbilityUpDownButtons(false, false);
+    setAbilityInputs(values);
+}
+
+function prepareStandardArray() {
+    console.log(`preparing Standard Array`);
+    let values = [15, 14, 13, 12, 10, 8];
+    toggleAbilitySelects(true);
+    toggleAbilityInputs(false);
+    togglePointBuyScore(false);
+    toggleAbilityUpDownButtons(false, false);
+    setAbilityInputs(values);
+}
+
+function preparePointBuy() {
+    console.log(`preparing Point Buy`);
+    toggleAbilitySelects(false);
+    toggleAbilityInputs(false);
+    togglePointBuyScore(true);
+    toggleAbilityUpDownButtons(true, false);
+    setAbilityInputs(8);
+}
+
+function manualAbilities() {
+    console.log(`preparing manual entry`);
+    toggleAbilitySelects(false);
+    toggleAbilityInputs(true);
+    togglePointBuyScore(false);
+    toggleAbilityUpDownButtons(true, true);
+    setAbilityInputs(10);
+}
+
+function togglePointBuyScore(isPointBuy) {
+    document.getElementById("point-buy-current-score").innerHTML = "0";
+    document.getElementById("point-buy-score").hidden = !isPointBuy;
+}
+
+function changeAbility(i, up) {
+    let stat = document.getElementById("number"+i);
+    let value = stat.valueAsNumber;
+    let cost = 1;
+    if(up && value > 12)
+        cost++;
+    else if(!up && value > 13)
+        cost++;
+
+    const isPointBuy = $('#point-buy-score').is(":visible");
+
+    const currentPointsElement = document.getElementById("point-buy-current-score");
+    const currentPoints = parseInt(currentPointsElement.innerHTML);
+    const maxPoints = parseInt(document.getElementById("point-buy-max-score").innerHTML);
+   
+    const newPoints = up ? currentPoints + cost : currentPoints - cost;
+    const newValue = value + (up ? 1 : -1);
+
+    if(isPointBuy){
+        const disableUps = newPoints >= maxPoints;
+        console.log(`i: ${i} - points: ${newPoints}/${maxPoints} - disableUps: ${disableUps} - newValue: ${newValue}`)
+        for(let j=0; j<6; j++) {
+            if(j+1 != i){
+                $("#up"+(j+1)).prop( "disabled", disableUps );
+            }
+        }
+        
+        if(newValue == 15) {
+            $("#up"+i).prop("disabled", true);
+        } else if(newValue == 8) {
+            $("#down"+i).prop("disabled", true);
+        } else {
+            $("#up"+i).prop("disabled", disableUps);
+            $("#down"+i).prop("disabled", false);
+        }
+
+        // TODO do this on a notification? l18n?
+        if(newPoints > maxPoints)
+            alert("You have gone over the maximum points allowed for Point Buy");
+    } else {
+        if(newValue == 20) {
+            $("#up"+i).prop("disabled", true);
+        } else if(newValue == 0) {
+            $("#down"+i).prop("disabled", true);
+        } else {
+            $("#up"+i).prop("disabled", false);
+            $("#down"+i).prop("disabled", false);
+        }
+    }
+
+    currentPointsElement.innerHTML = newPoints;
+    stat.value = newValue;
+}
+
+function increaseAbility(i) {
+    changeAbility(i, true);
+}
+
+function decreaseAbility(i) {
+    changeAbility(i, false);
+}
+
+function setAbilityInputs(values) {
+    for(let i=0; i<6; i++) {
+        document.getElementById("number"+(i+1)).value = Array.isArray(values) ? values[i] : values;
+    }
+}
+
+function toggleAbilitySelects(enable) {
+    for(let i=0; i<6; i++) {
+        $("#stat"+(i+1)).prop("disabled", !enable);
+    }
+    if(enable) {
+        for(let i=0; i<6; i++) {
+            $("#stat"+(i+1)).val("");
+        }
+    } else {
+        $("#stat1").val("STR");
+        $("#stat2").val("DEX");
+        $("#stat3").val("CON");
+        $("#stat4").val("INT");
+        $("#stat5").val("WIS");
+        $("#stat6").val("CHA");
+    }
+}
+
+function toggleAbilityInputs(enable) {
+    for(let i=0; i<6; i++) {
+        $("#number"+(i+1)).prop("disabled", !enable);
+    }
+}
+
+function toggleAbilityUpDownButtons(show, enableDown) {
+    for(let i=0; i<6; i++) {
+        let n = i+1;
+        $("#up"+n).prop( "disabled", false );
+        $("#down"+n).prop( "disabled", !enableDown );
+        if(show){
+            $("#up"+n).show();
+            $("#down"+n).show();
+        } else {
+            $("#up"+n).hide();
+            $("#down"+n).hide();
+        }
+    }
+}
+
 function roll4d6b3() {
     const statroll1 = Math.floor(Math.random() * 6) + 1;
     const statroll2 = Math.floor(Math.random() * 6) + 1;
