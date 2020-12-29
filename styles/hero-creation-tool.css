@@ -125,6 +125,7 @@
   flex: column;
   justify-content: space-between;
   min-height: 90%;
+ 
 }
 
 
@@ -203,3 +204,10 @@
 .clickableText:hover {
   text-decoration: underline;
 }
+
+.form-group span{
+
+  flex: 0 0 35px;
+  
+}
+
