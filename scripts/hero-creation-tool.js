@@ -90,6 +90,7 @@ class HeroCreationTools extends Application {
     }
 
     activateListeners(html) {
+        
         html.find("#ability-mod-table-toggle").click(ev => toggleAbilityScoresAndModifiersTable());
         html.find("#abilityRandomize").click(ev => rollAbilities());
         html.find("#abilityStandard").click(ev => prepareStandardArray());
