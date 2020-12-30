@@ -18,6 +18,21 @@
   <button class="tablinks" onclick="openTab(event, 'bioDiv')"> Bio </button>
   <button class="tablinks" onclick="openTab(event, 'reviewDiv')"> Review </button>
 </div>
+<!-- OK WE ARE PRETENDING THAT WE CAN LOAD THINGS, 
+        COPY AND PASTE UR HTML FILE INTO THE BELOW WHEN YOU WANT TO TEST 
+      *****************************************
+      *****************************************
+      *****************************************
+      DO NOT CHANGE DIV ID OR CLASS NAME
+      WHEN YOU ARE DONE TESTING MOVE YOUR CODE BACK TO YOUR OWN
+      HTML FILE AND WE WILL COMPILE ALL AT THE END
+      *****************************************
+      *****************************************
+      *****************************************
+      REGARDING CSS, MAKE ANOTHER CSS FILE AND INCLUDE IT
+      IN YOUR HTML/TESTING PHASE OR JUST LEAVE IT AND
+      WE WILL FIGURE IT OUT AT THE END. PLZ MERCY TY
+    -->
 <script>openTab(event, 'startDiv')</script>
 <div id="startDiv" class="tabcontent">
   <h1 style="font-family: 'Modesto Condensed';">
@@ -32,197 +47,517 @@
     HandBook.
     You can add further content through the import function of the module (to be implemented?) or by creating custom
     modules in the creation tool.
-    <br><br><b>Your Adventure Awaits! Get started by clicking Next.</b><br>
-    <img src="https://i.imgur.com/UoQolQ2.png" style=" width: 50%; margin-left: auto;
+    <br><br><b>Your Adventure Awaits! Get started by clicking Next.</b><br>  
+    <img src ="https://i.imgur.com/UoQolQ2.png"  style=" width: 50%; margin-left: auto;
     margin-right: auto; display: block; border: none">
     <br>
   </body>
-  <button onclick="openTab(event, 'raceDiv')"> Next </button>
+  <!-- next button -->
+  <div class="nextButton" onclick="openTab(event, 'raceDiv')">Next</div>
 </div>
+
 <div id="raceDiv" class="tabcontent">
   <h1 style="font-family: 'Modesto Condensed';">
     First choose your race!
   </h1>
-  <select id="race-dropdown" name="race-dropdown"></select>
-  <script>
-    var races = getRaces();
-    populateList("race-dropdown", races, false);
-  </script>
+  <div class="info-body">
+    <select id="race-dropdown" name="race-dropdown" onclick="onSelectRace()"></select>
+    <script>
+      var races = getRaces();
+      populateList("race-dropdown", races, false, "race");
+    </script>
+  </div>
+  <h2>Ability Score Increase </h2>
+  <div id="race-ability" name="race-ability"></div>
+  <h2>Speed</h2>
+  <div id="race-speed" name="race-speed"></div>
+  <!-- <h2>Language Proficiencies</h2> -->
+  <!-- <div id="race-language" name="race-language"></div> -->
+  <div id="race-features" name="race-features"></div>
+  <div class="raceSubmit nextButton" >Next</div>
 </div>
+
 <div id="classDiv" class="tabcontent">
   <select id="class-dropdown" name="Class"></select>
   <script>
     var index = getIndex();
     populateList("class-dropdown", index, true);
   </script>
+  <div class="classSubmit nextButton" >Next</div>
 </div>
 
 <div id="abDiv" class="tabcontent">
   <h1 style="font-family: 'Modesto Condensed';">Abilities</h1>
-  <iframe
-    src="https://app.roll20.net/compendium/dnd5e/Rules:Ability%20Scores?sharedCompendium=9372385&amp;charmancer=true#toc_1"
-    style="width: 100%; height: 45%;" frameborder="0"></iframe>
+    <div class="textarea" style="overflow: auto; overflow-y: visible; height: 275px; border-spacing: 10px; border-spacing: 15px; border-collapse: seperate;">
+      <p>Each of a creature’s abilities has a score, a number that defines the magnitude of that ability. An ability score is not just a measure of innate capabilities, but also encompasses a creature’s training and competence in activities related to that ability.</p>
+      <p>A score of 10 or 11 is the normal human average, but adventurers and many monsters are a cut above average in most abilities. A score of 18 is the highest that a person usually reaches. Adventurers can have scores as high as 20, and monsters and divine beings can have scores as high as 30.</p>
+      <p>Each ability also has a modifier, derived from the score and ranging from −5 (for an ability score of 1) to +10 (for a score of 30). The <b><span id="ability-mod-table-toggle" class="clickableText">Ability Scores and Modifiers table</span></b> notes the ability modifiers for the range of possible ability scores, from 1 to 30.</p>
+      <div id="ability-scores-modes-table" hidden>
+        <table border="0" cellspacing="0">
+          <caption>
+            <h4>Ability Scores and Modifiers</h4>
+          </caption>
+          <thead>
+            <tr><td>Score</td><td>Modifier</td></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>−5</td></tr>
+            <tr><td>2–3</td><td>−4</td></tr>
+            <tr><td>4–5</td><td>−3</td></tr>
+            <tr><td>6–7</td><td>−2</td></tr>
+            <tr><td>8–9</td><td>−1</td></tr>
+            <tr><td>10–11</td><td>+0</td></tr>
+            <tr><td>12–13</td><td>+1</td></tr>
+            <tr><td>14–15</td><td>+2</td></tr>
+            <tr><td>16–17</td><td>+3</td></tr>
+            <tr><td>18–19</td><td>+4</td></tr>
+            <tr><td>20–21</td><td>+5</td></tr>
+            <tr><td>22–23</td><td>+6</td></tr>
+            <tr><td>24–25</td><td>+7</td></tr>
+            <tr><td>26–27</td><td>+8</td></tr>
+            <tr><td>28–29</td><td>+9</td></tr>
+            <tr><td>30</td><td>+10</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>To determine an ability modifier without consulting the table, subtract 10 from the ability score and then divide the total by 2 (round down).</p>
+      <p>Because ability modifiers affect almost every attack roll, ability check, and saving throw, ability modifiers come up in play more often than their associated scores.</p>
+    </div>
   <form class="flexcol prototype" autocomplete="off">
 
-    <div style="text-align: center" class="abilityRandomize divButton">Roll for stats</div>
-    <p style="text-align: center"> Standard Array: 15 | 14 | 13 | 12 | 10 | 8</p>
-
-    <div class="form-group">
-      <input type="number" id="number1" placeholder="10">
-      <select name="stats" id="stat1">
-        <option value="STR" selected>Strength</option>
+    <div class="horizontal-flex">
+      <button type="button" style="text-align: center" id="abilityRandomize" class="divButton">Roll 4d6 keep 3</button>
+      <button type="button" style="text-align: center" id="abilityStandard" class="divButton">Standard Array</button>
+      <button type="button" style="text-align: center" id="abilityPointBuy" class="divButton">Point Buy</button>
+      <button type="button" style="text-align: center" id="abilityManual" class="divButton">Manual Entry</button>
+    </div>
+    <p style="text-align: center" id="point-buy-score" hidden> Point Buy Score: <span id="point-buy-current-score">0</span> / <span id="point-buy-max-score">27</span></p>
+    <div class="form-group horizontal-flex">
+      <input class="flex-sixth" type="number" id="number1" placeholder="10" disabled>
+      <span id="mod1" flex >+0</span>
+      <button class="flex-sixth abilityUp" type="button" hidden id="up1">↑</button>
+      <button class="flex-sixth abilityDown" type="button" hidden id="down1">↓</button>
+      <select class="flex-half" name="stats" id="stat1">
+        <option value="" disabled selected>Select ability..</option>
+        <option value="STR" >Strength</option>
         <option value="DEX">Dexterity</option>
         <option value="CON">Constitution</option>
         <option value="INT">Intelligence</option>
         <option value="WIS">Wisdom</option>
-        <option value="CHAR">Charisma</option>
+        <option value="CHA">Charisma</option>
       </select>
     </div>
-
-    <div class="form-group">
-      <input type="number" id="number2" placeholder="10">
-      <select name="stats" id="stat2">
+    <div class="form-group horizontal-flex">
+      <input class="flex-sixth" type="number" id="number2" placeholder="10" disabled>
+      <span id="mod2">+0</span>
+      <button class="flex-sixth abilityUp" type="button" hidden id="up2">↑</button>
+      <button class="flex-sixth abilityDown" type="button" hidden id="down2">↓</button>
+      <select class="flex-half" name="stats" id="stat2">
+        <option value="" disabled selected>Select ability..</option>
         <option value="STR">Strength</option>
-        <option value="DEX" selected>Dexterity</option>
+        <option value="DEX" >Dexterity</option>
         <option value="CON">Constitution</option>
         <option value="INT">Intelligence</option>
         <option value="WIS">Wisdom</option>
-        <option value="CHAR">Charisma</option>
+        <option value="CHA">Charisma</option>
       </select>
     </div>
-    <div class="form-group">
-
-      <input type="number" id="number3" placeholder="10">
-      <select name="stats" id="stat3">
-        <option value="STR">Strength</option>
-        <option value="DEX">Dexterity</option>
-        <option value="CON" selected>Constitution</option>
-        <option value="INT">Intelligence</option>
-        <option value="WIS">Wisdom</option>
-        <option value="CHAR">Charisma</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <input type="number" id="number4" placeholder="10">
-      <select name="stats" id="stat4">
-        <option value="STR">Strength</option>
-        <option value="DEX">Dexterity</option>
-        <option value="CON">Constitution</option>
-        <option value="INT" selected>Intelligence</option>
-        <option value="WIS">Wisdom</option>
-        <option value="CHAR">Charisma</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <input type="number" id="number5" placeholder="10">
-      <select name="stats" id="stat5">
-        <option value="STR">Strength</option>
-        <option value="DEX">Dexterity</option>
-        <option value="CON">Constitution</option>
-        <option value="INT">Intelligence</option>
-        <option value="WIS" selected>Wisdom</option>
-        <option value="CHAR">Charisma</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <input type="number" id="number6" placeholder="10">
-      <select name="stats" id="stat6">
+    <div class="form-group horizontal-flex">
+      <input class="flex-sixth" type="number" id="number3" placeholder="10" disabled>
+      <span id="mod3">+0</span>
+      <button class="flex-sixth abilityUp" type="button" hidden id="up3">↑</button>
+      <button class="flex-sixth abilityDown" type="button" hidden id="down3">↓</button>
+      <select class="flex-half" name="stats" id="stat3" >
+        <option value="" disabled selected>Select ability..</option>
         <option value="STR">Strength</option>
         <option value="DEX">Dexterity</option>
         <option value="CON">Constitution</option>
         <option value="INT">Intelligence</option>
         <option value="WIS">Wisdom</option>
-        <option value="CHAR" selected>Charisma</option>
+        <option value="CHA">Charisma</option>
       </select>
     </div>
-    <div style="text-align: right;" class="abilitySubmit divButton">Next</div>
-  </form>
-</div>
-
-<div id="backgroundDiv" class="tabcontent">
-  <h1 style="font-family: 'Modesto Condensed';">Background</h1>
-  <div class="flex-separator">
-    <div style="width: 50%">
-      <form class="flexcol prototype form__select--margin" action="">
-        <div class="light-pane vertical-flex">
-          <h3>Choose a Background</h3>
-          <select name="bg" id="bg">
-            <option value="">Choose</option>
-          </select>
-        </div>
-        <h2>Skill Proficiences</h2>
-        <p id="skill-proficiencies">...</p>
-        <h2>Language Proficiencies</h2>
-        <select name="lang1" id="lang1"></select>
-        <select name="lang2" id="lang2"></select>
-        <h2>Placeholder</h2>
-        <p id="bg-description">Description...</p>
-        <h2>Personality Traits</h2>
-        <select name="trait1" id="trait1"></select>
-        <select name="trait2" id="trait2"></select>
-        <h2>Ideal</h2>
-        <select name="ideal" id="ideal"></select>
-        <h2>Bond</h2>
-        <select name="bond" id="bond"></select>
-        <h2>Flaw</h2>
-        <select name="flaw" id="flaw"></select>
-        <h2>Equipment</h2>
-        <p id="bg-equipment">Equipment...</p>
-      </form>
-
+    <div class="form-group horizontal-flex">
+      <input class="flex-sixth" type="number" id="number4" placeholder="10" disabled>
+      <span id="mod4">+0</span>
+      <button class="flex-sixth abilityUp" type="button" hidden id="up4">↑</button>
+      <button class="flex-sixth abilityDown" type="button" hidden id="down4">↓</button>
+      <select class="flex-half" name="stats" id="stat4" >
+        <option value="" disabled selected>Select ability..</option>
+        <option value="STR">Strength</option>
+        <option value="DEX">Dexterity</option>
+        <option value="CON">Constitution</option>
+        <option value="INT">Intelligence</option>
+        <option value="WIS">Wisdom</option>
+        <option value="CHA">Charisma</option>
+      </select>
     </div>
-    <iframe
-      src="https://app.roll20.net/compendium/dnd5e/Backgrounds:Acolyte?sharedCompendium=9371676&amp;charmancer=true#content"
-      frameborder="0"></iframe>
+    <div class="form-group horizontal-flex">
+      <input class="flex-sixth" type="number" id="number5" placeholder="10" disabled>
+      <span id="mod5">+0</span>
+      <button class="flex-sixth abilityUp" type="button" hidden id="up5">↑</button>
+      <button class="flex-sixth abilityDown" type="button" hidden id="down5">↓</button>
+      <select class="flex-half" name="stats" id="stat5">
+        <option value="" disabled selected>Select ability..</option>
+        <option value="STR">Strength</option>
+        <option value="DEX">Dexterity</option>
+        <option value="CON">Constitution</option>
+        <option value="INT">Intelligence</option>
+        <option value="WIS">Wisdom</option>
+        <option value="CHA">Charisma</option>
+      </select>
+    </div>
+    <div class="form-group horizontal-flex">
+      <input class="flex-sixth" type="number" id="number6" placeholder="10" disabled>
+      <span id="mod6">+0</span>
+      <button class="flex-sixth abilityUp" type="button" hidden id="up6">↑</button>
+      <button class="flex-sixth abilityDown" type="button" hidden id="down6">↓</button>
+      <select class="flex-half" name="stats" id="stat6">
+        <option value="" disabled selected>Select ability..</option>
+        <option value="STR">Strength</option>
+        <option value="DEX">Dexterity</option>
+        <option value="CON">Constitution</option>
+        <option value="INT">Intelligence</option>
+        <option value="WIS">Wisdom</option>
+        <option value="CHA">Charisma</option>
+      </select>
+    </div>
+    </form>
+    <!-- next button -->
+    <div class="abilitySubmit nextButton" >Next</div>
   </div>
-</div>
 
-<div id="eqDiv" class="tabcontent">
-  <h1 style="font-family: 'Modesto Condensed';">Equipment</h1>
-  <div class="flex-separator">
-    <div style="width: 50%">
-      <form class="flexcol prototype form__select--margin" action="">
-        <div class="light-pane vertical-flex">
-          <h3>How would you like to choose your equipment?</h3>
-          <select name="equip-select" id="equip-select" onChange="openSelector(event)">
-            <option value="">Choose</option>
-            <option>Class Equipment</option>
-            <option>Starting Wealth (PBH)</option>
-          </select>
-        </div>
+  <div id ="backgroundDiv" class="tabcontent">
+    <h1 style="font-family: 'Modesto Condensed';">Background</h1>
+    <div class="flex-separator">
+      <div style="width: 50%">
+        <form class ="flexcol prototype form__select--margin" action="">
+          <div class="light-pane vertical-flex" > 
+            <h3>Choose a Background</h3>
+            <!-- populate backgrounds -->
+            <select name="bg-dropdown" id="bg-dropdown"></select>
+            <script>
+              var background = getBackgrounds();
+              populateList("bg-dropdown", background, false);
+            </script>
 
-        <div id="class-equip">
-          <h1>Placeholder</h1>
-          <form class="flexcol form__select--margin" action="">
-            <label for="placeholder">placeholder</label> <br>
-            <select name="placeholder" id="placeholder"></select>
-          </form>
-          <h2>Equipment from Background</h2>
-        </div>
-
-        <div id="gold-equip">
-          <h1>Starting Gold</h1>
-          <div class="horizontal-flex">
-            <button style="flex-shrink: 3; margin-right: 30px;">5d4x10</button>
-            <input type="number">
           </div>
-          <br>
-          <p>You have chosen starting gold and do not get equipment from your background.</p>
-        </div>
+          <h2>Skill Proficiences</h2>
+          <p id="skill-proficiencies">...</p>
+          <h2>Language Proficiencies</h2>
+          <select name="lang1" id="lang1"></select>
+          <select name="lang2" id="lang2"></select>
+          <h2>Placeholder</h2>
+          <p id="bg-description">Description...</p>
+          <h2>Personality Traits</h2>
+          <select name="trait1" id="trait1"></select>
+          <select name="trait2" id="trait2"></select>
+          <h2>Ideal</h2>
+          <select name="ideal" id="ideal"></select>
+          <h2>Bond</h2>
+          <select name="bond" id="bond"></select>
+          <h2>Flaw</h2>
+          <select name="flaw" id="flaw"></select>
+          <h2>Equipment</h2>
+          <p id="bg-equipment">Equipment...</p>
+        </form>
 
-      </form>
+      </div>
+      <div class="textarea" style="overflow: auto; overflow-y: visible; height: 750px; margin-left: 50px;"><p>Every story has a beginning. Your character’s background reveals where you came from, how you became an adventurer, and your place in the world. Your fighter might have been a courageous knight or a grizzled soldier. Your wizard could have been a sage or an artisan. Your rogue might have gotten by as a guild thief or commanded audiences as a jester.</p>
+        <p>Choosing a background provides you with important story cues about your character’s identity. The most important question to ask about your background is <em>what changed</em>? Why did you stop doing whatever your background describes and start adventuring? Where did you get the money to purchase your starting gear, or, if you come from a wealthy background, why don’t you have <em>more</em> money? How did you learn the skills of your class? What sets you apart from ordinary people who share your background?</p>
+        <p>The sample background presented here provides both concrete benefits (features, proficiencies, and languages) and roleplaying suggestions.</p>
+        <h3>Proficiencies</h3>
+        <p>Each background gives a character proficiency in two skills (described in <a class="entity-link" draggable="true" data-pack="dnd5e.rules" data-id="qLXNi9sr82rz60ji"><i class="fas fa-book-open"></i> Using Ability Scores</a>).</p>
+        <p>In addition, most backgrounds give a character proficiency with one or more tools (detailed in <a class="entity-link" draggable="true" data-pack="dnd5e.rules" data-id="L41AQiAKzEGSwNK5"><i class="fas fa-book-open"></i> Equipment</a>).</p>
+        <p>If a character would gain the same proficiency from two different sources, he or she can choose a different proficiency of the same kind (skill or tool) instead.</p>
+        <h3>Languages</h3>
+        <p>Some backgrounds also allow characters to learn additional languages beyond those given by race. See <a class="entity-link" draggable="true" data-pack="dnd5e.rules" data-id="YokpQUkuJwUB0wpy"><i class="fas fa-book-open"></i> Languages</a>.</p>
+        <h3>Equipment</h3>
+        <p>Each background provides a package of starting equipment. If you use the optional rule to spend coin on gear, you do not receive the starting equipment from your background.</p>
+        <h3>Suggested Characteristics</h3>
+        <p>A background contains suggested personal characteristics based on your background. You can pick characteristics, roll dice to determine them randomly, or use the suggestions as inspiration for characteristics of your own creation.</p>
+        <h3>Customizing a Background</h3>
+        <p>You might want to tweak some of the features of a background so it better fits your character or the campaign setting. To customize a background, you can replace one feature with any other one, choose any two skills, and choose a total of two tool proficiencies or languages from the sample backgrounds. You can either use the equipment package from your background or spend coin on gear as described in the equipment section. (If you spend coin, you can’t also take the equipment package suggested for your class.) Finally, choose two personality traits, one ideal, one bond, and one flaw. If you can’t find a feature that matches your desired background, work with your GM to create one.</p>
+        <h2>Acolyte</h2>
+        <p>You have spent your life in the service of a temple to a specific god or pantheon of gods. You act as an intermediary between the realm of the holy and the mortal world, performing sacred rites and offering sacrifices in order to conduct worshipers into the presence of the divine. You are not necessarily a cleric—performing sacred rites is not the same thing as channeling divine power.</p>
+        <p>Choose a god, a pantheon of gods, or some other quasi-divine being from among those listed in <a class="entity-link" draggable="true" data-pack="dnd5e.rules" data-id="2JNtWRo7wMq08bXn"><i class="fas fa-book-open"></i> Fantasy-Historical Pantheons</a> or those specified by your GM, and work with your GM to detail the nature of your religious service. Were you a lesser functionary in a temple, raised from childhood to assist the priests in the sacred rites? Or were you a high priest who suddenly experienced a call to serve your god in a different way? Perhaps you were the leader of a small cult outside of any established temple structure, or even an occult group that served a fiendish master that you now deny.</p>
+        <p><strong>Skill Proficiencies:</strong> Insight, Religion<br><strong>Languages: </strong>Two of your choice<br><strong>Equipment: </strong>A holy symbol (a gift to you when you entered the priesthood), a prayer book or prayer wheel, 5 sticks of incense, vestments, a set of common clothes, and a pouch containing 15 gp</p>
+        <h3>Feature: Shelter of the Faithful</h3>
+        <p>As an acolyte, you command the respect of those who share your faith, and you can perform the religious ceremonies of your deity. You and your adventuring companions can expect to receive free healing and care at a temple, shrine, or other established presence of your faith, though you must provide any material components needed for spells. Those who share your religion will support you (but only you) at a modest lifestyle.</p>
+        <p>You might also have ties to a specific temple dedicated to your chosen deity or pantheon, and you have a residence there. This could be the temple where you used to serve, if you remain on good terms with it, or a temple where you have found a new home. While near your temple, you can call upon the priests for assistance, provided the assistance you ask for is not hazardous and you remain in good standing with your temple.</p>
+        <h3>Suggested Characteristics</h3>
+        <p>Acolytes are shaped by their experience in temples or other religious communities. Their study of the history and tenets of their faith and their relationships to temples, shrines, or hierarchies affect their mannerisms and ideals. Their flaws might be some hidden hypocrisy or heretical idea, or an ideal or bond taken to an extreme</p>
+        <table>
+        <thead>
+        <tr>
+        <td>d8</td>
+        <td>Personality Trait</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td>1</td>
+        <td>I idolize a particular hero of my faith, and constantly refer to that person’s deeds and example.</td>
+        </tr>
+        <tr>
+        <td>2</td>
+        <td>I can find common ground between the fiercest enemies, empathizing with them and always working toward peace.</td>
+        </tr>
+        <tr>
+        <td>3</td>
+        <td>I see omens in every event and action. The gods try to speak to us, we just need to listen</td>
+        </tr>
+        <tr>
+        <td>4</td>
+        <td>Nothing can shake my optimistic attitude.</td>
+        </tr>
+        <tr>
+        <td>5</td>
+        <td>I quote (or misquote) sacred texts and proverbs in almost every situation.</td>
+        </tr>
+        <tr>
+        <td>6</td>
+        <td>I am tolerant (or intolerant) of other faiths and respect (or condemn) the worship of other gods.</td>
+        </tr>
+        <tr>
+        <td>7</td>
+        <td>I’ve enjoyed fine food, drink, and high society among my temple’s elite. Rough living grates on me.</td>
+        </tr>
+        <tr>
+        <td>8</td>
+        <td>I’ve spent so long in the temple that I have little practical experience dealing with people in the outside world.</td>
+        </tr>
+        </tbody>
+        </table>
+        <table>
+        <thead>
+        <tr>
+        <td>d6</td>
+        <td>Ideal</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td>1</td>
+        <td>Tradition. The ancient traditions of worship and sacrifice must be preserved and upheld. (Lawful)</td>
+        </tr>
+        <tr>
+        <td>2</td>
+        <td>Charity. I always try to help those in need, no matter what the personal cost. (Good)</td>
+        </tr>
+        <tr>
+        <td>3</td>
+        <td>Change. We must help bring about the changes the gods are constantly working in the world. (Chaotic)</td>
+        </tr>
+        <tr>
+        <td>4</td>
+        <td>Power. I hope to one day rise to the top of my faith’s religious hierarchy. (Lawful)</td>
+        </tr>
+        <tr>
+        <td>5</td>
+        <td>Faith. I trust that my deity will guide my actions. I have faith that if I work hard, things will go well. (Lawful)</td>
+        </tr>
+        <tr>
+        <td>6</td>
+        <td>Aspiration. I seek to prove myself worthy of my god’s favor by matching my actions against his or her teachings. (Any)</td>
+        </tr>
+        </tbody>
+        </table>
+        <table>
+        <thead>
+        <tr>
+        <td>d6</td>
+        <td>Bond</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td>1</td>
+        <td>I would die to recover an ancient relic of my faith that was lost long ago.</td>
+        </tr>
+        <tr>
+        <td>2</td>
+        <td>I will someday get revenge on the corrupt temple hierarchy who branded me a heretic.</td>
+        </tr>
+        <tr>
+        <td>3</td>
+        <td>I owe my life to the priest who took me in when my parents died.</td>
+        </tr>
+        <tr>
+        <td>4</td>
+        <td>Everything I do is for the common people.</td>
+        </tr>
+        <tr>
+        <td>5</td>
+        <td>I will do anything to protect the temple where I served.</td>
+        </tr>
+        <tr>
+        <td>6</td>
+        <td>I seek to preserve a sacred text that my enemies consider heretical and seek to destroy.</td>
+        </tr>
+        </tbody>
+        </table>
+        <table>
+        <thead>
+        <tr>
+        <td>d6</td>
+        <td>Flaw</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td>1</td>
+        <td>I judge others harshly, and myself even more severely.</td>
+        </tr>
+        <tr>
+        <td>2</td>
+        <td>I put too much trust in those who wield power within my temple’s hierarchy.</td>
+        </tr>
+        <tr>
+        <td>3</td>
+        <td>My piety sometimes leads me to blindly trust those that profess faith in my god.</td>
+        </tr>
+        <tr>
+        <td>4</td>
+        <td>I am inflexible in my thinking.</td>
+        </tr>
+        <tr>
+        <td>5</td>
+        <td>I am suspicious of strangers and expect the worst of them.</td>
+        </tr>
+        <tr>
+        <td>6</td>
+        <td>Once I pick a goal, I become obsessed with it to the detriment of everything else in my life.</td>
+        </tr>
+        </tbody>
+        </table></div>
     </div>
-    <iframe
-      src="https://app.roll20.net/compendium/dnd5e/Rules:Equipment?sharedCompendium=9371676&amp;charmancer=true#toc_1"
-      frameborder="0"></iframe>
+    <!-- next button -->
+    <div class="backgroundSubmit nextButton" >Next</div>
   </div>
-</div>
 
-<div id="spDiv" class="tabcontent">
-  <!-- <h1 style="font-family: 'Modesto Condensed';">Spells</h1>
+  <div id ="eqDiv" class="tabcontent">
+    <h1 style="font-family: 'Modesto Condensed';">Equipment</h1>
+    <div class="flex-separator">
+      <div style="width: 50%">
+        <form class ="flexcol prototype form__select--margin" action="">
+          <div class="light-pane vertical-flex" > 
+            <h3>How would you like to choose your equipment?</h3>
+            <select name="equip-select" id="equip-select" onChange="openSelector(event)">
+              <option value="">Choose</option>
+              <option>Class Equipment</option>
+              <option>Starting Wealth (PBH)</option>
+            </select>
+          </div>
+
+          <div id="class-equip">
+            <h1>Placeholder</h1>
+            <form class ="flexcol form__select--margin" action="">
+                <label for="placeholder">placeholder</label> <br>
+                <select name="placeholder" id="placeholder"></select>
+            </form>
+            <h2>Equipment from Background</h2>
+          </div>
+
+          <div id="gold-equip">
+              <h1>Starting Gold</h1>
+              <div class="horizontal-flex" >
+                <button style="flex-shrink: 3; margin-right: 30px;">5d4x10</button> 
+                <input type="number">
+              </div>
+              <br>
+              <p>You have chosen starting gold and do not get equipment from your background.</p>
+          </div>
+
+        </form>
+      </div>
+      <div class="textarea" style="overflow: auto; overflow-y: visible; height: 375px; margin-left: 50px;"><p>Common coins come in several different denominations based on the relative worth of the metal from which they are made. The three most common coins are the gold piece (gp), the silver piece (sp), and the copper piece (cp).</p>
+        <p>With one gold piece, a character can buy a bedroll, 50 feet of good rope, or a goat. A skilled (but not exceptional) artisan can earn one gold piece a day. The gold piece is the standard unit of measure for wealth, even if the coin itself is not commonly used. When merchants discuss deals that involve goods or services worth hundreds or thousands of gold pieces, the transactions don’t usually involve the exchange of individual coins. Rather, the gold piece is a standard measure of value, and the actual exchange is in gold bars, letters of credit, or valuable goods.</p>
+        <p>One gold piece is worth ten silver pieces, the most prevalent coin among commoners. A silver piece buys a laborer’s work for half a day, a flask of lamp oil, or a night’s rest in a poor inn.</p>
+        <p>One silver piece is worth ten copper pieces, which are common among laborers and beggars. A single copper piece buys a candle, a torch, or a piece of chalk.</p>
+        <p>In addition, unusual coins made of other precious metals sometimes appear in treasure hoards. The electrum piece (ep) and the platinum piece (pp) originate from fallen empires and lost kingdoms, and they sometimes arouse suspicion and skepticism when used in transactions. An electrum piece is worth five silver pieces, and a platinum piece is worth ten gold pieces.</p>
+        <p>A standard coin weighs about a third of an ounce, so fifty coins weigh a pound.</p>
+        <table><caption>
+        <h4>Standard Exchange Rates</h4>
+        </caption>
+        <thead>
+        <tr>
+        <td>Coin</td>
+        <td>CP</td>
+        <td>SP</td>
+        <td>EP</td>
+        <td>GP</td>
+        <td>PP</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td>Copper (cp)</td>
+        <td>1</td>
+        <td>1/10</td>
+        <td>1/50</td>
+        <td>1/100</td>
+        <td>1/1,000</td>
+        </tr>
+        <tr>
+        <td>Silver (sp)</td>
+        <td>10</td>
+        <td>1</td>
+        <td>1/5</td>
+        <td>1/10</td>
+        <td>1/100</td>
+        </tr>
+        <tr>
+        <td>Electrum (ep)</td>
+        <td>50</td>
+        <td>5</td>
+        <td>1</td>
+        <td>1/2</td>
+        <td>1/20</td>
+        </tr>
+        <tr>
+        <td>Gold (gp)</td>
+        <td>100</td>
+        <td>10</td>
+        <td>2</td>
+        <td>1</td>
+        <td>1/10</td>
+        </tr>
+        <tr>
+        <td>Platinum (pp)</td>
+        <td>1000</td>
+        <td>100</td>
+        <td>20</td>
+        <td>10</td>
+        <td>1</td>
+        </tr>
+        </tbody>
+        </table>
+        <p><a class="entity-link" draggable="true" data-pack="dnd5e.rules" data-id="YUyO7WBD2DSlCBej"><i class="fas fa-book-open"></i> Selling Treasure</a></p>
+        <p><a class="entity-link" draggable="true" data-pack="dnd5e.rules" data-id="ln4KF7662eP93keD"><i class="fas fa-book-open"></i> Armor</a></p>
+        <p>&emsp;›&emsp;Light Armor</p>
+        <p>&emsp;›&emsp;Medium Armor</p>
+        <p>&emsp;›&emsp;Heavy Armor</p>
+        <p>&emsp;›&emsp;Getting Into and Out of Armor</p>
+        <p><a class="entity-link" draggable="true" data-pack="dnd5e.rules" data-id="VbMVnhcLWO4YX1V9"><i class="fas fa-book-open"></i> Weapons</a></p>
+        <p>&emsp;›&emsp;Weapon Proficiency</p>
+        <p>&emsp;›&emsp;Weapon Properties</p>
+        <p><a class="entity-link" draggable="true" data-pack="dnd5e.rules" data-id="bogWrnJqoNlBd0O8"><i class="fas fa-book-open"></i> Adventuring Gear</a></p>
+        <p><a class="entity-link" draggable="true" data-pack="dnd5e.rules" data-id="soqKcpGwvId8hQ9r"><i class="fas fa-book-open"></i> Tools</a></p>
+        <p><a class="entity-link" draggable="true" data-pack="dnd5e.rules" data-id="IAlkoC9IZnU1PzrR"><i class="fas fa-book-open"></i> Mounts and Vehicles</a></p>
+        <p><a class="entity-link" draggable="true" data-pack="dnd5e.rules" data-id="pOHY1F2F9Jf9S76B"><i class="fas fa-book-open"></i> Trade Goods</a></p>
+        <p><a class="entity-link" draggable="true" data-pack="dnd5e.rules" data-id="SlXnxASl7xZ7EjSx"><i class="fas fa-book-open"></i> Expenses</a></p>
+        <p>&emsp;›&emsp;Lifestyle Expenses</p>
+        <p>&emsp;›&emsp;Food, Drink, and Lodging</p>
+        <p>&emsp;›&emsp;Services</p>
+        <p>&emsp;›&emsp;Spellcasting Services</p></div>
+    </div>
+    <!-- next button -->
+    <div class="equipmentSubmit nextButton" >Next</div>
+  </div>
+
+  <div id ="spDiv" class="tabcontent">
+    <h1 style="font-family: 'Modesto Condensed';">Spells</h1>
     <div class="stat-flex-container">
       <div class="stat-box">
         <h3>_</h3>
@@ -260,135 +595,155 @@
       <div class="info-item">
         Class Spellcasting Ability:
       </div>
-    </div> -->
-
-  <div class="flex-separator">
-    <div style="width: 50%">
-      <form class="flexcol prototype form__select--margin" action="">
-        <label for="CLASS">CLASS PLACEHOLDER</label>
-        <select name="" id=""></select>
-        <select name="" id=""></select>
-        <select name="" id=""></select>
-        <select name="" id=""></select>
-        <label for="CLASS">CLASS PLACEHOLDER</label>
-        <select name="" id=""></select>
-        <select name="" id=""></select>
-        <select name="" id=""></select>
-        <select name="" id=""></select>
-      </form>
     </div>
-    <iframe
-      src="https://app.roll20.net/compendium/dnd5e/Rules:Spells?sharedCompendium=9371676&amp;charmancer=true#toc_1/"
-      frameborder="0"></iframe>
+
+    <div class="flex-separator">
+      <div style="width: 50%">
+        <form class ="flexcol prototype form__select--margin" action="">
+          <label for="CLASS">CLASS PLACEHOLDER</label>
+          <select name="" id=""></select>
+          <select name="" id=""></select>
+          <select name="" id=""></select>
+          <select name="" id=""></select>
+          <label for="CLASS">CLASS PLACEHOLDER</label>
+          <select name="" id=""></select>
+          <select name="" id=""></select>
+          <select name="" id=""></select>
+          <select name="" id=""></select>
+        </form>
+      </div>
+      <div class="textarea" style="overflow: auto; overflow-y: visible; height: 375px; margin-left: 50px; width: 50%"><p>A spell is a discrete magical effect, a single shaping of the magical energies that suffuse the multiverse into a specific, limited expression. In casting a spell, a character carefully plucks at the invisible strands of raw magic suffusing the world, pins them in place in a particular pattern, sets them vibrating in a specific way, and then releases them to unleash the desired effect—in most cases, all in the span of seconds.</p>
+        <p>Spells can be versatile tools, weapons, or protective wards. They can deal damage or undo it, impose or remove conditions (see <a class="entity-link" draggable="true" data-pack="dnd5e.rules" data-id="lrgT2KMBGTgZD4sA"><i class="fas fa-book-open"></i> Appendix PH-A</a>), drain life energy away, and restore life to the dead.</p>
+        <p>Uncounted thousands of spells have been created over the course of the multiverse’s history, and many of them are long forgotten. Some might yet lie recorded in crumbling spellbooks hidden in ancient ruins or trapped in the minds of dead gods. Or they might someday be reinvented by a character who has amassed enough power and wisdom to do so.</p>
+        <h2>Spell Level</h2>
+        <p>Every spell has a level from 0 to 9. A spell’s level is a general indicator of how powerful it is, with the lowly (but still impressive) <a class="entity-link" draggable="true" data-pack="dnd5e.spells" data-id="41JIhpDyM9Anm7cs"><i class="fas fa-suitcase"></i> Magic Missile</a> at 1st level and the earth-shaking <a class="entity-link" draggable="true" data-pack="dnd5e.spells" data-id="3okM6Gn63zzEULkz"><i class="fas fa-suitcase"></i> Wish</a> at 9th. Cantrips—simple but powerful spells that characters can cast almost by rote—are level 0. The higher a spell’s level, the higher level a spellcaster must be to use that spell.</p>
+        <p>Spell level and character level don’t correspond directly. Typically, a character has to be at least 17th level, not 9th level, to cast a 9th-level spell.</p>
+        <h2>Known and Prepared Spells</h2>
+        <p>Before a spellcaster can use a spell, he or she must have the spell firmly fixed in mind, or must have access to the spell in a magic item. Members of a few classes, including bards and sorcerers, have a limited list of spells they know that are always fixed in mind. The same thing is true of many magic-using monsters. Other spellcasters, such as clerics and wizards, undergo a process of preparing spells. This process varies for different classes, as detailed in their descriptions.</p>
+        <p>In every case, the number of spells a caster can have fixed in mind at any given time depends on the character’s level.</p>
+        <h2>Spell Slots</h2>
+        <p>Regardless of how many spells a caster knows or prepares, he or she can cast only a limited number of spells before resting. Manipulating the fabric of magic and channeling its energy into even a simple spell is physically and mentally taxing, and higherlevel spells are even more so. Thus, each spellcasting class’s description (except that of the warlock) includes a table showing how many spell slots of each spell level a character can use at each character level. For example, the 3rd-level wizard Umara has four 1st-level spell slots and two 2nd-level slots.</p>
+        <p>When a character casts a spell, he or she expends a slot of that spell’s level or higher, effectively “filling” a slot with the spell. You can think of a spell slot as a groove of a certain size—small for a 1st-level slot, larger for a spell of higher level. A 1st-level spell fits into a slot of any size, but a 9th-level spell fits only in a 9th-level slot. So when Umara casts <a class="entity-link" draggable="true" data-pack="dnd5e.spells" data-id="41JIhpDyM9Anm7cs"><i class="fas fa-suitcase"></i> Magic Missile</a>, a 1st-level spell, she spends one of her four 1st-level slots and has three remaining.</p>
+        <p>Finishing a long rest restores any expended spell slots.</p>
+        <p>Some characters and monsters have special abilities that let them cast spells without using spell slots. For example, a monk who follows the Way of the Four Elements, a warlock who chooses certain eldritch invocations, and a pit fiend from the Nine Hells can all cast spells in such a way.</p>
+        <h3>Casting a Spell at a Higher Level</h3>
+        <p>When a spellcaster casts a spell using a slot that is of a higher level than the spell, the spell assumes the higher level for that casting. For instance, if Umara casts <a class="entity-link" draggable="true" data-pack="dnd5e.spells" data-id="41JIhpDyM9Anm7cs"><i class="fas fa-suitcase"></i> Magic Missile</a><em> </em>using one of her 2nd-level slots, that <em>magic missile </em>is 2nd level. Effectively, the spell expands to fill the slot it is put into.</p>
+        <p>Some spells, such as <em>magic missile </em>and <a class="entity-link" draggable="true" data-pack="dnd5e.spells" data-id="uUWb1wZgtMou0TVP"><i class="fas fa-suitcase"></i> Cure Wounds</a>, have more powerful effects when cast at a higher level, as detailed in a spell’s description.</p>
+        <hr>
+        <h4>Casting in Armor</h4>
+        <p>Because of the mental focus and precise gestures required for spellcasting, you must be proficient with the armor you are wearing to cast a spell. You are otherwise too distracted and physically hampered by your armor for spellcasting.</p>
+        <hr>
+        <h2>Cantrips</h2>
+        <p>A cantrip is a spell that can be cast at will, without using a spell slot and without being prepared in advance. Repeated practice has fixed the spell in the caster’s mind and infused the caster with the magic needed to produce the effect over and over. A cantrip’s spell level is 0.</p>
+        <h2>Rituals</h2>
+        <p>Certain spells have a special tag: ritual. Such a spell can be cast following the normal rules for spellcasting, or the spell can be cast as a ritual. The ritual version of a spell takes 10 minutes longer to cast than normal. It also doesn’t expend a spell slot, which means the ritual version of a spell can’t be cast at a higher level.</p>
+        <p>To cast a spell as a ritual, a spellcaster must have a feature that grants the ability to do so. The cleric and the druid, for example, have such a feature. The caster must also have the spell prepared or on his or her list of spells known, unless the character’s ritual feature specifies otherwise, as the wizard’s does.</p></div>
+    </div>
+    <!-- next button -->
+    <div class="spellsSubmit nextButton" >Next</div>
   </div>
-</div>
 
-<div id="featsDiv" class="tabcontent">
-  <h1 style="font-family: 'Modesto Condensed';">Features</h1>
-  <h3>A feat represents accomplishment, determination, and expertise. It is the reward for hard work.</h3>
-  <p>You really haven't done anything yet</p><br><br>
-  <label style="font-size: large;" for="first_level_feat"> (Optional) First Level Feature</label>
-  <select name="first_level_feat" id="first_level_feat">
-    <script>
-      var feats = getFeats();
-      populateList("first_level_feat", feats, false, "feats");
-    </script>
-    <option selected> None </option>
+  <div id ="featsDiv" class="tabcontent">
+    <h1 style="font-family: 'Modesto Condensed';">Features</h1>
+    <h3>A feat represents accomplishment, determination, and expertise. It is the reward for hard work.</h3>
+    <p>You really haven't done anything yet</p><br><br>
+    <label style="font-size: large;"for ="first_level_feat"> (Optional) First Level Feature</label>
+    <select name = "first_level_feat" id = "first_level_feat">
+      <script>
+        var feats = getFeats();
+        populateList("first_level_feat",feats, false, "feats");
+      </script>
+      <option selected> None </option>
 
-    <!--
+      <!--
         code here to load json feats into a drop down list thanks someone !
       -->
-  </select><br><br><br>
-  <button onclick="openTab(event, 'bioDiv')"> Next</button>
-</div>
+    </select><br><br><br>
+    <button onclick="openTab(event, 'bioDiv')"> Next</button>
+    <!-- next button -->
+    <div class="featsSubmit nextButton" >Next</div>
+  </div>
 
 
-<div id="bioDiv" class="tabcontent">
-  <h1 style="font-family: 'Modesto Condensed';"> Biography</h1>
-  <div class=tabs>
-    <form class="flexcol prototype" autocomplete="off">
-      <div class="form-group">
-        <label>Character Name</label>
-        <input type="text" id="character_name" name="name" placeholder="Name"><br><br>
-      </div>
-      <div style="border-radius: 20px">
-        <!--
-                <div style="border-radius: 20px">
-                TO DO: 
-                Connect with actor object so that the shared url is linked to the race specified if one is selected
-                if no race is selected, should show PHB Race page
-              -->
-        <iframe
-          src="https://app.roll20.net/compendium/dnd5e/Races:Gnome?sharedCompendium=9372385&amp;charmancer=true#content"
-          style="width: 100%; height: calc(100% - 5px);" frameborder="0"></iframe>
-      </div>
-      <div class="form-group">
-        <label style="font-family: 'Signika';">Age </label>
-        <input type="text" id="character_age" name="age" placeholder="Age"><br><br>
-      </div>
-      <div class="form-group">
-        <label style="font-family: 'Signika';">Height </label>
-        <input type="text" id="character_height" name="height" placeholder="Height"><br><br>
-      </div>
-      <div class="form-group">
-        <label style="font-family: 'Signika';">Weight </label>
-        <input type="text" id="character_weight" name="weight" placeholder="Weight"><br><br>
-      </div>
-      <div class="form-group">
-        <label style="font-family: 'Signika';">Eyes </label>
-        <input type="color" id="character_eye" name="eye" placeholder="Eye">
-        <input type="text" id="character_eye" name="eye" placeholder="Eye"><br><br>
-      </div>
-      <div class="form-group">
-        <label style="font-family: 'Signika';">Hair </label>
-        <input type="color" id="character_hair" name="hair" placeholder="Hair">
-        <input type="text" id="character_hair" name="hair" placeholder="Hair"><br><br>
-      </div>
-      <div class="form-group">
-        <label style="font-family: 'Signika';">Skin </label>
-        <input type="color" id="character_skin" name="skin" placeholder="Skin">
-        <input type="text" id="character_skin" name="skin" placeholder="Skin"><br><br>
-      </div>
-      <button type="submit" Value="Next"> Next </button>
-    </form>
+  <div id ="bioDiv" class="tabcontent"> 
+    <h1 style="font-family: 'Modesto Condensed';"> Biography</h1>
+      <div class = tabs>
+        <form class ="flexcol prototype" autocomplete="off">
+          <div class="form-group">
+            <label>Character Name</label>
+            <input type="text" id="character_name" name="name" placeholder="Name" ><br><br>         
+          </div>
+          <div style ="border-radius: 20px">
+        </div>
+        <div class="form-group">
+          <label style="font-family: 'Signika';">Age </label>
+          <input type="text" id="character_age" name="age" placeholder="Age"><br><br>
+        </div>
+        <div class="form-group">
+          <label style="font-family: 'Signika';">Height </label>
+          <input type="text" id="character_height" name="height" placeholder="Height"><br><br>
+        </div>
+        <div class="form-group">
+          <label style="font-family: 'Signika';">Weight </label>
+          <input type="text" id="character_weight" name="weight" placeholder="Weight"><br><br>
+        </div>
+        <div class="form-group">
+          <label style="font-family: 'Signika';">Eyes </label>
+          <input type="color" id="character_eye" name="eye" placeholder="Eye">
+          <input type="text" id="character_eye" name="eye" placeholder="Eye"><br><br>
+        </div>
+        <div class="form-group">
+          <label style="font-family: 'Signika';">Hair </label>
+          <input type="color" id="character_hair" name="hair" placeholder="Hair">
+          <input type="text" id="character_hair" name="hair" placeholder="Hair"><br><br>
+        </div>
+        <div class="form-group">
+          <label style="font-family: 'Signika';">Skin </label>
+          <input type="color" id="character_skin" name="skin" placeholder="Skin">
+          <input type="text" id="character_skin" name="skin" placeholder="Skin"><br><br>
+        </div>
+      </form>
+    </div>
+    <!-- next button -->
+    <div class="bioSubmit nextButton" >Next</div>
   </div>
-</div>
-<div id="reviewDiv" class="tabcontent">
-  <h1 style="font-family: 'Modesto Condensed';">Review</h1>
-  <div class="review-container">
-    <div>
-      <h2>Race</h2>
-    </div>
-    <div>
-      <h2>Class</h2>
-    </div>
-    <div>
-      <h2>Abilities</h2>
-    </div>
-    <div>
-      <h2>Background</h2>
-    </div>
-    <div>
-      <h2>Equipment</h2>
-    </div>
-    <div>
-      <h2>Spells</h2>
-    </div>
-    <div>
-      <h2>Feats</h2>
-    </div>
-    <div>
-      <h2>Bio</h2>
+
+  <div id="reviewDiv" class="tabcontent">
+    <h1 style="font-family: 'Modesto Condensed';">Review</h1>
+    <div class="review-container">
+      <div>
+        <h2>Race</h2>
+      </div>
+      <div>
+        <h2>Class</h2>
+      </div>
+      <div>
+        <h2>Abilities</h2>
+      </div>
+      <div>
+        <h2>Background</h2>
+      </div>
+      <div>
+        <h2>Equipment</h2>
+      </div>
+      <div>
+        <h2>Spells</h2>
+      </div>
+      <div>
+        <h2>Feats</h2>
+      </div>
+      <div>
+        <h2>Bio</h2>
+      </div>
     </div>
   </div>
-</div>
 
 
 </div>
 <div id="reviewDiv" class="tabcontent"></div>
 <script src="/scripts/generalFunctions.js"></script>
 <script src="/scripts/hero-creation-tool.js"></script>
-<script src="/scripts/importJson.js"></script>
+<script src="/scripts/populateList.js"></script>
 <script src="/scripts/toggleButton.js"></script>
 <script src="/scripts/AbilityRoller.js"></script>
 <script src="/scripts/sendData.js"></script>
