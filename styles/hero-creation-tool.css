@@ -205,9 +205,6 @@
   text-decoration: underline;
 }
 
-.form-group span{
-
+.form-group span, .form-group button{
   flex: 0 0 35px;
-  
 }
-
