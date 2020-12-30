@@ -1,4 +1,4 @@
-index={
+index = {
     "barbarian": "class-barbarian.json",
     "bard": "class-bard.json",
     "cleric": "class-cleric.json",
@@ -15,5 +15,5 @@ index={
 
 
 function getIndex(){
-    return Index;
+    return index;
 }

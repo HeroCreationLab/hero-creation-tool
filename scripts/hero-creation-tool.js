@@ -59,8 +59,9 @@ class HeroCreationTools extends Application {
 
 
         if (this._checkDuplicate(stat_block) == false){
-                
+            let abilities = {};
             for (var i = 0; i < stat_block.length; i++) {
+                /*
                 if (stat_block[i] == "STR") {
                     this.app.object.data.data.abilities.str.value = values[i];
                 }
@@ -79,6 +80,9 @@ class HeroCreationTools extends Application {
                 else if (stat_block[i] == "CHAR") {
                     this.app.object.data.data.abilities.cha.value = values[i];
                 }
+                */
+                abilities[stat_block[i]] = parseInt(values[i]);
+                // TODO - use this object when the ability scores are finally set on the actor
             }
             return true;
         }
@@ -123,9 +127,9 @@ class HeroCreationTools extends Application {
             let values = [];
             let stat_block = [];
             if (this._updateAbilityScores(values, stat_block)){
-            this.app.render();
-            openTab(ev, 'backgroundDiv');
-            
+                this.app.render();
+                openTab(ev, 'backgroundDiv');
+
             }
         });
         html.find(".backgroundSubmit").click(ev => {
