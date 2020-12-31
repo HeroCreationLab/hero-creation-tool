@@ -1,4 +1,4 @@
-items=[
+[
     {
         "name": "Arrow",
         "source": "PHB",
@@ -12369,9 +12369,4 @@ items=[
         "weight": 1,
         "value": 1000
     }
-];
-
-
-function getItems(){
-    return items;
-}
+]

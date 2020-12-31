@@ -1,4 +1,4 @@
-backgrounds=[
+[
     {
         "name": "Acolyte",
         "source": "PHB",
@@ -248,9 +248,4 @@ backgrounds=[
             }
         ]
     }
-];
-
-
-function getBackgrounds(){
-    return backgrounds;
-}
+]
