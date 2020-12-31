@@ -2,7 +2,7 @@
 /*
 Author: Alexander Sedore
 Date: 12/20/2020
-Version: 0.2
+Version: 0.3
 Populate a selcelct dropdownlist based on id and filepath for a index json.
 Input : ID: string, object: Json Array, isIndex: boolean, defaaultName: string
 Output: N/A

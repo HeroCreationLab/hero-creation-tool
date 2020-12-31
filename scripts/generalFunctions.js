@@ -24,7 +24,6 @@ function addRaceData(json) {
     character.race.resistances = json.resistances == undefined ? [] :  json.resistances;
     character.resistances = json.resistances == undefined ? [] :  character.resistances + json.resistances;
     character.size = json.size;
-
 }
 
 function onSelectRace() {
