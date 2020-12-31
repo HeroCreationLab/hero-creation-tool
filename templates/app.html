@@ -108,18 +108,11 @@
   </h1>
   <select id="class-dropdown" name="Class"></select>
   <script>
-    /*
-    Returns the json object for file path. **Remember to include modules/hero-creation-tool in the path.**
-    */
-    //var json = "didn't get passed through";
-    
     let json = getJson("modules/hero-creation-tool/scripts/database/class-jsons/index.json");
     json
       .then(data =>{
-        console.log(data)
         populateList("class-dropdown", data, true, 'class.');
       })
-    //populateList("class-dropdown", indexJson, true, 'class.');
   </script>
   <div class="classSubmit nextButton" >Next</div>
 </div>
