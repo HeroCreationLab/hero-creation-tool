@@ -1,4 +1,4 @@
-spell={
+{
     "spell": [
         {
             "name": "Acid Splash",
@@ -34321,9 +34321,4 @@ spell={
             ]
         }
     ]
-};
-
-
-function getSpells(){
-    return spell;
 }

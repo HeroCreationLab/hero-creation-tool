@@ -18,21 +18,7 @@
   <button class="tablinks" onclick="openTab(event, 'bioDiv')"> Bio </button>
   <button class="tablinks" onclick="openTab(event, 'reviewDiv')"> Review </button>
 </div>
-<!-- OK WE ARE PRETENDING THAT WE CAN LOAD THINGS, 
-        COPY AND PASTE UR HTML FILE INTO THE BELOW WHEN YOU WANT TO TEST 
-      *****************************************
-      *****************************************
-      *****************************************
-      DO NOT CHANGE DIV ID OR CLASS NAME
-      WHEN YOU ARE DONE TESTING MOVE YOUR CODE BACK TO YOUR OWN
-      HTML FILE AND WE WILL COMPILE ALL AT THE END
-      *****************************************
-      *****************************************
-      *****************************************
-      REGARDING CSS, MAKE ANOTHER CSS FILE AND INCLUDE IT
-      IN YOUR HTML/TESTING PHASE OR JUST LEAVE IT AND
-      WE WILL FIGURE IT OUT AT THE END. PLZ MERCY TY
-    -->
+
 <script>openTab(event, 'startDiv')</script>
 <div id="startDiv" class="tabcontent apply-header-font">
   <h1>Welcome to the Hero Creation Tool for DnD 5e!</h1>
@@ -58,8 +44,11 @@
   <div>
     <select id="race-dropdown" name="race-dropdown" onclick="onSelectRace()"></select>
     <script>
-      var races = getRaces();
-      populateList("race-dropdown", races, false, "race");
+      var races = getJson("modules/hero-creation-tool/scripts/database/race-jsons/srdRaces.json");
+      races
+        .then(data =>{
+          populateList("race-dropdown", data, false, "race");
+        })
     </script>
   </div>
   <br>
@@ -74,11 +63,16 @@
 </div>
 
 <div id="classDiv" class="tabcontent apply-header-font">
-  <h1>Class</h1>
-  <select id="class-dropdown" name="Class"></select>
+  <h1>
+    First choose your class!
+  </h1>
+  <select id="class-dropdown" name="Class", onclick="onSelectClassIndex()"></select>
   <script>
-    var index = getIndex();
-    populateList("class-dropdown", index, true);
+    let json = getJson("modules/hero-creation-tool/scripts/database/class-jsons/index.json");
+    json
+      .then(data =>{
+        populateList("class-dropdown", data, true, 'class.');
+      })
   </script>
   <div class="classSubmit nextButton">Next</div>
 </div>
@@ -285,21 +279,23 @@
   <div class="abilitySubmit nextButton">Next</div>
 </div>
 
-<div id="backgroundDiv" class="tabcontent apply-header-font">
-  <h1>Background</h1>
-  <div class="flex-separator">
-    <div style="width: 50%">
-      <form class="flexcol prototype form__select--margin" action="">
-        <div class="light-pane vertical-flex">
+  <div id ="backgroundDiv" class="tabcontent apply-header-font">
+    <h1>Background</h1>
+    <div class="flex-separator">
+      <form class ="flexcol prototype form__select--margin" action="">
+        <div class="light-pane vertical-flex" > 
           <h3>Choose a Background</h3>
           <!-- populate backgrounds -->
           <select name="bg-dropdown" id="bg-dropdown"></select>
           <script>
-            var background = getBackgrounds();
-            populateList("bg-dropdown", background, false);
+            let backgroundJson = getJson("modules/hero-creation-tool/scripts/database/background-jsons/srdBackgrounds.json");
+            backgroundJson
+              .then(data =>{
+                populateList("bg-dropdown", data, false, 'background.');
+              })
           </script>
-
         </div>
+
         <h2>Skill Proficiences</h2>
         <p id="skill-proficiencies">...</p>
         <h2>Language Proficiencies</h2>
@@ -319,8 +315,6 @@
         <h2>Equipment</h2>
         <p id="bg-equipment">Equipment...</p>
       </form>
-
-    </div>
 
     <div class="textarea infoArea" style="height: 750px;">
       <p>Every story has a beginning. Your character’s background reveals where you came from, how you became an
@@ -825,17 +819,20 @@
   <div class="spellsSubmit nextButton">Next</div>
 </div>
 
-<div id="featsDiv" class="tabcontent apply-header-font">
-  <h1>Features</h1>
-  <h3>A feat represents accomplishment, determination, and expertise. It is the reward for hard work.</h3>
-  <p>You really haven't done anything yet</p><br><br>
-  <label style="font-size: large;" for="first_level_feat"> (Optional) First Level Feature</label>
-  <select name="first_level_feat" id="first_level_feat">
-    <script>
-      var feats = getFeats();
-      populateList("first_level_feat", feats, false, "feats");
-    </script>
-    <option selected> None </option>
+  <div id ="featsDiv" class="tabcontent apply-header-font">
+    <h1>Features</h1>
+    <h3>A feat represents accomplishment, determination, and expertise. It is the reward for hard work.</h3>
+    <p>You really haven't done anything yet</p><br><br>
+    <label style="font-size: large;"for ="first_level_feat"> (Optional) First Level Feature</label>
+    <select name = "first_level_feat" id = "first_level_feat">
+      <script>
+        var races = getJson("modules/hero-creation-tool/scripts/database/feat-jsons/srdFeats.json");
+      races
+        .then(data =>{
+          populateList("first_level_feat", data, false, "feats");
+        })
+      </script>
+      <option selected> None </option>
     <!--
         code here to load json feats into a drop down list thanks someone !
       -->
@@ -929,7 +926,6 @@
 <script src="/scripts/AbilityRoller.js"></script>
 <script src="/scripts/sendData.js"></script>
 <!-- <script src="https://code.jquery.com/jquery-3.5.0.js"></script> -->
-<script src="http://www.w3schools.com/lib/w3data.js"></script>
 
 <!--Importing Database JSs (temporary solution until we have a cloud server)-->
 <script src="/scripts/database/class-jsons/class-barbarian.js"></script>

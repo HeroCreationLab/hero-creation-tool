@@ -145,6 +145,7 @@
 }
 
 .info-panel {
+  border-radius: 10px;
   margin: 20px;
   height: 50px;
   padding: 15px 10px 0 10px;
