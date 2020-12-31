@@ -1,4 +1,4 @@
-
+/* ## General Styles */
 .tabs {
   display: flex;
   width: 100%;
@@ -8,15 +8,54 @@
   flex: 0;
 }
 
-.apply-font h1, .apply-font h2{
+.apply-header-font h1, .apply-header-font h2 {
   font-family: 'Modesto Condensed', 'Signika', 'Arial';
+}
+
+.apply-header-font h1 {
+  margin-bottom: 15px;
+}
+
+.form--padding {
+  padding: 5%;
 }
 
 .form__select--margin > select{
   margin-bottom: 20px;
 }
 
-/* Style the buttons inside the tab */
+.clickableText:hover {
+  text-decoration: underline;
+}
+
+.flex-separator {
+  width:100%;
+  display: flex;
+  flex: column;
+  justify-content: space-between;
+}
+
+/* ## Scrollable Textareas */
+
+.infoArea {
+  overflow: auto;
+  overflow-y: visible;
+  border-spacing: 10px;
+  border-spacing: 15px;
+  border-collapse: seperate;
+  padding: 5px;
+  height: inherit;
+  margin-left: 50px;
+  background: rgba(255, 255, 255, 0.3);
+  transition: all 0.3s;
+}
+
+.infoArea:hover {
+  box-shadow: 0 0 5px black;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* ## Style the buttons inside the tab */
 
 .tablinks {
   font-family: 'Modesto Condensed', 'Signika', 'Arial';
@@ -35,7 +74,7 @@
 
 .light-pane {
   display: inline-block;
-  background: white;
+  background: rgba(255, 255, 255, 0.5);
   border-radius: 20px;
   padding: 20px;
   margin: 20px;
@@ -56,7 +95,7 @@
   flex-flow: row;
 }
 
-/* Change background color of buttons on hover */
+/* ## Change background color of buttons on hover */
 .tabs button:hover {
   transform: scale(1.08) translateY(-5px);
   box-shadow: none;
@@ -69,7 +108,7 @@
   text-shadow: 0 0 5px red;
 }
 
-/* Create an active/current tablink class */
+/* ## Create an active/current tablink class */
 .tabs button.active {
   border-radius: 50px;
   transform: scale(1.08) translateY(-5px);
@@ -79,72 +118,54 @@
 
 .tabcontent {
   display: inline-block;
-  padding: 6px 12px;
+  padding: 2% 4%;
   border-top: none;
 }
 
-/* Equipment */
+/* ## Equipment */
 #class-equip, #gold-equip {
   display: none;
 }
 
-/* Spells */
+/* ## Stats Panel */
+
 .stat-flex-container {
   display: flex;
   width: 100%;
   height: 100px;
   justify-content: space-evenly;
   flex-flow: row;
-
 }
 
 .stat-box {
   text-align: center;
   border-radius: 10px;
-  padding: 10px;
-  border: 1.5px solid black;
+  padding: 30px 10px 0px 10px;
+  background:  rgba(255, 255, 255, 0.5);
 }
 
 .info-panel {
-  margin-top: 20px;
+  margin: 20px;
   height: 50px;
-  border-radius: 10px;
+  padding: 15px 10px 0 10px;
   display: flex;
   flex: 0;
   justify-content: space-between;
-  border: 1.5 solid black; 
-}
-
-.info-item {
+  background:  rgba(255, 255, 255, 0.5);
   text-align: center;
 }
 
-.flex-separator {
-  width:100%;
-  display: flex;
-  flex: column;
-  justify-content: space-between;
-  min-height: 90%;
- 
-}
-
-
-/* review items */
+/* ## Review */
 .review-container {
   display: flex;
   flex-flow: column;
   justify-content: space-evenly;
-  font-family: 'Modesto Condensed';
-}
-
-.review-container > div {
-  width: 100%;
-  margin: 0;
   padding: 10px;
+  margin: 0;
 }
 
 .review-container:nth-child(odd) {
-  background: lightgray;
+  background: rgba(77, 18, 0, 0.1)
 }
 
 .smaller{
@@ -152,6 +173,8 @@
   max-width: 50px;
   float: right;
 }
+
+/* ## Next and Roll */
 
 .rollButton {
   width: 100px;
@@ -201,10 +224,23 @@
 	background-color:#415989;
 }
 
-.clickableText:hover {
-  text-decoration: underline;
+/* ## Forms */
+
+.form-group {
+  display: flex;
+  padding-bottom: 10px;
 }
 
-.form-group span, .form-group button{
-  flex: 0 0 35px;
+.form-group div {
+  display: flex;
+  margin: 0;
+}
+
+.form-group input[type="color"] {
+  margin-left: 10px;
+}
+
+.form-group label {
+  font-family: 'Signika', 'serif', 'Arial';
+  font-size: 1.2em;
 }
