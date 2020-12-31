@@ -63,7 +63,12 @@ function onSelectClassIndex(){
 
 }
 function onSelectRace() {
-   var raceJson = JSON.parse(document.getElementById("race-dropdown").value);
+   //console.log(document.getElementById("race-dropdown").value);
+   if (document.getElementById("race-dropdown").value == "Choose your race"){
+      return;
+   }
+   var raceJson = document.getElementById("race-dropdown").value;
+   raceJson = JSON.parse(raceJson);
    addRaceData(raceJson);
    document.getElementById("race-speed").innerHTML = raceJson.speed; //makes the html of race-speed be raceJson.speed
    abilityText = "";

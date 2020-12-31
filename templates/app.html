@@ -246,8 +246,11 @@
             <!-- populate backgrounds -->
             <select name="bg-dropdown" id="bg-dropdown"></select>
             <script>
-              var background = getBackgrounds();
-              populateList("bg-dropdown", background, false);
+              let backgroundJson = getJson("modules/hero-creation-tool/scripts/database/background-jsons/srdBackgrounds.json");
+              backgroundJson
+                .then(data =>{
+                  populateList("bg-dropdown", data, false, 'background.');
+                })
             </script>
 
           </div>
@@ -659,8 +662,11 @@
     <label style="font-size: large;"for ="first_level_feat"> (Optional) First Level Feature</label>
     <select name = "first_level_feat" id = "first_level_feat">
       <script>
-        var feats = getFeats();
-        populateList("first_level_feat",feats, false, "feats");
+        var races = getJson("modules/hero-creation-tool/scripts/database/feat-jsons/srdFeats.json");
+      races
+        .then(data =>{
+          populateList("first_level_feat", data, false, "feats");
+        })
       </script>
       <option selected> None </option>
 
