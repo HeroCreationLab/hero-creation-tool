@@ -78,10 +78,28 @@
 </div>
 
 <div id="classDiv" class="tabcontent">
+  <h1 style="font-family: 'Modesto Condensed';">
+    First choose your class!
+  </h1>
   <select id="class-dropdown" name="Class"></select>
   <script>
-    var index = getIndex();
-    populateList("class-dropdown", index, true);
+    /*
+    Returns the json object for file path. **Remember to include modules/hero-creation-tool in the path.**
+    */
+    //var json = "didn't get passed through";
+    async function getJson(path){
+        const response = await fetch(path);
+        let data;
+        return (data = await response.json());
+    }
+    
+    let json = getJson("modules/hero-creation-tool/scripts/database/class-jsons/index.json");
+    json
+      .then(data =>{
+        console.log(data)
+        populateList("class-dropdown", data, true, 'class.');
+      })
+    //populateList("class-dropdown", indexJson, true, 'class.');
   </script>
   <div class="classSubmit nextButton" >Next</div>
 </div>
