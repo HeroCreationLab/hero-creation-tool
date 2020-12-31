@@ -244,3 +244,7 @@
   font-family: 'Signika', 'serif', 'Arial';
   font-size: 1.2em;
 }
+
+.form-group span, .form-group button {
+  flex: 0 0 35px;
+}
