@@ -1,1 +1,14 @@
-{"Barbarian":"class-barbarian.json","Bard":"class-bard.json","Cleric":"class-cleric.json","Druid":"class-druid.json","Fighter":"class-fighter.json","Monk":"class-monk.json","Paladin":"class-paladin.json","Ranger":"class-ranger.json","Rogue":"class-rogue.json","Sorcerer":"class-sorcerer.json","Warlock":"class-warlock.json","Wizard":"class-wizard.json"}
+{
+    "Barbarian": "scripts/database/class-jsons/class-barbarian.json",
+    "Bard": "scripts/database/class-jsons/class-bard.json",
+    "Cleric": "scripts/database/class-jsons/class-cleric.json",
+    "Druid": "scripts/database/class-jsons/class-druid.json",
+    "Fighter": "scripts/database/class-jsons/class-fighter.json",
+    "Monk": "scripts/database/class-jsons/class-monk.json",
+    "Paladin": "scripts/database/class-jsons/class-paladin.json",
+    "Ranger": "scripts/database/class-jsons/class-ranger.json",
+    "Rogue": "scripts/database/class-jsons/class-rogue.json",
+    "Sorcerer": "scripts/database/class-jsons/class-sorcerer.json",
+    "Warlock": "scripts/database/class-jsons/class-warlock.json",
+    "Wizard": "scripts/database/class-jsons/class-wizard.json"
+}

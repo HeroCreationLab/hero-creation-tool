@@ -23,7 +23,7 @@ function populateList(id, object, isIndex, defaultName){
         for (a in object){
             option = document.createElement('option');
             option.text = a;
-            option.value = a;
+            option.value = object[a]; //object
             dropdown.add(option);
         }
     } else{

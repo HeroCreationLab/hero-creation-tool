@@ -4,31 +4,6 @@
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="../styles/hero-creation-tool.css">
-
-  <script>
-    /*
-    Important note: PLEASE INCLUDE "modules/hero-creation-tool/..." to your relative path since we are using foundry as the main file path.
-    Returns a promis with the json object as its value.
-    Input: path, string
-    Return data, promise
-
-    Guide to promises:
-    For those who do not know how to access said value from the promise I will right an example code
-
-    let json = getJson("modules/hero-creation-tool/scripts/database/class-jsons/index.json"); //calls the function, json is now a promise
-    json //to access the value you can use this quick notation .then (data =>) will assign the value to data where you can use it
-      .then(data =>{
-        // here data is the Json object for the index.json
-        populateList("class-dropdown", data, true, 'class.'); //here I am calling the populateList() passing through data to populate the dropdown list with id="class-dropdown"
-      })
-
-    */
-    async function getJson(path){
-        const response = await fetch(path);
-        let data;
-        return (data = await response.json());
-    }
-  </script>
 </head>
 <!--buttons toggle show hide of divs of each section-->
 <div class="tabs">
@@ -88,8 +63,11 @@
   <div class="info-body">
     <select id="race-dropdown" name="race-dropdown" onclick="onSelectRace()"></select>
     <script>
-      var races = getRaces();
-      populateList("race-dropdown", races, false, "race");
+      var races = getJson("modules/hero-creation-tool/scripts/database/race-jsons/srdRaces.json");
+      races
+        .then(data =>{
+          populateList("race-dropdown", data, false, "race");
+        })
     </script>
   </div>
   <h2>Ability Score Increase </h2>
@@ -106,7 +84,7 @@
   <h1 style="font-family: 'Modesto Condensed';">
     First choose your class!
   </h1>
-  <select id="class-dropdown" name="Class"></select>
+  <select id="class-dropdown" name="Class", onclick="onSelectClassIndex()"></select>
   <script>
     let json = getJson("modules/hero-creation-tool/scripts/database/class-jsons/index.json");
     json
@@ -779,28 +757,5 @@
 <script src="/scripts/AbilityRoller.js"></script>
 <script src="/scripts/sendData.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
-
-<!--Importing Database JSs (temporary solution until we have a cloud server)-->
-<script src="/scripts/database/class-jsons/class-barbarian.js"></script>
-<script src="/scripts/database/class-jsons/class-bard.js"></script>
-<script src="/scripts/database/class-jsons/class-cleric.js"></script>
-<script src="/scripts/database/class-jsons/class-druid.js"></script>
-<script src="/scripts/database/class-jsons/class-fighter.js"></script>
-<script src="/scripts/database/class-jsons/class-monk.js"></script>
-<script src="/scripts/database/class-jsons/class-paladin.js"></script>
-<script src="/scripts/database/class-jsons/class-ranger.js"></script>
-<script src="/scripts/database/class-jsons/class-rogue.js"></script>
-<script src="/scripts/database/class-jsons/class-sorcerer.js"></script>
-<script src="/scripts/database/class-jsons/class-warlock.js"></script>
-<script src="/scripts/database/class-jsons/class-wizard.js"></script>
-<script src="/scripts/database/class-jsons/srdRaces.js"></script>
-<script src="/scripts/database/class-jsons/index.js"></script>
-<script src="scripts/database/background-jsons/srdBackgrounds.js"></script>
-<script src="scripts/database/feat-jsons/srdFeats.js"></script>
-<script src="scripts/database/feat-jsons/srdOptionalFeats.js"></script>
-<script src="scripts/language-jsons/srdLanguages.js"></script>
-<script src="scripts/race-jsons/srdRaces.js"></script>
-<script src="scripts/spell-json/srdSpells.js"></script>
-<script src="scripts/item-jsons/srdItems.js"></script>
 
 </html>
