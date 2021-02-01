@@ -874,10 +874,6 @@
   <div class="form--padding">
     <form class="flexcol prototype" autocomplete="off">
       <div class="form-group">
-        <label>Character Name</label>
-        <input type="text" id="character_name" name="name" placeholder="Name">
-      </div>
-      <div class="form-group">
         <label>Age</label>
         <input type="text" id="character_age" name="age" placeholder="Age">
       </div>
@@ -892,23 +888,26 @@
       <div class="form-group">
         <label>Eyes</label>
         <div>
-          <input type="text" id="character_eye" name="eye" placeholder="Eye">
-          <input type="color" id="character_eye" name="eye" placeholder="Eye">
+          <input type="text" id="character_eye_color" name="eye-color" placeholder="Eye">
+          <input type="color" id="character_eye_rgb" name="eye-rgb" placeholder="Eye">
         </div>
       </div>
       <div class="form-group">
         <label>Hair</label>
         <div>
-          <input type="text" id="character_hair" name="hair" placeholder="Hair">
-          <input type="color" id="character_hair" name="hair" placeholder="Hair">
+          <input type="text" id="character_hair_color" name="hair-color" placeholder="Hair">
+          <input type="color" id="character_hair_rgb" name="hair-rgb" placeholder="Hair">
         </div>
       </div>
       <div class="form-group">
         <label>Skin</label>
         <div>
-          <input type="text" id="character_skin" name="skin" placeholder="Skin">
-          <input type="color" id="character_skin" name="skin" placeholder="Skin">
+          <input type="text" id="character_skin_color" name="skin-color" placeholder="Skin">
+          <input type="color" id="character_skin_rgb" name="skin-rgb" placeholder="Skin">
         </div>
+      </div>
+      <div>
+        <textarea id="character_biography" placeholder="Biography"></textarea>
       </div>
     </form>
   </div>

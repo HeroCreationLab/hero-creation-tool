@@ -35,14 +35,14 @@ class HeroCreationTools extends Application {
         this.render(true);
     }
 
-    _checkDuplicate(listValues){
+    _checkDuplicate(listValues) {
         /**Check that there are no repeats */
         for (var x = 0; x < listValues.length; x++) {
             for (var y = 0; y < listValues.length; y++) {
-                if(!listValues[x]) {
+                if (!listValues[x]) {
                     return true;
                 }
-                if (listValues[x] == listValues[y] && x != y){
+                if (listValues[x] == listValues[y] && x != y) {
                     return true;
                 }
             }
@@ -51,15 +51,6 @@ class HeroCreationTools extends Application {
     }
 
     _updateAbilityScores(values, stat_block) {
-
-        //Getting the stat
-        values[0] = document.getElementById("number1").value;
-        values[1] = document.getElementById("number2").value;
-        values[2] = document.getElementById("number3").value;
-        values[3] = document.getElementById("number4").value;
-        values[4] = document.getElementById("number5").value;
-        values[5] = document.getElementById("number6").value;
-
         //Getting the type of stat
         stat_block.push(document.getElementById("stat1").value);
         stat_block.push(document.getElementById("stat2").value);
@@ -69,22 +60,17 @@ class HeroCreationTools extends Application {
         stat_block.push(document.getElementById("stat6").value);
 
 
-        if (this._checkDuplicate(stat_block) == false){
-            for (var i = 0; i < stat_block.length; i++) {
-                // push abilities into the newActor object data
-                this.newActor.data[`abilities.${stat_block[i].toLowerCase()}.value`] = parseInt(values[i]);
-            }
+        if (this._checkDuplicate(stat_block) == false) {
             return true;
         }
         else {
             alert("You don't have all six abilities scores, check if you have some repeated or missing one.");
             return false;
         }
-
     }
 
     activateListeners(html) {
-        
+
         html.find("#ability-mod-table-toggle").click(ev => toggleAbilityScoresAndModifiersTable());
         html.find("#abilityRandomize").click(ev => rollAbilities());
         html.find("#abilityStandard").click(ev => prepareStandardArray());
@@ -92,17 +78,16 @@ class HeroCreationTools extends Application {
         html.find("#abilityManual").click(ev => manualAbilities());
         html.find(".abilityUp").click(ev => {
             const stat = ev.currentTarget.id;
-            const i = stat.charAt(stat.length-1);
+            const i = stat.charAt(stat.length - 1);
             increaseAbility(i);
         });
         html.find(".abilityDown").click(ev => {
             const stat = ev.currentTarget.id;
-            const i = stat.charAt(stat.length-1);
+            const i = stat.charAt(stat.length - 1);
             decreaseAbility(i);
         });
 
         html.find("#basicsNext").click(ev => {
-            saveBasicsOnActor(this.newActor);
             openTab(ev, 'raceDiv');
         });
 
@@ -120,7 +105,7 @@ class HeroCreationTools extends Application {
              */
             let values = [];
             let stat_block = [];
-            if (this._updateAbilityScores(values, stat_block)){
+            if (this._updateAbilityScores(values, stat_block)) {
                 this.app.render();
                 openTab(ev, 'backgroundDiv');
 
@@ -156,7 +141,7 @@ link.type = '/text/css';
 link.href = '/styles/hero-creation-tool.css';
 
 
-Hooks.on('renderActorDirectory', (app,  html, data) => {
+Hooks.on('renderActorDirectory', (app, html, data) => {
     configure_hero = new HeroCreationTools(app, html);
 
     let button = document.createElement('button');
@@ -187,7 +172,7 @@ Hooks.on('renderActorSheet', (app, html, data) => {
     configure_hero = new HeroCreationTools(app, html);
 
     let button = $(`<a class="header-button configure_hero"}><i class="fas fa-dice-d20"></i>Hero Creation</a>`);
-    button.click(ev =>{
+    button.click(ev => {
         configure_hero.openForActor(actorId);
     });
     window.heroMancer = {};
@@ -247,14 +232,14 @@ function togglePointBuyScore(isPointBuy) {
 }
 
 function changeAbility(i, up) {
-    let stat = document.getElementById("number"+i);
+    let stat = document.getElementById("number" + i);
     const value = stat.valueAsNumber;
     const isPointBuy = $('#point-buy-score').is(":visible");
     const newValue = value + (up ? 1 : -1);
 
     stat.value = newValue;
 
-    if(isPointBuy) {
+    if (isPointBuy) {
         const cost = (up && value > 12) || (!up && value > 13) ? 2 : 1;
         const currentPointsElement = document.getElementById("point-buy-current-score");
         const currentPoints = parseInt(currentPointsElement.innerHTML);
@@ -262,24 +247,24 @@ function changeAbility(i, up) {
         const newPoints = up ? currentPoints + cost : currentPoints - cost;
         currentPointsElement.innerHTML = newPoints;
 
-        for(let j=1; j<7; j++) {
-            const v = document.getElementById("number"+j).valueAsNumber;
+        for (let j = 1; j < 7; j++) {
+            const v = document.getElementById("number" + j).valueAsNumber;
             const disableUp = (newPoints >= maxPoints) || (v == 15);
             const disableDown = (v == 8);
-            $("#up"+j).prop("disabled", disableUp);
-            $("#down"+j).prop("disabled", disableDown);
+            $("#up" + j).prop("disabled", disableUp);
+            $("#down" + j).prop("disabled", disableDown);
         }
         // TODO do this on a notification? l18n?
-        if(newPoints > maxPoints)
+        if (newPoints > maxPoints)
             alert("You have gone over the maximum points allowed for Point Buy");
     } else {
-        if(newValue == 20) {
-            $("#up"+i).prop("disabled", true);
-        } else if(newValue == 0) {
-            $("#down"+i).prop("disabled", true);
+        if (newValue == 20) {
+            $("#up" + i).prop("disabled", true);
+        } else if (newValue == 0) {
+            $("#down" + i).prop("disabled", true);
         } else {
-            $("#up"+i).prop("disabled", false);
-            $("#down"+i).prop("disabled", false);
+            $("#up" + i).prop("disabled", false);
+            $("#down" + i).prop("disabled", false);
         }
     }
     updateAbilityModifiers();
@@ -294,18 +279,18 @@ function decreaseAbility(i) {
 }
 
 function setAbilityInputs(values) {
-    for(let i=0; i<6; i++) {
-        document.getElementById("number"+(i+1)).value = Array.isArray(values) ? values[i] : values;
+    for (let i = 0; i < 6; i++) {
+        document.getElementById("number" + (i + 1)).value = Array.isArray(values) ? values[i] : values;
     }
 }
 
 function toggleAbilitySelects(enable, resetSelects) {
-    for(let i=0; i<6; i++) {
-        $("#stat"+(i+1)).prop("disabled", !enable);
+    for (let i = 0; i < 6; i++) {
+        $("#stat" + (i + 1)).prop("disabled", !enable);
     }
-    if(resetSelects) {
-        for(let i=0; i<6; i++) {
-            $("#stat"+(i+1)).val("");
+    if (resetSelects) {
+        for (let i = 0; i < 6; i++) {
+            $("#stat" + (i + 1)).val("");
         }
     } else {
         $("#stat1").val("STR");
@@ -318,70 +303,127 @@ function toggleAbilitySelects(enable, resetSelects) {
 }
 
 function toggleAbilityInputs(enable) {
-    for(let i=0; i<6; i++) {
-        $("#number"+(i+1)).prop("disabled", !enable);
+    for (let i = 0; i < 6; i++) {
+        $("#number" + (i + 1)).prop("disabled", !enable);
     }
 }
 
 function toggleAbilityUpDownButtons(show, enableDown) {
-    for(let i=0; i<6; i++) {
-        let n = i+1;
-        $("#up"+n).prop( "disabled", false );
-        $("#down"+n).prop( "disabled", !enableDown );
-        if(show){
-            $("#up"+n).show();
-            $("#down"+n).show();
+    for (let i = 0; i < 6; i++) {
+        let n = i + 1;
+        $("#up" + n).prop("disabled", false);
+        $("#down" + n).prop("disabled", !enableDown);
+        if (show) {
+            $("#up" + n).show();
+            $("#down" + n).show();
         } else {
-            $("#up"+n).hide();
-            $("#down"+n).hide();
+            $("#up" + n).hide();
+            $("#down" + n).hide();
         }
     }
 }
 
 function toggleAbilityScoresAndModifiersTable() {
-    if($("#ability-scores-modes-table").is(":visible"))
+    if ($("#ability-scores-modes-table").is(":visible"))
         $("#ability-scores-modes-table").hide();
     else
         $("#ability-scores-modes-table").show();
 }
 
 function updateAbilityModifiers() {
-    for(let i=0; i<6; i++) {
-        const mod = Math.floor( (document.getElementById("number"+(i+1)).valueAsNumber - 10) / 2);
-        document.getElementById("mod"+(i+1)).innerHTML = mod >= 0 ? "+"+mod : mod;
+    for (let i = 0; i < 6; i++) {
+        const mod = Math.floor((document.getElementById("number" + (i + 1)).valueAsNumber - 10) / 2);
+        document.getElementById("mod" + (i + 1)).innerHTML = mod >= 0 ? "+" + mod : mod;
     }
 }
 
 async function buildActor(event, newActor) {
-    debugger;
-    // Check actor has a name
-    /*
-    if( actor has no name ) {
-        // TODO: add warning on review & disable button (on review load, not here, here is too late)
-        alert("Hero needs a name, please ")
-    }
-    */
- 
+    // Checks should be done on the review tab, and disable accordingly the Submit button if something's missing or wrong
+    recordNameAndAvatar(newActor);
+    // recordRace(newActor);
+    // recordClass(newActor);
+    recordAbilities(newActor);
+    // recordBackground(newActor);
+    // recordEquipment(newActor);
+    recordBio(newActor);
+
     // Creating new actor based on collected data
-    actor = await Actor.create(newActor);
+    const promisedActor = await Actor.create(newActor);
+    const newActorId = promisedActor.data._id;
+    
+    // Setting token to created actor (needs actor id)
+    const actor = game.actors.entities.filter(e => e.data._id == newActorId)[0];
+    const dimSight = 60;
+    // displayBars (with bar1 being HP) and displayName being both 'Hover by Owner' are an opinionated choice for now, eventually those might be a setting
+    const tokenData = {
+        actorId: newActorId,
+        actorLink: true,
+        disposition: 1,
+        img: document.getElementById("token_path").value,
+        vision: true,
+        dimSight: dimSight,
+        bar1: { attribute: "attributes.hp"},
+        displayBars: 20, // Hovered by Owner
+        displayName: 20, // Hovered by Owner
+
+    }
+    await actor.update({ "token": tokenData })
 }
 
 function openFilePicker(input) {
     console.log("on openFilePicker...");
     let path1 = "/"
     let fp2 = new FilePicker({
-       type: "image",
-       current: path1,
-       callback: path => {
-           document.getElementById(`${input}_path`).value = path;
-           document.getElementById(`${input}_img`).src = path;
-       },
+        type: "image",
+        current: path1,
+        callback: path => {
+            document.getElementById(`${input}_path`).value = path;
+            document.getElementById(`${input}_img`).src = path;
+        },
     })
     fp2.browse();
- }
+}
 
- function saveBasicsOnActor(actor) {
+function recordNameAndAvatar(actor) {
     actor.name = document.getElementById("actor_name").value;
     actor.img = document.getElementById("avatar_path").value;
-    //actor.token = {}
- }
+}
+
+function recordAbilities(actor) {
+    let values = [], stats = [];
+    //Getting the stat
+    values[0] = document.getElementById("number1").value;
+    values[1] = document.getElementById("number2").value;
+    values[2] = document.getElementById("number3").value;
+    values[3] = document.getElementById("number4").value;
+    values[4] = document.getElementById("number5").value;
+    values[5] = document.getElementById("number6").value;
+
+    //Getting the type of stat
+    stats.push(document.getElementById("stat1").value);
+    stats.push(document.getElementById("stat2").value);
+    stats.push(document.getElementById("stat3").value);
+    stats.push(document.getElementById("stat4").value);
+    stats.push(document.getElementById("stat5").value);
+    stats.push(document.getElementById("stat6").value);
+
+    for (var i = 0; i < stats.length; i++) {
+        // push abilities into the newActor object data
+        actor.data[`abilities.${stats[i].toLowerCase()}.value`] = parseInt(values[i]);
+    }
+}
+
+function recordBio(actor) {
+    let appearance = "";
+    appearance = appearance.concat(`Age: ${document.getElementById("character_age").value}`)
+    appearance = appearance.concat(`\nHeight: ${document.getElementById("character_height").value}`)
+    appearance = appearance.concat(`\nWeight: ${document.getElementById("character_weight").value}`)
+    appearance = appearance.concat(`\nEyes: ${document.getElementById("character_eye_color").value} ${document.getElementById("character_eye_rgb").value}`)
+    appearance = appearance.concat(`\nHair: ${document.getElementById("character_hair_color").value} ${document.getElementById("character_hair_rgb").value}`)
+    appearance = appearance.concat(`\nSkin: ${document.getElementById("character_skin_color").value} ${document.getElementById("character_skin_rgb").value}`)
+
+    actor.data.details = {
+        appearance: appearance,
+        biography: { value: document.getElementById("character_biography").value },
+    }
+}
