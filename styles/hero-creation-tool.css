@@ -249,3 +249,27 @@
 .form-group span, .form-group button {
   flex: 0 0 35px;
 }
+
+.divButton {
+  min-width: 80px;
+}
+
+.basics-top-label {
+  max-width: 180px;
+}
+
+#avatar_img {
+  max-width: 200px;
+  margin-right: 15px;
+}
+
+#token_img {
+  max-width: 75px;
+}
+
+#avatar-token-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
