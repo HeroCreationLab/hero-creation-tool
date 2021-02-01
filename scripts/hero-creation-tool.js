@@ -101,6 +101,11 @@ class HeroCreationTools extends Application {
             decreaseAbility(i);
         });
 
+        html.find("#basicsNext").click(ev => {
+            saveBasicsOnActor(this.newActor);
+            openTab(ev, 'raceDiv');
+        });
+
         html.find(".raceSubmit").click(ev => {
             openTab(ev, 'classDiv');
         });
@@ -348,6 +353,7 @@ function updateAbilityModifiers() {
 }
 
 async function buildActor(event, newActor) {
+    debugger;
     // Check actor has a name
     /*
     if( actor has no name ) {
@@ -359,3 +365,23 @@ async function buildActor(event, newActor) {
     // Creating new actor based on collected data
     actor = await Actor.create(newActor);
 }
+
+function openFilePicker(input) {
+    console.log("on openFilePicker...");
+    let path1 = "/"
+    let fp2 = new FilePicker({
+       type: "image",
+       current: path1,
+       callback: path => {
+           document.getElementById(`${input}_path`).value = path;
+           document.getElementById(`${input}_img`).src = path;
+       },
+    })
+    fp2.browse();
+ }
+
+ function saveBasicsOnActor(actor) {
+    actor.name = document.getElementById("actor_name").value;
+    actor.img = document.getElementById("avatar_path").value;
+    //actor.token = {}
+ }

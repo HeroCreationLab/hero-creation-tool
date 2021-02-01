@@ -8,13 +8,14 @@
 <!--buttons toggle show hide of divs of each section-->
 <div class="tabs">
   <button class="tablinks" onclick="openTab(event, 'startDiv')"> Start </button>
+  <button class="tablinks" onclick="openTab(event, 'basicsDiv')"> Basics </button>
   <button class="tablinks" onclick="openTab(event, 'raceDiv')"> Race </button>
   <button class="tablinks" onclick="openTab(event, 'classDiv')"> Class </button>
   <button class="tablinks" onclick="openTab(event, 'abDiv')"> Abilities </button>
   <button class="tablinks" onclick="openTab(event, 'backgroundDiv')"> Background </button>
   <button class="tablinks" onclick="openTab(event, 'eqDiv')"> Equipment </button>
   <button class="tablinks" onclick="openTab(event, 'spDiv')"> Spells </button>
-  <button class="tablinks" onclick="openTab(event, 'featsDiv')"> Feats </button>
+  <!-- <button class="tablinks" onclick="openTab(event, 'featsDiv')"> Feats </button> -->
   <button class="tablinks" onclick="openTab(event, 'bioDiv')"> Bio </button>
   <button class="tablinks" onclick="openTab(event, 'reviewDiv')"> Review </button>
 </div>
@@ -36,7 +37,35 @@
     <br>
   </body>
   <!-- next button -->
-  <div class="nextButton" onclick="openTab(event, 'raceDiv')">Next</div>
+  <div class="nextButton" onclick="openTab(event, 'basicsDiv')">Next</div>
+</div>
+
+<div id="basicsDiv" class="tabcontent apply-header-font">
+  <h1>Basics</h1>
+  <div class="form--padding">
+    <form class="flexcol prototype" autocomplete="off">
+      <div class="form-group">
+        <label class="basics-top-label">Character Name</label>
+        <input type="text" id="actor_name" name="name" placeholder="Name">
+      </div>
+      <div class="form-group">
+        <label class="basics-top-label">Avatar</label>
+        <input type="text" id="avatar_path" placeholder="Path.." value="icons/svg/mystery-man.svg">
+        <button type="button" style="text-align: center" id="pickAvatarBtn" class="divButton file-picker" onclick="openFilePicker('avatar')">Pick</button>
+      </div>
+      <div class="form-group">
+        <label class="basics-top-label">Token</label>
+        <input type="text" id="token_path" placeholder="Path.." value="icons/svg/mystery-man.svg">
+        <button type="button" style="text-align: center" id="pickTokenBtn" class="divButton file-picker" onclick="openFilePicker('token')">Pick</button>
+      </div>
+      <div id="avatar-token-display">
+        <img id="avatar_img" title="Avatar" src="icons/svg/mystery-man.svg">
+        <img id="token_img" title="Token" src="icons/svg/mystery-man.svg">
+      </div>
+    </form>
+  </div>
+  <!-- next button -->
+  <div id="basicsNext" class="nextButton">Next</div>
 </div>
 
 <div id="raceDiv" class="tabcontent apply-header-font">
@@ -63,9 +92,7 @@
 </div>
 
 <div id="classDiv" class="tabcontent apply-header-font">
-  <h1>
-    First choose your class!
-  </h1>
+  <h1>Class</h1>
   <select id="class-dropdown" name="Class", onclick="onSelectClassIndex()"></select>
   <script>
     let json = getJson("modules/hero-creation-tool/scripts/database/class-jsons/index.json");
@@ -892,6 +919,9 @@
 <div id="reviewDiv" class="tabcontent apply-header-font">
   <h1>Review</h1>
   <div class="review-container">
+    <section id="review-basics" class="review-container">
+      <h2>Basics</h2>
+    </section>
     <section id="review-race" class="review-container">
       <h2>Race</h2>
     </section>
@@ -910,15 +940,15 @@
     <section id="review-spells" class="review-container">
       <h2>Spells</h2>
     </section>
-    <section id="review-feats" class="review-container">
+    <!-- <section id="review-feats" class="review-container">
       <h2>Feats</h2>
-    </section>
+    </section> -->
     <section id="review-bio" class="review-container">
       <h2>Bio</h2>
     </section>
 
     <div class="nextButton">
-      <span id="finalSubmit">Finalize!</span>
+      <span id="finalSubmit">Submit</span>
     </div>
   </div>
 </div>
