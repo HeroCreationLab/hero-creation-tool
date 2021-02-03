@@ -1,0 +1,12 @@
+<div id="classDiv" class="tabcontent apply-header-font">
+    <h1>Class</h1>
+    <select id="class-dropdown" name="Class" , onclick="onSelectClassIndex()"></select>
+    <script>
+        let json = getJson("modules/hero-creation-tool/scripts/database/class-jsons/index.json");
+        json
+            .then(data => {
+                populateList("class-dropdown", data, true, 'class.');
+            })
+    </script>
+    <div class="classSubmit nextButton">Next</div>
+</div>

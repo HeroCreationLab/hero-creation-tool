@@ -1,0 +1,29 @@
+<div id="basicsDiv" class="tabcontent apply-header-font">
+    <h1>Basics</h1>
+    <div class="form--padding">
+        <form class="flexcol prototype" autocomplete="off">
+            <div class="form-group">
+                <label class="basics-top-label">Character Name</label>
+                <input type="text" id="actor_name" name="name" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <label class="basics-top-label">Avatar</label>
+                <input type="text" id="avatar_path" placeholder="Path.." value="icons/svg/mystery-man.svg">
+                <button type="button" style="text-align: center" id="pickAvatarBtn" class="divButton file-picker"
+                    onclick="openFilePicker('avatar')">Pick</button>
+            </div>
+            <div class="form-group">
+                <label class="basics-top-label">Token</label>
+                <input type="text" id="token_path" placeholder="Path.." value="icons/svg/mystery-man.svg">
+                <button type="button" style="text-align: center" id="pickTokenBtn" class="divButton file-picker"
+                    onclick="openFilePicker('token')">Pick</button>
+            </div>
+            <div id="avatar-token-display">
+                <img id="avatar_img" title="Avatar" src="icons/svg/mystery-man.svg">
+                <img id="token_img" title="Token" src="icons/svg/mystery-man.svg">
+            </div>
+        </form>
+    </div>
+    <!-- next button -->
+    <div id="basicsNext" class="nextButton">Next</div>
+</div>

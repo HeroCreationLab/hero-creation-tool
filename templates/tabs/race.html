@@ -1,0 +1,22 @@
+<div id="raceDiv" class="tabcontent apply-header-font">
+    <h1>Race</h1>
+    <div>
+        <select id="race-dropdown" name="race-dropdown" onclick="onSelectRace()"></select>
+        <script>
+            var races = getJson("modules/hero-creation-tool/scripts/database/race-jsons/srdRaces.json");
+            races
+                .then(data => {
+                    populateList("race-dropdown", data, false, "race");
+                })
+        </script>
+    </div>
+    <br>
+    <h2>Ability Score Increase </h2>
+    <div id="race-ability" name="race-ability"></div>
+    <h2>Speed</h2>
+    <div id="race-speed" name="race-speed"></div>
+    <!-- <h2>Language Proficiencies</h2> -->
+    <!-- <div id="race-language" name="race-language"></div> -->
+    <div id="race-features" name="race-features"></div>
+    <div class="raceSubmit nextButton">Next</div>
+</div>

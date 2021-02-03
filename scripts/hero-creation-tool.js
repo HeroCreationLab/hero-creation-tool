@@ -141,6 +141,25 @@ link.type = '/text/css';
 link.href = '/styles/hero-creation-tool.css';
 
 
+Hooks.once("init", () => {
+    // Preload Handlebars Templates
+    const templatePaths = [
+        // Partials
+        "modules/hero-creation-tool/templates/tabs/abilities.html",
+        "modules/hero-creation-tool/templates/tabs/background.html",
+        "modules/hero-creation-tool/templates/tabs/basics.html",
+        "modules/hero-creation-tool/templates/tabs/bio.html",
+        "modules/hero-creation-tool/templates/tabs/class.html",
+        "modules/hero-creation-tool/templates/tabs/equipment.html",
+        "modules/hero-creation-tool/templates/tabs/race.html",
+        "modules/hero-creation-tool/templates/tabs/review.html",
+        "modules/hero-creation-tool/templates/tabs/spells.html",
+        "modules/hero-creation-tool/templates/tabs/start.html",
+    ];
+    // Load the template parts
+    loadTemplates(templatePaths);
+});
+
 Hooks.on('renderActorDirectory', (app, html, data) => {
     configure_hero = new HeroCreationTools(app, html);
 
@@ -350,7 +369,7 @@ async function buildActor(event, newActor) {
     // Creating new actor based on collected data
     const promisedActor = await Actor.create(newActor);
     const newActorId = promisedActor.data._id;
-    
+
     // Setting token to created actor (needs actor id)
     const actor = game.actors.entities.filter(e => e.data._id == newActorId)[0];
     const dimSight = 60;
@@ -362,7 +381,7 @@ async function buildActor(event, newActor) {
         img: document.getElementById("token_path").value,
         vision: true,
         dimSight: dimSight,
-        bar1: { attribute: "attributes.hp"},
+        bar1: { attribute: "attributes.hp" },
         displayBars: 20, // Hovered by Owner
         displayName: 20, // Hovered by Owner
 
