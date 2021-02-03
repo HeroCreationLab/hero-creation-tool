@@ -1,32 +1,33 @@
 <div id="basicsDiv" class="tabcontent apply-header-font">
-    <h1>Basics</h1>
+    <h1>{{localize 'HTC.Tabs.Basics.Title'}}</h1>
     <div class="form--padding">
         <form class="flexcol prototype" autocomplete="off">
             <div class="form-group">
-                <label class="basics-top-label">Character Name</label>
+                <label class="basics-top-label">{{localize 'HTC.Tabs.Basics.CharName'}}</label>
                 <input type="text" id="actor_name" name="name" placeholder="Name">
             </div>
             <div class="form-group">
-                <label class="basics-top-label">Avatar</label>
+                <label class="basics-top-label">{{localize 'HTC.Tabs.Basics.Avatar'}}</label>
                 <input type="text" id="avatar_path" placeholder="Path.." value="icons/svg/mystery-man.svg">
                 <button type="button" style="text-align: center" id="pickAvatarBtn" class="divButton file-picker"
-                    onclick="openFilePicker('avatar')">Pick</button>
+                    onclick="openFilePicker('avatar')">{{localize 'HTC.Tabs.Basics.PickButton'}}</button>
             </div>
             <div class="form-group">
-                <label class="basics-top-label">Token</label>
+                <label class="basics-top-label">{{localize 'HTC.Tabs.Basics.Token'}}</label>
                 <input type="text" id="token_path" placeholder="Path.." value="icons/svg/mystery-man.svg">
                 <button type="button" style="text-align: center" id="pickTokenBtn" class="divButton file-picker"
-                    onclick="openFilePicker('token')">Pick</button>
+                    onclick="openFilePicker('token')">{{localize 'HTC.Tabs.Basics.PickButton'}}</button>
             </div>
             <div class="form-group">
-                <label class="basics-top-label">Preview</label>
+                <label class="basics-top-label">{{localize 'HTC.Tabs.Basics.Preview'}}</label>
                 <div id="avatar-token-display">
-                    <img id="avatar_img" title="Avatar" src="icons/svg/mystery-man.svg" onclick="openFilePicker('avatar')">
+                    <img id="avatar_img" title="Avatar" src="icons/svg/mystery-man.svg"
+                        onclick="openFilePicker('avatar')">
                     <img id="token_img" title="Token" src="icons/svg/mystery-man.svg" onclick="openFilePicker('token')">
                 </div>
             </div>
         </form>
     </div>
     <!-- next button -->
-    <div id="basicsNext" class="nextButton">Next</div>
+    <div id="basicsNext" class="nextButton">{{localize 'HTC.Tabs.Next'}}</div>
 </div>

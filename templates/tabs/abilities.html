@@ -1,30 +1,22 @@
 <div id="abDiv" class="tabcontent apply-header-font">
-    <h1>Abilities</h1>
-    <button class="accordion-button" onclick="toggleAccordion()">Info</button>
+    <h1>{{localize 'HTC.Tabs.Abilities.Title'}}</h1>
+    <button class="accordion-button" onclick="toggleAccordion()">{{localize 'HTC.Tabs.Abilities.Buttons.Info'}}</button>
     <div class="textarea accordion-panel" id="abilities-info">
-        <p>Each of a creature’s abilities has a score, a number that defines the magnitude of that ability. An ability
-            score
-            is not just a measure of innate capabilities, but also encompasses a creature’s training and competence in
-            activities related to that ability.</p>
-        <p>A score of 10 or 11 is the normal human average, but adventurers and many monsters are a cut above average in
-            most abilities. A score of 18 is the highest that a person usually reaches. Adventurers can have scores as
-            high as
-            20, and monsters and divine beings can have scores as high as 30.</p>
-        <p>Each ability also has a modifier, derived from the score and ranging from −5 (for an ability score of 1) to
-            +10
-            (for a score of 30). The <b><span id="ability-mod-table-toggle" class="clickableText">Ability Scores and
-                    Modifiers
-                    table</span></b> notes the ability modifiers for the range of possible ability scores, from 1 to 30.
+        <p>{{localize 'HTC.Tabs.Abilities.Info.p1'}}
+            <b><span id="ability-mod-table-toggle" class="clickableText"
+                    onclick="toggleAbilityScoresAndModifiersTable()">{{localize
+                    'HTC.Tabs.Abilities.Info.pTableTitle'}}</span></b>
+            {{localize 'HTC.Tabs.Abilities.Info.p2'}}
         </p>
         <div id="ability-scores-modes-table" hidden>
             <table border="0" cellspacing="0">
                 <caption>
-                    <h4>Ability Scores and Modifiers</h4>
+                    <h4>{{localize 'HTC.Tabs.Abilities.Info.AbilityScoresTable.Title'}}</h4>
                 </caption>
                 <thead>
                     <tr>
-                        <td>Score</td>
-                        <td>Modifier</td>
+                        <td>{{localize 'HTC.Tabs.Abilities.Info.AbilityScoresTable.Score'}}</td>
+                        <td>{{localize 'HTC.Tabs.Abilities.Info.AbilityScoresTable.Modifier'}}</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -95,23 +87,21 @@
                 </tbody>
             </table>
         </div>
-        <p>To determine an ability modifier without consulting the table, subtract 10 from the ability score and then
-            divide
-            the total by 2 (round down).</p>
-        <p>Because ability modifiers affect almost every attack roll, ability check, and saving throw, ability modifiers
-            come up in play more often than their associated scores.</p>
+        <p>{{localize 'HTC.Tabs.Abilities.Info.p3'}}</p>
     </div>
     <form class="flexcol prototype" autocomplete="off">
 
         <div class="horizontal-flex">
-            <button type="button" style="text-align: center" id="abilityRandomize" class="divButton">Roll 4d6 keep
-                3</button>
-            <button type="button" style="text-align: center" id="abilityStandard" class="divButton">Standard
-                Array</button>
-            <button type="button" style="text-align: center" id="abilityPointBuy" class="divButton">Point Buy</button>
-            <button type="button" style="text-align: center" id="abilityManual" class="divButton">Manual Entry</button>
+            <button type="button" style="text-align: center" id="abilityRandomize" class="divButton"
+                onclick="rollAbilities()">{{localize 'HTC.Tabs.Abilities.Buttons.Roll'}}</button>
+            <button type="button" style="text-align: center" id="abilityStandard" class="divButton"
+                onclick="prepareStandardArray()">{{localize 'HTC.Tabs.Abilities.Buttons.StandardArray'}}</button>
+            <button type="button" style="text-align: center" id="abilityPointBuy" class="divButton"
+                onclick="preparePointBuy()">{{localize 'HTC.Tabs.Abilities.Buttons.PointBuy'}}</button>
+            <button type="button" style="text-align: center" id="abilityManual" class="divButton"
+                onclick="manualAbilities()">{{localize 'HTC.Tabs.Abilities.Buttons.ManualEntry'}}</button>
         </div>
-        <p style="text-align: center" id="point-buy-score" hidden> Point Buy Score: <span
+        <p style="text-align: center" id="point-buy-score" hidden>{{localize 'HTC.Tabs.Abilities.PointBuyScore'}}<span
                 id="point-buy-current-score">0</span> / <span id="point-buy-max-score">27</span></p>
         <div class="form-group horizontal-flex">
             <input class="flex-sixth" type="number" id="number1" placeholder="10" disabled>
@@ -119,13 +109,13 @@
             <button class="flex-sixth abilityUp" type="button" hidden id="up1">↑</button>
             <button class="flex-sixth abilityDown" type="button" hidden id="down1">↓</button>
             <select class="flex-half" name="stats" id="stat1">
-                <option value="" disabled selected>Select ability..</option>
-                <option value="STR">Strength</option>
-                <option value="DEX">Dexterity</option>
-                <option value="CON">Constitution</option>
-                <option value="INT">Intelligence</option>
-                <option value="WIS">Wisdom</option>
-                <option value="CHA">Charisma</option>
+                <option value="" disabled selected>{{localize 'HTC.Tabs.Abilities.Select.Placeholder'}}</option>
+                <option value="STR">{{localize 'HTC.Common.Abilities.STR'}}</option>
+                <option value="DEX">{{localize 'HTC.Common.Abilities.DEX'}}</option>
+                <option value="CON">{{localize 'HTC.Common.Abilities.CON'}}</option>
+                <option value="INT">{{localize 'HTC.Common.Abilities.INT'}}</option>
+                <option value="WIS">{{localize 'HTC.Common.Abilities.WIS'}}</option>
+                <option value="CHA">{{localize 'HTC.Common.Abilities.CHA'}}</option>
             </select>
         </div>
         <div class="form-group horizontal-flex">
@@ -134,13 +124,13 @@
             <button class="flex-sixth abilityUp" type="button" hidden id="up2">↑</button>
             <button class="flex-sixth abilityDown" type="button" hidden id="down2">↓</button>
             <select class="flex-half" name="stats" id="stat2">
-                <option value="" disabled selected>Select ability..</option>
-                <option value="STR">Strength</option>
-                <option value="DEX">Dexterity</option>
-                <option value="CON">Constitution</option>
-                <option value="INT">Intelligence</option>
-                <option value="WIS">Wisdom</option>
-                <option value="CHA">Charisma</option>
+                <option value="" disabled selected>{{localize 'HTC.Tabs.Abilities.Select.Placeholder'}}</option>
+                <option value="STR">{{localize 'HTC.Common.Abilities.STR'}}</option>
+                <option value="DEX">{{localize 'HTC.Common.Abilities.DEX'}}</option>
+                <option value="CON">{{localize 'HTC.Common.Abilities.CON'}}</option>
+                <option value="INT">{{localize 'HTC.Common.Abilities.INT'}}</option>
+                <option value="WIS">{{localize 'HTC.Common.Abilities.WIS'}}</option>
+                <option value="CHA">{{localize 'HTC.Common.Abilities.CHA'}}</option>
             </select>
         </div>
         <div class="form-group horizontal-flex">
@@ -149,13 +139,13 @@
             <button class="flex-sixth abilityUp" type="button" hidden id="up3">↑</button>
             <button class="flex-sixth abilityDown" type="button" hidden id="down3">↓</button>
             <select class="flex-half" name="stats" id="stat3">
-                <option value="" disabled selected>Select ability..</option>
-                <option value="STR">Strength</option>
-                <option value="DEX">Dexterity</option>
-                <option value="CON">Constitution</option>
-                <option value="INT">Intelligence</option>
-                <option value="WIS">Wisdom</option>
-                <option value="CHA">Charisma</option>
+                <option value="" disabled selected>{{localize 'HTC.Tabs.Abilities.Select.Placeholder'}}</option>
+                <option value="STR">{{localize 'HTC.Common.Abilities.STR'}}</option>
+                <option value="DEX">{{localize 'HTC.Common.Abilities.DEX'}}</option>
+                <option value="CON">{{localize 'HTC.Common.Abilities.CON'}}</option>
+                <option value="INT">{{localize 'HTC.Common.Abilities.INT'}}</option>
+                <option value="WIS">{{localize 'HTC.Common.Abilities.WIS'}}</option>
+                <option value="CHA">{{localize 'HTC.Common.Abilities.CHA'}}</option>
             </select>
         </div>
         <div class="form-group horizontal-flex">
@@ -164,13 +154,13 @@
             <button class="flex-sixth abilityUp" type="button" hidden id="up4">↑</button>
             <button class="flex-sixth abilityDown" type="button" hidden id="down4">↓</button>
             <select class="flex-half" name="stats" id="stat4">
-                <option value="" disabled selected>Select ability..</option>
-                <option value="STR">Strength</option>
-                <option value="DEX">Dexterity</option>
-                <option value="CON">Constitution</option>
-                <option value="INT">Intelligence</option>
-                <option value="WIS">Wisdom</option>
-                <option value="CHA">Charisma</option>
+                <option value="" disabled selected>{{localize 'HTC.Tabs.Abilities.Select.Placeholder'}}</option>
+                <option value="STR">{{localize 'HTC.Common.Abilities.STR'}}</option>
+                <option value="DEX">{{localize 'HTC.Common.Abilities.DEX'}}</option>
+                <option value="CON">{{localize 'HTC.Common.Abilities.CON'}}</option>
+                <option value="INT">{{localize 'HTC.Common.Abilities.INT'}}</option>
+                <option value="WIS">{{localize 'HTC.Common.Abilities.WIS'}}</option>
+                <option value="CHA">{{localize 'HTC.Common.Abilities.CHA'}}</option>
             </select>
         </div>
         <div class="form-group horizontal-flex">
@@ -179,13 +169,13 @@
             <button class="flex-sixth abilityUp" type="button" hidden id="up5">↑</button>
             <button class="flex-sixth abilityDown" type="button" hidden id="down5">↓</button>
             <select class="flex-half" name="stats" id="stat5">
-                <option value="" disabled selected>Select ability..</option>
-                <option value="STR">Strength</option>
-                <option value="DEX">Dexterity</option>
-                <option value="CON">Constitution</option>
-                <option value="INT">Intelligence</option>
-                <option value="WIS">Wisdom</option>
-                <option value="CHA">Charisma</option>
+                <option value="" disabled selected>{{localize 'HTC.Tabs.Abilities.Select.Placeholder'}}</option>
+                <option value="STR">{{localize 'HTC.Common.Abilities.STR'}}</option>
+                <option value="DEX">{{localize 'HTC.Common.Abilities.DEX'}}</option>
+                <option value="CON">{{localize 'HTC.Common.Abilities.CON'}}</option>
+                <option value="INT">{{localize 'HTC.Common.Abilities.INT'}}</option>
+                <option value="WIS">{{localize 'HTC.Common.Abilities.WIS'}}</option>
+                <option value="CHA">{{localize 'HTC.Common.Abilities.CHA'}}</option>
             </select>
         </div>
         <div class="form-group horizontal-flex">
@@ -194,16 +184,16 @@
             <button class="flex-sixth abilityUp" type="button" hidden id="up6">↑</button>
             <button class="flex-sixth abilityDown" type="button" hidden id="down6">↓</button>
             <select class="flex-half" name="stats" id="stat6">
-                <option value="" disabled selected>Select ability..</option>
-                <option value="STR">Strength</option>
-                <option value="DEX">Dexterity</option>
-                <option value="CON">Constitution</option>
-                <option value="INT">Intelligence</option>
-                <option value="WIS">Wisdom</option>
-                <option value="CHA">Charisma</option>
+                <option value="" disabled selected>{{localize 'HTC.Tabs.Abilities.Select.Placeholder'}}</option>
+                <option value="STR">{{localize 'HTC.Common.Abilities.STR'}}</option>
+                <option value="DEX">{{localize 'HTC.Common.Abilities.DEX'}}</option>
+                <option value="CON">{{localize 'HTC.Common.Abilities.CON'}}</option>
+                <option value="INT">{{localize 'HTC.Common.Abilities.INT'}}</option>
+                <option value="WIS">{{localize 'HTC.Common.Abilities.WIS'}}</option>
+                <option value="CHA">{{localize 'HTC.Common.Abilities.CHA'}}</option>
             </select>
         </div>
     </form>
     <!-- next button -->
-    <div class="abilitySubmit nextButton">Next</div>
+    <div class="abilitySubmit nextButton">{{localize 'HTC.Tabs.Next'}}</div>
 </div>

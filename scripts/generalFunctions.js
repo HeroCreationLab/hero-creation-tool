@@ -105,11 +105,15 @@ function onSelectRace() {
    document.getElementById("race-features").innerHTML = raceFeatures;
 }
 
-function toggleAccordion() {
-   var panel = document.getElementById("abilities-info")
-   if (panel.style.display === "block") {
-      panel.style.display = "none";
-   } else {
-      panel.style.display = "block";
-   }
+function openFilePicker(input) {
+   let path1 = "/"
+   let fp2 = new FilePicker({
+       type: "image",
+       current: path1,
+       callback: path => {
+           document.getElementById(`${input}_path`).value = path;
+           document.getElementById(`${input}_img`).src = path;
+       },
+   })
+   fp2.browse();
 }
