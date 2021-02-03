@@ -6,11 +6,19 @@
     "author": ["Alex", "Dan", "Andrew", "Coco", "Roy", "Lyle"],
     "minimumCoreVersion": "0.7.9",
     "compatibleCoreVersion": "0.7.9",
+    "languages": [
+        {
+          "lang": "en",
+          "name": "English",
+          "path": "lang/en.json"
+        }
+    ],
     "scripts": [
         "scripts/hero-creation-tool.js", 
         "scripts/toggleButton.js", 
         "scripts/populateList.js",
         "scripts/generalFunctions.js",
+        "scripts/tabs/abilities.js",
         "scripts/database/class-jsons/class-barbarian.js",
         "scripts/database/class-jsons/class-bard.js",
         "scripts/database/class-jsons/class-cleric.js",

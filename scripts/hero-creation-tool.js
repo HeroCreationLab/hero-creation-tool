@@ -2,6 +2,7 @@
  version 0.1
  This object is a pop-up window to edit the actor's inital levels and stuffs
  */
+const modulePath = "modules/hero-creation-tool";
 class HeroCreationTools extends Application {
 
     constructor(app, html) {
@@ -9,7 +10,7 @@ class HeroCreationTools extends Application {
         this.app = app;
         this.html = html;
         this.newActor = {
-            name: "New Actor",
+            name: null,
             type: "character",
             img: "icons/svg/mystery-man.svg",
             folder: null,
@@ -23,7 +24,7 @@ class HeroCreationTools extends Application {
 
     static get defaultOptions() {
         const options = super.defaultOptions;
-        options.template = "modules/hero-creation-tool/templates/app.html";
+        options.template = modulePath + "/templates/app.html";
         options.width = 700;
         options.height = 700;
         options.title = "Hero Creation";
@@ -50,8 +51,8 @@ class HeroCreationTools extends Application {
         return false;
     }
 
-    _updateAbilityScores(values, stat_block) {
-        //Getting the type of stat
+    _updateAbilityScores() {
+        const stat_block = [];
         stat_block.push(document.getElementById("stat1").value);
         stat_block.push(document.getElementById("stat2").value);
         stat_block.push(document.getElementById("stat3").value);
@@ -64,18 +65,12 @@ class HeroCreationTools extends Application {
             return true;
         }
         else {
-            alert("You don't have all six abilities scores, check if you have some repeated or missing one.");
+            alert(game.i18n.localize("HTC.Abitilies.NotAllSix"));
             return false;
         }
     }
 
     activateListeners(html) {
-
-        html.find("#ability-mod-table-toggle").click(ev => toggleAbilityScoresAndModifiersTable());
-        html.find("#abilityRandomize").click(ev => rollAbilities());
-        html.find("#abilityStandard").click(ev => prepareStandardArray());
-        html.find("#abilityPointBuy").click(ev => preparePointBuy());
-        html.find("#abilityManual").click(ev => manualAbilities());
         html.find(".abilityUp").click(ev => {
             const stat = ev.currentTarget.id;
             const i = stat.charAt(stat.length - 1);
@@ -98,17 +93,8 @@ class HeroCreationTools extends Application {
             openTab(ev, 'abDiv');
         });
         html.find(".abilitySubmit").click(ev => {
-            /**
-             * TODO:
-             * Change the on click event to a button in the review tab.
-             * Get values from the current Application and send it to data.
-             */
-            let values = [];
-            let stat_block = [];
-            if (this._updateAbilityScores(values, stat_block)) {
-                this.app.render();
+            if (this._updateAbilityScores()) {
                 openTab(ev, 'backgroundDiv');
-
             }
         });
         html.find(".backgroundSubmit").click(ev => {
@@ -140,31 +126,35 @@ link.rel = 'stylesheet';
 link.type = '/text/css';
 link.href = '/styles/hero-creation-tool.css';
 
-
 Hooks.once("init", () => {
     // Preload Handlebars Templates
     const templatePaths = [
         // Partials
-        "modules/hero-creation-tool/templates/tabs/abilities.html",
-        "modules/hero-creation-tool/templates/tabs/background.html",
-        "modules/hero-creation-tool/templates/tabs/basics.html",
-        "modules/hero-creation-tool/templates/tabs/bio.html",
-        "modules/hero-creation-tool/templates/tabs/class.html",
-        "modules/hero-creation-tool/templates/tabs/equipment.html",
-        "modules/hero-creation-tool/templates/tabs/race.html",
-        "modules/hero-creation-tool/templates/tabs/review.html",
-        "modules/hero-creation-tool/templates/tabs/spells.html",
-        "modules/hero-creation-tool/templates/tabs/start.html",
+        modulePath + "/templates/tabs/abilities.html",
+        modulePath + "/templates/tabs/background.html",
+        modulePath + "/templates/tabs/basics.html",
+        modulePath + "/templates/tabs/bio.html",
+        modulePath + "/templates/tabs/class.html",
+        modulePath + "/templates/tabs/equipment.html",
+        modulePath + "/templates/tabs/race.html",
+        modulePath + "/templates/tabs/review.html",
+        modulePath + "/templates/tabs/spells.html",
+        modulePath + "/templates/tabs/start.html",
     ];
     // Load the template parts
     loadTemplates(templatePaths);
+
+    // Define Module Settings options
+    buildModuleSettings();
 });
 
-Hooks.on('renderActorDirectory', (app, html, data) => {
+/* This hooks onto the rendering of the Actor Directory to show the button */
+Hooks.on('renderActorDirectory', (app, html) => {
     configure_hero = new HeroCreationTools(app, html);
 
     let button = document.createElement('button');
-    button.innerHTML = '<i class="fas fa-dice-d20"></i>Hero Creation Tool';
+    const title = game.i18n.localize("HTC.Title");
+    button.innerHTML = `<i class='fas fa-dice-d20'></i>${title}`;
     button.addEventListener("click", function () {
         configure_hero.openForActor(null);
     });
@@ -190,7 +180,7 @@ Hooks.on('renderActorSheet', (app, html, data) => {
 
     configure_hero = new HeroCreationTools(app, html);
 
-    let button = $(`<a class="header-button configure_hero"}><i class="fas fa-dice-d20"></i>Hero Creation</a>`);
+    let button = $(`<a class="header-button configure_hero"}><i class="fas fa-dice-d20"></i>{{localize 'HTC.ActorSheetCreateButton'}}</a>`);
     button.click(ev => {
         configure_hero.openForActor(actorId);
     });
@@ -201,216 +191,81 @@ Hooks.on('renderActorSheet', (app, html, data) => {
     button.insertBefore(titleElement);
 });
 
-function rollAbilities() {
-    let values = [];
-    for (var i = 0; i < 6; i++) {
-        const roll = new Roll("4d6kh3").evaluate();
-        values.push(roll.total);
-    }
-    //values.sort((a, b) => b - a);
+function buildModuleSettings() {
+    game.settings.register("hero-creation-tool", "displayNameMode", {
+        name: game.i18n.localize("HTC.Setting.TokenNameMode"),
+        scope: "world",
+        config: true,
+        type: String,
+        choices: {
+            "0": "Never Displayed",
+            "10": "When Controlled",
+            "20": "Hover by Owner",
+            "30": "Hover by Anyone",
+            "40": "Always for Owner",
+            "50": "Always for Anyone"
+        },
+        default: "20",
+        onChange: value => console.log(value)
+    });
 
-    toggleAbilitySelects(true, false);
-    toggleAbilityInputs(false);
-    togglePointBuyScore(false);
-    toggleAbilityUpDownButtons(false, false);
-    setAbilityInputs(values);
-    updateAbilityModifiers();
+    game.settings.register("hero-creation-tool", "displayBarsMode", {
+        name: game.i18n.localize("HTC.Setting.TokenBarMode"),
+        hint: game.i18n.localize("HTC.Setting.TokenBarMode.hint"),
+        scope: "world",
+        config: true,
+        type: String,
+        choices: {
+            "0": "Never Displayed",
+            "10": "When Controlled",
+            "20": "Hover by Owner",
+            "30": "Hover by Anyone",
+            "40": "Always for Owner",
+            "50": "Always for Anyone"
+        },
+        default: "20",
+        onChange: value => console.log(value)
+    });
 }
 
-function prepareStandardArray() {
-    let values = [15, 14, 13, 12, 10, 8];
-    toggleAbilitySelects(true, true);
-    toggleAbilityInputs(false);
-    togglePointBuyScore(false);
-    toggleAbilityUpDownButtons(false, false);
-    setAbilityInputs(values);
-    updateAbilityModifiers();
-}
-
-function preparePointBuy() {
-    toggleAbilitySelects(false, false);
-    toggleAbilityInputs(false);
-    togglePointBuyScore(true);
-    toggleAbilityUpDownButtons(true, false);
-    setAbilityInputs(8);
-    updateAbilityModifiers();
-}
-
-function manualAbilities() {
-    toggleAbilitySelects(false, false);
-    toggleAbilityInputs(true);
-    togglePointBuyScore(false);
-    toggleAbilityUpDownButtons(true, true);
-    setAbilityInputs(10);
-    updateAbilityModifiers();
-}
-
-function togglePointBuyScore(isPointBuy) {
-    document.getElementById("point-buy-current-score").innerHTML = "0";
-    document.getElementById("point-buy-score").hidden = !isPointBuy;
-}
-
-function changeAbility(i, up) {
-    let stat = document.getElementById("number" + i);
-    const value = stat.valueAsNumber;
-    const isPointBuy = $('#point-buy-score').is(":visible");
-    const newValue = value + (up ? 1 : -1);
-
-    stat.value = newValue;
-
-    if (isPointBuy) {
-        const cost = (up && value > 12) || (!up && value > 13) ? 2 : 1;
-        const currentPointsElement = document.getElementById("point-buy-current-score");
-        const currentPoints = parseInt(currentPointsElement.innerHTML);
-        const maxPoints = parseInt(document.getElementById("point-buy-max-score").innerHTML);
-        const newPoints = up ? currentPoints + cost : currentPoints - cost;
-        currentPointsElement.innerHTML = newPoints;
-
-        for (let j = 1; j < 7; j++) {
-            const v = document.getElementById("number" + j).valueAsNumber;
-            const disableUp = (newPoints >= maxPoints) || (v == 15);
-            const disableDown = (v == 8);
-            $("#up" + j).prop("disabled", disableUp);
-            $("#down" + j).prop("disabled", disableDown);
-        }
-        // TODO do this on a notification? l18n?
-        if (newPoints > maxPoints)
-            alert("You have gone over the maximum points allowed for Point Buy");
-    } else {
-        if (newValue == 20) {
-            $("#up" + i).prop("disabled", true);
-        } else if (newValue == 0) {
-            $("#down" + i).prop("disabled", true);
-        } else {
-            $("#up" + i).prop("disabled", false);
-            $("#down" + i).prop("disabled", false);
-        }
-    }
-    updateAbilityModifiers();
-}
-
-function increaseAbility(i) {
-    changeAbility(i, true);
-}
-
-function decreaseAbility(i) {
-    changeAbility(i, false);
-}
-
-function setAbilityInputs(values) {
-    for (let i = 0; i < 6; i++) {
-        document.getElementById("number" + (i + 1)).value = Array.isArray(values) ? values[i] : values;
-    }
-}
-
-function toggleAbilitySelects(enable, resetSelects) {
-    for (let i = 0; i < 6; i++) {
-        $("#stat" + (i + 1)).prop("disabled", !enable);
-    }
-    if (resetSelects) {
-        for (let i = 0; i < 6; i++) {
-            $("#stat" + (i + 1)).val("");
-        }
-    } else {
-        $("#stat1").val("STR");
-        $("#stat2").val("DEX");
-        $("#stat3").val("CON");
-        $("#stat4").val("INT");
-        $("#stat5").val("WIS");
-        $("#stat6").val("CHA");
-    }
-}
-
-function toggleAbilityInputs(enable) {
-    for (let i = 0; i < 6; i++) {
-        $("#number" + (i + 1)).prop("disabled", !enable);
-    }
-}
-
-function toggleAbilityUpDownButtons(show, enableDown) {
-    for (let i = 0; i < 6; i++) {
-        let n = i + 1;
-        $("#up" + n).prop("disabled", false);
-        $("#down" + n).prop("disabled", !enableDown);
-        if (show) {
-            $("#up" + n).show();
-            $("#down" + n).show();
-        } else {
-            $("#up" + n).hide();
-            $("#down" + n).hide();
-        }
-    }
-}
-
-function toggleAbilityScoresAndModifiersTable() {
-    if ($("#ability-scores-modes-table").is(":visible"))
-        $("#ability-scores-modes-table").hide();
-    else
-        $("#ability-scores-modes-table").show();
-}
-
-function updateAbilityModifiers() {
-    for (let i = 0; i < 6; i++) {
-        const mod = Math.floor((document.getElementById("number" + (i + 1)).valueAsNumber - 10) / 2);
-        document.getElementById("mod" + (i + 1)).innerHTML = mod >= 0 ? "+" + mod : mod;
-    }
-}
-
+/* Copies all the data in the tabs into the newActor, then creates the actor */
 async function buildActor(event, newActor) {
-    // Checks should be done on the review tab, and disable accordingly the Submit button if something's missing or wrong
-    recordNameAndAvatar(newActor);
-    // recordRace(newActor);
-    // recordClass(newActor);
+    recordBasics(newActor);
+    recordRace(newActor); // TODO - function empty
+    recordClass(newActor); // TODO - function empty
     recordAbilities(newActor);
-    // recordBackground(newActor);
-    // recordEquipment(newActor);
+    recordBackground(newActor); // TODO - function empty
+    recordEquipment(newActor); // TODO - function empty
     recordBio(newActor);
 
     // Creating new actor based on collected data
-    const promisedActor = await Actor.create(newActor);
-    const newActorId = promisedActor.data._id;
+    Actor.create(newActor);
+}
 
-    // Setting token to created actor (needs actor id)
-    const actor = game.actors.entities.filter(e => e.data._id == newActorId)[0];
-    const dimSight = 60;
-    // displayBars (with bar1 being HP) and displayName being both 'Hover by Owner' are an opinionated choice for now, eventually those might be a setting
-    const tokenData = {
-        actorId: newActorId,
+function recordBasics(actor) {
+    actor.name = document.getElementById("actor_name").value;
+    actor.img = document.getElementById("avatar_path").value;
+
+    const dimSight = 60; // FIXME - this should depend on the race/class
+    actor.token = {
         actorLink: true,
         disposition: 1,
         img: document.getElementById("token_path").value,
         vision: true,
         dimSight: dimSight,
         bar1: { attribute: "attributes.hp" },
-        displayBars: 20, // Hovered by Owner
-        displayName: 20, // Hovered by Owner
-
+        displayBars: game.settings.get("hero-creation-tool", "displayBarsMode"),
+        displayName: game.settings.get("hero-creation-tool", "displayNameMode"),
     }
-    await actor.update({ "token": tokenData })
 }
 
-function openFilePicker(input) {
-    console.log("on openFilePicker...");
-    let path1 = "/"
-    let fp2 = new FilePicker({
-        type: "image",
-        current: path1,
-        callback: path => {
-            document.getElementById(`${input}_path`).value = path;
-            document.getElementById(`${input}_img`).src = path;
-        },
-    })
-    fp2.browse();
-}
+function recordRace(actor) { }
 
-function recordNameAndAvatar(actor) {
-    actor.name = document.getElementById("actor_name").value;
-    actor.img = document.getElementById("avatar_path").value;
-}
+function recordClass(actor) { }
 
 function recordAbilities(actor) {
     let values = [], stats = [];
-    //Getting the stat
+    // Getting the stat
     values[0] = document.getElementById("number1").value;
     values[1] = document.getElementById("number2").value;
     values[2] = document.getElementById("number3").value;
@@ -418,7 +273,7 @@ function recordAbilities(actor) {
     values[4] = document.getElementById("number5").value;
     values[5] = document.getElementById("number6").value;
 
-    //Getting the type of stat
+    // Getting the type of stat
     stats.push(document.getElementById("stat1").value);
     stats.push(document.getElementById("stat2").value);
     stats.push(document.getElementById("stat3").value);
@@ -427,10 +282,14 @@ function recordAbilities(actor) {
     stats.push(document.getElementById("stat6").value);
 
     for (var i = 0; i < stats.length; i++) {
-        // push abilities into the newActor object data
+        // Push abilities into the newActor object data
         actor.data[`abilities.${stats[i].toLowerCase()}.value`] = parseInt(values[i]);
     }
 }
+
+function recordBackground(actor) { }
+
+function recordEquipment(actor) { }
 
 function recordBio(actor) {
     let appearance = "";
