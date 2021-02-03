@@ -4,15 +4,9 @@
         <form class="flexcol prototype form__select--margin" action="">
             <div class="light-pane vertical-flex">
                 <h3>{{localize 'HTC.Tabs.Background.ChooseBackground'}}</h3>
-                <!-- populate backgrounds -->
-                <select name="bg-dropdown" id="bg-dropdown"></select>
-                <script>
-                    let backgroundJson = getJson("modules/hero-creation-tool/scripts/database/background-jsons/srdBackgrounds.json");
-                    backgroundJson
-                        .then(data => {
-                            populateList("bg-dropdown", data, false, 'background.');
-                        })
-                </script>
+                <select name="bg-dropdown" id="bg-dropdown">
+                    <option value="bg">this should be a list of backgrounds</option>
+                </select>
             </div>
 
             <h2>{{localize 'HTC.Common.SkillProficiencies'}}</h2>
@@ -300,6 +294,7 @@
             </table>
         </div>
     </div>
-    <!-- next button -->
-    <div class="backgroundSubmit nextButton">{{localize 'HTC.Tabs.Next'}}</div>
+
+    <button class="step-button" data-back="abDiv">{{localize 'HTC.Tabs.Back'}}</button>
+    <button class="step-button" data-next="eqDiv">{{localize 'HTC.Tabs.Next'}}</button>
 </div>

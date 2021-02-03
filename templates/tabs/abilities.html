@@ -1,10 +1,9 @@
 <div id="abDiv" class="tabcontent apply-header-font">
     <h1>{{localize 'HTC.Tabs.Abilities.Title'}}</h1>
-    <button class="accordion-button" onclick="toggleAccordion()">{{localize 'HTC.Tabs.Abilities.Buttons.Info'}}</button>
+    <button id='ability-desc-accordion' class="accordion-button">{{localize 'HTC.Tabs.Abilities.Buttons.Info'}}</button>
     <div class="textarea accordion-panel" id="abilities-info">
         <p>{{localize 'HTC.Tabs.Abilities.Info.p1'}}
-            <b><span id="ability-mod-table-toggle" class="clickableText"
-                    onclick="toggleAbilityScoresAndModifiersTable()">{{localize
+            <b><span id="ability-mod-table-toggle" class="clickableText">{{localize
                     'HTC.Tabs.Abilities.Info.pTableTitle'}}</span></b>
             {{localize 'HTC.Tabs.Abilities.Info.p2'}}
         </p>
@@ -92,16 +91,16 @@
     <form class="flexcol prototype" autocomplete="off">
 
         <div class="horizontal-flex">
-            <button type="button" style="text-align: center" id="abilityRandomize" class="divButton"
-                onclick="rollAbilities()">{{localize 'HTC.Tabs.Abilities.Buttons.Roll'}}</button>
-            <button type="button" style="text-align: center" id="abilityStandard" class="divButton"
-                onclick="prepareStandardArray()">{{localize 'HTC.Tabs.Abilities.Buttons.StandardArray'}}</button>
-            <button type="button" style="text-align: center" id="abilityPointBuy" class="divButton"
-                onclick="preparePointBuy()">{{localize 'HTC.Tabs.Abilities.Buttons.PointBuy'}}</button>
-            <button type="button" style="text-align: center" id="abilityManual" class="divButton"
-                onclick="manualAbilities()">{{localize 'HTC.Tabs.Abilities.Buttons.ManualEntry'}}</button>
+            <button type="button" class="div-button centered-text" data-mode="roll">{{localize
+                'HTC.Tabs.Abilities.Buttons.Roll'}}</button>
+            <button type="button" class="div-button centered-text" data-mode="standard">{{localize
+                'HTC.Tabs.Abilities.Buttons.StandardArray'}}</button>
+            <button type="button" class="div-button centered-text" data-mode="point-buy">{{localize
+                'HTC.Tabs.Abilities.Buttons.PointBuy'}}</button>
+            <button type="button" class="div-button centered-text" data-mode="manual">{{localize
+                'HTC.Tabs.Abilities.Buttons.ManualEntry'}}</button>
         </div>
-        <p style="text-align: center" id="point-buy-score" hidden>{{localize 'HTC.Tabs.Abilities.PointBuyScore'}}<span
+        <p class="centered-text" id="point-buy-score" hidden>{{localize 'HTC.Tabs.Abilities.PointBuyScore'}}<span
                 id="point-buy-current-score">0</span> / <span id="point-buy-max-score">27</span></p>
         <div class="form-group horizontal-flex">
             <input class="flex-sixth" type="number" id="number1" placeholder="10" disabled>
@@ -194,6 +193,8 @@
             </select>
         </div>
     </form>
-    <!-- next button -->
-    <div class="abilitySubmit nextButton">{{localize 'HTC.Tabs.Next'}}</div>
+
+    <button class="step-button" data-back="classDiv">{{localize 'HTC.Tabs.Back'}}</button>
+    <button class="step-button" data-next="backgroundDiv" data-validation="_updateAbilityScores">{{localize
+        'HTC.Tabs.Next'}}</button>
 </div>

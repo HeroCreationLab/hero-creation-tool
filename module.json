@@ -1,51 +1,51 @@
 {
-    "name": "hero-creation-tool",
-    "title": "Hero Creation Tool for DnD5E",
-    "description": "A foundry version of the roll20 Charactermancer.",
-    "version": "0.1",
-    "author": ["Alex", "Dan", "Andrew", "Coco", "Roy", "Lyle"],
+    "name": "{{name}}",
+    "title": "{{title}}",
+    "description": "{{description}}",
+    "version": "{{version}}",
     "minimumCoreVersion": "0.7.9",
     "compatibleCoreVersion": "0.7.9",
-    "languages": [
-        {
-          "lang": "en",
-          "name": "English",
-          "path": "lang/en.json"
-        }
-    ],
-    "scripts": [
-        "scripts/hero-creation-tool.js", 
-        "scripts/toggleButton.js", 
-        "scripts/populateList.js",
-        "scripts/generalFunctions.js",
-        "scripts/tabs/abilities.js",
-        "scripts/database/class-jsons/class-barbarian.js",
-        "scripts/database/class-jsons/class-bard.js",
-        "scripts/database/class-jsons/class-cleric.js",
-        "scripts/database/class-jsons/class-fighter.js",
-        "scripts/database/class-jsons/class-monk.js",
-        "scripts/database/class-jsons/class-paladin.js",
-        "scripts/database/class-jsons/class-ranger.js",
-        "scripts/database/class-jsons/class-rogue.js",
-        "scripts/database/class-jsons/class-sorcerer.js",
-        "scripts/database/class-jsons/class-warlock.js",
-        "scripts/database/class-jsons/class-wizard.js",
-        "scripts/database/class-jsons/index.js",
-        "scripts/database/class-jsons/srdRaces.js",
-        "scripts/database/background-jsons/srdBackgrounds.js",
-        "scripts/database/feat-jsons/srdFeats.js",
-        "scripts/database/feat-jsons/srdOptionalFeats.js",
-        "scripts/language-jsons/srdLanguages.js",
-        "scripts/race-jsons/srdRaces.js",
-        "scripts/spell-json/srdSpells.js",
-        "scripts/item-jsons/srdItems.js"
+    "esmodules": [
+        "src/index.js"
     ],
     "styles": [
-        "styles/hero-creation-tool.css"
+        "styles/common.css"
     ],
-    "templates": [
-        "templates/app.html"
+    "languages": [
+        {
+            "lang": "en",
+            "name": "English",
+            "path": "lang/en.json"
+        }
     ],
     "system": "dnd5e",
-    "url": "https://github.com/AndrewJiangB/hero-creation-tool"
+    "url": "https://github.com/AndrewJiangB/hero-creation-tool",
+    "license": "https://domain.com/my/project/{{name}}/LICENSE",
+    "manifest": "https://domain.com/my/project/{{name}}/bundle/module.json",
+    "download": "https://domain.com/my/project/{{name}}/bundle/{{name}}.zip",
+    "readme": "https://domain.com/my/project/{{name}}/README.md",
+    "changelog": "https://domain.com/my/project/{{name}}/CHANGELOG.md",
+    "authors": [
+        {
+            "name": "Alex"
+        },
+        {
+            "name": "Dan"
+        },
+        {
+            "name": "Andrew"
+        },
+        {
+            "name": "Coco"
+        },
+        {
+            "name": "Roy"
+        },
+        {
+            "name": "Lyle"
+        },
+        {
+            "name": "ccjmk (Iñaki)"
+        }
+    ]
 }

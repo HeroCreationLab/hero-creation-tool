@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "module": "ES6",
+        "lib": [
+            "DOM",
+            "ES6",
+            "ES2017",
+            "ES2018"
+        ],
+        "allowJs": true,
+        "outDir": "./dist/src",
+        "strict": true,
+        "noImplicitAny": true,
+        "strictNullChecks": false,
+        "noImplicitThis": true,
+        "noImplicitReturns": true,
+        "moduleResolution": "node",
+        "typeRoots": [
+            "node_modules/@types",
+            "types"
+        ],
+        "types": [
+            "@league-of-foundry-developers/foundry-vtt-types"
+        ],
+        "newLine": "lf",
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": false
+    }
+}
