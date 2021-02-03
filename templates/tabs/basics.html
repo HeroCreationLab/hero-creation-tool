@@ -18,9 +18,12 @@
                 <button type="button" style="text-align: center" id="pickTokenBtn" class="divButton file-picker"
                     onclick="openFilePicker('token')">Pick</button>
             </div>
-            <div id="avatar-token-display">
-                <img id="avatar_img" title="Avatar" src="icons/svg/mystery-man.svg">
-                <img id="token_img" title="Token" src="icons/svg/mystery-man.svg">
+            <div class="form-group">
+                <label class="basics-top-label">Preview</label>
+                <div id="avatar-token-display">
+                    <img id="avatar_img" title="Avatar" src="icons/svg/mystery-man.svg" onclick="openFilePicker('avatar')">
+                    <img id="token_img" title="Token" src="icons/svg/mystery-man.svg" onclick="openFilePicker('token')">
+                </div>
             </div>
         </form>
     </div>
