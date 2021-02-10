@@ -2,7 +2,7 @@
     Name: Alexander Sedore
     Date: 2/9/21
     Ver: 0.1
-
+*/
 
 Tree Diagram:
 
@@ -19,22 +19,23 @@ Tree Diagram:
          - Equoment
          - Features (1 -> y)
          - Suggested Characteristics
-        *//*        
+        */     
         0 -> (x - 1): {}
             name : string // name of the entry
-            entry:  String for Skill Proficiences - reference skilProficiencies for which skills to assign as proficent
-                    String for Languages - reference languageProficiencies for which languages to display as proficient/list
-                    [String] for Features with discription of feature
+            entry :  String  // for Skill Proficiences - reference skilProficiencies for which skills to assign as proficent
+                     String  // for Languages - reference languageProficiencies for which languages to display as proficient/list
+            
+            entries : [String] // for features, with list of discription of the feature
 
-                    For Suggested Characteristics: [5]
-                        0 : String // Description of the backgrounds ideals, bonds and flaws to give players ideas.
-                        
-                        1 - 4: {2} // Table outline for Personality Trait, Ideals, Bonds and
-                            colLabels : [x] x tells how many collums are in the table
-                                0 -> (x - 1) : String // description for the column lable for column
-                            rows : [y] y tells how many rows are in the table
-                                0 -> (y - 1) : [x]
-                                    0 -> (x - 1) : String // each column discription for each row
+            entries : [5] // For Suggested Characteristics
+                0 : String // Description of the backgrounds ideals, bonds and flaws to give players ideas.
+                
+                1 - 4: {2} // Table outline for Personality Trait, Ideals, Bonds and
+                    colLabels : [x] x tells how many collums are in the table
+                        0 -> (x - 1) : String // description for the column lable for column
+                    rows : [y] y tells how many rows are in the table
+                        0 -> (y - 1) : [x]
+                            0 -> (x - 1) : String // each column discription for each row
 
             isFeature : Boolean // boolean value to check if the entrie represents a feature so we can create a feature entry in the character sheet. IF isFeature == Null then entry does not represent a feature.
     skilProficiencies : [1]
@@ -43,7 +44,7 @@ Tree Diagram:
     
 
     languageProficiencies : [1]
-        0 : {x} 
+        0 : {x} // x is the number of features
             either [name of the language] : boolean // boolean value showing which language the background gives proficiency in
             or
             anyStandard/anyExotic/any : interger // saying how many languages of the specific type the user gets to choose for themself
@@ -67,4 +68,3 @@ Tree Diagram:
                     containsValue : integer // represents any coin value the item contains or is valued at in base of copper coins
                     special : String // indecates the item does not exist in the database and means you just need to create a item with the name of special's String
                     quantity : interger // indicates how many of this item the background gives
-*/
