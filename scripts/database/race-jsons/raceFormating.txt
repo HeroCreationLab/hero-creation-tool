@@ -1,0 +1,133 @@
+*/ This is a reference document for race Json formatting
+    Name: Alexander Sedore
+    Date: 3/4/21
+    Ver: 0.1
+*/
+
+Tree Diagram:
+
+0: {}
+    name : String // Name of the race   
+    source : String // book the race belongs to using the 3 character abriviation
+    srd : Boolean // whether or not the race is SRD content
+    size : String // what size the race gives usually S or M or L
+    speed : Int // speed the race gives
+    darkvision : Int // the distance of darkvision a race gives
+
+    entries : [] // the racial features given by the race
+        name : String // name of the racial feature
+        featDes : [String or [String and {}]] // list of descriptions for the feature if the next entry has another name field it means you must go to that entry's entries and generate the field of text for it.
+        isDracAnc : Boolean // weather the feature is Draconic Ancestry or not
+
+
+        if isDracAnc == True
+        table : {5} // table that needs to be displayed for the user for the Draconic Ancestry feat
+            name : Draconic Ancestry
+            colLabels : [3] // This will tell the programer what each collum entry contains what data
+                0 : Dragon // Use this collum to generate a choice list for the user
+                1 : Damage Type // also is used for resistance
+                2 : Breath Weapon // This is going to be a object 
+            
+            rows : [10]
+                x -> 10 : [3]
+                    0 : String // What color of dragon 
+                    1 : String // What damage type/resistance given
+                    2 : {
+                        description : String // description for the table entry ex. "5 by 30 ft. line (Dex. Save)"
+                        range : Int // Range of skill 
+                        shape : String // shape of the skill Cone or Line (if shape is Line then the width of the skill is always 5 ft)
+                        save : String // what the save for the attack
+                    }
+
+
+        recharge : String // the recharge time of the feat if applicaple either Short of Long
+        attackInfo : {} // if the feature contains a attack. If the feature is Breath Weapon then the range, shape and damage type wil;l depend on 
+            saveThrow : { // any save throw Dc if applicable
+                base : int //base for saving throw
+                bonus : [String] // list of different modifiers for the saving throw such as "Con Mod, Prof" ect 
+            }
+
+            damage : [{}] //damage feature does if applicable, damage has a length of 1 then it does not increase
+                level : Int // level which you get the damage increase
+                base : String // base damage of the skill such as 2d6
+                bonus : [String] // any applicable bonuses to add to base (such as Con Mod or Prof)
+            
+            range : Int // range of skill if the feature is Breath Weapon then it depends on the draconic ancesty skill
+            width : Int // will exist if the attack is a line shape
+            shape : String // what shape the attack will be
+
+
+   languageProficiencies : [1] // if the race gives any language proficencies this will exist
+        0 : {x} // x is the number of languages given
+            either [name of the language] : boolean // boolean value showing which language the background gives proficiency in
+            or
+            anyStandard/anyExotic/any : interger // saying how many languages of the specific type the user gets to choose for themself
+    
+
+    skilProficiencies : [1] // if the race gives any skill proficencies this will exist
+        0 : {x} //  x is the number of skills the race gives proficiency in
+            [name of skill] : boolean // boolean value showing the background gives proficiency in
+            [name of skill] : String // will tell if the race gives expertise the proficency the String should be "expertise"
+            choice : []
+                any : Int // how many the user can choose from the list
+                from : [String] // list of skills the user may choose from
+    
+
+    toolProficencies : [1] // if the race gives any tool proficencies this will exist
+        0 : {x} // x is the number of tool proficiency given
+            [name of tool] : boolean // boolean value showing the race gives proficienc in
+            [name of tool] : String // will tell if the race gives double the proficency the String should be "expertise"
+            choice : []
+                any : Int // how many the user can choose from the list
+                from : [String] // list of tool proficency the user may choose from
+    
+
+    weaponProficencies : [1] // if the race gives any weapon proficencies this will exist
+        0 : {x} // x is the number of weapon proficiency given
+            [name of weapon] : boolean // boolean value showing the race gives proficiency in
+            choice : []
+                any : Int // how many the user can choose from the list. If any does not exist then let them choose 1.
+                from : [String] // list of weapon proficency the user may choose from
+    
+
+    additionalSpells: [x] // x is the number of spells given be the race/subrace
+        0 : {} 
+            any : Int // number of spells the player can choose
+            choose : {
+                level : Int //level of the spell possible to generate
+                class : String //class for spell list generation
+            }
+
+            innate : {} //if the race has innate spell casting of specific spells
+                [level you get the spell (Int)] : [{}] // the length of the list is how many spells you would get
+                    0 -> ... : [name of spell]
+                    uses : Int // number of uses for the innate spell before needing to rest, if uses does not exist the user can use it any number of times
+                    rest : String //if the spell can be used any number of times without rest, rest will not exist otherwize will be either "Short" or "Long"
+    
+    
+    resist : [1] // list of resistance the race gives you (if the race is DragonBorn then the draconic Ancestry will tell the resistance you get and this will not exist in the json)
+        0 : {x} // x is the number of resistances given
+            [name of resistance] : boolean // boolean value showing the race gives resistance in
+            choice : []
+                any : Int // how many the user can choose from the list
+                from : [String] // list of weapon proficency the user may choose from
+    
+    ability : [1] // list of ability score improvments (this is to be added with the subraces ability value if applicable)
+        0 : {x} // x is the number of ability score improvemtns the base race gives
+            [name of ability abriviation] : Int //number do add to the character ability modifier 
+        choose : [] // list of abulity score improvments the user can choose from
+            any : Int // number of ability scores the user can choose, if any does not exist then only allow 1.
+            from : [5]
+                0	:	str        
+                1	:	dex      
+                2	:	con      
+                3	:	int       
+                4	:	wis
+            value : Int // the value for each choice. if value is not present then value is defaulted to 1.
+
+    subraces : [x] // x is the number of subraces, each subrace will follow the format above. If Subraces does not exist then this race has no subraces, 
+                      if the only subrace in subrace has no name then it is the base subrace or "Standard [racename]" for displaying
+                
+
+
+                
