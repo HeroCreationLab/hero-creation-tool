@@ -40,11 +40,12 @@ Tree Diagram:
                     }
 
 
-        recharge : String // the recharge time of the feat if applicaple either Short of Long
+        recharge : String // the recharge time of the feat if applicaple either Short of Long or rest for short and long
         attackInfo : {} // if the feature contains a attack. If the feature is Breath Weapon then the range, shape and damage type wil;l depend on 
             saveThrow : { // any save throw Dc if applicable
                 base : int //base for saving throw
                 bonus : [String] // list of different modifiers for the saving throw such as "Con Mod, Prof" ect 
+                sucSave : String // what will happen if the target makes the save either half or noDmg
             }
 
             damage : [{}] //damage feature does if applicable, damage has a length of 1 then it does not increase
@@ -64,10 +65,9 @@ Tree Diagram:
             anyStandard/anyExotic/any : interger // saying how many languages of the specific type the user gets to choose for themself
     
 
-    skilProficiencies : [1] // if the race gives any skill proficencies this will exist
+    skillProficiencies : [1] // if the race gives any skill proficencies this will exist
         0 : {x} //  x is the number of skills the race gives proficiency in
-            [name of skill] : boolean // boolean value showing the background gives proficiency in
-            [name of skill] : String // will tell if the race gives expertise the proficency the String should be "expertise"
+            [name of skill] : boolean or String// if the value is a String == expertise then they have double proficiency.
             choice : []
                 any : Int // how many the user can choose from the list
                 from : [String] // list of skills the user may choose from
