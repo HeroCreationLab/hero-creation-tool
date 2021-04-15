@@ -1,19 +1,24 @@
-<div id="raceDiv" class="tabcontent apply-header-font">
-    <h1>{{localize 'HTC.Tabs.Race.Title'}}</h1>
-    <div>
-        <select id="race-dropdown" name="race-dropdown">
-            <option value="class">this should be a list of classes</option>
-        </select>
-    </div>
-    <br>
-    <h2>{{localize 'HTC.Tabs.Race.ASI'}}</h2>
-    <div id="race-ability" name="race-ability"></div>
-    <h2>{{localize 'HTC.Tabs.Race.Speed'}}</h2>
-    <div id="race-speed" name="race-speed"></div>
-    <!-- <h2>Language Proficiencies</h2> -->
-    <!-- <div id="race-language" name="race-language"></div> -->
-    <div id="race-features" name="race-features"></div>
+<div id="raceDiv" class="tab-body apply-header-font">
+    <h1 class='tab-header'>{{localize 'HTC.Tabs.Race.Title'}}</h1>
 
-    <button class="step-button" data-back="basicsDiv">{{localize 'HTC.Tabs.Back'}}</button>
-    <button class="step-button" data-next="classDiv">{{localize 'HTC.Tabs.Next'}}</button>
+    <main class='tab-content'>
+        <div>
+            <select id="race-dropdown" name="race-dropdown">
+                <option value="class">this should be a list of classes</option>
+            </select>
+        </div>
+        <br>
+        <h2>{{localize 'HTC.Tabs.Race.ASI'}}</h2>
+        <div id="race-ability" name="race-ability"></div>
+        <h2>{{localize 'HTC.Tabs.Race.Speed'}}</h2>
+        <div id="race-speed" name="race-speed"></div>
+        <!-- <h2>Language Proficiencies</h2> -->
+        <!-- <div id="race-language" name="race-language"></div> -->
+        <div id="race-features" name="race-features"></div>
+    </main>
+
+    <footer class='tab-footer'>
+        <button class="step-button" data-hct_back="basicsDiv">{{localize 'HTC.Tabs.Back'}}</button>
+        <button class="step-button" data-hct_next="classDiv">{{localize 'HTC.Tabs.Next'}}</button>
+    </footer>
 </div>

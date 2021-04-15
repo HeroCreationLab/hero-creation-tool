@@ -1,4 +1,3 @@
-import { Utils } from './utils.js'
 const fs = require('fs');
 
 function cleanSRDClasses(path) {

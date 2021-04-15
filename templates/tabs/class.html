@@ -1,9 +1,14 @@
-<div id="classDiv" class="tabcontent apply-header-font">
-    <h1>{{localize 'HTC.Tabs.Class.Title'}}</h1>
-    <select id="class-dropdown" name="class">
-        <option value="class">this should be a list of classes</option>
-    </select>
+<div id="classDiv" class="tab-body apply-header-font">
+    <h1 class='tab-header'>{{localize 'HTC.Tabs.Class.Title'}}</h1>
 
-    <button class="step-button" data-back="raceDiv">{{localize 'HTC.Tabs.Back'}}</button>
-    <button class="step-button" data-next="abDiv">{{localize 'HTC.Tabs.Next'}}</button>
+    <main class='tab-content'>
+        <select id="class-dropdown" name="class">
+            <option value="class">this should be a list of classes</option>
+        </select>
+    </main>
+
+    <footer class='tab-footer'>
+        <button class="step-button" data-hct_back="raceDiv">{{localize 'HTC.Tabs.Back'}}</button>
+        <button class="step-button" data-hct_next="abDiv">{{localize 'HTC.Tabs.Next'}}</button>
+    </footer>
 </div>

@@ -16,6 +16,7 @@ const SOURCE = 'src/';
 const LANG = 'lang/';
 const TEMPLATES = 'templates/';
 const CSS = 'styles/';
+const ASSETS = 'assets/';
 
 var PACKAGE = JSON.parse(fs.readFileSync('package.json'));
 function reloadPackage(cb) { PACKAGE = JSON.parse(fs.readFileSync('package.json')); cb(); }
@@ -81,6 +82,7 @@ function outputLanguages(output = null) { return () => gulp.src(LANG + GLOB).pip
 function outputTemplates(output = null) { return () => gulp.src(TEMPLATES + GLOB).pipe(gulp.dest((output || DIST) + TEMPLATES)); }
 function outputStylesCSS(output = null) { return () => gulp.src(CSS + GLOB).pipe(gulp.dest((output || DIST) + CSS)); }
 function outputMetaFiles(output = null) { return () => gulp.src(['LICENSE', 'README.md', 'CHANGELOG.md']).pipe(gulp.dest((output || DIST))); }
+function outputAssets(output = null) { return () => gulp.src(ASSETS + GLOB).pipe(gulp.dest((output || DIST) + ASSETS)); }
 
 /**
  * Copy files to module named directory and then compress that folder into a zip
@@ -120,6 +122,7 @@ exports.default = gulp.series(
 		, outputTemplates()
 		, outputStylesCSS()
 		, outputMetaFiles()
+		, outputAssets()
 	)
 );
 /**
@@ -134,6 +137,7 @@ exports.dev = gulp.series(
 		, outputTemplates(DEV_DIST())
 		, outputStylesCSS(DEV_DIST())
 		, outputMetaFiles(DEV_DIST())
+		, outputAssets(DEV_DIST())
 	)
 );
 /**
@@ -148,6 +152,7 @@ exports.zip = gulp.series(
 		, outputTemplates()
 		, outputStylesCSS()
 		, outputMetaFiles()
+		, outputAssets()
 	)
 	, compressDistribution()
 	, pdel([DIST])

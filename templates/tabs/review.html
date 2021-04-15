@@ -1,6 +1,7 @@
-<div id="reviewDiv" class="tabcontent apply-header-font">
-    <h1>{{localize 'HTC.Tabs.Review.Title'}}</h1>
-    <div class="review-container">
+<div id="reviewDiv" class="tab-body apply-header-font">
+    <h1 class='tab-header'>{{localize 'HTC.Tabs.Review.Title'}}</h1>
+
+    <main class="review-container">
         <section id="review-basics" class="review-container">
             <h2>{{localize 'HTC.Tabs.Basics.Title'}}</h2>
         </section>
@@ -25,8 +26,10 @@
         <section id="review-bio" class="review-container">
             <h2>{{localize 'HTC.Tabs.Bio.Title'}}</h2>
         </section>
+    </main>
 
-        <button class="step-button" data-back="bioDiv">{{localize 'HTC.Tabs.Back'}}</button>
+    <footer class='tab-footer'>
+        <button class="step-button" data-hct_back="bioDiv">{{localize 'HTC.Tabs.Back'}}</button>
         <button id="finalSubmit" class="step-button">{{localize 'HTC.Tabs.Submit'}}</button>
-    </div>
+    </footer>
 </div>
