@@ -1,66 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
+<div class="container">
+  <nav class="tabs">
+    <button class="tablinks" data-tab='startDiv'> {{localize 'HTC.Tabs.Start.Title'}} </button>
+    <button class="tablinks" data-tab='basicsDiv'> {{localize 'HTC.Tabs.Basics.Title'}} </button>
+    <button class="tablinks" data-tab='raceDiv'> {{localize 'HTC.Tabs.Race.Title'}} </button>
+    <button class="tablinks" data-tab='classDiv'> {{localize 'HTC.Tabs.Class.Title'}} </button>
+    <button class="tablinks" data-tab='abDiv'> {{localize 'HTC.Tabs.Abilities.Title'}} </button>
+    <button class="tablinks" data-tab='backgroundDiv'> {{localize 'HTC.Tabs.Background.Title'}} </button>
+    <button class="tablinks" data-tab='eqDiv'> {{localize 'HTC.Tabs.Equipment.Title'}} </button>
+    <button class="tablinks" data-tab='spDiv'> {{localize 'HTC.Tabs.Spells.Title'}} </button>
+    <button class="tablinks" data-tab='bioDiv'> {{localize 'HTC.Tabs.Bio.Title'}} </button>
+    <button class="tablinks" data-tab='reviewDiv'> {{localize 'HTC.Tabs.Review.Title'}} </button>
+  </nav>
 
-<head>
-  <meta charset="utf-8">
-  <link rel="stylesheet" href="../styles/hero-creation-tool.css">
-</head>
-<!--buttons toggle show hide of divs of each section-->
-<div class="tabs">
-  <button class="tablinks" onclick="openTab(event, 'startDiv')"> {{localize 'HTC.Tabs.Start.Title'}} </button>
-  <button class="tablinks" onclick="openTab(event, 'basicsDiv')"> {{localize 'HTC.Tabs.Basics.Title'}} </button>
-  <button class="tablinks" onclick="openTab(event, 'raceDiv')"> {{localize 'HTC.Tabs.Race.Title'}} </button>
-  <button class="tablinks" onclick="openTab(event, 'classDiv')"> {{localize 'HTC.Tabs.Class.Title'}} </button>
-  <button class="tablinks" onclick="openTab(event, 'abDiv')"> {{localize 'HTC.Tabs.Abilities.Title'}} </button>
-  <button class="tablinks" onclick="openTab(event, 'backgroundDiv')"> {{localize 'HTC.Tabs.Background.Title'}} </button>
-  <button class="tablinks" onclick="openTab(event, 'eqDiv')"> {{localize 'HTC.Tabs.Equipment.Title'}} </button>
-  <button class="tablinks" onclick="openTab(event, 'spDiv')"> {{localize 'HTC.Tabs.Spells.Title'}} </button>
-  <button class="tablinks" onclick="openTab(event, 'bioDiv')"> {{localize 'HTC.Tabs.Bio.Title'}} </button>
-  <button class="tablinks" onclick="openTab(event, 'reviewDiv')"> {{localize 'HTC.Tabs.Review.Title'}} </button>
+  {{> "modules/hero-creation-tool/templates/tabs/start.html"}}
+  {{> "modules/hero-creation-tool/templates/tabs/basics.html"}}
+  {{> "modules/hero-creation-tool/templates/tabs/race.html"}}
+  {{> "modules/hero-creation-tool/templates/tabs/class.html"}}
+  {{> "modules/hero-creation-tool/templates/tabs/abilities.html"}}
+  {{> "modules/hero-creation-tool/templates/tabs/background.html"}}
+  {{> "modules/hero-creation-tool/templates/tabs/equipment.html"}}
+  {{> "modules/hero-creation-tool/templates/tabs/spells.html"}}
+  {{> "modules/hero-creation-tool/templates/tabs/bio.html"}}
+  {{> "modules/hero-creation-tool/templates/tabs/review.html"}}
 </div>
-
-<script>openTab(event, 'startDiv')</script>
-
-{{> "modules/hero-creation-tool/templates/tabs/start.html"}}
-{{> "modules/hero-creation-tool/templates/tabs/basics.html"}}
-{{> "modules/hero-creation-tool/templates/tabs/race.html"}}
-{{> "modules/hero-creation-tool/templates/tabs/class.html"}}
-{{> "modules/hero-creation-tool/templates/tabs/abilities.html"}}
-{{> "modules/hero-creation-tool/templates/tabs/background.html"}}
-{{> "modules/hero-creation-tool/templates/tabs/equipment.html"}}
-{{> "modules/hero-creation-tool/templates/tabs/spells.html"}}
-{{> "modules/hero-creation-tool/templates/tabs/bio.html"}}
-{{> "modules/hero-creation-tool/templates/tabs/review.html"}}
-
-<script src="/scripts/generalFunctions.js"></script>
-<script src="/scripts/hero-creation-tool.js"></script>
-<script src="/scripts/populateList.js"></script>
-<script src="/scripts/toggleButton.js"></script>
-<script src="/scripts/AbilityRoller.js"></script>
-<script src="/scripts/sendData.js"></script>
-<!-- <script src="https://code.jquery.com/jquery-3.5.0.js"></script> -->
-
-<!--Importing Database JSs (temporary solution until we have a cloud server)-->
-<script src="/scripts/database/class-jsons/class-barbarian.js"></script>
-<script src="/scripts/database/class-jsons/class-bard.js"></script>
-<script src="/scripts/database/class-jsons/class-cleric.js"></script>
-<script src="/scripts/database/class-jsons/class-druid.js"></script>
-<script src="/scripts/database/class-jsons/class-fighter.js"></script>
-<script src="/scripts/database/class-jsons/class-monk.js"></script>
-<script src="/scripts/database/class-jsons/class-paladin.js"></script>
-<script src="/scripts/database/class-jsons/class-ranger.js"></script>
-<script src="/scripts/database/class-jsons/class-rogue.js"></script>
-<script src="/scripts/database/class-jsons/class-sorcerer.js"></script>
-<script src="/scripts/database/class-jsons/class-warlock.js"></script>
-<script src="/scripts/database/class-jsons/class-wizard.js"></script>
-<script src="/scripts/database/class-jsons/srdRaces.js"></script>
-<script src="/scripts/database/class-jsons/index.js"></script>
-<script src="scripts/database/background-jsons/srdBackgrounds.js"></script>
-<script src="scripts/database/feat-jsons/srdFeats.js"></script>
-<script src="scripts/database/feat-jsons/srdOptionalFeats.js"></script>
-<script src="scripts/language-jsons/srdLanguages.js"></script>
-<script src="scripts/race-jsons/srdRaces.js"></script>
-<script src="scripts/spell-json/srdSpells.js"></script>
-<script src="scripts/item-jsons/srdItems.js"></script>
-
-</html>

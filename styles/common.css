@@ -207,7 +207,7 @@
   background-color: #415989;
 }
 
-.nextButton {
+.step-button {
   width: 80px;
   height: 30px;
   box-shadow: inset 0px 0px 15px 3px #23395e;
@@ -224,10 +224,10 @@
   text-align: center;
   padding: 5px;
   margin: 15px;
-  float: right;
+  float: left;
 }
 
-.nextButton:hover {
+.step-button:hover {
   background: linear-gradient(to bottom, #415989 5%, #2e466e 100%);
   background-color: #415989;
 }
@@ -257,7 +257,7 @@
   flex: 0 0 35px;
 }
 
-.divButton {
+.div-button {
   min-width: 80px;
 }
 
@@ -293,4 +293,8 @@
   display: none;
   overflow: hidden;
   margin: 5px;
+}
+
+.centered-text {
+  text-align: center;
 }
