@@ -2,13 +2,13 @@
   Functions used exclusively on the Biography tab
 */
 import HeroData from '../types/ActorData.js'
-import { Utils } from '../utils.js'
+import { Constants } from '../constants.js'
 
 export namespace BioTab {
   export function setListeners() { }
 
   export function saveData(newActor: HeroData) {
-    Utils.log('Saving Biography Tab data into actor');
+    console.log(`${Constants.LOG_PREFIX} | Saving Biography Tab data into actor`);
 
     let appearance = "";
     appearance = appearance.concat(`Age: ${$("#character_age").val()}`)

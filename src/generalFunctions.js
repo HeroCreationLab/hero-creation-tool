@@ -17,7 +17,7 @@ size,
 function addRaceData(json) {
    character = getCharacter();
    character.race = {}
-   Utils.log(json);
+   console.log(`${Constants.LOG_PREFIX} | ${json}`);
    character.race.ability = json.ability;
    character.race.speed = json.speed;
    character.speed = json.speed;
@@ -30,19 +30,19 @@ function addRaceData(json) {
 
 function onSelectClassIndex() {
    var path = document.getElementById("class-dropdown").value;
-   Utils.log(path); //class-barbarian.json\
+   console.log(`${Constants.LOG_PREFIX} | ${path}`); //class-barbarian.json\
    path = "modules/hero-creation-tool/" + path;
-   Utils.log(`realPath for getJson: ${path}`);
+   console.log(`${Constants.LOG_PREFIX} | realPath for getJson: ${path}`);
    // let classObj = getJson(path);
    // classObj
    //    .then(data => {
    //       //parse data and fill html\
-   //       Utils.log(data);
+   //       console.log(`${Constants.LOG_PREFIX} | ${data);
    //    });
 
 }
 function onSelectRace() {
-   //Utils.log(document.getElementById("race-dropdown").value);
+   //console.log(`${Constants.LOG_PREFIX} | ${document.getElementById("race-dropdown").value);
    if (document.getElementById("race-dropdown").value == "Choose your race") {
       return;
    }

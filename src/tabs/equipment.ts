@@ -2,13 +2,13 @@
   Functions used exclusively on the Equipment tab
 */
 import HeroData from '../types/ActorData.js'
-import { Utils } from '../utils.js'
+import { Constants } from '../constants.js'
 
 export namespace EquipmentTab {
   export function setListeners() { }
 
   export function saveData(newActor: HeroData) {
-    Utils.log('Saving Equipment Tab data into actor');
+    console.log(`${Constants.LOG_PREFIX} | Saving Equipment Tab data into actor`);
 
     // TBD
   }

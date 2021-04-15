@@ -44,7 +44,7 @@ function cleanSRDClasses(path) {
 let classes = ["barbarian", "bard", "cleric", "druid", "fighter", "monk", "paladin", "ranger", "rogue", "sorcerer", "warlock", "wizard"];
 
 for (let c of classes) {
-    Utils.log(`Cleaned ${c}`)
+    console.log(`${Constants.LOG_PREFIX} | Cleaned ${c}`)
     cleanSRDClasses(`class-${c}.json`);
 }
 

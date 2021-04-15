@@ -2,7 +2,7 @@
   Functions used exclusively on the Race tab
 */
 import HeroData from '../types/ActorData.js'
-import { Utils } from '../utils.js'
+import { Constants } from '../constants.js'
 import Race, { Size } from '../types/Race.js';
 
 export namespace RaceTab {
@@ -10,11 +10,11 @@ export namespace RaceTab {
     // example on using types
     const elf = new Race('Elf');
     elf.size = Size.Medium;
-    Utils.log(elf);
+    console.log(`${Constants.LOG_PREFIX} |`, elf);
   }
 
   export function savaData(newActor: HeroData) {
-    Utils.log('Saving Race Tab data into actor');
+    console.log(`${Constants.LOG_PREFIX} | Saving Race Tab data into actor`);
 
     // TBD
   }

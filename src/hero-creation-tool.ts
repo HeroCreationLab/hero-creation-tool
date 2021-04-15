@@ -2,7 +2,7 @@
  version 0.1
  This object is a pop-up window to edit the actor's inital levels and stuffs
  */
-import { AppConstants } from './constants.js'
+import { Constants } from './constants.js'
 import { Utils } from './utils.js'
 import HeroData from './types/ActorData.js'
 
@@ -31,7 +31,7 @@ export default class HeroCreationTools extends Application {
 
     static get defaultOptions() {
         const options = super.defaultOptions;
-        options.template = AppConstants.MODULE_PATH + "/templates/app.html";
+        options.template = Constants.MODULE_PATH + "/templates/app.html";
         options.width = 700;
         options.height = 700;
         options.title = "Hero Creation";
@@ -44,7 +44,7 @@ export default class HeroCreationTools extends Application {
     }
 
     async buildActor(newActor: HeroData) {
-        Utils.log("Building actor..");
+        console.log(`${Constants.LOG_PREFIX} | Building actor..`);
         // Copies all the data in the tabs into the newActor
         BasicsTab.saveData(newActor);
         RaceTab.savaData(newActor);
@@ -60,7 +60,7 @@ export default class HeroCreationTools extends Application {
 
     activateListeners(html: JQuery) {
         super.activateListeners(html);
-        Utils.log("Binding listeners..");
+        console.log(`${Constants.LOG_PREFIX} | Binding listeners..`);
 
         // listeners specific to a single tab
         BasicsTab.setListeners();

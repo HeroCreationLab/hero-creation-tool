@@ -1,7 +1,7 @@
 {
 	"name": "hero-creation-tool",
 	"title": "Hero Creation Tool for DnD5E",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "A foundry version of the roll20 Charactermancer",
 	"devDir": "C:/Users/iagua/AppData/Local/FoundryVTT/Data/modules/",
 	"main": "src/index.ts",
