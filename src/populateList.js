@@ -178,7 +178,7 @@ function populateItemList(id, items, itemCategory, itemName, itemType, scfType, 
                 return listOfItems;
             }
         }
-        Utils.log(game.i18n.format("HTC.List.NoItemWithName", { itemName: itemName }));
+        console.log(`${Constants.LOG_PREFIX} | ${game.i18n.format("HTC.List.NoItemWithName", { itemName: itemName })}`);
         //Looking for any item of given type (if type exists but category doesn't)
     } else if ((itemType != '') && (itemCategory == '')) {
         for (item of items) {
@@ -366,7 +366,7 @@ function populateItemList(id, items, itemCategory, itemName, itemType, scfType, 
         }
     }
     if (listOfItems == []) {
-        Utils.log(game.i18n.format("HTC.List.CantFindItem"));
+        console.log(`${Constants.LOG_PREFIX} | ${game.i18n.format("HTC.List.CantFindItem")}`);
     }
     return listOfItems;
 }

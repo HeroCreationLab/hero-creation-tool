@@ -2,7 +2,7 @@
   Functions used exclusively on the Basics tab
 */
 import HeroData from '../types/ActorData.js'
-import { Utils } from '../utils.js'
+import { Constants } from '../constants.js'
 
 export namespace BasicsTab {
     export function setListeners() {
@@ -13,7 +13,7 @@ export namespace BasicsTab {
     }
 
     export function saveData(newActor: HeroData) {
-        Utils.log('Saving Basics Tab data into actor');
+        console.log(`${Constants.LOG_PREFIX} | Saving Basics Tab data into actor`);
 
         newActor.name = $('#actor_name').val() as string;
         newActor.img = $('#avatar_path').val() as string;

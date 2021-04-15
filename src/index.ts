@@ -1,5 +1,5 @@
 import HeroCreationTools from './hero-creation-tool.js'
-import { AppConstants } from './constants.js';
+import { Constants } from './constants.js';
 
 /*
 	This file defines the Foundry Hooks, loads Handlebars templates and makes other general initialization
@@ -10,16 +10,16 @@ Hooks.once("init", () => {
 	// Preload Handlebars Templates
 	const templatePaths = [
 		// Partials
-		AppConstants.MODULE_PATH + "/templates/tabs/abilities.html",
-		AppConstants.MODULE_PATH + "/templates/tabs/background.html",
-		AppConstants.MODULE_PATH + "/templates/tabs/basics.html",
-		AppConstants.MODULE_PATH + "/templates/tabs/bio.html",
-		AppConstants.MODULE_PATH + "/templates/tabs/class.html",
-		AppConstants.MODULE_PATH + "/templates/tabs/equipment.html",
-		AppConstants.MODULE_PATH + "/templates/tabs/race.html",
-		AppConstants.MODULE_PATH + "/templates/tabs/review.html",
-		AppConstants.MODULE_PATH + "/templates/tabs/spells.html",
-		AppConstants.MODULE_PATH + "/templates/tabs/start.html",
+		Constants.MODULE_PATH + "/templates/tabs/abilities.html",
+		Constants.MODULE_PATH + "/templates/tabs/background.html",
+		Constants.MODULE_PATH + "/templates/tabs/basics.html",
+		Constants.MODULE_PATH + "/templates/tabs/bio.html",
+		Constants.MODULE_PATH + "/templates/tabs/class.html",
+		Constants.MODULE_PATH + "/templates/tabs/equipment.html",
+		Constants.MODULE_PATH + "/templates/tabs/race.html",
+		Constants.MODULE_PATH + "/templates/tabs/review.html",
+		Constants.MODULE_PATH + "/templates/tabs/spells.html",
+		Constants.MODULE_PATH + "/templates/tabs/start.html",
 	];
 	// Load the template parts
 	loadTemplates(templatePaths);

@@ -2,7 +2,7 @@
   Functions used exclusively on the Abilities tab
 */
 import HeroData from '../types/ActorData.js'
-import { Utils } from '../utils.js'
+import { Constants } from '../constants.js'
 
 export namespace AbilitiesTab {
     export function setListeners() {
@@ -49,7 +49,7 @@ export namespace AbilitiesTab {
     }
 
     export function saveData(newActor: HeroData) {
-        Utils.log('Saving Abilities Tab data into actor');
+        console.log(`${Constants.LOG_PREFIX} | Saving Abilities Tab data into actor`);
 
         let values: number[] = [];
         let stats: string[] = [];

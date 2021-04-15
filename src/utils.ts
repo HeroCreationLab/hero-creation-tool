@@ -1,11 +1,7 @@
-import { AppConstants } from './constants.js'
+import { Constants } from './constants.js'
 
 // Class for utilitarian functions used in multiple places
 export namespace Utils {
-
-    export function log(...data: any[]) {
-        console.log(`${AppConstants.LOG_PREFIX}`, ...data);
-    }
 
     export function openTab(id: string): void {
         $('.tabcontent').hide();
@@ -46,9 +42,9 @@ export namespace Utils {
     })
     */
     export async function getJson(path: string) {
-        // TODO maybe use AppConstants.MODULE_PATH instead of the note on the comment on top ?
+        // TODO maybe use Constants.MODULE_PATH instead of the note on the comment on top ?
         // also, this should probably be private (not exported) and having specific getDatabaseJson() and any other specific we might need
-        log(AppConstants.MODULE_PATH);
+        console.log(Constants.MODULE_PATH);
         const response = await fetch(path);
         let data;
         return (data = await response.json());
