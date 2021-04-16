@@ -1,35 +1,21 @@
 <div id="reviewDiv" class="tab-body apply-header-font">
-    <h1 class='tab-header'>{{localize 'HTC.Tabs.Review.Title'}}</h1>
+    <h1 class='tab-header'>{{localize 'HCT.Review.Title'}}</h1>
 
-    <main class="review-container">
-        <section id="review-basics" class="review-container">
-            <h2>{{localize 'HTC.Tabs.Basics.Title'}}</h2>
-        </section>
-        <section id="review-race" class="review-container">
-            <h2>{{localize 'HTC.Tabs.Race.Title'}}</h2>
-        </section>
-        <section id="review-class" class="review-container">
-            <h2>{{localize 'HTC.Tabs.Class.Title'}}</h2>
-        </section>
-        <section id="review-abilities" class="review-container">
-            <h2>{{localize 'HTC.Tabs.Abilities.Title'}}</h2>
-        </section>
-        <section id="review-background" class="review-container">
-            <h2>{{localize 'HTC.Tabs.Background.Title'}}</h2>
-        </section>
-        <section id="review-equipment" class="review-container">
-            <h2>{{localize 'HTC.Tabs.Equipment.Title'}}</h2>
-        </section>
-        <section id="review-spells" class="review-container">
-            <h2>{{localize 'HTC.Tabs.Spells.Title'}}</h2>
-        </section>
-        <section id="review-bio" class="review-container">
-            <h2>{{localize 'HTC.Tabs.Bio.Title'}}</h2>
-        </section>
+    <main class="tab-content">
+        <dl>
+            <dt class='review-subtitle' id='review-group-basics'>{{localize 'HCT.Basics.Title'}}</dt>
+            <dt class='review-subtitle' id='review-group-race'>{{localize 'HCT.Race.Title'}}</dt>
+            <dt class='review-subtitle' id='review-group-class'>{{localize 'HCT.Class.Title'}}</dt>
+            <dt class='review-subtitle' id='review-group-abilities'>{{localize 'HCT.Abilities.Title'}}</dt>
+            <dt class='review-subtitle' id='review-group-background'>{{localize 'HCT.Background.Title'}}</dt>
+            <dt class='review-subtitle' id='review-group-equipment'>{{localize 'HCT.Equipment.Title'}}</dt>
+            <dt class='review-subtitle' id='review-group-spells'>{{localize 'HCT.Spells.Title'}}</dt>
+            <dt class='review-subtitle' id='review-group-bio'>{{localize 'HCT.Bio.Title'}}</dt>
+        </dl>
     </main>
 
     <footer class='tab-footer'>
-        <button class="step-button" data-hct_back="bioDiv">{{localize 'HTC.Tabs.Back'}}</button>
-        <button id="finalSubmit" class="step-button">{{localize 'HTC.Tabs.Submit'}}</button>
+        <button class="step-button" data-hct_back="bioDiv">{{localize 'HCT.Back'}}</button>
+        <button id="finalSubmit" class="step-button review-submit">{{localize 'HCT.Submit'}}</button>
     </footer>
 </div>

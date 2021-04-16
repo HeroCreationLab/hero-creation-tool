@@ -4,7 +4,9 @@ import { Constants } from './constants.js'
 export namespace Utils {
 
     export async function stackNotification(message: string) {
-        // idea on the brewing..
+        // idea on the brewing.. as only 3 notifications can be shown at the time
+        // and they expire every 3 seconds, it would be nice to post the notifications
+        // staggered every second and a half so they flow nicely
     }
 
     export function openTab(id: string): void {

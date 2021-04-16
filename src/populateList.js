@@ -13,7 +13,7 @@ function populateList(id, object, isIndex, defaultName) {
     dropdown.length = 0;
 
     let defaultOption = document.createElement('option');
-    defaultOption.text = game.i18n.format("HTC.List.DefaultOption", { name: defaultName });
+    defaultOption.text = game.i18n.format("HCT.List.DefaultOption", { name: defaultName });
 
     dropdown.add(defaultOption);
     dropdown.selectIndex = 0;
@@ -36,7 +36,7 @@ function populateList(id, object, isIndex, defaultName) {
     }
 
     option = document.createElement('option');
-    option.text = game.i18n.localize("HTC.Custom");
+    option.text = game.i18n.localize("HCT.Custom");
     option.value = 'custom';
     dropdown.add(option);
 }
@@ -176,7 +176,7 @@ function populateItemList(id, items, itemCategory, itemName, itemType, scfType, 
                 return listOfItems;
             }
         }
-        console.log(`${Constants.LOG_PREFIX} | ${game.i18n.format("HTC.List.NoItemWithName", { itemName: itemName })}`);
+        console.log(`${Constants.LOG_PREFIX} | ${game.i18n.format("HCT.List.NoItemWithName", { itemName: itemName })}`);
         //Looking for any item of given type (if type exists but category doesn't)
     } else if ((itemType != '') && (itemCategory == '')) {
         for (item of items) {
@@ -364,7 +364,7 @@ function populateItemList(id, items, itemCategory, itemName, itemType, scfType, 
         }
     }
     if (listOfItems == []) {
-        console.log(`${Constants.LOG_PREFIX} | ${game.i18n.format("HTC.List.CantFindItem")}`);
+        console.log(`${Constants.LOG_PREFIX} | ${game.i18n.format("HCT.List.CantFindItem")}`);
     }
     return listOfItems;
 }
@@ -381,7 +381,7 @@ function initializeItemList(id) {
     dropdown.length = 0;
 
     let defaultOption = document.createElement('option');
-    defaultOption.text = game.i18n.format("HTC.List.ChooseItem");
+    defaultOption.text = game.i18n.format("HCT.List.ChooseItem");
 
     dropdown.add(defaultOption);
     dropdown.selectIndex = 0;

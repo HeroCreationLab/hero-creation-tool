@@ -1,56 +1,55 @@
 <div id="bioDiv" class="tab-body apply-header-font">
-    <h1 class='tab-header'>{{localize 'HTC.Tabs.Bio.Title'}}</h1>
+    <h1 class='tab-header'>{{localize 'HCT.Bio.Title'}}</h1>
 
     <main class='tab-content'>
         <div class="form--padding">
             <form class="flexcol prototype" autocomplete="off">
                 <div class="form-group">
-                    <label>{{localize 'HTC.Tabs.Bio.Age'}}</label>
-                    <input type="text" id="character_age" name="age" placeholder="{{localize 'HTC.Tabs.Bio.Age'}}">
+                    <label>{{localize 'HCT.Bio.Age'}}</label>
+                    <input type="text" id="character_age" name="age" placeholder="{{localize 'HCT.Bio.Age'}}">
                 </div>
                 <div class="form-group">
-                    <label>{{localize 'HTC.Tabs.Bio.Height'}}</label>
-                    <input type="text" id="character_height" name="height"
-                        placeholder="{{localize 'HTC.Tabs.Bio.Height'}}">
+                    <label>{{localize 'HCT.Bio.Height'}}</label>
+                    <input type="text" id="character_height" name="height" placeholder="{{localize 'HCT.Bio.Height'}}">
                 </div>
                 <div class="form-group">
-                    <label>{{localize 'HTC.Tabs.Bio.Weight'}}</label>
-                    <input type="text" id="character_weight" name="weight"
-                        placeholder="{{localize 'HTC.Tabs.Bio.Weight'}}">
+                    <label>{{localize 'HCT.Bio.Weight'}}</label>
+                    <input type="text" id="character_weight" name="weight" placeholder="{{localize 'HCT.Bio.Weight'}}">
                 </div>
                 <div class="form-group">
-                    <label>{{localize 'HTC.Tabs.Bio.Eyes'}}</label>
+                    <label>{{localize 'HCT.Bio.Eyes'}}</label>
                     <div>
                         <input type="text" id="character_eye_color" name="eye-color"
-                            placeholder="{{localize 'HTC.Tabs.Bio.Eyes'}}">
+                            placeholder="{{localize 'HCT.Bio.Eyes'}}">
                         <input type="color" id="character_eye_rgb" name="eye-rgb">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>{{localize 'HTC.Tabs.Bio.Hair'}}</label>
+                    <label>{{localize 'HCT.Bio.Hair'}}</label>
                     <div>
                         <input type="text" id="character_hair_color" name="hair-color"
-                            placeholder="{{localize 'HTC.Tabs.Bio.Hair'}}">
+                            placeholder="{{localize 'HCT.Bio.Hair'}}">
                         <input type="color" id="character_hair_rgb" name="hair-rgb">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>{{localize 'HTC.Tabs.Bio.Skin'}}</label>
+                    <label>{{localize 'HCT.Bio.Skin'}}</label>
                     <div>
                         <input type="text" id="character_skin_color" name="skin-color"
-                            placeholder="{{localize 'HTC.Tabs.Bio.Skin'}}">
+                            placeholder="{{localize 'HCT.Bio.Skin'}}">
                         <input type="color" id="character_skin_rgb" name="skin-rgb">
                     </div>
                 </div>
                 <div>
-                    <textarea id="character_biography" placeholder="{{localize 'HTC.Tabs.Bio.Biography'}}"></textarea>
+                    <textarea id="character_biography" placeholder="{{localize 'HCT.Bio.Biography'}}"></textarea>
                 </div>
             </form>
         </div>
     </main>
 
     <footer class='tab-footer'>
-        <button class="step-button" data-hct_back="spDiv">{{localize 'HTC.Tabs.Back'}}</button>
-        <button class="step-button" data-hct_next="reviewDiv">{{localize 'HTC.Tabs.Next'}}</button>
+        <button class="step-button" data-hct_back="spDiv">{{localize 'HCT.Back'}}</button>
+        <button class="step-button" data-hct_next="reviewDiv" data-hct_trigger_review>{{localize
+            'HCT.Next'}}</button>
     </footer>
 </div>

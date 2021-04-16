@@ -10,7 +10,7 @@ export namespace ModuleSettings {
 
 function tokenDisplayBarsModeSetting() {
     game.settings.register(Constants.MODULE_NAME, "displayBarsMode", {
-        name: game.i18n.localize("HTC.Setting.TokenBarMode"),
+        name: game.i18n.localize("HCT.Setting.TokenBarMode"),
         scope: "world",
         config: true,
         choices: {
@@ -27,7 +27,7 @@ function tokenDisplayBarsModeSetting() {
 
 function tokenDisplayNameModeSetting() {
     game.settings.register(Constants.MODULE_NAME, "displayNameMode", {
-        name: game.i18n.localize("HTC.Setting.TokenNameMode"),
+        name: game.i18n.localize("HCT.Setting.TokenNameMode"),
         scope: "world",
         config: true,
         choices: {

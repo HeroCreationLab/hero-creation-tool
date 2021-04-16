@@ -1,16 +1,27 @@
 /*
   Functions used exclusively on the Review tab
 */
-import HeroData from '../types/ActorData.js'
-import { Constants } from '../constants.js'
-import { Tab } from './Tab.js';
+import { DataError } from '../types/DataError.js'
 
-class _Review implements Tab {
-  setListeners(): void { }
-
-  saveData(newActor: HeroData): boolean {
-    return true; // ReviewTab doesn't save any data
-  }
+class Review {
+	mapReviewItems(items: DataError[]) {
+		$('.review-item').remove();
+		if (items.length > 0) {
+			$('#finalSubmit').removeClass('review-submit__ok');
+			$('#finalSubmit').addClass('review-submit__errors');
+		} else {
+			$('#finalSubmit').removeClass('review-submit__errors');
+			$('#finalSubmit').addClass('review-submit__ok');
+		}
+		for (const item of items) {
+			appendItem(item);
+		}
+	}
 }
-const ReviewTab: Tab = new _Review();
+const ReviewTab: Review = new Review();
 export default ReviewTab;
+
+function appendItem(item: DataError) {
+	const itemElem = $(`<dd class='review-item'>${game.i18n.localize(item.message)}</dd>`);
+	$(`#review-group-${item.step}`).after(itemElem);
+}

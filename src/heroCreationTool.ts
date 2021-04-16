@@ -6,7 +6,7 @@ import { Constants } from './constants.js'
 import { Utils } from './utils.js'
 import HeroData from './types/ActorData.js'
 
-import { Tab } from './tabs/Tab.js'
+import { DataTab } from './types/DataTab.js'
 import BasicsTab from './tabs/basics.js'
 import AbilitiesTab from './tabs/abilities.js'
 import RaceTab from './tabs/race.js'
@@ -16,20 +16,21 @@ import EquipmentTab from './tabs/equipment.js'
 import SpellsTab from './tabs/spells.js'
 import BioTab from './tabs/bio.js'
 import ReviewTab from './tabs/review.js'
+import { DataError } from './types/DataError.js'
 
 export default class HeroCreationTool extends Application {
     newActor: HeroData;
     actorId: string;
     app: any;
     html: JQuery;
-    tabs: Array<Tab>;
+    dataTabs: Array<DataTab>;
 
     constructor(app: any, html: JQuery) {
         super();
         this.app = app;
         this.html = html;
         this.newActor = new HeroData();
-        this.tabs = [BasicsTab, AbilitiesTab, RaceTab, ClassTab, BackgroundTab, EquipmentTab, SpellsTab, BioTab, ReviewTab];
+        this.dataTabs = [BasicsTab, AbilitiesTab, RaceTab, ClassTab, BackgroundTab, EquipmentTab, SpellsTab, BioTab]; // review tab holds no data
     }
 
     static get defaultOptions() {
@@ -52,7 +53,7 @@ export default class HeroCreationTool extends Application {
         console.log(`${Constants.LOG_PREFIX} | Binding listeners`);
 
         // listeners specific for each tab
-        for (const tab of this.tabs) {
+        for (const tab of this.dataTabs) {
             tab.setListeners();
         }
 
@@ -67,22 +68,40 @@ export default class HeroCreationTool extends Application {
             Utils.openTab($(this).data('hct_next'));
         })
 
+        $('[data-hct_trigger_review]').on('click', () => {
+            ReviewTab.mapReviewItems(this.validateData());
+        })
+
         $('#finalSubmit').on('click', (event) => {
-            this.buildActor(this.newActor);
-            this.close();
+            const errors: DataError[] = this.validateData();
+            if (!errors.length) {
+                this.buildActor();
+                this.close();
+            } else {
+                for (const err of errors) {
+                    ui.notifications.error(game.i18n.localize(err.message));
+                }
+            }
         });
     };
 
-    async buildActor(newActor: HeroData) {
-        console.log(`${Constants.LOG_PREFIX} | Building actor`);
+    validateData(): DataError[] {
+        // tab.getErrors validates data on the tab, and returns an array of any errors found
+        // an empty array therefore means no errors
+        let errors: DataError[] = [];
+        for (const tab of this.dataTabs) {
+            errors = errors.concat(tab.getErrors());
+        }
+        return errors; // returns the array with all the errors found, so it can be shown on the review and/or notified
+    }
 
-        // tab.saveData validates that data is complete on the tab, and saves it to the newActor
-        let validData = true;
-        for (const tab of this.tabs) {
-            validData = tab.saveData(newActor) && validData;
+    async buildActor() {
+        console.log(`${Constants.LOG_PREFIX} | Building actor`);
+        for (const tab of this.dataTabs) {
+            tab.saveData(this.newActor)
         }
 
-        // Creates new actor based on collected data only if data from all tabs is valid
-        if (validData) Actor.create(newActor);
+        // Creates new actor based on collected data
+        Actor.create(this.newActor);
     }
 }

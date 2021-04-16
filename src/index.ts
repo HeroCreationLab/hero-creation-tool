@@ -1,6 +1,6 @@
-import HeroCreationTool from './hero-creation-tool.js'
+import HeroCreationTool from './heroCreationTool.js'
 import { Constants } from './constants.js';
-import { ModuleSettings } from './module-settings.js';
+import { ModuleSettings } from './moduleSettings.js';
 
 /*
 	This file defines the Foundry Hooks, loads Handlebars templates and makes other general initialization
@@ -32,7 +32,7 @@ Hooks.once("init", () => {
 Hooks.on("renderActorDirectory", (app, html) => {
 	console.log(`${Constants.LOG_PREFIX} | Adding actors directory button`);
 	const moduleApp = new HeroCreationTool(app, html);
-	$('#actors').first().prepend(`<div class='header-hct flexrow'><button id='actors-directory-btn'><i class='fas fa-dice-d20'></i>${game.i18n.localize("HTC.Title")}</button></div>`);
+	$('#actors').first().prepend(`<div class='header-hct flexrow'><button id='actors-directory-btn'><i class='fas fa-dice-d20'></i>${game.i18n.localize("HCT.Title")}</button></div>`);
 	$('#actors-directory-btn').on('click', function () {
 		moduleApp.openForActor(null);
 	});
@@ -42,7 +42,7 @@ Hooks.on("renderActorDirectory", (app, html) => {
 Hooks.on('renderActorSheet', (app, html, data) => {
 	if (app.actor.data.type === 'npc') return;
 	const moduleApp = new HeroCreationTool(app, html);
-	const button = $(`<a id='actor-sheet-btn'><i class="fas fa-dice-d20"></i>${game.i18n.localize("HTC.ActorSheetCreateButton")}</a>`);
+	const button = $(`<a id='actor-sheet-btn'><i class="fas fa-dice-d20"></i>${game.i18n.localize("HCT.ActorSheetCreateButton")}</a>`);
 	button.insertBefore(html.closest('.app').find('.configure-sheet'));
 	$('#actor-sheet-btn').on('click', function () {
 		moduleApp.openForActor(data.actor._id);
