@@ -1,4 +1,3 @@
-
 /*
 Author: Alexander Sedore
 Date: 12/20/2020
@@ -7,7 +6,6 @@ Populate a selcelct dropdownlist based on id and filepath for a index json.
 Input : ID: string, object: Json Array, isIndex: boolean, defaaultName: string
 Output: N/A
 */
-import { Utils } from './utils.js'
 
 function populateList(id, object, isIndex, defaultName) {
     //initialize drop down list and add default value

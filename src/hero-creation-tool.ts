@@ -16,7 +16,7 @@ import { SpellsTab } from './tabs/spells.js'
 import { BioTab } from './tabs/bio.js'
 import { ReviewTab } from './tabs/review.js'
 
-export default class HeroCreationTools extends Application {
+export default class HeroCreationTool extends Application {
     newActor: HeroData;
     actorId: string;
     app: any;
@@ -39,12 +39,13 @@ export default class HeroCreationTools extends Application {
     }
 
     async openForActor(actorId: string) {
+        console.log(`${Constants.LOG_PREFIX} | Opening for ${actorId ? 'actor id: ' + actorId : 'new actor'}`);
         this.actorId = actorId;
         this.render(true);
     }
 
     async buildActor(newActor: HeroData) {
-        console.log(`${Constants.LOG_PREFIX} | Building actor..`);
+        console.log(`${Constants.LOG_PREFIX} | Building actor`);
         // Copies all the data in the tabs into the newActor
         BasicsTab.saveData(newActor);
         RaceTab.savaData(newActor);
@@ -60,7 +61,7 @@ export default class HeroCreationTools extends Application {
 
     activateListeners(html: JQuery) {
         super.activateListeners(html);
-        console.log(`${Constants.LOG_PREFIX} | Binding listeners..`);
+        console.log(`${Constants.LOG_PREFIX} | Binding listeners`);
 
         // listeners specific to a single tab
         BasicsTab.setListeners();
@@ -74,20 +75,20 @@ export default class HeroCreationTools extends Application {
         ReviewTab.setListeners();
 
         // set listeners for tab navigation
-        $('[data-tab]').on('click', function () {
-            Utils.openTab($(this).data('tab'));
+        $('[data-hct_tab]').on('click', function () {
+            Utils.openTab($(this).data('hct_tab'));
         })
-        $('[data-back]').on('click', function () {
-            Utils.openTab($(this).data('back'));
+        $('[data-hct_back]').on('click', function () {
+            Utils.openTab($(this).data('hct_back'));
         })
-        $('[data-next]').on('click', function () {
+        $('[data-hct_next]').on('click', function () {
             const validation = $(this).data('validation');
             if (validation) {
                 if (true) { // TODO call validation
-                    Utils.openTab($(this).data('next'));
+                    Utils.openTab($(this).data('hct_next'));
                 }
             } else {
-                Utils.openTab($(this).data('next'));
+                Utils.openTab($(this).data('hct_next'));
             }
         })
 
@@ -95,8 +96,5 @@ export default class HeroCreationTools extends Application {
             this.buildActor(this.newActor);
             this.close();
         });
-
-        // after activating all listeners, open the first tab
-        Utils.openTab('startDiv');
     };
 }

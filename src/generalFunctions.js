@@ -1,12 +1,10 @@
-import { Utils } from './utils.js'
-
 function getCharacter() {
-   if (!window.heroMancer) {
-      window.heroMancer = {};
-      let character = window.heroMancer;
+   if (!globalThis.heroMancer) {
+      globalThis.heroMancer = {};
+      let character = globalThis.heroMancer;
       character.resistances = [];
    }
-   return window.heroMancer
+   return globalThis.heroMancer
 }
 
 /*

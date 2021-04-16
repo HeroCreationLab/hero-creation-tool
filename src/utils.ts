@@ -4,7 +4,7 @@ import { Constants } from './constants.js'
 export namespace Utils {
 
     export function openTab(id: string): void {
-        $('.tabcontent').hide();
+        $('.tab-body').hide();
         $(".tablinks").removeClass("active");
         $(`#${id}`).show();
     }

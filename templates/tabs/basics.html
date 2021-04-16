@@ -1,35 +1,40 @@
-<div id="basicsDiv" class="tabcontent apply-header-font">
-    <h1>{{localize 'HTC.Tabs.Basics.Title'}}</h1>
-    <div class="form--padding">
-        <form class="flexcol prototype" autocomplete="off">
-            <div class="form-group">
-                <label class="basics-top-label">{{localize 'HTC.Tabs.Basics.CharName'}}</label>
-                <input type="text" id="actor_name" name="name" placeholder="Name">
-            </div>
-            <div class="form-group">
-                <label class="basics-top-label">{{localize 'HTC.Tabs.Basics.Avatar'}}</label>
-                <input type="text" id="avatar_path" placeholder="Path.." value="icons/svg/mystery-man.svg">
-                <button type="button" class="div-button file-picker centered-text" data-filepick='avatar'>
-                    {{localize 'HTC.Tabs.Basics.PickButton'}}
-                </button>
-            </div>
-            <div class="form-group">
-                <label class="basics-top-label">{{localize 'HTC.Tabs.Basics.Token'}}</label>
-                <input type="text" id="token_path" placeholder="Path.." value="icons/svg/mystery-man.svg">
-                <button type="button" class="div-button file-picker centered-text" data-filepick='token'>
-                    {{localize 'HTC.Tabs.Basics.PickButton'}}
-                </button>
-            </div>
-            <div class="form-group">
-                <label class="basics-top-label">{{localize 'HTC.Tabs.Basics.Preview'}}</label>
-                <div id="avatar-token-display">
-                    <img id="avatar_img" title="Avatar" src="icons/svg/mystery-man.svg" data-filepick='avatar'>
-                    <img id="token_img" title="Token" src="icons/svg/mystery-man.svg" data-filepick='token'>
-                </div>
-            </div>
-        </form>
-    </div>
+<div id="basicsDiv" class="tab-body apply-header-font">
+    <h1 class='tab-header'>{{localize 'HTC.Tabs.Basics.Title'}}</h1>
 
-    <button class="step-button" data-back="startDiv">{{localize 'HTC.Tabs.Back'}}</button>
-    <button class="step-button" data-next="raceDiv">{{localize 'HTC.Tabs.Next'}}</button>
+    <main class='tab-content'>
+        <div class="form--padding">
+            <form class="flexcol prototype" autocomplete="off">
+                <div class="form-group">
+                    <label class="basics-top-label">{{localize 'HTC.Tabs.Basics.CharName'}}</label>
+                    <input type="text" id="actor_name" name="name" placeholder="Name">
+                </div>
+                <div class="form-group">
+                    <label class="basics-top-label">{{localize 'HTC.Tabs.Basics.Avatar'}}</label>
+                    <input type="text" id="avatar_path" placeholder="Path.." value="icons/svg/mystery-man.svg">
+                    <button type="button" class="div-button file-picker centered-text" data-filepick='avatar'>
+                        {{localize 'HTC.Tabs.Basics.PickButton'}}
+                    </button>
+                </div>
+                <div class="form-group">
+                    <label class="basics-top-label">{{localize 'HTC.Tabs.Basics.Token'}}</label>
+                    <input type="text" id="token_path" placeholder="Path.." value="icons/svg/mystery-man.svg">
+                    <button type="button" class="div-button file-picker centered-text" data-filepick='token'>
+                        {{localize 'HTC.Tabs.Basics.PickButton'}}
+                    </button>
+                </div>
+                <div class="form-group">
+                    <label class="basics-top-label">{{localize 'HTC.Tabs.Basics.Preview'}}</label>
+                    <div id="avatar-token-display">
+                        <img id="avatar_img" title="Avatar" src="icons/svg/mystery-man.svg" data-filepick='avatar'>
+                        <img id="token_img" title="Token" src="icons/svg/mystery-man.svg" data-filepick='token'>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer class='tab-footer'>
+        <button class="step-button" data-hct_back="startDiv">{{localize 'HTC.Tabs.Back'}}</button>
+        <button class="step-button" data-hct_next="raceDiv">{{localize 'HTC.Tabs.Next'}}</button>
+    </footer>
 </div>

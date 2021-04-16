@@ -1,15 +1,14 @@
-import HeroCreationTools from './hero-creation-tool.js'
+import HeroCreationTool from './hero-creation-tool.js'
 import { Constants } from './constants.js';
+import { ModuleSettings } from './module-settings.js';
 
 /*
 	This file defines the Foundry Hooks, loads Handlebars templates and makes other general initialization
 	related to presentation, files and etc
 */
-
 Hooks.once("init", () => {
-	// Preload Handlebars Templates
+	// Templates array
 	const templatePaths = [
-		// Partials
 		Constants.MODULE_PATH + "/templates/tabs/abilities.html",
 		Constants.MODULE_PATH + "/templates/tabs/background.html",
 		Constants.MODULE_PATH + "/templates/tabs/basics.html",
@@ -21,87 +20,31 @@ Hooks.once("init", () => {
 		Constants.MODULE_PATH + "/templates/tabs/spells.html",
 		Constants.MODULE_PATH + "/templates/tabs/start.html",
 	];
-	// Load the template parts
+	// Load the templates
+	console.log(`${Constants.LOG_PREFIX} | Loading templates`);
 	loadTemplates(templatePaths);
 
 	// Define Module Settings options
-	buildModuleSettings();
+	ModuleSettings.buildOptions();
 });
 
 /* This hooks onto the rendering of the Actor Directory to show the button */
-Hooks.on('renderActorDirectory', (app, html) => {
-	const configureHero = new HeroCreationTools(app, html);
-
-	let button = document.createElement('button');
-	const title = game.i18n.localize("HTC.Title");
-	button.innerHTML = `<i class='fas fa-dice-d20'></i>${title}`;
-	button.addEventListener("click", function () {
-		configureHero.openForActor(null);
+Hooks.once("renderActorDirectory", (app, html) => {
+	console.log(`${Constants.LOG_PREFIX} | Adding actors directory button`);
+	const moduleApp = new HeroCreationTool(app, html);
+	$('.directory-header').prepend(`<div class='header-hct flexrow'><button id='actors-directory-btn'><i class='fas fa-dice-d20'></i>${game.i18n.localize("HTC.Title")}</button></div>`);
+	$('#actors-directory-btn').on('click', function () {
+		moduleApp.openForActor(null);
 	});
-	const win = (window) as Record<string, any>
-	win.heroMancer = {};
-	win.heroMancer.foundryCharacter = app;
-	html.closest('.app').find('.configure_hero').remove();
-
-	const section = document.createElement('section')
-	section.classList.add('hero-creation-tool');
-	section.style.cssText = "margin: 3px; display: flex; align-items: center; justify-content: flex-start; max-height: fit-content;"
-	section.appendChild(button);
-
-	// Add menu before directory header
-	const dirHeader = html[0].querySelector('.directory-header');
-	dirHeader.parentNode.insertBefore(section, dirHeader);
 });
 
-/* This hooks onto the rendering actor sheet and makes a new object */
+/* This hooks onto the rendering actor sheet to show the button */
 Hooks.on('renderActorSheet', (app, html, data) => {
-
 	if (app.actor.data.type === 'npc') return;
-	let actorId = data.actor._id;
-
-	const configureHero = new HeroCreationTools(app, html);
-
-	const title = game.i18n.localize("HTC.ActorSheetCreateButton");
-	let button = $(`<a class="header-button configure_hero"}><i class="fas fa-dice-d20"></i>${title}</a>`);
-	button.click(ev => {
-		configureHero.openForActor(actorId);
+	const moduleApp = new HeroCreationTool(app, html);
+	const button = $(`<a id='actor-sheet-btn'><i class="fas fa-dice-d20"></i>${game.i18n.localize("HTC.ActorSheetCreateButton")}</a>`);
+	button.insertBefore(html.closest('.app').find('.configure-sheet'));
+	$('#actor-sheet-btn').on('click', function () {
+		moduleApp.openForActor(data.actor._id);
 	});
-	const win = (window) as any;
-	win.heroMancer = {};
-	win.heroMancer.foundryCharacter = app;
-	html.closest('.app').find('.configure_hero').remove();
-	let titleElement = html.closest('.app').find('.configure-sheet');
-	button.insertBefore(titleElement);
 });
-
-function buildModuleSettings() {
-	game.settings.register("hero-creation-tool", "displayNameMode", {
-		name: game.i18n.localize("HTC.Setting.TokenNameMode"),
-		scope: "world",
-		config: true,
-		choices: {
-			"0": "Never Displayed",
-			"10": "When Controlled",
-			"20": "Hover by Owner",
-			"30": "Hover by Anyone",
-			"40": "Always for Owner",
-			"50": "Always for Anyone"
-		},
-		default: "20",
-	});
-
-	game.settings.register("hero-creation-tool", "displayBarsMode", {
-		name: game.i18n.localize("HTC.Setting.TokenBarMode"),
-		scope: "world",
-		config: true,
-		choices: {
-			"0": "Never Displayed",
-			"10": "When Controlled",
-			"20": "Hover by Owner",
-			"30": "Hover by Anyone",
-			"40": "Always for Owner",
-			"50": "Always for Anyone"
-		},
-		default: "20",
-	});
-}
