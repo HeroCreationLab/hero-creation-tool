@@ -1,7 +1,7 @@
 /*This is the reference document for background jsons
     Name: Alexander Sedore
     Date: 2/9/21
-    Ver: 0.1
+    Ver: 0.2
 */
 
 Tree Diagram:
@@ -39,14 +39,17 @@ Tree Diagram:
 
             isFeature : Boolean // boolean value to check if the entrie represents a feature so we can create a feature entry in the character sheet. IF isFeature == Null then entry does not represent a feature.
     skilProficiencies : [1]
-        0 : {x} //  x is the number of skills the backroung gives proficiency in
+        0 : {x} //  x is the number of skills the backroungd gives proficiency in
             [name of skill] : boolean // boolean value showing the background gives proficiency in in
+            [name of skill] : String // will tell if the background gives double the proficency the String should be "double"
+            choice : []
+                any : Int // how many the user can choose from the list
+                from : [String] // list of skills the user may choose from
     
 
     languageProficiencies : [1]
-        0 : {x} // x is the number of features
+        0 : {x} // x is the number of languages given
             either [name of the language] : boolean // boolean value showing which language the background gives proficiency in
-            or
             anyStandard/anyExotic/any : interger // saying how many languages of the specific type the user gets to choose for themself
     
 
