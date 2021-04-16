@@ -3,13 +3,17 @@
 */
 import HeroData from '../types/ActorData.js'
 import { Constants } from '../constants.js'
+import { Tab } from './Tab.js';
 
-export namespace EquipmentTab {
-  export function setListeners() { }
+class _Equipment implements Tab {
+  setListeners(): void { }
 
-  export function saveData(newActor: HeroData) {
+  saveData(newActor: HeroData): boolean {
     console.log(`${Constants.LOG_PREFIX} | Saving Equipment Tab data into actor`);
 
     // TBD
+    return true;
   }
 }
+const EquipmentTab: Tab = new _Equipment();
+export default EquipmentTab;

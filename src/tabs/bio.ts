@@ -3,11 +3,12 @@
 */
 import HeroData from '../types/ActorData.js'
 import { Constants } from '../constants.js'
+import { Tab } from './Tab.js';
 
-export namespace BioTab {
-  export function setListeners() { }
+class _Bio implements Tab {
+  setListeners(): void { }
 
-  export function saveData(newActor: HeroData) {
+  saveData(newActor: HeroData): boolean {
     console.log(`${Constants.LOG_PREFIX} | Saving Biography Tab data into actor`);
 
     let appearance = "";
@@ -22,5 +23,8 @@ export namespace BioTab {
       appearance: appearance,
       biography: { value: $("#character_biography").val() as string },
     }
+    return true;
   }
 }
+const BioTab: Tab = new _Bio();
+export default BioTab;

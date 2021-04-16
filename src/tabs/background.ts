@@ -3,13 +3,17 @@
 */
 import HeroData from '../types/ActorData.js'
 import { Constants } from '../constants.js'
+import { Tab } from './Tab.js';
 
-export namespace BackgroundTab {
-  export function setListeners() { }
+class _BackgroundTab implements Tab {
+  setListeners(): void { }
 
-  export function saveData(newActor: HeroData) {
+  saveData(newActor: HeroData): boolean {
     console.log(`${Constants.LOG_PREFIX} | Saving Background Tab data into actor`);
 
     // TBD
+    return true;
   }
 }
+const BackgroundTab: Tab = new _BackgroundTab();
+export default BackgroundTab;

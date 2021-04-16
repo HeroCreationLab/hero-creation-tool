@@ -29,10 +29,10 @@ Hooks.once("init", () => {
 });
 
 /* This hooks onto the rendering of the Actor Directory to show the button */
-Hooks.once("renderActorDirectory", (app, html) => {
+Hooks.on("renderActorDirectory", (app, html) => {
 	console.log(`${Constants.LOG_PREFIX} | Adding actors directory button`);
 	const moduleApp = new HeroCreationTool(app, html);
-	$('.directory-header').prepend(`<div class='header-hct flexrow'><button id='actors-directory-btn'><i class='fas fa-dice-d20'></i>${game.i18n.localize("HTC.Title")}</button></div>`);
+	$('#actors').first().prepend(`<div class='header-hct flexrow'><button id='actors-directory-btn'><i class='fas fa-dice-d20'></i>${game.i18n.localize("HTC.Title")}</button></div>`);
 	$('#actors-directory-btn').on('click', function () {
 		moduleApp.openForActor(null);
 	});

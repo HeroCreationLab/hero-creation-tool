@@ -3,9 +3,10 @@
 */
 import HeroData from '../types/ActorData.js'
 import { Constants } from '../constants.js'
+import { Tab } from './Tab.js';
 
-export namespace AbilitiesTab {
-    export function setListeners() {
+class _Abilities implements Tab {
+    setListeners(): void {
         // entry mode
         $('[data-mode]').on('click', function () {
             const mode = $(this).data('mode');
@@ -48,50 +49,35 @@ export namespace AbilitiesTab {
         });
     }
 
-    export function saveData(newActor: HeroData) {
+    saveData(newActor: HeroData): boolean {
         console.log(`${Constants.LOG_PREFIX} | Saving Abilities Tab data into actor`);
 
-        let values: number[] = [];
-        let stats: string[] = [];
-        // Getting the stat
-        values[0] = $('#number1').val() as number;
-        values[1] = $('#number2').val() as number;
-        values[2] = $('#number3').val() as number;
-        values[3] = $('#number4').val() as number;
-        values[4] = $('#number5').val() as number;
-        values[5] = $('#number6').val() as number;
+        const values: number[] = [];
+        const stats: string[] = [];
+        for (let i = 0; i < 6; i++) {
+            // Getting the stat
+            values[i] = $(`#number${i + 1}`).val() as number;
+            // Getting the type of stat
+            stats.push($(`#stat${i + 1}`).val() as string);
+        }
 
-        // Getting the type of stat
-        stats.push($('#stat1').val() as string);
-        stats.push($('#stat2').val() as string);
-        stats.push($('#stat3').val() as string);
-        stats.push($('#stat4').val() as string);
-        stats.push($('#stat5').val() as string);
-        stats.push($('#stat6').val() as string);
-
+        if (statsDuplicatedOrMissing(stats)) {
+            ui.notifications.error(game.i18n.localize("HTC.Abitilies.NotAllSix"));
+            return false;
+        }
         newActor.data = { abilities: {} } as any;
         for (var i = 0; i < stats.length; i++) {
             // Push abilities into the newActor object data
             const stat = stats[i].toLowerCase();
             (newActor.data.abilities as any)[`${stat}`] = { value: values[i] };
         }
+        return true;
     }
 }
+const AbilitiesTab: Tab = new _Abilities();
+export default AbilitiesTab;
 
-function updateAbilityScores() {
-    const stat_block = [];
-    for (let i = 1; i < 7; i++) {
-        stat_block.push($(`#stat${i}`).val());
-    }
-
-    if (checkDuplicate(stat_block) == false) return true;
-    else {
-        alert(game.i18n.localize("HTC.Abitilies.NotAllSix"));
-        return false;
-    }
-}
-
-function checkDuplicate(listValues: Array<any>) {
+function statsDuplicatedOrMissing(listValues: Array<any>) {
     /**Check that there are no repeats */
     for (var x = 0; x < listValues.length; x++) {
         for (var y = 0; y < listValues.length; y++) {
