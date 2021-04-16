@@ -3,13 +3,17 @@
 */
 import HeroData from '../types/ActorData.js'
 import { Constants } from '../constants.js'
+import { Tab } from './Tab.js';
 
-export namespace SpellsTab {
-  export function setListeners() { }
+class _Spells implements Tab {
+  setListeners(): void { }
 
-  export function saveData(newActor: HeroData) {
+  saveData(newActor: HeroData): boolean {
     console.log(`${Constants.LOG_PREFIX} | Saving Spells Tab data into actor}`);
 
     // TBD
+    return true;
   }
 }
+const SpellsTab: Tab = new _Spells();
+export default SpellsTab;

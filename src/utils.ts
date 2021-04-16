@@ -3,6 +3,10 @@ import { Constants } from './constants.js'
 // Class for utilitarian functions used in multiple places
 export namespace Utils {
 
+    export async function stackNotification(message: string) {
+        // idea on the brewing..
+    }
+
     export function openTab(id: string): void {
         $('.tab-body').hide();
         $(".tablinks").removeClass("active");
