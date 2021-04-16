@@ -1,9 +1,60 @@
 /* ## General Styles */
 
+.header-hct {
+  display: flex;
+  margin: 3px;
+  align-items: center;
+  max-height: fit-content;
+}
+
+.hct-container {
+  overflow-y: hidden;
+  overflow-x: hidden;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
 .tabs {
   display: flex;
   width: 100%;
   justify-content: space-evenly;
+}
+
+.tab-body {
+  padding: 2% 4%;
+  border-top: none;
+  width: 100%;
+  height: 92%;
+  position: relative;
+}
+
+.tab-header {
+  width: 100%;
+}
+
+.tab-content {
+  width: 100%;
+  height: 480px;
+  overflow-y: auto;
+}
+
+.tab-footer {
+  position: absolute;
+  bottom: 0;
+  padding: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#main-logo {
+  content: url(../assets/logo.png);
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  border: none;
 }
 
 .window-content .tabs {
@@ -40,8 +91,6 @@
 /* ## Scrollable Textareas */
 
 .infoArea {
-  overflow: auto;
-  overflow-y: visible;
   border-spacing: 10px;
   border-spacing: 15px;
   border-collapse: seperate;
@@ -69,7 +118,7 @@
   border: none;
   outline: none;
   transition: all 0.3s;
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   display: inline-block;
   text-align: center;
 }
@@ -118,12 +167,6 @@
   transform: scale(1.08) translateY(-5px);
   text-decoration: underline;
   text-shadow: 0 0 5px red;
-}
-
-.tabcontent {
-  display: inline-block;
-  padding: 2% 4%;
-  border-top: none;
 }
 
 /* ## Equipment */
@@ -207,29 +250,19 @@
   background-color: #415989;
 }
 
-.nextButton {
+.step-button {
   width: 80px;
-  height: 30px;
-  box-shadow: inset 0px 0px 15px 3px #23395e;
-  background: linear-gradient(to bottom, #2e466e 5%, #415989 100%);
-  background-color: #2e466e;
-  border-radius: 10px;
-  border: 1px solid #1f2f47;
+  height: 32px;
+  background-color: rgba(255, 255, 240, 0.8);
+  border-radius: 3px;
+  border: 1px solid #b5b3a4;
   cursor: pointer;
-  color: #ffffff;
-  font-family: Arial;
   font-size: 15px;
-  text-decoration: none;
-  text-shadow: 0px 1px 0px #263666;
-  text-align: center;
-  padding: 5px;
-  margin: 15px;
-  float: right;
+  font-family: "Signika", sans-serif;
 }
 
-.nextButton:hover {
-  background: linear-gradient(to bottom, #415989 5%, #2e466e 100%);
-  background-color: #415989;
+.step-button:hover {
+  background-color: rgba(245, 245, 230, 0.8);
 }
 
 /* ## Forms */
@@ -257,7 +290,7 @@
   flex: 0 0 35px;
 }
 
-.divButton {
+.div-button {
   min-width: 80px;
 }
 
@@ -285,12 +318,18 @@
   border: none;
   outline: none;
   transition: 0.4s;
-  margin: 5px;
+  margin: 5px 0px;
 }
 
 .accordion-panel {
   padding: 0 18px;
   display: none;
-  overflow: hidden;
+  overflow-y: scroll;
   margin: 5px;
+}
+
+.centered-text {
+  width: 100%;
+  text-align: center;
+  display: block;
 }

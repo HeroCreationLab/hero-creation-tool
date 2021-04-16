@@ -1,4 +1,3 @@
-
 /*
 Author: Alexander Sedore
 Date: 12/20/2020
@@ -7,6 +6,7 @@ Populate a selcelct dropdownlist based on id and filepath for a index json.
 Input : ID: string, object: Json Array, isIndex: boolean, defaaultName: string
 Output: N/A
 */
+
 function populateList(id, object, isIndex, defaultName) {
     //initialize drop down list and add default value
     let dropdown = document.getElementById(id);
@@ -176,7 +176,7 @@ function populateItemList(id, items, itemCategory, itemName, itemType, scfType, 
                 return listOfItems;
             }
         }
-        console.log(game.i18n.format("HTC.List.NoItemWithName", {itemName: itemName}));
+        console.log(`${Constants.LOG_PREFIX} | ${game.i18n.format("HTC.List.NoItemWithName", { itemName: itemName })}`);
         //Looking for any item of given type (if type exists but category doesn't)
     } else if ((itemType != '') && (itemCategory == '')) {
         for (item of items) {
@@ -364,7 +364,7 @@ function populateItemList(id, items, itemCategory, itemName, itemType, scfType, 
         }
     }
     if (listOfItems == []) {
-        console.log(game.i18n.format("HTC.List.CantFindItem"));
+        console.log(`${Constants.LOG_PREFIX} | ${game.i18n.format("HTC.List.CantFindItem")}`);
     }
     return listOfItems;
 }
