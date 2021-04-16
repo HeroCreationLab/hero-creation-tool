@@ -16,13 +16,12 @@ Tree Diagram:
 
     entries : [] // the racial features given by the race
         name : String // name of the racial feature
-        featDes : [String or [String and {}]] // list of descriptions for the feature if the next entry has another name field it means you must go to that entry's entries and generate the field of text for it.
+        entries : [String or [String and {}]] // list of descriptions for the feature if the next entry has another name field it means you must go to that entry's entries and generate the field of text for it.
         isDracAnc : Boolean // weather the feature is Draconic Ancestry or not
 
 
         if isDracAnc == True
-        table : {5} // table that needs to be displayed for the user for the Draconic Ancestry feat
-            name : Draconic Ancestry
+        table : {2} // table that needs to be displayed for the user for the Draconic Ancestry feat
             colLabels : [3] // This will tell the programer what each collum entry contains what data
                 0 : Dragon // Use this collum to generate a choice list for the user
                 1 : Damage Type // also is used for resistance
@@ -99,11 +98,12 @@ Tree Diagram:
             }
 
             innate : {} //if the race has innate spell casting of specific spells
-                [level you get the spell (Int)] : [{}] // the length of the list is how many spells you would get
-                    0 -> ... : [name of spell]
-                    uses : Int // number of uses for the innate spell before needing to rest, if uses does not exist the user can use it any number of times
+                [level you get the spell (Int)] : {x}
+                    (0 -> ... ) [name of spell] : {}
+                        level: int // the level which the user can cast the spell at
+                        uses : Int // number of uses for the innate spell before needing to rest, if uses does not exist the user can use it any number of times
                     rest : String //if the spell can be used any number of times without rest, rest will not exist otherwize will be either "Short" or "Long"
-    
+                ability: String // one of the abriviated stats eg. str, cha ect
     
     resist : [1] // list of resistance the race gives you (if the race is DragonBorn then the draconic Ancestry will tell the resistance you get and this will not exist in the json)
         0 : {x} // x is the number of resistances given
@@ -112,6 +112,9 @@ Tree Diagram:
                 any : Int // how many the user can choose from the list
                 from : [String] // list of weapon proficency the user may choose from
     
+    savingThrow: [1] // list of advantage/disadvanges to skills and saving throws
+        0 : {x} // x is the number of skills and saving throws
+            [name of skill or saving throw] : String // either "advantage" or "disadvange" or "immune"
     ability : [1] // list of ability score improvments (this is to be added with the subraces ability value if applicable)
         0 : {x} // x is the number of ability score improvemtns the base race gives
             [name of ability abriviation] : Int //number do add to the character ability modifier 
