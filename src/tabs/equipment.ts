@@ -3,17 +3,26 @@
 */
 import HeroData from '../types/ActorData.js'
 import { Constants } from '../constants.js'
-import { Tab } from './Tab.js';
+import { DataTab } from '../types/DataTab.js'
+import { DataError } from '../types/DataError.js'
+import { Step, StepEnum } from '../types/Step.js'
 
-class _Equipment implements Tab {
-  setListeners(): void { }
+class _Equipment extends Step implements DataTab {
+	setListeners(): void { }
 
-  saveData(newActor: HeroData): boolean {
-    console.log(`${Constants.LOG_PREFIX} | Saving Equipment Tab data into actor`);
+	getErrors(): DataError[] {
+		const errors: DataError[] = [];
+		if (false) {
+			errors.push(this.error("HCT.Err.Key"));
+		}
+		return errors;
+	}
 
-    // TBD
-    return true;
-  }
+	saveData(newActor: HeroData): void {
+		console.log(`${Constants.LOG_PREFIX} | Saving Equipment Tab data into actor`);
+
+		// TBD
+	}
 }
-const EquipmentTab: Tab = new _Equipment();
+const EquipmentTab: DataTab = new _Equipment(StepEnum.Equipment);
 export default EquipmentTab;

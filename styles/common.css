@@ -333,3 +333,33 @@
   text-align: center;
   display: block;
 }
+
+.review-subtitle {
+  font-family: 'Modesto Condensed', 'Signika', 'Arial';
+  font-size: 20px;
+  padding-bottom: 5px;
+}
+
+.review-item {
+  padding-bottom: 5px;
+}
+
+.review-submit {
+  color: white;
+}
+
+.review-submit__ok {
+  background-color: darkgreen;
+}
+
+.review-submit__ok:hover {
+  background-color: green;
+}
+
+.review-submit__errors {
+  background-color: firebrick;
+}
+
+.review-submit__errors:hover {
+  background-color: red;
+}

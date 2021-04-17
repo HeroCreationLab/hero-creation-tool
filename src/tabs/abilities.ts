@@ -3,9 +3,11 @@
 */
 import HeroData from '../types/ActorData.js'
 import { Constants } from '../constants.js'
-import { Tab } from './Tab.js';
+import { DataTab } from '../types/DataTab.js'
+import { DataError } from '../types/DataError.js'
+import { Step, StepEnum } from '../types/Step.js'
 
-class _Abilities implements Tab {
+class _Abilities extends Step implements DataTab {
     setListeners(): void {
         // entry mode
         $('[data-mode]').on('click', function () {
@@ -49,7 +51,15 @@ class _Abilities implements Tab {
         });
     }
 
-    saveData(newActor: HeroData): boolean {
+    getErrors(): DataError[] {
+        const errors: DataError[] = [];
+        if (statsDuplicatedOrMissing()) {
+            errors.push(this.error("HCT.Abitilies.NotAllSix"));
+        }
+        return errors;
+    }
+
+    saveData(newActor: HeroData) {
         console.log(`${Constants.LOG_PREFIX} | Saving Abilities Tab data into actor`);
 
         const values: number[] = [];
@@ -61,30 +71,29 @@ class _Abilities implements Tab {
             stats.push($(`#stat${i + 1}`).val() as string);
         }
 
-        if (statsDuplicatedOrMissing(stats)) {
-            ui.notifications.error(game.i18n.localize("HTC.Abitilies.NotAllSix"));
-            return false;
-        }
         newActor.data = { abilities: {} } as any;
         for (var i = 0; i < stats.length; i++) {
             // Push abilities into the newActor object data
             const stat = stats[i].toLowerCase();
             (newActor.data.abilities as any)[`${stat}`] = { value: values[i] };
         }
-        return true;
     }
 }
-const AbilitiesTab: Tab = new _Abilities();
+const AbilitiesTab: DataTab = new _Abilities(StepEnum.Abilities);
 export default AbilitiesTab;
 
-function statsDuplicatedOrMissing(listValues: Array<any>) {
+function statsDuplicatedOrMissing() {
     /**Check that there are no repeats */
-    for (var x = 0; x < listValues.length; x++) {
-        for (var y = 0; y < listValues.length; y++) {
-            if (!listValues[x]) {
+    const stats: string[] = [];
+    for (let i = 0; i < 6; i++) {
+        stats.push($(`#stat${i + 1}`).val() as string);
+    }
+    for (var x = 0; x < stats.length; x++) {
+        for (var y = 0; y < stats.length; y++) {
+            if (!stats[x]) {
                 return true;
             }
-            if (listValues[x] == listValues[y] && x != y) {
+            if (stats[x] == stats[y] && x != y) {
                 return true;
             }
         }
@@ -173,7 +182,7 @@ function changeAbility(i: string, up: boolean) {
             $('#down' + j).prop('disabled', disableDown);
         }
         if (newPoints > maxPoints)
-            alert(game.i18n.localize('HTC.Abitilies.PointBuyOverLimit'));
+            alert(game.i18n.localize('HCT.Abitilies.PointBuyOverLimit'));
     } else {
         if (newValue == 20) {
             $('#up' + i).prop('disabled', true);
