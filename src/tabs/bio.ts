@@ -3,12 +3,23 @@
 */
 import HeroData from '../types/ActorData.js'
 import { Constants } from '../constants.js'
-import { DataTab } from '../types/DataTab.js'
 import { DataError } from '../types/DataError.js'
 import { Step, StepEnum } from '../types/Step.js'
 
-class _Bio extends Step implements DataTab {
+class _Bio extends Step {
+	constructor() {
+		super(StepEnum.Biography)
+	}
+
 	setListeners(): void { }
+
+	setSourceData(): void {
+		//
+	}
+
+	renderData(): void {
+		// to be implemented
+	}
 
 	getErrors(): DataError[] {
 		const errors: DataError[] = [];
@@ -18,7 +29,7 @@ class _Bio extends Step implements DataTab {
 		return errors;
 	}
 
-	saveData(newActor: HeroData): void {
+	saveActorData(newActor: HeroData): void {
 		console.log(`${Constants.LOG_PREFIX} | Saving Biography Tab data into actor`);
 
 		let appearance = "";
@@ -35,5 +46,5 @@ class _Bio extends Step implements DataTab {
 		}
 	}
 }
-const BioTab: DataTab = new _Bio(StepEnum.Biography);
+const BioTab: Step = new _Bio();
 export default BioTab;

@@ -6,7 +6,6 @@ import { Constants } from './constants.js'
 import { Utils } from './utils.js'
 import HeroData from './types/ActorData.js'
 
-import { DataTab } from './types/DataTab.js'
 import BasicsTab from './tabs/basics.js'
 import AbilitiesTab from './tabs/abilities.js'
 import RaceTab from './tabs/race.js'
@@ -17,20 +16,19 @@ import SpellsTab from './tabs/spells.js'
 import BioTab from './tabs/bio.js'
 import ReviewTab from './tabs/review.js'
 import { DataError } from './types/DataError.js'
+import { Step } from './types/Step.js'
+import Race from './types/Race.js'
+import { DataPrep } from './dataPrep.js'
 
 export default class HeroCreationTool extends Application {
     newActor: HeroData;
     actorId: string;
-    app: any;
-    html: JQuery;
-    dataTabs: Array<DataTab>;
+    readonly steps: Array<Step>;
 
-    constructor(app: any, html: JQuery) {
+    constructor() {
         super();
-        this.app = app;
-        this.html = html;
         this.newActor = new HeroData();
-        this.dataTabs = [BasicsTab, AbilitiesTab, RaceTab, ClassTab, BackgroundTab, EquipmentTab, SpellsTab, BioTab]; // review tab holds no data
+        this.steps = [BasicsTab, AbilitiesTab, RaceTab, ClassTab, BackgroundTab, EquipmentTab, SpellsTab, BioTab]; // review tab holds no data
     }
 
     static get defaultOptions() {
@@ -45,16 +43,15 @@ export default class HeroCreationTool extends Application {
     async openForActor(actorId: string) {
         console.log(`${Constants.LOG_PREFIX} | Opening for ${actorId ? 'actor id: ' + actorId : 'new actor'}`);
         this.actorId = actorId;
-        this.render(true);
+        this.render(true, { log: true });
     }
 
-    activateListeners(html: JQuery) {
-        super.activateListeners(html);
+    activateListeners() {
         console.log(`${Constants.LOG_PREFIX} | Binding listeners`);
 
         // listeners specific for each tab
-        for (const tab of this.dataTabs) {
-            tab.setListeners();
+        for (const step of this.steps) {
+            step.setListeners();
         }
 
         // set listeners for tab navigation
@@ -68,7 +65,7 @@ export default class HeroCreationTool extends Application {
             Utils.openTab($(this).data('hct_next'));
         })
 
-        $('[data-hct_trigger_review]').on('click', () => {
+        $('[data-hct_review]').on('click', () => {
             ReviewTab.mapReviewItems(this.validateData());
         })
 
@@ -85,20 +82,32 @@ export default class HeroCreationTool extends Application {
         });
     };
 
+    async setupData() {
+        const races: Race[] = await DataPrep.setupRaces();
+        RaceTab.setSourceData(races);
+
+    }
+
+    renderChildrenData() {
+        for (const step of this.steps) {
+            step.renderData();
+        }
+    }
+
     validateData(): DataError[] {
         // tab.getErrors validates data on the tab, and returns an array of any errors found
         // an empty array therefore means no errors
         let errors: DataError[] = [];
-        for (const tab of this.dataTabs) {
-            errors = errors.concat(tab.getErrors());
+        for (const step of this.steps) {
+            errors = errors.concat(step.getErrors());
         }
         return errors; // returns the array with all the errors found, so it can be shown on the review and/or notified
     }
 
-    async buildActor() {
+    buildActor() {
         console.log(`${Constants.LOG_PREFIX} | Building actor`);
-        for (const tab of this.dataTabs) {
-            tab.saveData(this.newActor)
+        for (const step of this.steps) {
+            step.saveActorData(this.newActor);
         }
 
         // Creates new actor based on collected data

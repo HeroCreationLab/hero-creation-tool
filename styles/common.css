@@ -1,10 +1,8 @@
 /* ## General Styles */
 
-.header-hct {
-  display: flex;
-  margin: 3px;
-  align-items: center;
-  max-height: fit-content;
+.header-hct-button {
+  margin: 5px;
+  width: 97%;
 }
 
 .hct-container {
@@ -111,7 +109,6 @@
 .tablinks {
   font-family: 'Modesto Condensed', 'Signika', 'Arial';
   background-color: inherit;
-  margin-top: 10px;
   height: 40px;
   padding: 10px;
   line-height: 0;
@@ -334,6 +331,10 @@
   display: block;
 }
 
+.justified-text {
+  text-align: justify;
+}
+
 .review-subtitle {
   font-family: 'Modesto Condensed', 'Signika', 'Arial';
   font-size: 20px;
@@ -362,4 +363,26 @@
 
 .review-submit__errors:hover {
   background-color: red;
+}
+
+.hct_picker {
+  margin-bottom: 10px;
+}
+
+.hct_picker_primary {
+  background-color: white;
+  font-weight: bolder;
+}
+
+.htc_picker_primary_group {
+  background-color: lightslategray;
+  font-weight: bolder;
+}
+
+.hct_picker_secondary {
+  background-color: white;
+}
+
+.hct_race_data_elem {
+  margin-bottom: 10px;
 }

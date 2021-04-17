@@ -1,24 +1,38 @@
-<div id="raceDiv" class="tab-body apply-header-font">
-    <h1 class='tab-header'>{{localize 'HCT.Race.Title'}}</h1>
+<section id="raceDiv" class="tab-body apply-header-font">
+    <h1 class='tab-header'>{{localize 'DND5E.Race'}}</h1>
 
     <main class='tab-content'>
-        <div>
-            <select id="race-dropdown" name="race-dropdown">
-                <option value="class">this should be a list of classes</option>
-            </select>
+        <h3>{{localize 'HCT.Race.RaceSelect.Default'}}</h3>
+        <select class='hct_picker' , data-hct_race_picker>
+            <option value="" disabled selected hidden> {{localize 'HCT.Race.RaceSelect.Default'}} </option>
+        </select>
+        <div data-hct_race_data>
+            <!-- filled by tabs/race.ts -->
+            <h2>{{localize 'HCT.Race.ASI'}}</h2>
+            <section class='hct_race_data_elem' data-hct_race_abilityScoreImprovements></section>
+
+            <h2>{{localize 'DND5E.Size'}}</h2>
+            <section class='hct_race_data_elem' data-hct_race_size></section>
+
+            <div data-hct_race_senses_area>
+                <h2>{{localize 'DND5E.Senses'}}</h2>
+                <section class='hct_race_data_elem' data-hct_race_senses></section>
+            </div>
+
+            <h2>{{localize 'DND5E.Movement'}}</h2>
+            <section class='hct_race_data_elem' data-hct_race_movement></section>
+
+            <h2>{{localize 'HCT.Race.Proficiencies'}}</h2>
+            <section class='hct_race_data_elem' data-hct_race_proficiencies></section>
+
+            <!-- <h2>Language Proficiencies</h2> -->
+            <!-- <div id="race-language" name="race-language"></div> -->
         </div>
-        <br>
-        <h2>{{localize 'HCT.Race.ASI'}}</h2>
-        <div id="race-ability" name="race-ability"></div>
-        <h2>{{localize 'HCT.Race.Speed'}}</h2>
-        <div id="race-speed" name="race-speed"></div>
-        <!-- <h2>Language Proficiencies</h2> -->
-        <!-- <div id="race-language" name="race-language"></div> -->
-        <div id="race-features" name="race-features"></div>
+
     </main>
 
     <footer class='tab-footer'>
         <button class="step-button" data-hct_back="basicsDiv">{{localize 'HCT.Back'}}</button>
         <button class="step-button" data-hct_next="classDiv">{{localize 'HCT.Next'}}</button>
     </footer>
-</div>
+</section>

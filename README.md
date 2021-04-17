@@ -1,7 +1,7 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
 The project was migrated to Typescript using Flamewave000's fvtt-module-template as base (with some alterations, but the basics are the same).
-> https://github.com/flamewave000/fvtt-module-template/blob/main/module.json
+> https://github.com/flamewave000/fvtt-module-template
 
 ### Table of Contents
 
