@@ -3,12 +3,23 @@
 */
 import HeroData from '../types/ActorData.js'
 import { Constants } from '../constants.js'
-import { DataTab } from '../types/DataTab.js'
 import { DataError } from '../types/DataError.js'
 import { Step, StepEnum } from '../types/Step.js'
 
-class _Equipment extends Step implements DataTab {
+class _Equipment extends Step {
+	constructor() {
+		super(StepEnum.Equipment)
+	}
+
 	setListeners(): void { }
+
+	setSourceData(): void {
+		//
+	}
+
+	renderData(): void {
+		// to be implemented
+	}
 
 	getErrors(): DataError[] {
 		const errors: DataError[] = [];
@@ -18,11 +29,11 @@ class _Equipment extends Step implements DataTab {
 		return errors;
 	}
 
-	saveData(newActor: HeroData): void {
+	saveActorData(newActor: HeroData): void {
 		console.log(`${Constants.LOG_PREFIX} | Saving Equipment Tab data into actor`);
 
 		// TBD
 	}
 }
-const EquipmentTab: DataTab = new _Equipment(StepEnum.Equipment);
+const EquipmentTab: Step = new _Equipment();
 export default EquipmentTab;

@@ -3,6 +3,14 @@ import { Constants } from './constants.js'
 // Class for utilitarian functions used in multiple places
 export namespace Utils {
 
+    export function getItemFromCompendiumByName(compendium: Entity<Entity.Data>[], name: string) {
+        return compendium.find((r: any) => r.data.name == name);
+    }
+
+    export function getAbilityNameByKey(key: string) {
+        return key === 'any' ? game.i18n.localize(`HCT.Common.Abilities.ANY`) : game.i18n.localize(`DND5E.Ability${key}`);
+    }
+
     export async function stackNotification(message: string) {
         // idea on the brewing.. as only 3 notifications can be shown at the time
         // and they expire every 3 seconds, it would be nice to post the notifications

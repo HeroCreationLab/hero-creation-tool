@@ -3,11 +3,14 @@
 */
 import HeroData from '../types/ActorData.js'
 import { Constants } from '../constants.js'
-import { DataTab } from '../types/DataTab.js'
 import { DataError } from '../types/DataError.js'
 import { Step, StepEnum } from '../types/Step.js'
 
-class _Abilities extends Step implements DataTab {
+class _Abilities extends Step {
+    constructor() {
+        super(StepEnum.Abilities)
+    }
+
     setListeners(): void {
         // entry mode
         $('[data-mode]').on('click', function () {
@@ -40,15 +43,37 @@ class _Abilities extends Step implements DataTab {
             decreaseAbility(i);
         });
 
+
         // infoToggle
+
+        // jQuery.fn['triggerToggle'] = function (target: any) {
+        //     return this.each(function () {
+        //         const $target = $(target);
+        //         $(this).on('click', function () {
+        //             $target.toggle();
+        //         });
+        //     });
+        // }
+
+        // $('#ability-desc-accordion').triggerToggle('#abilities-info');
+
+
         $('#ability-desc-accordion').on('click', function () {
-            toggleVisibility('abilities-info');
+            $('#abilities-info').toggle();
         });
 
         // table
         $('#ability-mod-table-toggle').on('click', function () {
-            toggleVisibility('ability-scores-modes-table');
+            $('#ability-scores-modes-table').toggle();
         });
+    }
+
+    setSourceData(): void {
+        // to be implemented
+    }
+
+    renderData(): void {
+        // to be implemented
     }
 
     getErrors(): DataError[] {
@@ -59,7 +84,7 @@ class _Abilities extends Step implements DataTab {
         return errors;
     }
 
-    saveData(newActor: HeroData) {
+    saveActorData(newActor: HeroData) {
         console.log(`${Constants.LOG_PREFIX} | Saving Abilities Tab data into actor`);
 
         const values: number[] = [];
@@ -79,7 +104,7 @@ class _Abilities extends Step implements DataTab {
         }
     }
 }
-const AbilitiesTab: DataTab = new _Abilities(StepEnum.Abilities);
+const AbilitiesTab: Step = new _Abilities();
 export default AbilitiesTab;
 
 function statsDuplicatedOrMissing() {
@@ -101,19 +126,10 @@ function statsDuplicatedOrMissing() {
     return false;
 }
 
-function toggleVisibility(id: string) {
-    const elem = $(`#${id}`);
-    if (elem.is(':visible')) {
-        elem.hide();
-    } else {
-        elem.show();
-    }
-}
-
-function rollAbilities() {
+async function rollAbilities() {
     let values = [];
     for (var i = 0; i < 6; i++) {
-        const roll = new Roll('4d6kh3').evaluate();
+        const roll = await new Roll('4d6kh3').evaluate(({ async: true }) as any);
         values.push(roll.total);
     }
 
@@ -196,11 +212,11 @@ function changeAbility(i: string, up: boolean) {
     updateAbilityModifiers();
 }
 
-export function increaseAbility(i: string) {
+function increaseAbility(i: string) {
     changeAbility(i, true);
 }
 
-export function decreaseAbility(i: string) {
+function decreaseAbility(i: string) {
     changeAbility(i, false);
 }
 

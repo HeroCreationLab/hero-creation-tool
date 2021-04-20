@@ -1,11 +1,15 @@
-import HeroCreationTool from './heroCreationTool.js'
-import { Constants } from './constants.js';
-import { ModuleSettings } from './moduleSettings.js';
+import HeroCreationTool from './HeroCreationTool.js'
+import { Constants } from './constants.js'
+import { ModuleSettings } from './moduleSettings.js'
+import { DataPrep } from './dataPrep.js'
 
 /*
 	This file defines the Foundry Hooks, loads Handlebars templates and makes other general initialization
 	related to presentation, files and etc
 */
+const moduleApp = new HeroCreationTool();
+
+//This hook runs once the Foundry VTT software begins it's initialization workflow
 Hooks.once("init", () => {
 	// Templates array
 	const templatePaths = [
@@ -28,23 +32,40 @@ Hooks.once("init", () => {
 	ModuleSettings.buildOptions();
 });
 
-/* This hooks onto the rendering of the Actor Directory to show the button */
-Hooks.on("renderActorDirectory", (app, html) => {
+
+//This hook runs once core initialization is ready and game data is available
+Hooks.on("ready", async function () {
+	console.log(`${Constants.LOG_PREFIX} | Starting initialization`);
+	moduleApp.setupData();
+});
+
+
+Hooks.on("renderHeroCreationTool", async function () {
+	console.log(`${Constants.LOG_PREFIX} | Rendering tool - setting up data-derived elements`);
+	moduleApp.renderChildrenData();
+});
+
+
+// This hooks onto the rendering of the Actor Directory to show the button
+Hooks.on("renderActorDirectory", () => {
 	console.log(`${Constants.LOG_PREFIX} | Adding actors directory button`);
-	const moduleApp = new HeroCreationTool(app, html);
-	$('#actors').first().prepend(`<div class='header-hct flexrow'><button id='actors-directory-btn'><i class='fas fa-dice-d20'></i>${game.i18n.localize("HCT.Title")}</button></div>`);
-	$('#actors-directory-btn').on('click', function () {
+	$('.directory-header').first().prepend(`<button class='header-hct-button' data-hct_start><i class='fas fa-dice-d20'></i>${game.i18n.localize("HCT.Title")}</button>`);
+	$('[data-hct_start]').on('click', function () {
 		moduleApp.openForActor(null);
 	});
 });
 
-/* This hooks onto the rendering actor sheet to show the button */
-Hooks.on('renderActorSheet', (app, html, data) => {
-	if (app.actor.data.type === 'npc') return;
-	const moduleApp = new HeroCreationTool(app, html);
-	const button = $(`<a id='actor-sheet-btn'><i class="fas fa-dice-d20"></i>${game.i18n.localize("HCT.ActorSheetCreateButton")}</a>`);
-	button.insertBefore(html.closest('.app').find('.configure-sheet'));
-	$('#actor-sheet-btn').on('click', function () {
-		moduleApp.openForActor(data.actor._id);
-	});
-});
+
+// This hooks onto the rendering actor sheet to show the button
+/*
+	Commented until we start working on a level up feature
+*/
+// Hooks.on('renderActorSheet', (app, html, data) => {
+// 	if (app.actor.data.type === 'npc') return;
+// 	const moduleApp = new HeroCreationTool(app, html);
+// 	const button = $(`<a id='actor-sheet-btn'><i class="fas fa-dice-d20"></i>${game.i18n.localize("HCT.ActorSheetCreateButton")}</a>`);
+// 	button.insertBefore(html.closest('.app').find('.configure-sheet'));
+// 	$('#actor-sheet-btn').on('click', function () {
+// 		moduleApp.openForActor(data.actor._id);
+// 	});
+// });

@@ -3,16 +3,27 @@
 */
 import HeroData from '../types/ActorData.js'
 import { Constants } from '../constants.js'
-import { DataTab } from '../types/DataTab.js'
 import { DataError } from '../types/DataError.js'
 import { Step, StepEnum } from '../types/Step.js'
 
-class _Basics extends Step implements DataTab {
+class _Basics extends Step {
+    constructor() {
+        super(StepEnum.Basics)
+    }
+
     setListeners(): void {
         $('[data-filepick]').on('click', function () {
             const pick = $(this).data('filepick');
             openFilePicker(pick);
         });
+    }
+
+    setSourceData(): void {
+        //
+    }
+
+    renderData(): void {
+        // to be implemented
     }
 
     getErrors(): DataError[] {
@@ -23,7 +34,7 @@ class _Basics extends Step implements DataTab {
         return errors;
     }
 
-    saveData(newActor: HeroData): void {
+    saveActorData(newActor: HeroData): void {
         console.log(`${Constants.LOG_PREFIX} | Saving Basics Tab data into actor`);
 
         newActor.name = $('#actor_name').val() as string;
@@ -41,7 +52,7 @@ class _Basics extends Step implements DataTab {
         }
     }
 }
-const BasicsTab: DataTab = new _Basics(StepEnum.Basics);
+const BasicsTab: Step = new _Basics();
 export default BasicsTab;
 
 function openFilePicker(input: string) {

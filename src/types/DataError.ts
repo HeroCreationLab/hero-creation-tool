@@ -1,4 +1,4 @@
-import { StepEnum } from "./Step.js";
+import { StepEnum } from "./Step.js"
 
 export class DataError {
     message: string;
