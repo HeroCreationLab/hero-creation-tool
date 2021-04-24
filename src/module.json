@@ -1,0 +1,50 @@
+{
+  "name": "hero-creation-tool",
+  "title": "Hero Creation Tool for DnD5E",
+  "description": "A foundry version of the roll20 Charactermancer",
+  "version": "0.0.3",
+  "minimumCoreVersion": "0.8.1",
+  "compatibleCoreVersion": "0.8.1",
+  "esmodules": ["module/hero-creation-tool.js"],
+  "styles": ["styles/hero-creation-tool.css"],
+  "packs": [],
+  "dependencies": [],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "url": "https://github.com/AndrewJiangB/hero-creation-tool",
+  "license": "https://domain.com/my/project/{{name}}/LICENSE",
+  "manifest": "https://domain.com/my/project/{{name}}/bundle/module.json",
+  "download": "https://domain.com/my/project/{{name}}/bundle/{{name}}.zip",
+  "readme": "https://domain.com/my/project/{{name}}/README.md",
+  "changelog": "https://domain.com/my/project/{{name}}/CHANGELOG.md",
+  "bugs": "",
+  "system": ["dnd5e"],
+  "authors": [
+    {
+      "name": "Alex"
+    },
+    {
+      "name": "Dan"
+    },
+    {
+      "name": "Andrew"
+    },
+    {
+      "name": "Coco"
+    },
+    {
+      "name": "Roy"
+    },
+    {
+      "name": "Lyle"
+    },
+    {
+      "name": "ccjmk (Iñaki)"
+    }
+  ]
+}
