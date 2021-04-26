@@ -1,69 +1,78 @@
-# Hero Creation Tool for Foundry VTT - DnD5e
+# hero-creation-tool
 
-The project was migrated to Typescript using Flamewave000's fvtt-module-template as base (with some alterations, but the basics are the same).
-> https://github.com/flamewave000/fvtt-module-template
+Add your description here.
 
-### Table of Contents
+## Installation
 
-- [How to Run Locally](#How-to-Run-Locally)
-- [Folder Structure](#Folder-Structure)
-- [Project Files](#Project-Files)
+Add your installation instructions here.
 
-## How to Run Locally
+## Development
 
-Install NodeJS if you don't already have it: [NodeJS](https://nodejs.org)
+### Prerequisites
 
-Run the NPM installer inside the project directory
+In order to build this module, recent versions of `node` and `npm` are
+required. Most likely using `yarn` also works but only `npm` is officially
+supported. We recommend using the latest lts version of `node`, which is
+`v14.15.5` at the time of writing. If you use `nvm` to manage your `node`
+versions, you can simply run
 
-```bash
-cd path/to/fvtt-module-template
+```
+nvm install
+```
+
+in the project's root directory.
+
+You also need to install the the project's dependencies. To do so, run
+
+```
 npm install
 ```
 
-Each of these commands are executed as follows:
+### Building
 
-```bash
-# replace <command> with one of the commands described below
-npm run <command>
-# For example:
+You can build the project by running
+
+```
 npm run build
 ```
 
-| Command             | Description                                                  |
-| ------------------- | ------------------------------------------------------------ |
-| `build`             | This is the basic Build command. It will compile the code and output everything into the `dist/` directory. This is a ready to use output of the module. |
-| `watch`     | This will run the Live Build process. This will monitor your project's files and whenever one of them changes, it will immediately process the changes output the new contents to the `dist/` directory. |
-| `clean`     | This will "Clean" the directory by removing the `dist/` and `bundle/` directories. |
-| `devbuild` | This is the same as the `build` command, except instead of outputting everything to the `dist/` folder, it will output the files to the `devDist` folder that is defined in the `package.json`. This will create the module's directory if it doesn't exists already, clear the contents of the directory, and then place the new project files in it. |
-| `devwatch` | This is the same as the `watch` command, but just like the `devbuild` command, it outputs the updated files to the `devDist` directory defined in the `package.json`. This is the recommended command to use while you are working on your module. It will take care of updating the module in FoundryVTT so all you have to do is switch to the app and hit `F5` to refresh the page. |
-| `devclean` | This will remove all the contents in the defined `devDist` folder. |
-| `release`   | Builds and compresses the project into a ZIP file and places it and a copy of the compiled `module.json` file in the `bundle/` directory. This is ready for being referenced by the FoundryVTT Module system for the community to install your module. |
+Alternatively, you can run
 
-[top](#table-of-contents)
+```
+npm run build:watch
+```
 
-## Folder Structure
+to watch for changes and automatically build as necessary.
 
-| Folder Name             | Description                                                  |
-| ----------------------- | ------------------------------------------------------------ |
-| `src/`                  | The directory containing all of your `.js` and `.ts` code files. |
-| `lang/`                 | The directory containing your localization strings files.    |
-| `dist/` (generated)     | This will contain the compiled source code, templates, project files, styles, and manifest. The contents can be directly copied to a FoundryVTT's modules directory, or zipped into a bundle for installing. |
-| `styles/`			      | The directory containing any CSS you might have. |
-| `templates/`            | The directory containing your Handlebars HTML template files. |
+### Linking the built project to Foundry VTT
 
-[top](#table-of-contents)
+In order to provide a fluent development experience, it is recommended to link
+the built module to your local Foundry VTT installation's data folder. In
+order to do so, first add a file called `foundryconfig.json` to the project root
+with the following content:
 
-## Project Files
+```
+{
+  "dataPath": "/absolute/path/to/your/FoundryVTT/Data"
+}
+```
 
-| File            | Description                                                  |
-| --------------- | ------------------------------------------------------------ |
-| `.gitignore`    | This is used to ignore files and folders you don't want to be included in the git repository. |
-| `CHANGELOG.md`  | A MarkDown file for describing the project's history of changes |
-| `gulpfile.js`   | Gulp File that contains the various build scripts used automating the module building, live building, and packaging. |
-| `LICENSE`       | UPDATE THIS FILE! The Copyright License for your project. GitHub has a very helpful page for [picking and appropriate license](https://choosealicense.com/) for your project. |
-| `module.json`   | The FoundryVTT Module Manifest file that describes everything about your module. |
-| `package.json`  | The NPM Package configuration. This contains additional information that is used in the build automation process. |
-| `README.md`     | MarkDown file you can use to describe what your module is and how to use it. |
-| `tsconfig.json` | TypeScript configuration. This defines the various settings used by the TypeScript transpiler. |
+(if you are using Windows, make sure to use `\` as a path separator instead of
+`/`)
 
-[top](#table-of-contents)
+Then run
+
+```
+npm run link-project
+```
+
+On Windows, creating symlinks requires administrator privileges so unfortunately
+you need to run the above command in an administrator terminal for it to work.
+
+### Running the tests
+
+You can run the tests with the following command:
+
+```
+npm test
+```

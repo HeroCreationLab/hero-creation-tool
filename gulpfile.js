@@ -1,184 +1,222 @@
+const { rollup } = require('rollup');
+const argv = require('yargs').argv;
+const chalk = require('chalk');
+const fs = require('fs-extra');
 const gulp = require('gulp');
-var fs = require('fs')
-const del = require('del');
-const ts = require('gulp-typescript');
-const sm = require('gulp-sourcemaps');
-const zip = require('gulp-zip');
-const rename = require('gulp-rename');
-const minify = require('gulp-minify');
-const tabify = require('gulp-tabify');
-const stringify = require('json-stringify-pretty-compact');
+const path = require('path');
+const rollupConfig = require('./rollup.config');
+const semver = require('semver');
+const sass = require('gulp-sass');
+sass.compiler = require('sass');
 
-const GLOB = '**/*';
-const DIST = 'dist/';
-const BUNDLE = 'bundle/';
-const SOURCE = 'src/';
-const LANG = 'lang/';
-const TEMPLATES = 'templates/';
-const CSS = 'styles/';
-const ASSETS = 'assets/';
+/********************/
+/*  CONFIGURATION   */
+/********************/
 
-var PACKAGE = JSON.parse(fs.readFileSync('package.json'));
-function reloadPackage(cb) { PACKAGE = JSON.parse(fs.readFileSync('package.json')); cb(); }
-function DEV_DIST() { return PACKAGE.devDir + PACKAGE.name + '/'; }
+const name = path.basename(path.resolve('.'));
+const sourceDirectory = './src';
+const distDirectory = './dist';
+const stylesDirectory = `${sourceDirectory}/styles`;
+const stylesExtension = 'scss';
+const sourceFileExtension = 'ts';
+const staticFiles = ['assets', 'fonts', 'lang', 'packs', 'templates', 'module.json'];
+const getDownloadURL = (version) => `https://host/path/to/${version}.zip`;
 
-String.prototype.replaceAll = function (pattern, replace) { return this.split(pattern).join(replace); }
-function pdel(patterns, options) { return () => { return del(patterns, options); }; }
-function plog(message) { return (cb) => { console.log(message); cb() }; }
-
+/********************/
+/*      BUILD       */
+/********************/
 
 /**
- * Compile the source code into the distribution directory
- * @param {Boolean} keepSources Include the TypeScript SourceMaps
+ * Build the distributable JavaScript code
  */
-function buildSource(keepSources, minifySources = false, output = null) {
-	return () => {
-		var stream = gulp.src(SOURCE + GLOB);
-		if (keepSources) stream = stream.pipe(sm.init())
-		stream = stream.pipe(ts.createProject("tsconfig.json")())
-		if (keepSources) stream = stream.pipe(sm.write())
-		if (minifySources) stream = stream.pipe(minify({
-			ext: { min: '.js' },
-			mangle: false,
-			noSource: true
-		}));
-		else stream = stream.pipe(tabify(4, false));
-		return stream.pipe(gulp.dest((output || DIST) + SOURCE));
+async function buildCode() {
+	const build = await rollup({ input: rollupConfig.input, plugins: rollupConfig.plugins });
+	return build.write(rollupConfig.output);
+}
+
+/**
+ * Build style sheets
+ */
+function buildStyles() {
+	return gulp
+		.src(`${stylesDirectory}/${name}.${stylesExtension}`)
+		.pipe(sass().on('error', sass.logError))
+		.pipe(gulp.dest(`${distDirectory}/styles`));
+}
+
+/**
+ * Copy static files
+ */
+async function copyFiles() {
+	for (const file of staticFiles) {
+		if (fs.existsSync(`${sourceDirectory}/${file}`)) {
+			await fs.copy(`${sourceDirectory}/${file}`, `${distDirectory}/${file}`);
+		}
 	}
 }
-exports.step_buildSourceDev = buildSource(true);
-exports.step_buildSource = buildSource(false);
-exports.step_buildSourceMin = buildSource(false, true);
 
 /**
- * Builds the module manifest based on the package, sources, and css.
+ * Watch for changes for each build step
  */
-function buildManifest(output = null) {
-	const files = []; // Collector for all the file paths
-	return (cb) => gulp.src(PACKAGE.main) // collect the source files
-		.pipe(rename({ extname: '.js' })) // rename their extensions to `.js`
-		.pipe(gulp.src(CSS + GLOB)) // grab all the CSS files
-		.on('data', file => files.push(file.path.replace(file.base, file.base.replace(file.cwd + '/', '')))) // Collect all the file paths
-		.on('end', () => { // output the filepaths to the module.json
-			if (files.length == 0)
-				throw Error('No files found in ' + SOURCE + GLOB + " or " + CSS + GLOB);
-			const js = files.filter(e => e.endsWith('js')); // split the CSS and JS files
-			const css = files.filter(e => e.endsWith('css'));
-			fs.readFile('module.json', (err, data) => {
-				const module = data.toString() // Inject the data into the module.json
-					.replaceAll('{{name}}', PACKAGE.name)
-					.replaceAll('{{title}}', PACKAGE.title)
-					.replaceAll('{{version}}', PACKAGE.version)
-					.replaceAll('{{description}}', PACKAGE.description)
-					.replace('"{{sources}}"', stringify(js, null, '\t').replaceAll('\n', '\n\t'))
-					.replace('"{{css}}"', stringify(css, null, '\t').replaceAll('\n', '\n\t'));
-				fs.writeFile((output || DIST) + 'module.json', module, cb); // save the module to the distribution directory
-			});
-		});
-}
-exports.step_buildManifest = buildManifest();
-
-function outputLanguages(output = null) { return () => gulp.src(LANG + GLOB).pipe(gulp.dest((output || DIST) + LANG)); }
-function outputTemplates(output = null) { return () => gulp.src(TEMPLATES + GLOB).pipe(gulp.dest((output || DIST) + TEMPLATES)); }
-function outputStylesCSS(output = null) { return () => gulp.src(CSS + GLOB).pipe(gulp.dest((output || DIST) + CSS)); }
-function outputMetaFiles(output = null) { return () => gulp.src(['LICENSE', 'README.md', 'CHANGELOG.md']).pipe(gulp.dest((output || DIST))); }
-function outputAssets(output = null) { return () => gulp.src(ASSETS + GLOB).pipe(gulp.dest((output || DIST) + ASSETS)); }
-
-/**
- * Copy files to module named directory and then compress that folder into a zip
- */
-function compressDistribution() {
-	return gulp.series(
-		// Copy files to folder with module's name
-		() => gulp.src(DIST + GLOB)
-			.pipe(gulp.dest(DIST + `${PACKAGE.name}/${PACKAGE.name}`))
-		// Compress the new folder into a ZIP and save it to the `bundle` folder
-		, () => gulp.src(DIST + PACKAGE.name + '/' + GLOB)
-			.pipe(zip(PACKAGE.name + '.zip'))
-			.pipe(gulp.dest(BUNDLE))
-		// Copy the module.json to the bundle directory
-		, () => gulp.src(DIST + '/module.json')
-			.pipe(gulp.dest(BUNDLE))
-		// Cleanup by deleting the intermediate module named folder
-		, pdel(DIST + PACKAGE.name)
+function buildWatch() {
+	gulp.watch(`${sourceDirectory}/**/*.${sourceFileExtension}`, { ignoreInitial: false }, buildCode);
+	gulp.watch(`${stylesDirectory}/**/*.${stylesExtension}`, { ignoreInitial: false }, buildStyles);
+	gulp.watch(
+		staticFiles.map((file) => `${sourceDirectory}/${file}`),
+		{ ignoreInitial: false },
+		copyFiles,
 	);
 }
-exports.step_compressDistribution = compressDistribution();
+
+/********************/
+/*      CLEAN       */
+/********************/
 
 /**
- * Simple clean command
+ * Remove built files from `dist` folder while ignoring source files
  */
-exports.clean = pdel([DIST, BUNDLE]);
-exports.devClean = pdel([DEV_DIST()]);
-/**
- * Default Build operation
- */
-exports.default = gulp.series(
-	pdel([DIST])
-	, gulp.parallel(
-		buildSource(true, false)
-		, buildManifest()
-		, outputLanguages()
-		, outputTemplates()
-		, outputStylesCSS()
-		, outputMetaFiles()
-		, outputAssets()
-	)
-);
-/**
- * Extends the default build task by copying the result to the Development Environment
- */
-exports.dev = gulp.series(
-	pdel([DEV_DIST() + GLOB], { force: true }),
-	gulp.parallel(
-		buildSource(true, false, DEV_DIST())
-		, buildManifest(DEV_DIST())
-		, outputLanguages(DEV_DIST())
-		, outputTemplates(DEV_DIST())
-		, outputStylesCSS(DEV_DIST())
-		, outputMetaFiles(DEV_DIST())
-		, outputAssets(DEV_DIST())
-	)
-);
-/**
- * Performs a default build and then zips the result into a bundle
- */
-exports.zip = gulp.series(
-	pdel([DIST])
-	, gulp.parallel(
-		buildSource(false, false)
-		, buildManifest()
-		, outputLanguages()
-		, outputTemplates()
-		, outputStylesCSS()
-		, outputMetaFiles()
-		, outputAssets()
-	)
-	, compressDistribution()
-	, pdel([DIST])
-);
-/**
- * Sets up a file watch on the project to detect any file changes and automatically rebuild those components.
- */
-exports.watch = function () {
-	exports.default();
-	gulp.watch(SOURCE + GLOB, gulp.series(pdel(DIST + SOURCE), buildSource(true, false)));
-	gulp.watch([CSS + GLOB, 'module.json', 'package.json'], buildManifest());
-	gulp.watch(LANG + GLOB, gulp.series(pdel(DIST + LANG), outputLanguages()));
-	gulp.watch(TEMPLATES + GLOB, gulp.series(pdel(DIST + TEMPLATES), outputTemplates()));
-	gulp.watch(CSS + GLOB, gulp.series(pdel(DIST + CSS), outputStylesCSS()));
-	gulp.watch(['LICENSE', 'README.md', 'CHANGELOG.md'], outputMetaFiles());
+async function clean() {
+	const files = [...staticFiles, 'module'];
+
+	if (fs.existsSync(`${stylesDirectory}/${name}.${stylesExtension}`)) {
+		files.push('styles');
+	}
+
+	console.log(' ', chalk.yellow('Files to clean:'));
+	console.log('   ', chalk.blueBright(files.join('\n    ')));
+
+	for (const filePath of files) {
+		await fs.remove(`${distDirectory}/${filePath}`);
+	}
 }
+
+/********************/
+/*       LINK       */
+/********************/
+
 /**
- * Sets up a file watch on the project to detect any file changes and automatically rebuild those components, and then copy them to the Development Environment.
+ * Get the data path of Foundry VTT based on what is configured in `foundryconfig.json`
  */
-exports.devWatch = function () {
-	const devDist = DEV_DIST();
-	exports.dev();
-	gulp.watch(SOURCE + GLOB, gulp.series(plog('deleting: ' + devDist + SOURCE + GLOB), pdel(devDist + SOURCE + GLOB, { force: true }), buildSource(true, false, devDist), plog('sources done.')));
-	gulp.watch([CSS + GLOB, 'module.json', 'package.json'], gulp.series(reloadPackage, buildManifest(devDist), plog('manifest done.')));
-	gulp.watch(LANG + GLOB, gulp.series(pdel(devDist + LANG + GLOB, { force: true }), outputLanguages(devDist), plog('langs done.')));
-	gulp.watch(TEMPLATES + GLOB, gulp.series(pdel(devDist + TEMPLATES + GLOB, { force: true }), outputTemplates(devDist), plog('templates done.')));
-	gulp.watch(CSS + GLOB, gulp.series(pdel(devDist + CSS + GLOB, { force: true }), outputStylesCSS(devDist), plog('css done.')));
-	gulp.watch(['LICENSE', 'README.md', 'CHANGELOG.md'], gulp.series(outputMetaFiles(devDist), plog('metas done.')));
+function getDataPath() {
+	const config = fs.readJSONSync('foundryconfig.json');
+
+	if (config?.dataPath) {
+		if (!fs.existsSync(path.resolve(config.dataPath))) {
+			throw new Error('User Data path invalid, no Data directory found');
+		}
+
+		return path.resolve(config.dataPath);
+	} else {
+		throw new Error('No User Data path defined in foundryconfig.json');
+	}
 }
+
+/**
+ * Link build to User Data folder
+ */
+async function linkUserData() {
+	let destinationDirectory;
+	if (fs.existsSync(path.resolve(sourceDirectory, 'module.json'))) {
+		destinationDirectory = 'modules';
+	} else {
+		throw new Error(`Could not find ${chalk.blueBright('module.json')}`);
+	}
+
+	const linkDirectory = path.resolve(getDataPath(), destinationDirectory, name);
+
+	if (argv.clean || argv.c) {
+		console.log(chalk.yellow(`Removing build in ${chalk.blueBright(linkDirectory)}.`));
+
+		await fs.remove(linkDirectory);
+	} else if (!fs.existsSync(linkDirectory)) {
+		console.log(chalk.green(`Linking dist to ${chalk.blueBright(linkDirectory)}.`));
+		await fs.ensureDir(path.resolve(linkDirectory, '..'));
+		await fs.symlink(path.resolve(distDirectory), linkDirectory);
+	}
+}
+
+/********************/
+/*    VERSIONING    */
+/********************/
+
+/**
+ * Get the contents of the manifest file as object.
+ */
+function getManifest() {
+	const manifestPath = `${sourceDirectory}/module.json`;
+
+	if (fs.existsSync(manifestPath)) {
+		return {
+			file: fs.readJSONSync(manifestPath),
+			name: 'module.json',
+		};
+	}
+}
+
+/**
+ * Get the target version based on on the current version and the argument passed as release.
+ */
+function getTargetVersion(currentVersion, release) {
+	if (['major', 'premajor', 'minor', 'preminor', 'patch', 'prepatch', 'prerelease'].includes(release)) {
+		return semver.inc(currentVersion, release);
+	} else {
+		return semver.valid(release);
+	}
+}
+
+/**
+ * Update version and download URL.
+ */
+function bumpVersion(cb) {
+	const packageJson = fs.readJSONSync('package.json');
+	const packageLockJson = fs.existsSync('package-lock.json') ? fs.readJSONSync('package-lock.json') : undefined;
+	const manifest = getManifest();
+
+	if (!manifest) cb(Error(chalk.red('Manifest JSON not found')));
+
+	try {
+		const release = argv.release || argv.r;
+
+		const currentVersion = packageJson.version;
+
+		if (!release) {
+			return cb(Error('Missing release type'));
+		}
+
+		const targetVersion = getTargetVersion(currentVersion, release);
+
+		if (!targetVersion) {
+			return cb(new Error(chalk.red('Error: Incorrect version arguments')));
+		}
+
+		if (targetVersion === currentVersion) {
+			return cb(new Error(chalk.red('Error: Target version is identical to current version')));
+		}
+
+		console.log(`Updating version number to '${targetVersion}'`);
+
+		packageJson.version = targetVersion;
+		fs.writeJSONSync('package.json', packageJson, { spaces: 2 });
+
+		if (packageLockJson) {
+			packageLockJson.version = targetVersion;
+			fs.writeJSONSync('package-lock.json', packageLockJson, { spaces: 2 });
+		}
+
+		manifest.file.version = targetVersion;
+		manifest.file.download = getDownloadURL(targetVersion);
+		fs.writeJSONSync(`${sourceDirectory}/${manifest.name}`, manifest.file, { spaces: 2 });
+
+		return cb();
+	} catch (err) {
+		cb(err);
+	}
+}
+
+const execBuild = gulp.parallel(buildCode, buildStyles, copyFiles);
+
+exports.build = gulp.series(clean, execBuild);
+exports.watch = buildWatch;
+exports.clean = clean;
+exports.link = linkUserData;
+exports.bumpVersion = bumpVersion;

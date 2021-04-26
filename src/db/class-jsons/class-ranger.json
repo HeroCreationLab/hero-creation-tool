@@ -1,0 +1,1269 @@
+{
+  "class": {
+    "name": "Ranger",
+    "source": "PHB",
+    "page": 89,
+    "srd": true,
+    "hd": { "number": 1, "faces": 10 },
+    "proficiency": ["str", "dex"],
+    "spellcastingAbility": "wis",
+    "casterProgression": "1/2",
+    "startingProficiencies": {
+      "armor": ["light", "medium", "shields"],
+      "weapons": ["simple", "martial"],
+      "skills": [
+        {
+          "choose": {
+            "from": [
+              "animal handling",
+              "athletics",
+              "insight",
+              "investigation",
+              "nature",
+              "perception",
+              "stealth",
+              "survival"
+            ],
+            "count": 3
+          }
+        }
+      ]
+    },
+    "startingEquipment": {
+      "additionalFromBackground": true,
+      "default": [
+        "(a) {@item scale mail|phb} or (b) {@item leather armor|phb}",
+        "(a) two {@item shortsword|phb|shortswords} or (b) two {@filter simple melee weapons|items|source=phb|category=basic|type=simple weapon;melee weapon=sand}",
+        "(a) a {@item dungeoneer's pack|phb} or (b) an {@item explorer's pack|phb}",
+        "A {@item longbow|phb} and a {@item quiver|phb} of {@item arrows (20)|phb|20 arrows}"
+      ],
+      "goldAlternative": "{@dice 5d4 × 10|5d4 × 10|Starting Gold}",
+      "defaultData": [
+        { "a": ["scale mail|phb"], "b": ["leather armor|phb"] },
+        {
+          "a": [{ "item": "shortsword|phb", "quantity": 2 }],
+          "b": [{ "equipmentType": "weaponSimpleMelee", "quantity": 2 }]
+        },
+        { "a": ["dungeoneer's pack|phb"], "b": ["explorer's pack|phb"] },
+        { "_": ["longbow|phb", "arrows (20)|phb"] }
+      ]
+    },
+    "multiclassing": {
+      "requirements": { "dex": 13, "wis": 13 },
+      "proficienciesGained": {
+        "armor": ["light", "medium", "shields"],
+        "skills": [
+          {
+            "choose": {
+              "from": [
+                "animal handling",
+                "athletics",
+                "insight",
+                "investigation",
+                "nature",
+                "perception",
+                "stealth",
+                "survival"
+              ],
+              "count": 1
+            }
+          }
+        ],
+        "weapons": ["simple", "martial"]
+      }
+    },
+    "classTableGroups": [
+      {
+        "colLabels": ["{@filter Spells Known|spells|class=ranger}"],
+        "rows": [[0], [2], [3], [3], [4], [4], [5], [5], [6], [6], [7], [7], [8], [8], [9], [9], [10], [10], [11], [11]]
+      },
+      {
+        "title": "Spell Slots per Spell Level",
+        "colLabels": [
+          "{@filter 1st|spells|level=1|class=Ranger}",
+          "{@filter 2nd|spells|level=2|class=Ranger}",
+          "{@filter 3rd|spells|level=3|class=Ranger}",
+          "{@filter 4th|spells|level=4|class=Ranger}",
+          "{@filter 5th|spells|level=5|class=Ranger}"
+        ],
+        "rows": [
+          [0, 0, 0, 0, 0],
+          [2, 0, 0, 0, 0],
+          [3, 0, 0, 0, 0],
+          [3, 0, 0, 0, 0],
+          [4, 2, 0, 0, 0],
+          [4, 2, 0, 0, 0],
+          [4, 3, 0, 0, 0],
+          [4, 3, 0, 0, 0],
+          [4, 3, 2, 0, 0],
+          [4, 3, 2, 0, 0],
+          [4, 3, 3, 0, 0],
+          [4, 3, 3, 0, 0],
+          [4, 3, 3, 1, 0],
+          [4, 3, 3, 1, 0],
+          [4, 3, 3, 2, 0],
+          [4, 3, 3, 2, 0],
+          [4, 3, 3, 3, 1],
+          [4, 3, 3, 3, 1],
+          [4, 3, 3, 3, 2],
+          [4, 3, 3, 3, 2]
+        ]
+      }
+    ],
+    "classFeatures": [
+      "Favored Enemy|Ranger||1",
+      "Favored Foe|Ranger||1|UAClassFeatureVariants",
+      "Favored Foe|Ranger||1|TCE",
+      "Natural Explorer|Ranger||1",
+      "Deft Explorer|Ranger||1|UAClassFeatureVariants",
+      "Deft Explorer|Ranger||1|TCE",
+      "Fighting Style|Ranger||2",
+      "Martial Versatility|Ranger||2|UAClassFeatureVariants",
+      "Spellcasting|Ranger||2",
+      "Spell Versatility|Ranger||2|UAClassFeatureVariants",
+      "Spellcasting Focus|Ranger||2|UAClassFeatureVariants",
+      "Spellcasting Focus|Ranger||2|TCE",
+      { "classFeature": "Ranger Archetype|Ranger||3", "gainSubclassFeature": true },
+      "Primeval Awareness|Ranger||3",
+      "Primal Awareness|Ranger||3|UAClassFeatureVariants",
+      "Primal Awareness|Ranger||3|TCE",
+      "Ability Score Improvement|Ranger||4",
+      "Proficiency Versatility|Ranger||4|UAClassFeatureVariants",
+      "Martial Versatility|Ranger||4|TCE",
+      "Extra Attack|Ranger||5",
+      "Favored Enemy and Natural Explorer improvements|Ranger||6",
+      { "classFeature": "Ranger Archetype feature|Ranger||7", "gainSubclassFeature": true },
+      "Ability Score Improvement|Ranger||8",
+      "Proficiency Versatility|Ranger||8|UAClassFeatureVariants",
+      "Land's Stride|Ranger||8",
+      "Hide in Plain Sight|Ranger||10",
+      "Fade Away|Ranger||10|UAClassFeatureVariants",
+      "Nature's Veil|Ranger||10|TCE",
+      "Natural Explorer improvement|Ranger||10",
+      { "classFeature": "Ranger Archetype feature|Ranger||11", "gainSubclassFeature": true },
+      "Ability Score Improvement|Ranger||12",
+      "Proficiency Versatility|Ranger||12|UAClassFeatureVariants",
+      "Vanish|Ranger||14",
+      "Favored Enemy improvement|Ranger||14",
+      { "classFeature": "Ranger Archetype feature|Ranger||15", "gainSubclassFeature": true },
+      "Ability Score Improvement|Ranger||16",
+      "Proficiency Versatility|Ranger||16|UAClassFeatureVariants",
+      "Feral Senses|Ranger||18",
+      "Ability Score Improvement|Ranger||19",
+      "Proficiency Versatility|Ranger||19|UAClassFeatureVariants",
+      "Foe Slayer|Ranger||20"
+    ],
+    "subclassTitle": "Ranger Archetype",
+    "subclasses": [
+      {
+        "name": "Hunter",
+        "shortName": "Hunter",
+        "source": "PHB",
+        "page": 93,
+        "srd": true,
+        "subclassFeatures": [
+          "Hunter|Ranger||Hunter||3",
+          "Defensive Tactics|Ranger||Hunter||7",
+          "Multiattack|Ranger||Hunter||11",
+          "Superior Hunter's Defense|Ranger||Hunter||15"
+        ]
+      }
+    ],
+    "fluff": [
+      {
+        "name": "Ranger",
+        "type": "section",
+        "entries": [
+          "Rough and wild looking, a human stalks alone through the shadows of trees, hunting the orcs he knows are planning a raid on a nearby farm. Clutching a shortsword in each hand, he becomes a whirlwind of steel, cutting down one enemy after another.",
+          "After tumbling away from a cone of freezing air, an elf finds her feet and draws back her bow to loose an arrow at the white dragon. Shrugging off the wave of fear that emanates from the dragon like the cold of its breath, she sends one arrow after another to find the gaps between the dragon's thick scales.",
+          "Holding his hand high, a half-elf whistles to the hawk that circles high above him, calling the bird back to his side. Whispering instructions in Elvish, he points to the owlbear he's been tracking and sends the hawk to distract the creature while he readies his bow.",
+          "Far from the bustle of cities and towns, past the hedges that shelter the most distant farms from the terrors of the wild, amid the dense-packed trees of trackless forests and across wide and empty plains, rangers keep their unending watch.",
+          {
+            "type": "entries",
+            "name": "Deadly Hunters",
+            "entries": [
+              "Warriors of the wilderness, rangers specialize in hunting the monsters that threaten the edges of civilization—humanoid raiders, rampaging beasts and monstrosities, terrible giants, and deadly dragons. They learn to track their quarry as a predator does, moving stealthily through the wilds and hiding themselves in brush and rubble. Rangers focus their combat training on techniques that are particularly useful against their specific favored foes.",
+              "Thanks to their familiarity with the wilds, rangers acquire the ability to cast spells that harness nature's power, much as a druid does. Their spells, like their combat abilities, emphasize speed, stealth, and the hunt. A ranger's talents and abilities are honed with deadly focus on the grim task of protecting the borderlands."
+            ]
+          },
+          {
+            "type": "entries",
+            "name": "Independent Adventurers",
+            "entries": [
+              "Though a ranger might make a living as a hunter, a guide, or a tracker, a ranger's true calling is to defend the outskirts of civilization from the ravages of monsters and humanoid hordes that press in from the wild. In some places, rangers gather in secretive orders or join forces with druidic circles. Many rangers, though, are independent almost to a fault, knowing that, when a dragon or a band of orcs attacks, a ranger might be the first—and possibly the last—line of defense.",
+              "This fierce independence makes rangers well suited to adventuring, since they are accustomed to life far from the comforts of a dry bed and a hot bath. Faced with city-bred adventurers who grouse and whine about the hardships of the wild, rangers respond with some mixture of amusement, frustration, and compassion. But they quickly learn that other adventurers who can carry their own weight in a fight against civilization's foes are worth any extra burden. Coddled city folk might not know how to feed themselves or find fresh water in the wild, but they make up for it in other ways."
+            ]
+          },
+          {
+            "type": "entries",
+            "name": "Creating a Ranger",
+            "entries": [
+              "As you create your ranger character, consider the nature of the training that gave you your particular capabilities. Did you train with a single mentor, wandering the wilds together until you mastered the ranger's ways? Did you leave your apprenticeship, or was your mentor slain—perhaps by the same kind of monster that became your favored enemy? Or perhaps you learned your skills as part of a band of rangers affiliated with a druidic circle, trained in mystic paths as well as wilderness lore. You might be self-taught, a recluse who learned combat skills, tracking, and even a magical connection to nature through the necessity of surviving in the wilds.",
+              "What's the source of your particular hatred of a certain kind of enemy? Did a monster kill someone you loved or destroy your home village? Or did you see too much of the destruction these monsters cause and commit yourself to reining in their depredations? Is your adventuring career a continuation of your work in protecting the borderlands, or a significant change? What made you join up with a band of adventurers? Do you find it challenging to teach new allies the ways of the wild, or do you welcome the relief from solitude that they offer?",
+              {
+                "type": "entries",
+                "name": "Quick Build",
+                "entries": [
+                  "You can make a ranger quickly by following these suggestions. First, make Dexterity your highest ability score, followed by Wisdom. (Some rangers who focus on two-weapon fighting make Strength higher than Dexterity.) Second, choose the {@background outlander} background."
+                ]
+              }
+            ]
+          }
+        ],
+        "source": "PHB",
+        "page": 89
+      },
+      {
+        "type": "section",
+        "entries": [
+          {
+            "type": "quote",
+            "entries": [
+              "I spend a lot of my life away from civilization, keeping to its fringes to protect it. Don't assume that because I don't bend the knee to your king that I haven't done more to protect him than all his knights put together."
+            ],
+            "by": "Soveliss"
+          },
+          "Rangers are free-minded wanderers and seekers who patrol the edges of civilized territory, turning back the denizens of the wild lands beyond. It is a thankless job, since their efforts are rarely understood and almost never rewarded. Yet rangers persist in their duties, never doubting that their work makes the world a safer place.",
+          "A relationship with civilization informs every ranger's personality and history. Some rangers see themselves as enforcers of the law and bringers of justice on civilization's frontier, answering to no sovereign power. Others are survivalists who eschew civilization altogether. They vanquish monsters to keep themselves safe while they live in and travel through the perilous wild areas of the world. If their efforts also benefit the kingdoms and other civilized realms that they avoid, so be it.",
+          "If you're creating or playing a ranger character, the following sections offer ideas for embellishing the character and enhancing your roleplaying experience.",
+          {
+            "type": "entries",
+            "name": "View of the World",
+            "entries": [
+              "A ranger's view of the world begins (and sometimes ends) with that character's outlook toward civilized folk and the places they occupy. Some rangers have an attitude toward civilization that's deeply rooted in disdain, while others pity the people they have sworn to protect—though on the battlefield, it's impossible to tell the difference between one ranger and another. Indeed, to those who have seen them operate and been the beneficiaries of their prowess, it scarcely matters why rangers do what they do. That said, no two rangers are likely to express their opinions on any matter in the same way.",
+              "If you haven't yet thought about the details of your character's worldview, consider putting a finer point on things by summarizing that viewpoint in a short statement (such as the entries on the following table). How might that feeling affect the way you conduct yourself?",
+              {
+                "type": "table",
+                "caption": "View of the World",
+                "colLabels": ["{@dice d6}", "View"],
+                "colStyles": ["col-1 text-center", "col-11"],
+                "rows": [
+                  [
+                    { "type": "cell", "roll": { "exact": 1 } },
+                    "Towns and cities are the best places for those who can't survive on their own."
+                  ],
+                  [
+                    { "type": "cell", "roll": { "exact": 2 } },
+                    "The advancement of civilization is the best way to thwart chaos, but its reach must be monitored."
+                  ],
+                  [
+                    { "type": "cell", "roll": { "exact": 3 } },
+                    "Towns and cities are a necessary evil, but once the wilderness is purged of supernatural threats, we will need them no more."
+                  ],
+                  [
+                    { "type": "cell", "roll": { "exact": 4 } },
+                    "Walls are for cowards, who huddle behind them while others do the work of making the world safe."
+                  ],
+                  [
+                    { "type": "cell", "roll": { "exact": 5 } },
+                    "Visiting a town is not unpleasant, but after a few days I feel the irresistible call to return to the wild."
+                  ],
+                  [
+                    { "type": "cell", "roll": { "exact": 6 } },
+                    "Cities breed weakness by isolating folk from the harsh lessons of the wild."
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "type": "entries",
+            "name": "Homelands",
+            "entries": [
+              "All rangers, regardless of how they came to take up the profession, have a strong connection to the natural world and its various terrains. For some rangers, the wilderness is where they grew up, either as a result of being born there or moving there at a young age. For other rangers, civilization was originally home, but the wilderness became a second homeland.",
+              "Think of your character's backstory and decide what terrain feels most like home, whether or not you were born there. What does that terrain say about your personality? Does it influence which spells you choose to learn? Have your experiences there shaped who your favored enemies are?",
+              {
+                "type": "table",
+                "caption": "Homelands",
+                "colLabels": ["{@dice d6}", "Homeland"],
+                "colStyles": ["col-1 text-center", "col-11"],
+                "rows": [
+                  [
+                    { "type": "cell", "roll": { "exact": 1 } },
+                    "You patrolled an ancient forest, darkened and corrupted by several crossings to the Shadowfell."
+                  ],
+                  [
+                    { "type": "cell", "roll": { "exact": 2 } },
+                    "As part of a group of nomads, you acquired the skills for surviving in the desert."
+                  ],
+                  [
+                    { "type": "cell", "roll": { "exact": 3 } },
+                    "Your early life in the Underdark prepared you for the challenges of combating its denizens."
+                  ],
+                  [
+                    { "type": "cell", "roll": { "exact": 4 } },
+                    "You dwelled on the edge of a swamp, in an area imperiled by land creatures as well as aquatic ones."
+                  ],
+                  [
+                    { "type": "cell", "roll": { "exact": 5 } },
+                    "Because you grew up among the peaks, finding the best path through the mountains is second nature to you."
+                  ],
+                  [
+                    { "type": "cell", "roll": { "exact": 6 } },
+                    "You wandered the far north, learning how to protect yourself and prosper in a realm overrun by ice."
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "type": "entries",
+            "name": "Sworn Enemy",
+            "entries": [
+              "Every ranger begins with a favored enemy (or two). The determination of a favored enemy might be tied to a specific event in the character's early life, or it might be entirely a matter of choice.",
+              "What spurred your character to select a particular enemy? Was the choice made because of tradition or curiosity, or do you have a grudge to settle?",
+              {
+                "type": "table",
+                "caption": "Sworn Enemies",
+                "colLabels": ["{@dice d6}", "Enemy"],
+                "colStyles": ["col-1 text-center", "col-11"],
+                "rows": [
+                  [
+                    { "type": "cell", "roll": { "exact": 1 } },
+                    "You seek revenge on nature's behalf for the great transgressions your foe has committed."
+                  ],
+                  [
+                    { "type": "cell", "roll": { "exact": 2 } },
+                    "Your forebears or predecessors fought these creatures, and so shall you."
+                  ],
+                  [
+                    { "type": "cell", "roll": { "exact": 3 } },
+                    "You bear no enmity toward your foe. You stalk such creatures as a hunter tracks down a wild animal."
+                  ],
+                  [
+                    { "type": "cell", "roll": { "exact": 4 } },
+                    "You find your foe fascinating, and you collect books of tales and history concerning it."
+                  ],
+                  [
+                    { "type": "cell", "roll": { "exact": 5 } },
+                    "You collect tokens of your fallen enemies to remind you of each kill."
+                  ],
+                  [
+                    { "type": "cell", "roll": { "exact": 6 } },
+                    "You respect your chosen enemy, and you see your battles as a test of respective skills."
+                  ]
+                ]
+              }
+            ]
+          }
+        ],
+        "page": 40,
+        "source": "XGE"
+      }
+    ]
+  },
+  "classFeature": [
+    {
+      "name": "Favored Enemy",
+      "source": "PHB",
+      "page": 89,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "level": 1,
+      "entries": [
+        "Beginning at 1st level, you have significant experience studying, tracking, hunting, and even talking to a certain type of enemy.",
+        "Choose a type of favored enemy: {@filter aberrations|bestiary|type=aberration}, {@filter beasts|bestiary|type=beast}, {@filter celestials|bestiary|type=celestial}, {@filter constructs|bestiary|type=construct}, {@filter dragons|bestiary|type=dragon}, {@filter elementals|bestiary|type=elemental}, {@filter fey|bestiary|type=fey}, {@filter fiends|bestiary|type=fiend}, {@filter giants|bestiary|type=giant}, {@filter monstrosities|bestiary|type=monstrosity}, {@filter oozes|bestiary|type=ooze}, {@filter plants|bestiary|type=plant}, or {@filter undead|bestiary|type=undead}. Alternatively, you can select two races of {@filter humanoid|bestiary|type=humanoid} (such as {@creature gnoll||gnolls} and {@creature orc||orcs}) as favored enemies.",
+        "You have advantage on Wisdom ({@skill Survival}) checks to track your favored enemies, as well as on Intelligence checks to recall information about them.",
+        "When you gain this feature, you also learn one language of your choice that is spoken by your favored enemies, if they speak one at all.",
+        "You choose one additional favored enemy, as well as an associated language, at 6th and 14th level. As you gain levels, your choices should reflect the types of monsters you have encountered on your adventures."
+      ]
+    },
+    {
+      "name": "Natural Explorer",
+      "source": "PHB",
+      "page": 89,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "level": 1,
+      "entries": [
+        "You are particularly familiar with one type of natural environment and are adept at traveling and surviving in such regions. Choose one type of favored terrain: arctic, coast, desert, forest, grassland, mountain, swamp, or the Underdark. When you make an Intelligence or Wisdom check related to your favored terrain, your proficiency bonus is doubled if you are using a skill that you're proficient in.",
+        "While traveling for an hour or more in your favored terrain, you gain the following benefits:",
+        {
+          "type": "list",
+          "items": [
+            "Difficult terrain doesn't slow your group's travel.",
+            "Your group can't become lost except by magical means.",
+            "Even when you are engaged in another activity while traveling (such as foraging, navigating, or tracking), you remain alert to danger.",
+            "If you are traveling alone, you can move stealthily at a normal pace.",
+            "When you forage, you find twice as much food as you normally would.",
+            "While tracking other creatures, you also learn their exact number, their sizes, and how long ago they passed through the area."
+          ]
+        },
+        "You choose additional favored terrain types at 6th and 10th level."
+      ]
+    },
+    {
+      "name": "Fighting Style",
+      "source": "PHB",
+      "page": 89,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "level": 2,
+      "entries": [
+        "At 2nd level, you adopt a particular style of fighting as your specialty. Choose one of the following options. You can't take a Fighting Style option more than once, even if you later get to choose again.",
+        {
+          "type": "options",
+          "count": 1,
+          "entries": [
+            { "type": "refOptionalfeature", "optionalfeature": "Archery" },
+            { "type": "refOptionalfeature", "optionalfeature": "Close Quarters Shooter|UALightDarkUnderdark" },
+            { "type": "refOptionalfeature", "optionalfeature": "Defense" },
+            { "type": "refOptionalfeature", "optionalfeature": "Dueling" },
+            { "type": "refOptionalfeature", "optionalfeature": "Mariner|UAWaterborneAdventures" },
+            { "type": "refOptionalfeature", "optionalfeature": "Tunnel Fighter|UALightDarkUnderdark" },
+            { "type": "refOptionalfeature", "optionalfeature": "Two-Weapon Fighting" },
+            { "type": "refOptionalfeature", "optionalfeature": "Blind Fighting|UAClassFeatureVariants" },
+            { "type": "refOptionalfeature", "optionalfeature": "Interception|UAClassFeatureVariants" },
+            { "type": "refOptionalfeature", "optionalfeature": "Thrown Weapon Fighting|UAClassFeatureVariants" },
+            { "type": "refOptionalfeature", "optionalfeature": "Unarmed Fighting|UAClassFeatureVariants" },
+            { "type": "refOptionalfeature", "optionalfeature": "Druidic Warrior|UAClassFeatureVariants" },
+            { "type": "refOptionalfeature", "optionalfeature": "Blind Fighting|TCE" },
+            { "type": "refOptionalfeature", "optionalfeature": "Druidic Warrior|TCE" },
+            { "type": "refOptionalfeature", "optionalfeature": "Thrown Weapon Fighting|TCE" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Spellcasting",
+      "source": "PHB",
+      "page": 89,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "level": 2,
+      "entries": [
+        "By the time you reach 2nd level, you have learned to use the magical essence of nature to cast spells, much as a druid does. See {@book chapter 10|PHB|10} for the general rules of spellcasting and {@book chapter 11|PHB|11} for the {@filter ranger spell list|spells|class=ranger}.",
+        {
+          "type": "entries",
+          "name": "Spell Slots",
+          "entries": [
+            "The Ranger table shows how many spell slots you have to cast your {@filter ranger spells|spells|class=ranger} of 1st level and higher. To cast one of these spells, you must expend a slot of the spell's level or higher. You regain all expended spell slots when you finish a long rest.",
+            "For example, if you know the 1st-level spell {@spell animal friendship} and have a 1st-level and a 2nd-level spell slot available, you can cast {@spell animal friendship} using either slot."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Spells Known of 1st Level and Higher",
+          "entries": [
+            "You know two 1st-level spells of your choice from the ranger spell list.",
+            "The Spells Known column of the Ranger table shows when you learn more ranger spells of your choice. Each of these spells must be of a level for which you have spell slots. For instance, when you reach 5th level in this class, you can learn one new spell of 1st or 2nd level.",
+            "Additionally, when you gain a level in this class, you can choose one of the ranger spells you know and replace it with another spell from the ranger spell list, which also must be of a level for which you have spell slots."
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Spellcasting Ability",
+          "entries": [
+            "Wisdom is your spellcasting ability for your ranger spells, since your magic draws on your attunement to nature. You use your Wisdom whenever a spell refers to your spellcasting ability. In addition, you use your Wisdom modifier when setting the saving throw DC for a ranger spell you cast and when making an attack roll with one.",
+            { "type": "abilityDc", "name": "Spell", "attributes": ["wis"] },
+            { "type": "abilityAttackMod", "name": "Spell", "attributes": ["wis"] }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Primeval Awareness",
+      "source": "PHB",
+      "page": 89,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "level": 3,
+      "entries": [
+        "Beginning at 3rd level, you can use your action and expend one ranger spell slot to focus your awareness on the region around you. For 1 minute per level of the spell slot you expend, you can sense whether the following types of creatures are present within 1 mile of you (or within up to 6 miles if you are in your favored terrain): aberrations, celestials, dragons, elementals, fey, fiends, and undead. This feature doesn't reveal the creatures' location or number."
+      ]
+    },
+    {
+      "name": "Ranger Archetype",
+      "source": "PHB",
+      "page": 89,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "level": 3,
+      "entries": [
+        "At 3rd level, you choose an archetype that you strive to emulate from the list of available archetypes. Your choice grants features at 3rd level, and again at 7th, 11th, and 15th level."
+      ]
+    },
+    {
+      "name": "Ability Score Improvement",
+      "source": "PHB",
+      "page": 89,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "level": 4,
+      "entries": [
+        "When you reach 4th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+        "If your DM allows the use of feats, you may instead take a {@5etools feat|feats.html}."
+      ]
+    },
+    {
+      "name": "Extra Attack",
+      "source": "PHB",
+      "page": 89,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "level": 5,
+      "entries": [
+        "Beginning at 5th level, you can attack twice, instead of once, whenever you take the {@action Attack} action on your turn."
+      ]
+    },
+    {
+      "name": "Favored Enemy and Natural Explorer improvements",
+      "source": "PHB",
+      "page": 89,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "level": 6,
+      "entries": [
+        "At 6th level, you gain an additional favored terrain.",
+        "At 6th level, you choose one additional favored enemy, as well as an associated language. Your choice should reflect the types of monsters you have encountered on your adventures."
+      ]
+    },
+    {
+      "name": "Ranger Archetype feature",
+      "source": "PHB",
+      "page": 89,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "level": 7,
+      "entries": ["At 7th level, you gain a feature granted to you by your Ranger Archetype."]
+    },
+    {
+      "name": "Ability Score Improvement",
+      "source": "PHB",
+      "page": 89,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "level": 8,
+      "entries": [
+        "When you reach 8th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+        "If your DM allows the use of feats, you may instead take a {@5etools feat|feats.html}."
+      ]
+    },
+    {
+      "name": "Land's Stride",
+      "source": "PHB",
+      "page": 89,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "level": 8,
+      "entries": [
+        "Starting at 8th level, moving through nonmagical difficult terrain costs you no extra movement. You can also pass through nonmagical plants without being slowed by them and without taking damage from them if they have thorns, spines, or a similar hazard.",
+        "In addition, you have advantage on saving throws against plants that are magically created or manipulated to impede movement, such those created by the {@spell entangle} spell."
+      ]
+    },
+    {
+      "name": "Hide in Plain Sight",
+      "source": "PHB",
+      "page": 89,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "level": 10,
+      "entries": [
+        "Starting at 10th level, you can spend 1 minute creating camouflage for yourself. You must have access to fresh mud, dirt, plants, soot, and other naturally occurring materials with which to create your camouflage.",
+        "Once you are camouflaged in this way, you can try to hide by pressing yourself up against a solid surface, such as a tree or wall, that is at least as tall and wide as you are. You gain a +10 bonus to Dexterity ({@skill Stealth}) checks as long as you remain there without moving or taking actions. Once you move or take an action or a reaction, you must camouflage yourself again to gain this benefit."
+      ]
+    },
+    {
+      "name": "Natural Explorer improvement",
+      "source": "PHB",
+      "page": 89,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "level": 10,
+      "entries": ["You gain an additional favored terrain."]
+    },
+    {
+      "name": "Ranger Archetype feature",
+      "source": "PHB",
+      "page": 89,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "level": 11,
+      "entries": ["At 11th level, you gain a feature granted to you by your Ranger Archetype."]
+    },
+    {
+      "name": "Ability Score Improvement",
+      "source": "PHB",
+      "page": 89,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "level": 12,
+      "entries": [
+        "When you reach 12th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+        "If your DM allows the use of feats, you may instead take a {@5etools feat|feats.html}."
+      ]
+    },
+    {
+      "name": "Favored Enemy improvement",
+      "source": "PHB",
+      "page": 89,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "level": 14,
+      "entries": [
+        "At 14th level, you choose one additional favored enemy, as well as an associated language. Your choice should reflect the types of monsters you have encountered on your adventures."
+      ]
+    },
+    {
+      "name": "Vanish",
+      "source": "PHB",
+      "page": 89,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "level": 14,
+      "entries": [
+        "Starting at 14th level, you can use the {@action Hide} action as a bonus action on your turn. Also, you can't be tracked by nonmagical means, unless you choose to leave a trail."
+      ]
+    },
+    {
+      "name": "Ranger Archetype feature",
+      "source": "PHB",
+      "page": 89,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "level": 15,
+      "entries": ["At 15th level, you gain a feature granted to you by your Ranger Archetype."]
+    },
+    {
+      "name": "Ability Score Improvement",
+      "source": "PHB",
+      "page": 89,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "level": 16,
+      "entries": [
+        "When you reach 16th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+        "If your DM allows the use of feats, you may instead take a {@5etools feat|feats.html}."
+      ]
+    },
+    {
+      "name": "Feral Senses",
+      "source": "PHB",
+      "page": 89,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "level": 18,
+      "entries": [
+        "At 18th level, you gain preternatural senses that help you fight creatures you can't see. When you attack a creature you can't see, your inability to see it doesn't impose disadvantage on your attack rolls against it. You are also aware of the location of any {@condition invisible} creature within 30 feet of you, provided that the creature isn't hidden from you and you aren't {@condition blinded} or {@condition deafened}."
+      ]
+    },
+    {
+      "name": "Ability Score Improvement",
+      "source": "PHB",
+      "page": 89,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "level": 19,
+      "entries": [
+        "When you reach 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+        "If your DM allows the use of feats, you may instead take a {@5etools feat|feats.html}."
+      ]
+    },
+    {
+      "name": "Foe Slayer",
+      "source": "PHB",
+      "page": 89,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "level": 20,
+      "entries": [
+        "At 20th level, you become an unparalleled hunter of your enemies. Once on each of your turns, you can add your Wisdom modifier to the attack roll or the damage roll of an attack you make against one of your favored enemies. You can choose to use this feature before or after the roll, but before any effects of the roll are applied."
+      ]
+    }
+  ],
+  "subclassFeature": [
+    {
+      "name": "Hunter",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 3,
+      "entries": [
+        "Emulating the Hunter archetype means accepting your place as a bulwark between civilization and the terrors of the wilderness. As you walk the Hunter's path, you learn specialized techniques for fighting the threats you face, from rampaging ogres and hordes of orcs to towering giants and terrifying dragons.",
+        { "type": "refSubclassFeature", "subclassFeature": "Hunter's Prey|Ranger||Hunter||3" }
+      ]
+    },
+    {
+      "name": "Horde Breaker",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 3,
+      "header": 1,
+      "entries": [
+        "Once on each of your turns when you make a weapon attack, you can make another attack with the same weapon against a different creature that is within 5 feet of the original target and within range of your weapon."
+      ]
+    },
+    {
+      "name": "Hunter's Prey",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 3,
+      "header": 1,
+      "entries": [
+        "At 3rd level, you gain one of the following features of your choice.",
+        {
+          "type": "options",
+          "entries": [
+            { "type": "refSubclassFeature", "subclassFeature": "Colossus Slayer|Ranger||Hunter||3" },
+            { "type": "refSubclassFeature", "subclassFeature": "Giant Killer|Ranger||Hunter||3" },
+            { "type": "refSubclassFeature", "subclassFeature": "Horde Breaker|Ranger||Hunter||3" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Colossus Slayer",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 3,
+      "header": 2,
+      "entries": [
+        "Your tenacity can wear down the most potent foes. When you hit a creature with a weapon attack, the creature takes an extra {@damage 1d8} damage if it's below its hit point maximum. You can deal this extra damage only once per turn."
+      ]
+    },
+    {
+      "name": "Giant Killer",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 3,
+      "header": 2,
+      "entries": [
+        "When a Large or larger creature within 5 feet of you hits or misses you with an attack, you can use your reaction to attack that creature immediately after its attack, provided that you can see the creature."
+      ]
+    },
+    {
+      "name": "Defensive Tactics",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 7,
+      "header": 2,
+      "entries": [
+        "At 7th level, you gain one of the following features of your choice.",
+        {
+          "type": "options",
+          "entries": [
+            { "type": "refSubclassFeature", "subclassFeature": "Escape the Horde|Ranger||Hunter||7" },
+            { "type": "refSubclassFeature", "subclassFeature": "Multiattack Defense|Ranger||Hunter||7" },
+            { "type": "refSubclassFeature", "subclassFeature": "Steel Will|Ranger||Hunter||7" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Escape the Horde",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 7,
+      "header": 2,
+      "entries": ["Opportunity attacks against you are made with disadvantage."]
+    },
+    {
+      "name": "Multiattack Defense",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 7,
+      "header": 2,
+      "entries": [
+        "When a creature hits you with an attack, you gain a +4 bonus to AC against all subsequent attacks made by that creature for the rest of the turn."
+      ]
+    },
+    {
+      "name": "Steel Will",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 7,
+      "header": 2,
+      "entries": ["You have advantage on saving throws against being {@condition frightened}."]
+    },
+    {
+      "name": "Multiattack",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 11,
+      "header": 2,
+      "entries": [
+        "At 11th level, you gain one of the following features of your choice.",
+        {
+          "type": "options",
+          "entries": [
+            { "type": "refSubclassFeature", "subclassFeature": "Volley|Ranger||Hunter||11" },
+            { "type": "refSubclassFeature", "subclassFeature": "Whirlwind Attack|Ranger||Hunter||11" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Volley",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 11,
+      "header": 2,
+      "entries": [
+        "You can use your action to make a ranged attack against any number of creatures within 10 feet of a point you can see within your weapon's range. You must have ammunition for each target, as normal, and you make a separate attack roll for each target."
+      ]
+    },
+    {
+      "name": "Whirlwind Attack",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 11,
+      "header": 2,
+      "entries": [
+        "You can use your action to make a melee attack against any number of creatures within 5 feet of you, with a separate attack roll for each target."
+      ]
+    },
+    {
+      "name": "Evasion",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 15,
+      "header": 2,
+      "entries": [
+        "You can nimbly dodge out of the way of certain area effects, such as a red dragon's fiery breath or a {@spell lightning bolt} spell. When you are subjected to an effect that allows you to make a Dexterity saving throw to take only half damage, you instead take no damage if you succeed on the saving throw, and only half damage if you fail."
+      ]
+    },
+    {
+      "name": "Stand Against the Tide",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 15,
+      "header": 2,
+      "entries": [
+        "When a hostile creature misses you with a melee attack, you can use your reaction to force that creature to repeat the same attack against another creature (other than itself) of your choice."
+      ]
+    },
+    {
+      "name": "Superior Hunter's Defense",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 15,
+      "header": 2,
+      "entries": [
+        "At 15th level, you gain one of the following features of your choice.",
+        {
+          "type": "options",
+          "entries": [
+            { "type": "refSubclassFeature", "subclassFeature": "Evasion|Ranger||Hunter||15" },
+            { "type": "refSubclassFeature", "subclassFeature": "Stand Against the Tide|Ranger||Hunter||15" },
+            { "type": "refSubclassFeature", "subclassFeature": "Uncanny Dodge|Ranger||Hunter||15" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Uncanny Dodge",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger",
+      "classSource": "PHB",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 15,
+      "header": 2,
+      "entries": [
+        "When an attacker that you can see hits you with an attack, you can use your reaction to halve the attack's damage against you."
+      ]
+    },
+    {
+      "name": "Hunter",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger (Spell-less)",
+      "classSource": "UAModifyingClasses",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 3,
+      "entries": [
+        "Emulating the Hunter archetype means accepting your place as a bulwark between civilization and the terrors of the wilderness. As you walk the Hunter's path, you learn specialized techniques for fighting the threats you face, from rampaging ogres and hordes of orcs to towering giants and terrifying dragons.",
+        {
+          "type": "refSubclassFeature",
+          "subclassFeature": "Hunter's Prey|Ranger (Spell-less)|UAModifyingClasses|Hunter||3"
+        }
+      ]
+    },
+    {
+      "name": "Horde Breaker",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger (Spell-less)",
+      "classSource": "UAModifyingClasses",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 3,
+      "header": 1,
+      "entries": [
+        "Once on each of your turns when you make a weapon attack, you can make another attack with the same weapon against a different creature that is within 5 feet of the original target and within range of your weapon."
+      ]
+    },
+    {
+      "name": "Hunter's Prey",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger (Spell-less)",
+      "classSource": "UAModifyingClasses",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 3,
+      "header": 1,
+      "entries": [
+        "At 3rd level, you gain one of the following features of your choice.",
+        {
+          "type": "options",
+          "entries": [
+            {
+              "type": "refSubclassFeature",
+              "subclassFeature": "Colossus Slayer|Ranger (Spell-less)|UAModifyingClasses|Hunter|PHB|3"
+            },
+            {
+              "type": "refSubclassFeature",
+              "subclassFeature": "Giant Killer|Ranger (Spell-less)|UAModifyingClasses|Hunter|PHB|3"
+            },
+            {
+              "type": "refSubclassFeature",
+              "subclassFeature": "Horde Breaker|Ranger (Spell-less)|UAModifyingClasses|Hunter|PHB|3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Colossus Slayer",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger (Spell-less)",
+      "classSource": "UAModifyingClasses",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 3,
+      "header": 2,
+      "entries": [
+        "Your tenacity can wear down the most potent foes. When you hit a creature with a weapon attack, the creature takes an extra {@damage 1d8} damage if it's below its hit point maximum. You can deal this extra damage only once per turn."
+      ]
+    },
+    {
+      "name": "Giant Killer",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger (Spell-less)",
+      "classSource": "UAModifyingClasses",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 3,
+      "header": 2,
+      "entries": [
+        "When a Large or larger creature within 5 feet of you hits or misses you with an attack, you can use your reaction to attack that creature immediately after its attack, provided that you can see the creature."
+      ]
+    },
+    {
+      "name": "Defensive Tactics",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger (Spell-less)",
+      "classSource": "UAModifyingClasses",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 7,
+      "header": 2,
+      "entries": [
+        "At 7th level, you gain one of the following features of your choice.",
+        {
+          "type": "options",
+          "entries": [
+            {
+              "type": "refSubclassFeature",
+              "subclassFeature": "Escape the Horde|Ranger (Spell-less)|UAModifyingClasses|Hunter|PHB|7"
+            },
+            {
+              "type": "refSubclassFeature",
+              "subclassFeature": "Multiattack Defense|Ranger (Spell-less)|UAModifyingClasses|Hunter|PHB|7"
+            },
+            {
+              "type": "refSubclassFeature",
+              "subclassFeature": "Steel Will|Ranger (Spell-less)|UAModifyingClasses|Hunter|PHB|7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Escape the Horde",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger (Spell-less)",
+      "classSource": "UAModifyingClasses",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 7,
+      "header": 2,
+      "entries": ["Opportunity attacks against you are made with disadvantage."]
+    },
+    {
+      "name": "Multiattack Defense",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger (Spell-less)",
+      "classSource": "UAModifyingClasses",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 7,
+      "header": 2,
+      "entries": [
+        "When a creature hits you with an attack, you gain a +4 bonus to AC against all subsequent attacks made by that creature for the rest of the turn."
+      ]
+    },
+    {
+      "name": "Steel Will",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger (Spell-less)",
+      "classSource": "UAModifyingClasses",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 7,
+      "header": 2,
+      "entries": ["You have advantage on saving throws against being {@condition frightened}."]
+    },
+    {
+      "name": "Multiattack",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger (Spell-less)",
+      "classSource": "UAModifyingClasses",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 11,
+      "header": 2,
+      "entries": [
+        "At 11th level, you gain one of the following features of your choice.",
+        {
+          "type": "options",
+          "entries": [
+            {
+              "type": "refSubclassFeature",
+              "subclassFeature": "Volley|Ranger (Spell-less)|UAModifyingClasses|Hunter|PHB|11"
+            },
+            {
+              "type": "refSubclassFeature",
+              "subclassFeature": "Whirlwind Attack|Ranger (Spell-less)|UAModifyingClasses|Hunter|PHB|11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Volley",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger (Spell-less)",
+      "classSource": "UAModifyingClasses",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 11,
+      "header": 2,
+      "entries": [
+        "You can use your action to make a ranged attack against any number of creatures within 10 feet of a point you can see within your weapon's range. You must have ammunition for each target, as normal, and you make a separate attack roll for each target."
+      ]
+    },
+    {
+      "name": "Whirlwind Attack",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger (Spell-less)",
+      "classSource": "UAModifyingClasses",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 11,
+      "header": 2,
+      "entries": [
+        "You can use your action to make a melee attack against any number of creatures within 5 feet of you, with a separate attack roll for each target."
+      ]
+    },
+    {
+      "name": "Evasion",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger (Spell-less)",
+      "classSource": "UAModifyingClasses",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 15,
+      "header": 2,
+      "entries": [
+        "You can nimbly dodge out of the way of certain area effects, such as a red dragon's fiery breath or a {@spell lightning bolt} spell. When you are subjected to an effect that allows you to make a Dexterity saving throw to take only half damage, you instead take no damage if you succeed on the saving throw, and only half damage if you fail."
+      ]
+    },
+    {
+      "name": "Stand Against the Tide",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger (Spell-less)",
+      "classSource": "UAModifyingClasses",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 15,
+      "header": 2,
+      "entries": [
+        "When a hostile creature misses you with a melee attack, you can use your reaction to force that creature to repeat the same attack against another creature (other than itself) of your choice."
+      ]
+    },
+    {
+      "name": "Superior Hunter's Defense",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger (Spell-less)",
+      "classSource": "UAModifyingClasses",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 15,
+      "header": 2,
+      "entries": [
+        "At 15th level, you gain one of the following features of your choice.",
+        {
+          "type": "options",
+          "entries": [
+            {
+              "type": "refSubclassFeature",
+              "subclassFeature": "Evasion|Ranger (Spell-less)|UAModifyingClasses|Hunter|PHB|15"
+            },
+            {
+              "type": "refSubclassFeature",
+              "subclassFeature": "Stand Against the Tide|Ranger (Spell-less)|UAModifyingClasses|Hunter|PHB|15"
+            },
+            {
+              "type": "refSubclassFeature",
+              "subclassFeature": "Uncanny Dodge|Ranger (Spell-less)|UAModifyingClasses|Hunter|PHB|15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Uncanny Dodge",
+      "source": "PHB",
+      "page": 93,
+      "srd": true,
+      "className": "Ranger (Spell-less)",
+      "classSource": "UAModifyingClasses",
+      "subclassShortName": "Hunter",
+      "subclassSource": "PHB",
+      "level": 15,
+      "header": 2,
+      "entries": [
+        "When an attacker that you can see hits you with an attack, you can use your reaction to halve the attack's damage against you."
+      ]
+    }
+  ]
+}
