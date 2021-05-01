@@ -4,7 +4,7 @@
  */
 import * as Constants from './constants';
 import * as Utils from './utils';
-import HeroData from './types/ActorData';
+import HeroData from './HeroData';
 
 import BasicsTab from './tabs/basicsStep';
 import AbilitiesTab from './tabs/abilitiesStep';
@@ -15,15 +15,16 @@ import EquipmentTab from './tabs/equipmentStep';
 import SpellsTab from './tabs/spellsStep';
 import BioTab from './tabs/bioStep';
 import ReviewTab from './tabs/reviewStep';
-import { DataError } from './types/DataError';
-import { Step } from './types/Step';
+import { Step } from './Step';
 import Race from './types/Race';
 import * as DataPrep from './dataPrep';
+import { HeroOption } from './HeroOption';
 
 export default class App extends Application {
   newActor: HeroData;
   actorId?: string;
   readonly steps: Array<Step>;
+  items: HeroOption[] = [];
 
   constructor() {
     super();
@@ -44,6 +45,7 @@ export default class App extends Application {
   async openForActor(actorId?: string) {
     console.log(`${Constants.LOG_PREFIX} | Opening for ${actorId ? 'actor id: ' + actorId : 'new actor'}`);
     if (actorId) this.actorId = actorId;
+    this.items = [];
     this.render(true, { log: true });
   }
 
@@ -67,19 +69,14 @@ export default class App extends Application {
     });
 
     $('[data-hct_review]').on('click', () => {
-      ReviewTab.mapReviewItems(this.validateData());
+      ReviewTab.mapReviewItems(this.getHeroOptionsFromSteps());
     });
 
     $('#finalSubmit').on('click', (event) => {
-      const errors: DataError[] = this.validateData();
-      if (!errors.length) {
-        this.buildActor();
-        this.close();
-      } else {
-        for (const err of errors) {
-          ui?.notifications?.error(game.i18n.localize(err.message));
-        }
-      }
+      this.getHeroOptionsFromSteps();
+      //if(confirm(game.i18n.localize("HCT.Race.ReviewErrorConfirm")))
+      this.buildActor();
+      this.close();
     });
   }
 
@@ -94,20 +91,20 @@ export default class App extends Application {
     }
   }
 
-  validateData(): DataError[] {
-    // tab.getErrors validates data on the tab, and returns an array of any errors found
-    // an empty array therefore means no errors
-    let errors: DataError[] = [];
+  private getHeroOptionsFromSteps(): HeroOption[] {
+    this.items = [];
     for (const step of this.steps) {
-      errors = errors.concat(step.getErrors());
+      this.items = this.items.concat(step.getOptions());
     }
-    return errors; // returns the array with all the errors found, so it can be shown on the review and/or notified
+    return this.items;
   }
 
-  buildActor() {
+  private buildActor() {
     console.log(`${Constants.LOG_PREFIX} | Building actor`);
     for (const step of this.steps) {
-      step.saveActorData(this.newActor);
+      for (const opt of step.getOptions()) {
+        opt.applyToHero(this.newActor);
+      }
     }
 
     // Creates new actor based on collected data

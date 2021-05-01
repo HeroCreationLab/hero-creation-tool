@@ -1,27 +1,35 @@
 /*
   Functions used exclusively on the Review tab
 */
-import { DataError } from '../types/DataError';
+import { HeroOption } from '../HeroOption';
 
 class Review {
-  mapReviewItems(items: DataError[]) {
+  mapReviewItems(options: HeroOption[]) {
     $('.review-item').remove();
-    if (items.length > 0) {
-      $('#finalSubmit').removeClass('review-submit__ok');
-      $('#finalSubmit').addClass('review-submit__errors');
-    } else {
+    let allOptionsFulfilled = true;
+    for (const opt of options) {
+      allOptionsFulfilled = appendItem(opt) && allOptionsFulfilled;
+    }
+    if (allOptionsFulfilled) {
       $('#finalSubmit').removeClass('review-submit__errors');
       $('#finalSubmit').addClass('review-submit__ok');
-    }
-    for (const item of items) {
-      appendItem(item);
+    } else {
+      $('#finalSubmit').removeClass('review-submit__ok');
+      $('#finalSubmit').addClass('review-submit__errors');
     }
   }
 }
 const ReviewTab: Review = new Review();
 export default ReviewTab;
 
-function appendItem(item: DataError) {
-  const itemElem = $(`<dd class='review-item'>${game.i18n.localize(item.message)}</dd>`);
-  $(`#review-group-${item.step}`).after(itemElem);
+function appendItem(option: HeroOption): boolean {
+  const reviewText = option.getReviewText();
+  if (reviewText) {
+    // options without reviewText are not shown
+    const itemElem = $(
+      `<dd class='review-item'>${reviewText} ${option.isFulfilled() ? '' : ' (Missing or invalid)'}</dd>`,
+    );
+    $(`#review-group-${option.origin}`).after(itemElem);
+  }
+  return option.isFulfilled();
 }

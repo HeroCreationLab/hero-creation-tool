@@ -4,20 +4,17 @@
     <main class='tab-content'>
         <div class="form--padding">
             <form class="flexcol prototype" autocomplete="off">
-                <div class="form-group">
+                <div class="form-group" data-hero_name>
                     <label class="basics-top-label">{{localize 'HCT.Basics.CharName'}}</label>
-                    <input type="text" id="actor_name" name="name" placeholder="Name">
                 </div>
-                <div class="form-group">
+                <div class="form-group" data-hero_avatar>
                     <label class="basics-top-label">{{localize 'HCT.Basics.Avatar'}}</label>
-                    <input type="text" id="avatar_path" placeholder="Path.." value="icons/svg/mystery-man.svg">
                     <button type="button" class="div-button file-picker centered-text" data-filepick='avatar'>
                         {{localize 'HCT.Basics.PickButton'}}
                     </button>
                 </div>
-                <div class="form-group">
+                <div class="form-group" data-hero_token>
                     <label class="basics-top-label">{{localize 'HCT.Basics.Token'}}</label>
-                    <input type="text" id="token_path" placeholder="Path.." value="icons/svg/mystery-man.svg">
                     <button type="button" class="div-button file-picker centered-text" data-filepick='token'>
                         {{localize 'HCT.Basics.PickButton'}}
                     </button>

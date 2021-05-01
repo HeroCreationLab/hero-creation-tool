@@ -12,21 +12,14 @@ Hooks.once('init', async () => {
   await preloadTemplates();
 });
 
-// Setup module
-Hooks.once('setup', async () => {
-  // Do anything after initialization but before ready
-});
-
-// When ready
-Hooks.once('ready', async () => {
-  // Do anything once the module is ready
-  console.log(`${Constants.LOG_PREFIX} | Starting initialization`);
-  moduleApp.setupData();
-});
-
-Hooks.on('renderHeroCreationTool', async function () {
-  console.log(`${Constants.LOG_PREFIX} | Rendering tool - setting up data-derived elements`);
-  moduleApp.renderChildrenData();
+Hooks.on('renderApp', async function (app: any, html: any, data: any) {
+  if (app.options.title == 'Hero Creation') {
+    if (app._priorState == 0) {
+      console.log(`${Constants.LOG_PREFIX} | Setting up data-derived elements`);
+      await moduleApp.setupData();
+    }
+    moduleApp.renderChildrenData();
+  }
 });
 
 // This hooks onto the rendering of the Actor Directory to show the button

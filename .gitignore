@@ -17,5 +17,9 @@ dist
 
 # Junit results
 junit.xml
+**/*.snap
+
+# Test coverage
+docs/coverage/
 
 foundryconfig.json
