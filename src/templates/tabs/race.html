@@ -2,28 +2,35 @@
     <h1 class='tab-header'>{{localize 'DND5E.Race'}}</h1>
 
     <main class='tab-content'>
-        <h3>{{localize 'HCT.Race.RaceSelect.Default'}}</h3>
         <select class='hct_picker' , data-hct_race_picker>
             <option value="" disabled selected hidden> {{localize 'HCT.Race.RaceSelect.Default'}} </option>
         </select>
         <div data-hct_race_data>
             <!-- filled by tabs/race.ts -->
-            <h2>{{localize 'HCT.Race.ASI'}}</h2>
-            <section class='hct_race_data_elem' data-hct_race_abilityScoreImprovements></section>
+            <div data-hct_race_area="abilityScores">
+                <h2>{{localize 'HCT.Race.ASI'}}</h2>
+                <section class='hct_race_data_elem' data-hct_race_abilityScoreImprovements></section>
+            </div>
 
-            <h2>{{localize 'DND5E.Size'}}</h2>
-            <section class='hct_race_data_elem' data-hct_race_size></section>
+            <div data-hct_race_area="size">
+                <h2>{{localize 'DND5E.Size'}}</h2>
+                <section class='hct_race_data_elem' data-hct_race_size></section>
+            </div>
 
-            <div data-hct_race_senses_area>
+            <div data-hct_race_area="senses">
                 <h2>{{localize 'DND5E.Senses'}}</h2>
                 <section class='hct_race_data_elem' data-hct_race_senses></section>
             </div>
 
-            <h2>{{localize 'DND5E.Movement'}}</h2>
-            <section class='hct_race_data_elem' data-hct_race_movement></section>
+            <div data-hct_race_area="movement">
+                <h2>{{localize 'DND5E.Movement'}}</h2>
+                <section class='hct_race_data_elem' data-hct_race_movement></section>
+            </div>
 
-            <h2>{{localize 'HCT.Race.Proficiencies'}}</h2>
-            <section class='hct_race_data_elem' data-hct_race_proficiencies></section>
+            <div data-hct_race_area="proficiencies">
+                <h2>{{localize 'HCT.Race.Proficiencies'}}</h2>
+                <section class='hct_race_data_elem' data-hct_race_proficiencies></section>
+            </div>
 
             <!-- <h2>Language Proficiencies</h2> -->
             <!-- <div id="race-language" name="race-language"></div> -->

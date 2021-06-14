@@ -15,23 +15,21 @@ export default class Race {
   parentRace?: Race;
 
   abilityScoreImprovements: {
-    Str?: { bonus: number };
-    Dex?: { bonus: number };
-    Con?: { bonus: number };
-    Int?: { bonus: number };
-    Wis?: { bonus: number };
-    Cha?: { bonus: number };
-    any?: { bonus: number[] };
+    Str?: number;
+    Dex?: number;
+    Con?: number;
+    Int?: number;
+    Wis?: number;
+    Cha?: number;
+    any?: number[];
   } = {};
 
   type?: CreatureType = CreatureType.Humanoid;
-  size?: Size = Size.Medium;
+  size?: Size;
   hp?: { bonus: number };
-  darkvision?: number;
-
-  movement?: Movement = { walk: 30 };
-
-  languages?: Choosable<Language> = { fixed: [Language.Common] };
+  senses?: { darkvision?: number };
+  movement?: Movement;
+  languages?: Choosable<Language>;
 
   proficiencies: {
     skills?: Choosable<Skill>;
@@ -51,23 +49,25 @@ export default class Race {
     advantage?: Choosable<Condition>;
   } = {};
 
-  constructor(raceName: string, compendium: Entity<Entity.Data>[], subraceOf?: Race) {
+  constructor(raceName: string, parentRace?: Race) {
     this.name = raceName;
-    this.parentRace = subraceOf;
-    this.item = Utils.getItemFromCompendiumByName(compendium, raceName);
+    this.parentRace = parentRace;
+    this.item = Utils.getItemFromRaceCompendiumByName(raceName);
   }
 }
 
-export declare interface Choosable<T> {
+export interface Choosable<T> {
   fixed?: T[] | string[];
   any?: number;
-  choose?: {
-    quantity: number;
-    options: T[] | string[];
-  };
+  choose?: ChoosableChoice<T>;
 }
 
-export declare interface Movement {
+export interface ChoosableChoice<T> {
+  quantity: number;
+  options: T[] | string[];
+}
+
+export interface Movement {
   walk?: number;
   burrow?: number;
   climb?: number;

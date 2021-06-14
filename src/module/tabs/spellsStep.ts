@@ -1,15 +1,14 @@
 /*
   Functions used exclusively on the Spells tab
 */
-import HeroData from '../types/ActorData';
-import * as Constants from '../constants';
-import { DataError } from '../types/DataError';
-import { Step, StepEnum } from '../types/Step';
+import { Step, StepEnum } from '../Step';
 
 class _Spells extends Step {
   constructor() {
     super(StepEnum.Spells);
   }
+
+  section = () => $('#spellsDiv');
 
   setListeners(): void {
     /*TBD*/
@@ -21,21 +20,6 @@ class _Spells extends Step {
 
   renderData(): void {
     /*TBD*/
-  }
-
-  getErrors(): DataError[] {
-    const errors: DataError[] = [];
-    if (false) {
-      errors.push(this.error('HCT.Err.Key'));
-    }
-    return errors;
-  }
-
-  saveActorData(newActor: HeroData): boolean {
-    console.log(`${Constants.LOG_PREFIX} | Saving Spells Tab data into actor}`);
-
-    // TBD
-    return true;
   }
 }
 const SpellsTab: Step = new _Spells();

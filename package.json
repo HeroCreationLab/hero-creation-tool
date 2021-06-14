@@ -36,7 +36,7 @@
   "devDependencies": {
     "@league-of-foundry-developers/foundry-vtt-types": "^0.7.9-6",
     "@rollup/plugin-node-resolve": "^11.2.1",
-    "@types/jest": "^26.0.22",
+    "@types/jest": "^26.0.23",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
     "chalk": "^4.1.1",
@@ -64,5 +64,8 @@
   "lint-staged": {
     "*.(ts|js)": "eslint --fix",
     "*.(json|scss)": "prettier --write"
+  },
+  "dependencies": {
+    "ts-node": "^9.1.1"
   }
 }

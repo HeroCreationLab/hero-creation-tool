@@ -1,37 +1,34 @@
 /*
     Functions used exclusively on the Biography tab
 */
-import HeroData from '../types/ActorData';
+import HeroData from '../HeroData';
 import * as Constants from '../constants';
-import { DataError } from '../types/DataError';
-import { Step, StepEnum } from '../types/Step';
+import { Step, StepEnum } from '../Step';
 
 class _Bio extends Step {
   constructor() {
     super(StepEnum.Biography);
   }
 
+  section = () => $('#bioDiv');
+
   setListeners(): void {
-    /*TBD*/
+    /* IMPLEMENT AS NEEDED */
   }
 
   setSourceData(): void {
-    /*TBD*/
+    /* IMPLEMENT AS NEEDED */
   }
 
   renderData(): void {
-    /*TBD*/
+    /* IMPLEMENT AS NEEDED */
   }
 
-  getErrors(): DataError[] {
-    const errors: DataError[] = [];
-    if (false) {
-      errors.push(this.error('HCT.Err.Key'));
-    }
-    return errors;
-  }
-
-  saveActorData(newActor: HeroData): void {
+  /**
+   * @deprecated
+   */
+  // TODO convert to HeroOptions
+  getHeroOptions(newActor: HeroData): void {
     console.log(`${Constants.LOG_PREFIX} | Saving Biography Tab data into actor`);
 
     const appearance = `Age: ${$('#character_age').val()}

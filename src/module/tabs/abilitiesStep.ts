@@ -1,15 +1,18 @@
 /*
   Functions used exclusively on the Abilities tab
 */
-import HeroData from '../types/ActorData';
+import HeroData from '../HeroData';
 import * as Constants from '../constants';
-import { DataError } from '../types/DataError';
-import { Step, StepEnum } from '../types/Step';
+import * as Utils from '../utils';
+import { Step, StepEnum } from '../Step';
+import { FixedHeroOption, HeroOption } from '../HeroOption';
 
 class _Abilities extends Step {
   constructor() {
     super(StepEnum.Abilities);
   }
+
+  section = () => $('#abDiv');
 
   setListeners(): void {
     // entry mode
@@ -43,19 +46,6 @@ class _Abilities extends Step {
       decreaseAbility(i);
     });
 
-    // infoToggle
-
-    // jQuery.fn['triggerToggle'] = function (target: any) {
-    //     return this.each(function () {
-    //         const $target = $(target);
-    //         $(this).on('click', function () {
-    //             $target.toggle();
-    //         });
-    //     });
-    // }
-
-    // $('#ability-desc-accordion').triggerToggle('#abilities-info');
-
     $('#ability-desc-accordion').on('click', function () {
       $('#abilities-info').toggle();
     });
@@ -67,22 +57,35 @@ class _Abilities extends Step {
   }
 
   setSourceData(): void {
-    // to be implemented
+    /* IMPLEMENT AS NEEDED */
   }
 
   renderData(): void {
-    // to be implemented
+    /* IMPLEMENT AS NEEDED */
   }
 
-  getErrors(): DataError[] {
-    const errors: DataError[] = [];
+  getOptions(): HeroOption[] {
+    this.clearOptions();
     if (statsDuplicatedOrMissing()) {
-      errors.push(this.error('HCT.Abitilies.NotAllSix'));
+      const textToShow = game.i18n.localize('HCT.Abitilies.NotAllSixAbilities');
+      alert(textToShow);
+      return [new FixedHeroOption(this.step, '', undefined, textToShow, textToShow, true)];
     }
-    return errors;
+
+    for (let i = 1; i < 7; i++) {
+      const $input: JQuery = $(`#number${i}`, this.section());
+      const $select: JQuery = $(`#stat${i}`, this.section());
+      const asiKey = ($select.val() as string)?.toLowerCase();
+      const key = `data.abilities.${asiKey}.value`;
+      const asiValue: number = Number.parseInt($input.val() as string);
+      const textToShow = `${Utils.getAbilityNameByKey(asiKey)}: ${asiValue}`;
+
+      this.stepOptions.push(new FixedHeroOption(this.step, key, asiValue, textToShow, textToShow, true));
+    }
+    return this.stepOptions;
   }
 
-  saveActorData(newActor: HeroData) {
+  getHeroOptions(newActor: HeroData) {
     console.log(`${Constants.LOG_PREFIX} | Saving Abilities Tab data into actor`);
 
     const values: number[] = [];

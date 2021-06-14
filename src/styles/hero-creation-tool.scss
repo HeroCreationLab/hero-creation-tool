@@ -395,3 +395,7 @@
 .hct_race_data_elem {
   margin-bottom: 10px;
 }
+
+.race_proficiency_subtype:not(:first-child) {
+  margin-top: 16px;
+}
