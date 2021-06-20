@@ -1,6 +1,5 @@
 <div class="hct-container">
   <nav class="tabs">
-    <button class="tablinks" data-hct_tab='startDiv'> {{localize 'HCT.Start.Title'}} </button>
     <button class="tablinks" data-hct_tab='basicsDiv'> {{localize 'HCT.Basics.Title'}} </button>
     <button class="tablinks" data-hct_tab='raceDiv' data-hct_race> {{localize 'DND5E.Race'}} </button>
     <button class="tablinks" data-hct_tab='classDiv'> {{localize 'ITEM.TypeClass'}} </button>
@@ -9,7 +8,7 @@
     <button class="tablinks" data-hct_tab='eqDiv'> {{localize 'DND5E.ItemTypeEquipmentPl'}} </button>
     <button class="tablinks" data-hct_tab='spDiv'> {{localize 'DND5E.ItemTypeSpellPl'}} </button>
     <button class="tablinks" data-hct_tab='bioDiv'> {{localize 'DND5E.Biography'}} </button>
-    <button class="tablinks" data-hct_tab='reviewDiv' data-hct_review> {{localize 'HCT.Review.Title'}}
+    <button class="tablinks" data-hct_submit style='border: solid 3px green;'> {{localize 'HCT.Submit'}} </button>
     </button>
   </nav>
 
@@ -22,5 +21,4 @@
   {{> "modules/hero-creation-tool/templates/tabs/equipment.html"}}
   {{> "modules/hero-creation-tool/templates/tabs/spells.html"}}
   {{> "modules/hero-creation-tool/templates/tabs/bio.html"}}
-  {{> "modules/hero-creation-tool/templates/tabs/review.html"}}
 </div>

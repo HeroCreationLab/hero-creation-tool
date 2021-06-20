@@ -27,32 +27,14 @@ class _Basics extends Step {
   }
 
   renderData(): void {
-    //this.clearOptions();
-    const nameOption = new TextInputHeroOption(
-      this.step,
-      'name',
-      game.i18n.localize('HCT.Basics.CharName'),
-      '',
-      'HCT.Race.ReviewName',
-    );
+    this.clearOptions();
+    const nameOption = new TextInputHeroOption(this.step, 'name', game.i18n.localize('HCT.Basics.CharName'), '');
     nameOption.render($('[data-hero_name]', this.section()));
 
-    this.avatarOption = new TextInputHeroOption(
-      this.step,
-      'img',
-      Constants.MYSTERY_MAN,
-      Constants.MYSTERY_MAN,
-      'HCT.Race.ReviewAvatar',
-    );
+    this.avatarOption = new TextInputHeroOption(this.step, 'img', Constants.MYSTERY_MAN, Constants.MYSTERY_MAN);
     this.avatarOption.render($('[data-hero_avatar]', this.section()));
 
-    this.tokenOption = new TextInputHeroOption(
-      this.step,
-      'token.img',
-      Constants.MYSTERY_MAN,
-      Constants.MYSTERY_MAN,
-      'HCT.Race.ReviewToken',
-    );
+    this.tokenOption = new TextInputHeroOption(this.step, 'token.img', Constants.MYSTERY_MAN, Constants.MYSTERY_MAN);
     this.tokenOption.render($('[data-hero_token]', this.section()));
 
     this.stepOptions.push(nameOption, this.avatarOption, this.tokenOption);

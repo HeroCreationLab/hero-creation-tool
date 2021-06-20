@@ -11,7 +11,6 @@ export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]>
     Constants.MODULE_PATH + '/templates/tabs/class.html',
     Constants.MODULE_PATH + '/templates/tabs/equipment.html',
     Constants.MODULE_PATH + '/templates/tabs/race.html',
-    Constants.MODULE_PATH + '/templates/tabs/review.html',
     Constants.MODULE_PATH + '/templates/tabs/spells.html',
     Constants.MODULE_PATH + '/templates/tabs/start.html',
   ];

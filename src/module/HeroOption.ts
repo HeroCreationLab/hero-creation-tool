@@ -12,7 +12,6 @@ export interface HeroOption {
   value(): any;
   isFulfilled(): boolean;
   applyToHero(actor: HeroData): void;
-  getReviewText(): string;
   addValues: boolean;
   key: string;
   origin: StepEnum;
@@ -44,7 +43,6 @@ export class FixedHeroOption implements HeroOption {
     readonly key: string,
     private option: any,
     private textToShow: string,
-    readonly reviewText: string,
     readonly addValues: boolean = false,
   ) {}
 
@@ -72,8 +70,6 @@ export class FixedHeroOption implements HeroOption {
   value(): any {
     return this.option;
   }
-
-  getReviewText = () => this.reviewText;
 }
 
 /**
@@ -87,7 +83,6 @@ export class SelectableHeroOption implements HeroOption {
     readonly key: string,
     private options: { key: string; value: string }[],
     private label: string,
-    readonly reviewTemplate: string,
     readonly addValues: boolean = false,
   ) {}
 
@@ -123,11 +118,6 @@ export class SelectableHeroOption implements HeroOption {
   value(): any {
     return this.$elem.val();
   }
-
-  getReviewText(): string {
-    const val: string = this.value() || '';
-    return game.i18n.format(this.reviewTemplate, { value: val.capitalize() });
-  }
 }
 
 /**
@@ -142,7 +132,6 @@ export class MultiHeroOption implements HeroOption {
     private options: { key: string; value: string }[],
     private quantity: number,
     private label: string,
-    readonly reviewTemplate: string,
     readonly addValues: boolean = false,
   ) {}
 
@@ -185,15 +174,6 @@ export class MultiHeroOption implements HeroOption {
     });
     return values; // this are the KEYS
   }
-
-  getReviewText(): string {
-    const val: string = this.value()
-      ? this.value()
-          .map((v) => v.capitalize())
-          .join(', ')
-      : '';
-    return game.i18n.format(this.reviewTemplate, { value: val });
-  }
 }
 
 /**
@@ -208,7 +188,6 @@ export class TextInputHeroOption implements HeroOption {
     readonly key: string,
     private placeholder: string,
     private val: string,
-    readonly reviewTemplate: string,
     readonly addValues: boolean = false,
   ) {}
 
@@ -230,15 +209,10 @@ export class TextInputHeroOption implements HeroOption {
   applyToHero(actor: HeroData) {
     apply(actor, this.key, this.value(), this.addValues);
   }
-
-  getReviewText(): string {
-    const val = this.value() || '';
-    return game.i18n.format(this.reviewTemplate, { value: val });
-  }
 }
 
 /**
- * Represents a value that is given to the created actor but doesn't need user input (and is not shown on the review)
+ * Represents a value that is given to the created actor but doesn't need user input
  * e.g. the foundry Items that will be added to the Actor, like Race/Class.
  * @class
  */
@@ -246,7 +220,6 @@ export class HiddenHeroOption implements HeroOption {
   constructor(
     readonly origin: StepEnum,
     readonly key: string,
-    readonly reviewText = '',
     readonly opt: any,
     readonly addValues: boolean = false,
   ) {}
@@ -265,9 +238,5 @@ export class HiddenHeroOption implements HeroOption {
 
   applyToHero(actor: HeroData): void {
     apply(actor, this.key, this.value(), this.addValues);
-  }
-
-  getReviewText(): string {
-    return '';
   }
 }
