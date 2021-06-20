@@ -82,9 +82,6 @@ export default class App extends Application {
     }
   }
 
-  /**
-   * @returns a boolean meaning if all the required options were fulfilled
-   */
   private buildActor() {
     console.log(`${Constants.LOG_PREFIX} | Building actor`);
     let errors = false;
