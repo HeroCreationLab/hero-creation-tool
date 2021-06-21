@@ -201,20 +201,6 @@
   text-align: center;
 }
 
-/* ## Review */
-
-.review-container {
-  display: flex;
-  flex-flow: column;
-  justify-content: space-evenly;
-  padding: 10px;
-  margin: 0;
-}
-
-.review-container:nth-child(odd) {
-  background: rgba(77, 18, 0, 0.1);
-}
-
 .smaller {
   text-align: center;
   max-width: 50px;
@@ -342,36 +328,6 @@
 
 .justified-text {
   text-align: justify;
-}
-
-.review-subtitle {
-  font-family: 'Modesto Condensed', 'Signika', 'Arial';
-  font-size: 20px;
-  padding-bottom: 5px;
-}
-
-.review-item {
-  padding-bottom: 5px;
-}
-
-.review-submit {
-  color: white;
-}
-
-.review-submit__ok {
-  background-color: darkgreen;
-}
-
-.review-submit__ok:hover {
-  background-color: green;
-}
-
-.review-submit__errors {
-  background-color: firebrick;
-}
-
-.review-submit__errors:hover {
-  background-color: red;
 }
 
 .hct_picker {

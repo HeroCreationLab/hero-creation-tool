@@ -25,7 +25,7 @@ Hooks.on('renderApp', async function (app: any, html: any, data: any) {
 // This hooks onto the rendering of the Actor Directory to show the button
 Hooks.on('renderActorDirectory', () => {
   console.log(`${Constants.LOG_PREFIX} | Adding actors directory button`);
-  $('.directory-header')
+  $('.directory-header', $('[data-tab="actors"]'))
     .first()
     .prepend(
       `<button class='header-hct-button' data-hct_start><i class='fas fa-dice-d20'></i>${game.i18n.localize(

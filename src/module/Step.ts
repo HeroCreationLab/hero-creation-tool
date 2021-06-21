@@ -21,7 +21,7 @@ export abstract class Step {
    *
    * Might not be needed for every tab.
    */
-  abstract setSourceData(sourceData: any | any[]): void;
+  abstract setSourceData(): void;
 
   /**
    * Method called by the Application for each tab to render their internal HTML.
@@ -30,7 +30,7 @@ export abstract class Step {
   abstract renderData(): void;
 
   /**
-   * Method called by the Application when going into the Review tab and on final submit,
+   * Method called by the Application when on final submit,
    * for every tab to return their options.
    *
    * Some options might be defined before, this method been the last chance to created

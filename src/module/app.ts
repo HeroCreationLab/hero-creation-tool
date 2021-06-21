@@ -14,10 +14,7 @@ import BackgroundTab from './tabs/backgroundStep';
 import EquipmentTab from './tabs/equipmentStep';
 import SpellsTab from './tabs/spellsStep';
 import BioTab from './tabs/bioStep';
-import ReviewTab from './tabs/reviewStep';
 import { Step } from './Step';
-import Race from './types/Race';
-import * as DataPrep from './dataPrep';
 import { HeroOption } from './HeroOption';
 
 export default class App extends Application {
@@ -30,7 +27,7 @@ export default class App extends Application {
     super();
     this.newActor = new HeroData();
     this.actorId = undefined;
-    this.steps = [BasicsTab, AbilitiesTab, RaceTab, ClassTab, BackgroundTab, EquipmentTab, SpellsTab, BioTab]; // review tab holds no data
+    this.steps = [BasicsTab, AbilitiesTab, RaceTab, ClassTab, BackgroundTab, EquipmentTab, SpellsTab, BioTab];
   }
 
   static get defaultOptions() {
@@ -68,21 +65,15 @@ export default class App extends Application {
       Utils.openTab($(this).data('hct_next'));
     });
 
-    $('[data-hct_review]').on('click', () => {
-      ReviewTab.mapReviewItems(this.getHeroOptionsFromSteps());
-    });
-
-    $('#finalSubmit').on('click', (event) => {
-      this.getHeroOptionsFromSteps();
-      //if(confirm(game.i18n.localize("HCT.Race.ReviewErrorConfirm")))
+    $('[data-hct_submit]').on('click', (event) => {
       this.buildActor();
-      this.close();
     });
   }
 
   async setupData() {
-    const races: Race[] = await DataPrep.setupRaces();
-    RaceTab.setSourceData(races);
+    for (const step of this.steps) {
+      step.setSourceData();
+    }
   }
 
   renderChildrenData() {
@@ -91,23 +82,35 @@ export default class App extends Application {
     }
   }
 
-  private getHeroOptionsFromSteps(): HeroOption[] {
-    this.items = [];
-    for (const step of this.steps) {
-      this.items = this.items.concat(step.getOptions());
-    }
-    return this.items;
-  }
-
   private buildActor() {
     console.log(`${Constants.LOG_PREFIX} | Building actor`);
-    for (const step of this.steps) {
+    let errors = false;
+    // yeah, a loop label, sue me.
+    mainloop: for (const step of this.steps) {
       for (const opt of step.getOptions()) {
+        if (this.requiredOptionNotFulfilled(opt)) {
+          errors = true;
+          break mainloop;
+        }
         opt.applyToHero(this.newActor);
       }
     }
+    if (!errors) {
+      // Creates new actor based on collected data
+      Actor.create(this.newActor);
+      this.close();
+    }
+  }
 
-    // Creates new actor based on collected data
-    Actor.create(this.newActor);
+  private requiredOptionNotFulfilled(opt: HeroOption): boolean {
+    const key = opt.key;
+    if (key === 'name' && !opt.isFulfilled()) {
+      // TODO consider if it would make sense to include a filter to make sure a race and class has been selected
+      // on Foundry the only *required* field to create an actor is Name, as seen on Foundry's vanilla new actor window.
+      const errorMessage = game.i18n.format('HCT.Creation.RequiredOptionNotFulfilled', { opt: opt.key });
+      ui.notifications?.error(errorMessage);
+      return true;
+    }
+    return false;
   }
 }

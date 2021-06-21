@@ -66,21 +66,16 @@ class _Abilities extends Step {
 
   getOptions(): HeroOption[] {
     this.clearOptions();
-    if (statsDuplicatedOrMissing()) {
-      const textToShow = game.i18n.localize('HCT.Abitilies.NotAllSixAbilities');
-      alert(textToShow);
-      return [new FixedHeroOption(this.step, '', undefined, textToShow, textToShow, true)];
-    }
-
     for (let i = 1; i < 7; i++) {
       const $input: JQuery = $(`#number${i}`, this.section());
       const $select: JQuery = $(`#stat${i}`, this.section());
       const asiKey = ($select.val() as string)?.toLowerCase();
-      const key = `data.abilities.${asiKey}.value`;
-      const asiValue: number = Number.parseInt($input.val() as string);
-      const textToShow = `${Utils.getAbilityNameByKey(asiKey)}: ${asiValue}`;
-
-      this.stepOptions.push(new FixedHeroOption(this.step, key, asiValue, textToShow, textToShow, true));
+      if (asiKey) {
+        const key = `data.abilities.${asiKey}.value`;
+        const asiValue: number = Number.parseInt($input.val() as string);
+        const textToShow = `${Utils.getAbilityNameByKey(asiKey)}: ${asiValue}`;
+        this.stepOptions.push(new FixedHeroOption(this.step, key, asiValue, textToShow, true));
+      }
     }
     return this.stepOptions;
   }
@@ -110,24 +105,26 @@ class _Abilities extends Step {
 const AbilitiesTab: Step = new _Abilities();
 export default AbilitiesTab;
 
-function statsDuplicatedOrMissing() {
-  /**Check that there are no repeats */
-  const stats: string[] = [];
-  for (let i = 0; i < 6; i++) {
-    stats.push($(`#stat${i + 1}`).val() as string);
-  }
-  for (let x = 0; x < stats.length; x++) {
-    for (let y = 0; y < stats.length; y++) {
-      if (!stats[x]) {
-        return true;
-      }
-      if (stats[x] == stats[y] && x != y) {
-        return true;
-      }
-    }
-  }
-  return false;
-}
+// TODO see if we incorporate this or not
+
+// function statsDuplicatedOrMissing() {
+//   /**Check that there are no repeats */
+//   const stats: string[] = [];
+//   for (let i = 0; i < 6; i++) {
+//     stats.push($(`#stat${i + 1}`).val() as string);
+//   }
+//   for (let x = 0; x < stats.length; x++) {
+//     for (let y = 0; y < stats.length; y++) {
+//       if (!stats[x]) {
+//         return true;
+//       }
+//       if (x != y && stats[x] == stats[y]) {
+//         return true;
+//       }
+//     }
+//   }
+//   return false;
+// }
 
 async function rollAbilities() {
   const values = [];

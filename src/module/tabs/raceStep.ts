@@ -17,6 +17,7 @@ import {
   SelectableHeroOption,
   HiddenHeroOption,
 } from '../HeroOption';
+import * as DataPrep from '../dataPrep';
 import { AbilityScore, AbilityScoreLabel } from '../types/AbilityScore';
 
 type updateMethodType = () => HeroOption[] | HeroOptionsContainer[];
@@ -47,8 +48,8 @@ class _Race extends Step {
     });
   }
 
-  setSourceData(races: Race[]): void {
-    this.races = races;
+  async setSourceData() {
+    this.races = await DataPrep.setupRaces();
   }
 
   renderData(): void {
@@ -104,20 +105,12 @@ class _Race extends Step {
         if (!proficiency) continue;
 
         const value: any = getValuesForProficiency(modeKey, proficiencyKey, proficiency);
-        const reviewTemplateKey =
-          'skills' == proficiencyKey ? 'HCT.Race.ReviewTextProficiencySkill' : 'HCT.Race.ReviewTextProficiencyOthers';
         if (modeKey === 'fixed') {
           const formattedValue: string = !Array.isArray(value)
             ? value
             : (value as string[]).map((v) => v.capitalize()).join(', ');
           container.options.push(
-            new FixedHeroOption(
-              StepEnum.Race,
-              `${proficiencyKey}.${modeKey}`,
-              proficiency,
-              formattedValue,
-              game.i18n.format(reviewTemplateKey, { value: formattedValue }),
-            ),
+            new FixedHeroOption(StepEnum.Race, `${proficiencyKey}.${modeKey}`, proficiency, formattedValue),
           );
         } else if (modeKey === 'any') {
           const anyOptions: KeyValue[] = getAnyOptionsForProficiencyType(proficiencyKey);
@@ -129,11 +122,10 @@ class _Race extends Step {
                 anyOptions,
                 proficiency,
                 game.i18n.localize('HCT.Race.ProficiencyMulti'),
-                reviewTemplateKey,
               ),
             );
           } else {
-            container.options.push(new SelectableHeroOption(StepEnum.Race, 'key', anyOptions, '', reviewTemplateKey));
+            container.options.push(new SelectableHeroOption(StepEnum.Race, 'key', anyOptions, ''));
           }
         } else if (modeKey === 'choose') {
           const choose: ChoosableChoice<any> = value as any;
@@ -149,13 +141,10 @@ class _Race extends Step {
                 selectableOptions,
                 choose.quantity,
                 game.i18n.localize('HCT.Race.ProficiencyMulti'),
-                reviewTemplateKey,
               ),
             );
           } else {
-            container.options.push(
-              new SelectableHeroOption(StepEnum.Race, 'key', selectableOptions, '', reviewTemplateKey),
-            );
+            container.options.push(new SelectableHeroOption(StepEnum.Race, 'key', selectableOptions, ''));
           }
         }
       }
@@ -175,7 +164,6 @@ class _Race extends Step {
           key,
           (mov as any)[key],
           game.i18n.localize(`DND5E.Movement${key.capitalize()}`) + ': ' + (mov as any)[key] + ' ft',
-          game.i18n.format('HCT.Race.ReviewTextMovement', { value: (mov as any)[key] }),
         ),
     );
   }
@@ -190,7 +178,6 @@ class _Race extends Step {
           key,
           (senses as any)[key],
           game.i18n.localize(`DND5E.Sense${key.capitalize()}`) + ': ' + (senses as any)[key] + ' ft',
-          game.i18n.format('HCT.Race.ReviewTextSense', { key: key.capitalize(), value: (senses as any)[key] }),
         ),
     );
   }
@@ -199,15 +186,7 @@ class _Race extends Step {
     const size: Size = this.race.size as Size;
     if (!size) return [];
     const sizeText = `${game.i18n.localize(SizeLabel[size])}`;
-    return [
-      new FixedHeroOption(
-        StepEnum.Race,
-        'size',
-        size,
-        sizeText,
-        game.i18n.format('HCT.Race.ReviewTextSize', { value: sizeText }),
-      ),
-    ];
+    return [new FixedHeroOption(StepEnum.Race, 'size', size, sizeText)];
   }
 
   updateAbilityScores() {
@@ -228,7 +207,6 @@ class _Race extends Step {
               'key',
               asiList,
               Utils.getAbilityNameByKey(key),
-              `${Utils.getAbilityNameByKey(key)}: ${Utils.modifierSign(asi)}`,
               true, // add this to abilities from Abilities tab
             ),
           );
@@ -236,14 +214,7 @@ class _Race extends Step {
       } else {
         const text = `${Utils.getAbilityNameByKey(key)}: ${Utils.modifierSign(asi)}`;
         options.push(
-          new FixedHeroOption(
-            StepEnum.Race,
-            `data.abilities.${(key as string).toLowerCase()}.value`,
-            asi,
-            text,
-            text,
-            true,
-          ),
+          new FixedHeroOption(StepEnum.Race, `data.abilities.${(key as string).toLowerCase()}.value`, asi, text, true),
         );
       }
     }
