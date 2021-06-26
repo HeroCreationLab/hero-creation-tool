@@ -42,7 +42,7 @@ export abstract class Step {
     return this.stepOptions;
   }
 
-  protected clearOptions(): void {
+  clearOptions(): void {
     this.stepOptions.splice(0, this.stepOptions.length);
   }
 

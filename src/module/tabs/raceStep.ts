@@ -2,18 +2,14 @@
   Functions used exclusively on the Race tab
 */
 import { Step, StepEnum } from '../Step';
-import Race, { ChoosableChoice, Movement } from '../types/Race';
+import Race, { getItemNames, Movement } from '../types/Race';
 import * as Utils from '../utils';
+import * as Constants from '../constants';
 import { Size, SizeLabel } from '../types/Size';
-import { Skill, SkillLabel } from '../types/Skill';
-import { WeaponType, WeaponTypeLabel } from '../types/WeaponType';
-import { ArmorType, ArmorTypeLabel } from '../types/ArmorType';
-import { Tool, ToolLabel } from '../types/Tool';
 import {
   HeroOption,
   HeroOptionsContainer,
   FixedHeroOption,
-  MultiHeroOption,
   SelectableHeroOption,
   HiddenHeroOption,
 } from '../HeroOption';
@@ -21,7 +17,7 @@ import * as DataPrep from '../dataPrep';
 import { AbilityScore, AbilityScoreLabel } from '../types/AbilityScore';
 
 type updateMethodType = () => HeroOption[] | HeroOptionsContainer[];
-type KeyValue = { key: string; value: string };
+//type KeyValue = { key: string; value: string };
 
 class _Race extends Step {
   races?: Race[];
@@ -41,9 +37,15 @@ class _Race extends Step {
       const raceName = $(event.currentTarget).val();
       if (this.races) {
         this.race = this.races.filter((r) => r.name === raceName)[0];
-        const raceItem = await this.race.item;
-        this.clearOptions();
-        this.updateValuesForRace(raceItem);
+        const resolvedRaceItems = await Promise.all(
+          getItemNames(this.race).map((itemName) => {
+            return Utils.getItemFromCompendiumByName(Constants.DND5E_COMPENDIUM_RACES, itemName);
+          }),
+        );
+        this.updateValuesForRace(raceName as string, resolvedRaceItems);
+
+        // update icon
+        $('[data-hct_race_icon]').attr('src', resolvedRaceItems[resolvedRaceItems.length - 1].img);
       } else ui.notifications!.error(game.i18n.localize('HCT.Race.UpdateValueLoadError'));
     });
   }
@@ -58,7 +60,7 @@ class _Race extends Step {
     else ui.notifications!.error(game.i18n.localize('HCT.Race.RenderLoadError'));
   }
 
-  updateValuesForRace(raceItem: any) {
+  updateValuesForRace(raceName: string, raceItems: any[]) {
     $('[data-hct_race_area]').each((i, area) => {
       const $area = $(area).hide();
       const areaName = $area.data('hct_race_area') as string;
@@ -74,7 +76,8 @@ class _Race extends Step {
     // Condition interactions
     this.$context.show();
 
-    this.stepOptions.push(new HiddenHeroOption(StepEnum.Race, 'raceItem', undefined, raceItem));
+    this.stepOptions.push(new HiddenHeroOption(StepEnum.Race, 'items', raceItems));
+    this.stepOptions.push(new HiddenHeroOption(StepEnum.Race, 'data.details.race', raceName));
   }
 
   processOptions(options: HeroOption[] | HeroOptionsContainer[], $parent: JQuery) {
@@ -90,68 +93,87 @@ class _Race extends Step {
   }
 
   updateProficiencies(): HeroOptionsContainer[] {
-    const profs = this.race.proficiencies;
-    const containers: HeroOptionsContainer[] = [];
-    if (!profs) return containers;
+    // FIXME do proficiencies later
+    const container = new HeroOptionsContainer('SOON..');
+    return [container];
+    // const profs = this.race.proficiencies;
+    // const containers: HeroOptionsContainer[] = [];
+    // if (!profs) return containers;
+    // console.log(profs);
 
-    for (const proficiencyKey of Object.keys(profs)) {
-      const proficiencyType = (profs as any)[proficiencyKey];
-      if (jQuery.isEmptyObject(proficiencyType)) continue;
-      const container = new HeroOptionsContainer(getProficiencyTitle(proficiencyKey));
-      containers.push(container);
+    // for (const proficiencyKey of Object.keys(profs)) {
+    //   const proficiencyType = (profs as any)[proficiencyKey];
+    //   if (jQuery.isEmptyObject(proficiencyType)) continue;
+    //   const container = new HeroOptionsContainer(getProficiencyContainerTitle(proficiencyKey));
+    //   containers.push(container);
 
-      for (const modeKey of Object.keys(proficiencyType)) {
-        const proficiency = (proficiencyType as any)[modeKey];
-        if (!proficiency) continue;
+    //   for (const modeKey of Object.keys(proficiencyType)) {
+    //     const proficiency = (proficiencyType as any)[modeKey];
+    //     if (!proficiency) continue;
 
-        const value: any = getValuesForProficiency(modeKey, proficiencyKey, proficiency);
-        if (modeKey === 'fixed') {
-          const formattedValue: string = !Array.isArray(value)
-            ? value
-            : (value as string[]).map((v) => v.capitalize()).join(', ');
-          container.options.push(
-            new FixedHeroOption(StepEnum.Race, `${proficiencyKey}.${modeKey}`, proficiency, formattedValue),
-          );
-        } else if (modeKey === 'any') {
-          const anyOptions: KeyValue[] = getAnyOptionsForProficiencyType(proficiencyKey);
-          if ((proficiency as number) > 1) {
-            container.options.push(
-              new MultiHeroOption(
-                StepEnum.Race,
-                'key',
-                anyOptions,
-                proficiency,
-                game.i18n.localize('HCT.Race.ProficiencyMulti'),
-              ),
-            );
-          } else {
-            container.options.push(new SelectableHeroOption(StepEnum.Race, 'key', anyOptions, ''));
-          }
-        } else if (modeKey === 'choose') {
-          const choose: ChoosableChoice<any> = value as any;
-          const selectableOptions: KeyValue[] = choose.options.map((opt: string) => ({
-            key: opt,
-            value: opt.capitalize(),
-          }));
-          if (choose.quantity > 1) {
-            container.options.push(
-              new MultiHeroOption(
-                StepEnum.Race,
-                `${proficiencyKey}.${modeKey}`,
-                selectableOptions,
-                choose.quantity,
-                game.i18n.localize('HCT.Race.ProficiencyMulti'),
-              ),
-            );
-          } else {
-            container.options.push(new SelectableHeroOption(StepEnum.Race, 'key', selectableOptions, ''));
-          }
-        }
-      }
+    //     const value: any = getValuesForProficiency(modeKey, proficiencyKey, proficiency);
+    //     if (modeKey === 'fixed') {
+    //       const formattedValue: string = !Array.isArray(value)
+    //         ? value
+    //         : (value as string[]).map((v) => getProficiencyName(proficiencyKey, v)).map((v) => v.capitalize()).join(', ');
+    //       container.options.push(
+    //         new FixedHeroOption(
+    //           StepEnum.Race,
+    //           getActorKeyForProficiency(proficiencyKey, proficiency),
+    //           proficiency,
+    //           formattedValue,
+    //         ),
+    //       );
+    //     } else if (modeKey === 'any') {
+    //       const anyOptions: KeyValue[] = getAnyOptionsForProficiencyType(proficiencyKey);
+    //       if ((proficiency as number) > 1) {
+    //         container.options.push(
+    //           new MultiHeroOption(
+    //             StepEnum.Race,
+    //             getActorKeyForProficiency(proficiencyKey, proficiency),
+    //             anyOptions,
+    //             proficiency,
+    //             game.i18n.localize('HCT.Race.ProficiencyMulti'),
+    //           ),
+    //         );
+    //       } else {
+    //         container.options.push(new SelectableHeroOption(
+    //           StepEnum.Race,
+    //           getActorKeyForProficiency(proficiencyKey, proficiency),
+    //           anyOptions,
+    //           ''
+    //         ));
+    //       }
+    //     } else if (modeKey === 'choose') {
+    //       const choose: ChoosableChoice<any> = value as any;
+    //       const selectableOptions: KeyValue[] = choose.options.custom!.map((opt: string) => ({
+    //         key: opt,
+    //         value: opt.capitalize(),
+    //       }));
+    //       if (choose.quantity > 1) {
+    //         container.options.push(
+    //           new MultiHeroOption(
+    //             StepEnum.Race,
+    //             getActorKeyForProficiency(proficiencyKey, proficiency),
+    //             selectableOptions,
+    //             choose.quantity,
+    //             game.i18n.localize('HCT.Race.ProficiencyMulti'),
+    //           ),
+    //         );
+    //       } else {
+    //         container.options.push(new SelectableHeroOption(
+    //           StepEnum.Race,
+    //           getActorKeyForProficiency(proficiencyKey, proficiency),
+    //           selectableOptions,
+    //           ''
+    //         ));
+    //       }
+    //     }
+    //   }
 
-      // DND5E.Languages
-    }
-    return containers;
+    //   // DND5E.Languages
+    // }
+    // return containers;
   }
 
   updateMovement() {
@@ -161,7 +183,7 @@ class _Race extends Step {
       (key) =>
         new FixedHeroOption(
           StepEnum.Race,
-          key,
+          `data.attributes.movement.${key}`,
           (mov as any)[key],
           game.i18n.localize(`DND5E.Movement${key.capitalize()}`) + ': ' + (mov as any)[key] + ' ft',
         ),
@@ -175,7 +197,7 @@ class _Race extends Step {
       (key) =>
         new FixedHeroOption(
           StepEnum.Race,
-          key,
+          `data.attributes.senses.${key}`,
           (senses as any)[key],
           game.i18n.localize(`DND5E.Sense${key.capitalize()}`) + ': ' + (senses as any)[key] + ' ft',
         ),
@@ -186,7 +208,7 @@ class _Race extends Step {
     const size: Size = this.race.size as Size;
     if (!size) return [];
     const sizeText = `${game.i18n.localize(SizeLabel[size])}`;
-    return [new FixedHeroOption(StepEnum.Race, 'size', size, sizeText)];
+    return [new FixedHeroOption(StepEnum.Race, 'data.traits.size', size, sizeText)];
   }
 
   updateAbilityScores() {
@@ -224,50 +246,70 @@ class _Race extends Step {
 const RaceTab: Step = new _Race();
 export default RaceTab;
 
-function getAnyOptionsForProficiencyType(proficiencyKey: string): KeyValue[] {
-  let anyOptions: KeyValue[] = [];
-  switch (proficiencyKey) {
-    case 'skills':
-      anyOptions = mapProficiency(Skill, SkillLabel);
-      break;
-    case 'weapons':
-      anyOptions = mapProficiency(WeaponType, WeaponTypeLabel);
-      break;
-    case 'armor':
-      anyOptions = mapProficiency(ArmorType, ArmorTypeLabel);
-      break;
-    case 'tools':
-      anyOptions = mapProficiency(Tool, ToolLabel);
-      break;
-  }
-  return anyOptions;
-}
+// function getAnyOptionsForProficiencyType(proficiencyKey: string): KeyValue[] {
+//   let anyOptions: KeyValue[] = [];
+//   switch (proficiencyKey) {
+//     case 'skills':
+//       anyOptions = mapProficiency(Skill, SkillLabel);
+//       break;
+//     case 'weapons':
+//       anyOptions = mapProficiency(WeaponType, WeaponTypeLabel);
+//       break;
+//     case 'armor':
+//       anyOptions = mapProficiency(ArmorType, ArmorTypeLabel);
+//       break;
+//     case 'tools':
+//       anyOptions = mapProficiency(Tool, ToolLabel);
+//       break;
+//   }
+//   return anyOptions;
+// }
 
-function getValuesForProficiency(modeKey: string, proficiencyKey: string, proficiency: any): any {
-  switch (modeKey) {
-    case 'fixed':
-      return getFixedProficiency(proficiencyKey, modeKey, proficiency);
-    case 'any':
-      return getAnyProficiency(proficiencyKey, modeKey, proficiency);
-    case 'choose':
-      return getProficiencyChoices(proficiencyKey, modeKey, proficiency);
-    default:
-      const errMsg = game.i18n.format('HCT.Race.InvalidProfKeys', {
-        modeKey: modeKey,
-        proficiencyKey: proficiencyKey,
-        proficiency: proficiency,
-      });
-      ui.notifications?.error(errMsg);
-      throw new Error(errMsg);
-  }
-}
+// function getValuesForProficiency(modeKey: string, proficiencyKey: string, proficiency: any): any {
+//   switch (modeKey) {
+//     case 'fixed':
+//     case 'any':
+//     case 'choose':
+//       return getProficiencyName(proficiencyKey, proficiency);
+//     default:
+//       const errMsg = game.i18n.format('HCT.Race.InvalidProfKeys', {
+//         modeKey: modeKey,
+//         proficiencyKey: proficiencyKey,
+//         proficiency: proficiency,
+//       });
+//       ui.notifications?.error(errMsg);
+//       throw new Error(errMsg);
+//   }
+// }
 
-function mapProficiency(profEnum: any, enumLabel: any) {
-  return Object.keys(profEnum).map((type) => ({
-    key: profEnum[type],
-    value: enumLabel[profEnum[type]],
-  }));
-}
+// function getActorKeyForProficiency(proficiencyKey: string, proficiencyValue: string): string {
+//   let actorKey = "data.traits.";
+//   console.log(`getting actor key for [${proficiencyKey}] with value:`);
+//   console.log(proficiencyValue);
+//   if (Array.isArray(proficiencyValue) && proficiencyValue.length == 1) {
+//     proficiencyValue = proficiencyValue[0];
+//   }
+//   switch (proficiencyKey) {
+//     case 'skills':
+//       break;
+//     case 'weapons':
+//       actorKey += Utils.isCustomKey(WeaponType, proficiencyValue) ? 'weaponProf.custom' : 'weaponProf.value';
+//       break;
+//     case 'armor':
+//       break;
+//     case 'tools':
+//       break;
+//   }
+//   console.log(`actorKey: [${actorKey}]`);
+//   return actorKey;
+// }
+
+// function mapProficiency(profEnum: any, enumLabel: any) {
+//   return Object.keys(profEnum).map((type) => ({
+//     key: profEnum[type],
+//     value: enumLabel[profEnum[type]],
+//   }));
+// }
 
 function setRaceOptions(races: Race[]) {
   const picker = $('[data-hct_race_picker]');
@@ -293,66 +335,39 @@ function setRaceOptions(races: Race[]) {
   }
 }
 
-function getFixedProficiency(typeKey: string, key: string, proficiency: any): any {
-  let value;
-  switch (typeKey) {
-    case 'skills':
-      value = SkillLabel[proficiency as Skill];
-      break;
-    case 'weapons':
-      value = WeaponTypeLabel[proficiency as WeaponType];
-      break;
-    case 'armor':
-      value = ArmorTypeLabel[proficiency as ArmorType];
-      break;
-    case 'tools':
-      value = ToolLabel[proficiency as Tool];
-      break;
-    default:
-      value = proficiency;
-  }
-  value = value === undefined ? proficiency : game.i18n.localize(value);
-  return value;
-}
+// function getProficiencyName(typeKey: string, proficiency: any): any {
+//   let value;
+//   switch (typeKey) {
+//     case 'skills':
+//       value = SkillLabel[proficiency as Skill];
+//       break;
+//     case 'weapons':
+//       value = WeaponTypeLabel[proficiency as WeaponType];
+//       break;
+//     case 'armor':
+//       value = ArmorTypeLabel[proficiency as ArmorType];
+//       break;
+//     case 'tools':
+//       value = ToolLabel[proficiency as Tool];
+//       break;
+//     default:
+//       value = proficiency;
+//   }
+//   value = value === undefined ? proficiency : game.i18n.localize(value);
+//   return value;
+// }
 
-function getAnyProficiency(typeKey: string, key: string, proficiency: any): any {
-  let value;
-  switch (typeKey) {
-    case 'skills':
-      value = SkillLabel[proficiency as Skill];
-      break;
-    case 'weapons':
-      value = WeaponTypeLabel[proficiency as WeaponType];
-      break;
-    case 'armor':
-      value = ArmorTypeLabel[proficiency as ArmorType];
-      break;
-    case 'tools':
-      value = ToolLabel[proficiency as Tool];
-      break;
-    default:
-      value = proficiency;
-  }
-  value = value === undefined ? proficiency : game.i18n.localize(value);
-  //return [`${typeKey}.${key}.ANY`, value];
-  return value;
-}
-
-function getProficiencyChoices(typeKey: string, key: string, proficiency: any): any {
-  //return [`${typeKey}.${key}.${proficiency}.ANY`, proficiency];
-  return proficiency;
-}
-function getProficiencyTitle(proficiencyKey: string): string {
-  switch (proficiencyKey) {
-    case 'skills':
-      return 'HCT.Race.SkillProficiencies';
-    case 'weapons':
-      return 'DND5E.TraitWeaponProf';
-    case 'armor':
-      return 'DND5E.TraitArmorProf';
-    case 'tools':
-      return 'DND5E.TraitToolProf';
-    default:
-      return '';
-  }
-}
+// function getProficiencyContainerTitle(proficiencyKey: string): string {
+//   switch (proficiencyKey) {
+//     case 'skills':
+//       return 'HCT.Race.SkillProficiencies';
+//     case 'weapons':
+//       return 'DND5E.TraitWeaponProf';
+//     case 'armor':
+//       return 'DND5E.TraitArmorProf';
+//     case 'tools':
+//       return 'DND5E.TraitToolProf';
+//     default:
+//       return '';
+//   }
+// }
