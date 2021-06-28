@@ -5,6 +5,7 @@ import { Size } from './types/Size';
 import { Condition } from './types/Condition';
 import { Skill } from './types/Skill';
 import { Language } from './types/Language';
+import { WeaponType } from './types/WeaponType';
 
 export async function setupRaces(): Promise<Race[]> {
   console.log(`${Constants.LOG_PREFIX} | Building races`);
@@ -19,7 +20,11 @@ export async function setupRaces(): Promise<Race[]> {
     },
     size: Size.Medium,
     movement: { walk: 30 },
-    languages: { fixed: [Language.Common, Language.Draconic] },
+    languages: {
+      fixed: {
+        value: [Language.Common, Language.Draconic],
+      },
+    },
   };
   races.push(dragonborn);
 
@@ -29,14 +34,16 @@ export async function setupRaces(): Promise<Race[]> {
     size: Size.Medium,
     movement: { walk: 25 },
     senses: { darkvision: 60 },
-    damage: { resistances: { fixed: [DamageType.poison] } },
-    languages: { fixed: [Language.Common, Language.Dwarvish] },
+    damage: {
+      resistances: { fixed: { value: [DamageType.poison] } },
+    },
+    languages: { fixed: { value: [Language.Common, Language.Dwarvish] } },
     proficiencies: {
-      weapons: { fixed: ['battleaxe', 'handaxe', 'light hammer', 'warhammer'] },
+      weapons: { fixed: { custom: ['battleaxe', 'handaxe', 'light hammer', 'warhammer'] } },
       tools: {
         choose: {
           quantity: 1,
-          options: ["smith's tools", "brewer's supplies", "mason's tools"],
+          options: { custom: ["smith's tools", "brewer's supplies", "mason's tools"] },
         },
       },
     },
@@ -61,20 +68,32 @@ export async function setupRaces(): Promise<Race[]> {
       ...new Race('Pepe Dwarf', dwarf),
       abilityScoreImprovements: { Int: 1 },
       proficiencies: {
-        skills: { fixed: [Skill.Perception] },
+        skills: {
+          fixed: {
+            value: [Skill.Perception],
+          },
+        },
         armor: {
           any: 1,
         },
         weapons: {
+          fixed: {
+            value: [WeaponType.Simple],
+            custom: ['battleaxe', 'warhammer'],
+          },
           choose: {
             quantity: 1,
-            options: ['longsword', 'shortsword', 'shortbow', 'longbow'],
+            options: {
+              custom: ['longsword', 'shortsword', 'shortbow', 'longbow'],
+            },
           },
         },
         tools: {
           choose: {
             quantity: 2,
-            options: ["smith's tools", "brewer's supplies", "mason's tools"],
+            options: {
+              custom: ["smith's tools", "brewer's supplies", "mason's tools"],
+            },
           },
         },
       },
@@ -90,9 +109,9 @@ export async function setupRaces(): Promise<Race[]> {
     size: Size.Medium,
     senses: { darkvision: 60 },
     movement: { walk: 30 },
-    languages: { fixed: [Language.Common, Language.Elvish] },
-    proficiencies: { skills: { fixed: [Skill.Perception] } },
-    condition: { advantage: { fixed: [Condition.charmed] } },
+    languages: { fixed: { value: [Language.Common, Language.Elvish] } },
+    proficiencies: { skills: { fixed: { value: [Skill.Perception] } } },
+    condition: { advantage: { fixed: { value: [Condition.charmed] } } },
   };
   races.push(elf);
 
@@ -102,7 +121,7 @@ export async function setupRaces(): Promise<Race[]> {
       ...new Race('High Elf', elf),
       abilityScoreImprovements: { Int: 1 },
       languages: { any: 1 },
-      proficiencies: { weapons: { fixed: ['longsword', 'shortsword', 'shortbow', 'longbow'] } },
+      proficiencies: { weapons: { fixed: { custom: ['longsword', 'shortsword', 'shortbow', 'longbow'] } } },
     },
     Constants.MERGE_OPTIONS,
   );
@@ -114,7 +133,7 @@ export async function setupRaces(): Promise<Race[]> {
     size: Size.Small,
     senses: { darkvision: 60 },
     movement: { walk: 25 },
-    languages: { fixed: [Language.Common, Language.Gnomish] },
+    languages: { fixed: { value: [Language.Common, Language.Gnomish] } },
   };
   races.push(gnome);
 
@@ -123,7 +142,7 @@ export async function setupRaces(): Promise<Race[]> {
     {
       ...new Race('Rock Gnome', gnome),
       abilityScoreImprovements: { Con: 1 },
-      proficiencies: { tools: { fixed: ["tinker's tools"] } },
+      proficiencies: { tools: { fixed: { custom: ["tinker's tools"] } } },
     },
     Constants.MERGE_OPTIONS,
   );
@@ -138,9 +157,9 @@ export async function setupRaces(): Promise<Race[]> {
     size: Size.Medium,
     senses: { darkvision: 60 },
     movement: { walk: 30 },
-    condition: { advantage: { fixed: [Condition.charmed] } },
+    condition: { advantage: { fixed: { value: [Condition.charmed] } } },
     languages: {
-      fixed: [Language.Common, Language.Elvish],
+      fixed: { value: [Language.Common, Language.Elvish] },
       any: 1,
     },
     proficiencies: { skills: { any: 2 } },
@@ -156,8 +175,8 @@ export async function setupRaces(): Promise<Race[]> {
     size: Size.Medium,
     senses: { darkvision: 60 },
     movement: { walk: 30 },
-    languages: { fixed: [Language.Common, Language.Orc] },
-    proficiencies: { skills: { fixed: [Skill.Intimidation] } },
+    languages: { fixed: { value: [Language.Common, Language.Orc] } },
+    proficiencies: { skills: { fixed: { value: [Skill.Intimidation] } } },
   };
   races.push(halfOrc);
 
@@ -166,8 +185,8 @@ export async function setupRaces(): Promise<Race[]> {
     abilityScoreImprovements: { Dex: 2 },
     size: Size.Small,
     movement: { walk: 25 },
-    condition: { advantage: { fixed: [Condition.charmed] } },
-    languages: { fixed: [Language.Common, Language.Halfling] },
+    condition: { advantage: { fixed: { value: [Condition.charmed] } } },
+    languages: { fixed: { value: [Language.Common, Language.Halfling] } },
   };
   races.push(halfling);
 
@@ -194,7 +213,7 @@ export async function setupRaces(): Promise<Race[]> {
     size: Size.Medium,
     movement: { walk: 30 },
     languages: {
-      fixed: [Language.Common],
+      fixed: { value: [Language.Common] },
       any: 1,
     },
   };
@@ -209,8 +228,8 @@ export async function setupRaces(): Promise<Race[]> {
     size: Size.Medium,
     senses: { darkvision: 60 },
     movement: { walk: 30 },
-    damage: { resistances: { fixed: [DamageType.fire] } },
-    languages: { fixed: [Language.Common, Language.Infernal] },
+    damage: { resistances: { fixed: { value: [DamageType.fire] } } },
+    languages: { fixed: { value: [Language.Common, Language.Infernal] } },
   };
   races.push(tiefling);
 

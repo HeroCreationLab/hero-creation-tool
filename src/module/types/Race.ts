@@ -6,12 +6,10 @@ import { Skill } from './Skill';
 import { WeaponType } from './WeaponType';
 import { ArmorType } from './ArmorType';
 import { Tool } from './Tool';
-import * as Utils from '../utils';
 import { CreatureType } from './CreatureType';
 
 export default class Race {
   name: string;
-  item: any = null;
   parentRace?: Race;
 
   abilityScoreImprovements: {
@@ -52,19 +50,28 @@ export default class Race {
   constructor(raceName: string, parentRace?: Race) {
     this.name = raceName;
     this.parentRace = parentRace;
-    this.item = Utils.getItemFromRaceCompendiumByName(raceName);
   }
 }
 
+export function getItemNames(race: Race) {
+  return race.parentRace ? [race.parentRace.name, race.name] : [race.name];
+}
+
 export interface Choosable<T> {
-  fixed?: T[] | string[];
+  fixed?: {
+    value?: T[];
+    custom?: string[];
+  };
   any?: number;
   choose?: ChoosableChoice<T>;
 }
 
 export interface ChoosableChoice<T> {
   quantity: number;
-  options: T[] | string[];
+  options: {
+    value?: T[];
+    custom?: string[];
+  };
 }
 
 export interface Movement {

@@ -2,18 +2,18 @@ import * as Constants from './constants';
 
 export default class HeroData {
   name?: string;
-  type: string;
-  img: string;
-  folder: any;
-  sort: number;
-  data: {
-    abilities: {
-      str: { value: number };
-      dex: { value: number };
-      con: { value: number };
-      int: { value: number };
-      wis: { value: number };
-      cha: { value: number };
+  type?: string;
+  img?: string;
+  folder?: any;
+  sort?: number;
+  data?: {
+    abilities?: {
+      str?: { value: number };
+      dex?: { value: number };
+      con?: { value: number };
+      int?: { value: number };
+      wis?: { value: number };
+      cha?: { value: number };
     };
     details?: {
       appearance?: string;
@@ -23,7 +23,7 @@ export default class HeroData {
     };
   };
   token?: any;
-  items?: any;
+  items?: Array<any>;
   flags?: any;
 
   constructor() {

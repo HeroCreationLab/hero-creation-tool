@@ -1,16 +1,11 @@
-// Class for utilitarian functions used in multiple places
-
-let raceCompendium: any;
-
-// TODO check if still necessary
 export async function getItemFromCompendiumByName(compendiumName: string, itemName: string) {
-  const compendium = await game.packs.get(compendiumName).getDocuments();
-  return compendium?.find((r: any) => r.data.name == itemName);
-}
+  // const compendium = await game.packs.get(compendiumName).getDocuments();
+  // return await compendium?.find((r: any) => r.data.name == itemName);
 
-export async function getItemFromRaceCompendiumByName(itemName: string) {
-  raceCompendium = raceCompendium ? raceCompendium : await game.packs.get('dnd5e.races').getDocuments();
-  return raceCompendium?.find((r: any) => r.data.name == itemName);
+  const pack = game.packs.get(compendiumName);
+  const index = (pack as any).index.getName(itemName);
+  const item = await (pack as any).getDocument(index._id);
+  return (game as any).items.fromCompendium(item);
 }
 
 export function getAbilityNameByKey(key: string) {
@@ -34,4 +29,11 @@ export function getValueFromInnerProperty(obj: any, key: string): any {
   }
   const currentKey: string = keyParts.shift() as string;
   return getValueFromInnerProperty((obj as any)[currentKey], keyParts.join('.'));
+}
+
+export function isCustomKey(keyList: any, value: string): boolean {
+  for (const key in keyList) {
+    if (keyList[key] === value) return false;
+  }
+  return true;
 }

@@ -143,7 +143,8 @@ async function rollAbilities() {
 
 function prepareStandardArray() {
   const values = [15, 14, 13, 12, 10, 8];
-  toggleAbilitySelects(true, true);
+  toggleAbilitySelects(false, false); // JUST FOR TEST
+  //toggleAbilitySelects(true, true);
   toggleAbilityInputs(false);
   togglePointBuyScore(false);
   toggleAbilityUpDownButtons(false, false);

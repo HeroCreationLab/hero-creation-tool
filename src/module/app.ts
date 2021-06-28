@@ -18,14 +18,11 @@ import { Step } from './Step';
 import { HeroOption } from './HeroOption';
 
 export default class App extends Application {
-  newActor: HeroData;
   actorId?: string;
   readonly steps: Array<Step>;
-  items: HeroOption[] = [];
 
   constructor() {
     super();
-    this.newActor = new HeroData();
     this.actorId = undefined;
     this.steps = [BasicsTab, AbilitiesTab, RaceTab, ClassTab, BackgroundTab, EquipmentTab, SpellsTab, BioTab];
   }
@@ -42,7 +39,9 @@ export default class App extends Application {
   async openForActor(actorId?: string) {
     console.log(`${Constants.LOG_PREFIX} | Opening for ${actorId ? 'actor id: ' + actorId : 'new actor'}`);
     if (actorId) this.actorId = actorId;
-    this.items = [];
+    for (const step of this.steps) {
+      step.clearOptions();
+    }
     this.render(true, { log: true });
   }
 
@@ -82,8 +81,9 @@ export default class App extends Application {
     }
   }
 
-  private buildActor() {
+  private async buildActor() {
     console.log(`${Constants.LOG_PREFIX} | Building actor`);
+    const newActor = new HeroData();
     let errors = false;
     // yeah, a loop label, sue me.
     mainloop: for (const step of this.steps) {
@@ -92,12 +92,11 @@ export default class App extends Application {
           errors = true;
           break mainloop;
         }
-        opt.applyToHero(this.newActor);
+        opt.applyToHero(newActor);
       }
     }
     if (!errors) {
-      // Creates new actor based on collected data
-      Actor.create(this.newActor);
+      Actor.create(newActor);
       this.close();
     }
   }
