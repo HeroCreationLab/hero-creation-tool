@@ -4,6 +4,7 @@ export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]>
   console.log(`${Constants.LOG_PREFIX} | Loading templates`);
 
   const templatePaths: string[] = [
+    Constants.MODULE_PATH + '/templates/nav.html',
     Constants.MODULE_PATH + '/templates/tabs/abilities.html',
     Constants.MODULE_PATH + '/templates/tabs/background.html',
     Constants.MODULE_PATH + '/templates/tabs/basics.html',

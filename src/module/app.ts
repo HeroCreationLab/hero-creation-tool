@@ -67,6 +67,8 @@ export default class App extends Application {
     $('[data-hct_submit]').on('click', (event) => {
       this.buildActor();
     });
+
+    Utils.openTab('startDiv');
   }
 
   async setupData() {
