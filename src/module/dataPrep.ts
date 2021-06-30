@@ -235,11 +235,3 @@ export async function setupRaces(): Promise<Race[]> {
 
   return races;
 }
-
-export async function setupClasses(): Promise<any[]> {
-  console.log(`${Constants.LOG_PREFIX} | Building classes`);
-  const compClasses = await game.packs.get('dnd5e.classes').getDocuments();
-  const compClassFeatures = await game.packs.get('dnd5e.classfeatures').getDocuments();
-  console.log(compClasses + compClassFeatures); // TODO remove this when implemented, its only to stop Typescript from complaining about unused vars
-  return [];
-}

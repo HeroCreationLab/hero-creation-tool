@@ -1,4 +1,5 @@
 import * as Constants from './constants';
+import { Settings } from './settings';
 
 export default class HeroData {
   name?: string;
@@ -27,6 +28,9 @@ export default class HeroData {
   flags?: any;
 
   constructor() {
+    const displayBarsSetting = game.settings.get(Constants.MODULE_NAME, Settings.TOKEN_BAR);
+    const displayNameSetting = game.settings.get(Constants.MODULE_NAME, Settings.TOKEN_NAME);
+
     this.type = 'character';
     this.img = Constants.MYSTERY_MAN;
     this.folder = null;
@@ -38,8 +42,8 @@ export default class HeroData {
       vision: true,
       dimSight: 0,
       bar1: { attribute: 'attributes.hp' },
-      displayBars: 20, //game.settings.get('hero-creation-tool', 'displayBarsMode'),
-      displayName: 20, //game.settings.get('hero-creation-tool', 'displayNameMode'),
+      displayBars: Number.parseInt(displayBarsSetting),
+      displayName: Number.parseInt(displayNameSetting),
     };
     this.data = {
       abilities: {

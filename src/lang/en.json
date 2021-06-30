@@ -1,79 +1,118 @@
 {
-  "HCT.Title": "Hero Creation Tool",
-  "HCT.ActorSheetCreateButton": "Hero Creation",
-  "HCT.Setting.TokenNameMode": "Token name display mode",
-  "HCT.Setting.TokenBarMode": "Token bar 1 display mode",
-  "HCT.List.DefaultOption": "Choose your {listType}",
-  "HCT.List.SpellDefaultOption": "Choose your spell",
-  "HCT.List.NoItemWithName": "No item with name: {itemName}",
-  "HCT.List.CantFindItem": "Could not find item with given parameters.",
-  "HCT.List.ChooseItem": "Choose your item",
-  "HCT.Common.SkillProficiencies": "Skill Proficiencies",
-  "HCT.Common.LanguageProficiencies": "Language Proficiencies",
-  "HCT.Common.ANY": "Any ",
-  "HCT.Common.Movement.walk": "Walking",
-  "HCT.Common.Movement.burrow": "Burrowing",
-  "HCT.Common.Movement.climb": "Climbing",
-  "HCT.Common.Movement.fly": "Flying",
-  "HCT.Common.Movement.swim": "Swimming",
-  "HCT.Common.Movement.hover": "Hover",
-  "HCT.Custom": "Custom",
-  "HCT.Next": "Next",
-  "HCT.Back": "Back",
-  "HCT.Submit": "Submit",
-  "HCT.Abilities.Title": "Abilities",
-  "HCT.Abilities.Info.p1": "Each of a creature’s abilities has a score, a number that defines the magnitude of that ability. An ability score is not just a measure of innate capabilities, but also encompasses a creature’s training and competence in activities related to that ability. A score of 10 or 11 is the normal human average, but adventurers and many monsters are a cut above average in most abilities. A score of 18 is the highest that a person usually reaches. Adventurers can have scores as high as 20, and monsters and divine beings can have scores as high as 30. Each ability also has a modifier, derived from the score and ranging from −5 (for an ability score of 1) to +10 (for a score of 30). The ",
-  "HCT.Abilities.Info.pTableTitle": "Ability Scores and Modifiers table",
-  "HCT.Abilities.Info.p2": " notes the ability modifiers for the range of possible ability scores, from 1 to 30.",
-  "HCT.Abilities.Info.AbilityScoresTable.Title": "Ability Scores and Modifiers",
-  "HCT.Abilities.Info.AbilityScoresTable.Score": "Score",
-  "HCT.Abilities.Info.AbilityScoresTable.Modifier": "Modifier",
-  "HCT.Abilities.Info.p3": "To determine an ability modifier without consulting the table, subtract 10 from the ability score and then divide the total by 2 (round down). Because ability modifiers affect almost every attack roll, ability check, and saving throw, ability modifiers come up in play more often than their associated scores.",
-  "HCT.Abilities.Buttons.Info": "Info",
-  "HCT.Abilities.Buttons.Roll": "Roll 4d6 keep 3",
-  "HCT.Abilities.Buttons.StandardArray": "Standard Array",
-  "HCT.Abilities.Buttons.PointBuy": "Point Buy",
-  "HCT.Abilities.Buttons.ManualEntry": "Manual Entry",
-  "HCT.Abilities.PointBuyScore": " Point Buy Score: ",
-  "HCT.Abilities.Select.Placeholder": "Select ability..",
-  "HCT.Abitilies.PointBuyOverLimit": "You have gone over the maximum points allowed for Point Buy",
-  "HCT.Abitilies.NotAllSixAbilities": "Hero doesn't have all six abilities scores or has some repeated one",
-  "HCT.Background.ChooseBackground": "Choose a Background",
-  "HCT.Basics.Title": "Basics",
-  "HCT.Basics.CharName": "Name",
-  "HCT.Basics.Avatar": "Avatar",
-  "HCT.Basics.Token": "Token",
-  "HCT.Basics.Preview": "Preview",
-  "HCT.Basics.PickButton": "Select",
-  "HCT.Basics.NoName": "Hero has no name",
-  "HCT.Bio.Age": "Age",
-  "HCT.Bio.Height": "Height",
-  "HCT.Bio.Weight": "Weight",
-  "HCT.Bio.Eyes": "Eyes",
-  "HCT.Bio.Hair": "Hair",
-  "HCT.Bio.Skin": "Skin",
-  "HCT.Bio.Biography": "Biography..",
-  "HCT.Equipment.HowToChoose": "How would you like to choose your equipment?",
-  "HCT.Equipment.Select.Default": "Choose",
-  "HCT.Equipment.Select.ClassEquipment": "Class Equipment",
-  "HCT.Equipment.Select.StartingGold": "Starting Wealth (PBH)",
-  "HCT.Equipment.FromBackground": "Equipment from Background",
-  "HCT.Equipment.StartingGold.Subtitle": "Starting Gold",
-  "HCT.Equipment.StartingGold.Hint": "You have chosen starting gold and do not get equipment from your background.",
-  "HCT.Race.RaceSelect.Default": "Please select your race",
-  "HCT.Race.ASI": "Ability Score Increase",
-  "HCT.Race.Proficiencies": "Proficiencies",
-  "HCT.Race.SkillProficiencies": "Skills",
-  "HCT.Race.ProficiencyMulti": "Proficiency in ",
-  "HCT.Race.ProficiencySelectPlaceholder": "Choose..",
-  "HCT.Race.UpdateValueLoadError": "Races not loaded for updating values",
-  "HCT.Race.RenderLoadError": "Races not loaded for render data",
-  "HCT.Race.InvalidProfKeys": "Invalid proficiency values for modeKey[{modeKey}], proficiencyKey[{proficiencyKey}] and proficiency[{proficiency}]",
-  "HCT.Start.Title": "Start",
-  "HCT.Start.Welcome": "Welcome to the Hero Creation Tool for DnD 5e",
-  "HCT.Start.p1": "The Hero Creation Tool is a step-by-step process for creating a character in your tabletop game. Changes are saved as you progress, but the character sheet is only updated upon completion.",
-  "HCT.Start.p2": "The Hero Creation Tool currently supports Dungeons & Dragons 5th Edition SRD material from the Players HandBook. You can add further content through the import function of the module (future implementation) or by creating custom modules in the creation tool.",
-  "HCT.Start.Remark": "Your Adventure Awaits! Get started by clicking Next.",
-  "HCT.Creation.RequiredOptionNotFulfilled": "Option {opt} is required but not fulfilled.",
-  "HCT.Stuff": "translation"
+  "HCT": {
+    "ActorsDirectoryButton": "Hero Creation Tool",
+    "WindowTitle": "Hero Creation",
+    "Setting": {
+      "TokenNameMode": {
+        "Name": "Token name display mode"
+      },
+      "TokenBarMode": {
+        "Name": "Token bar 1 display mode"
+      },
+      "ClassCompendiums": {
+        "Name": "Class compendiums",
+        "Hint": "Here you can define the name of a complementary compendium with other classes"
+      }
+    },
+    "Common": {
+      "Proficiencies": "Proficiencies",
+      "SkillProficiencies": "Skill Proficiencies",
+      "LanguageProficiencies": "Language Proficiencies",
+      "ANY": "Any ",
+      "Movement": {
+        "walk": "Walking",
+        "burrow": "Burrowing",
+        "climb": "Climbing",
+        "fly": "Flying",
+        "swim": "Swimming",
+        "hover": "Hover"
+      }
+    },
+    "Error": {
+      "UpdateValueLoad": "{value} not loaded for updating values",
+      "RenderLoad": "{value} not loaded for render data"
+    },
+    "List": {
+      "DefaultOption": "Choose your {listType}",
+      "SpellDefaultOption": "Choose your spell",
+      "NoItemWithName": "No item with name: {itemName}",
+      "CantFindItem": "Could not find item with given parameters.",
+      "ChooseItem": "Choose your item"
+    },
+    "Custom": "Custom",
+    "Next": "Next",
+    "Back": "Back",
+    "Submit": "Submit",
+    "Creation.RequiredOptionNotFulfilled": "Option {opt} is required but not fulfilled.",
+    "Start": {
+      "Title": "Start",
+      "Welcome": "Welcome to the Hero Creation Tool for DnD 5e",
+      "p1": "The Hero Creation Tool is a step-by-step process for creating a character in your tabletop game. Changes are saved as you progress, but the character sheet is only updated upon completion.",
+      "p2": "The Hero Creation Tool currently supports Dungeons & Dragons 5th Edition SRD material from the Players HandBook. You can add further content through the import function of the module (future implementation) or by creating custom modules in the creation tool.",
+      "Remark": "Your Adventure Awaits! Get started by clicking Next."
+    },
+    "Basics": {
+      "Title": "Basics",
+      "CharName": "Name",
+      "Avatar": "Avatar",
+      "Token": "Token",
+      "Preview": "Preview",
+      "PickButton": "Select",
+      "NoName": "Hero has no name"
+    },
+    "Race": {
+      "Select.Default": "Please select your race",
+      "ASI": "Ability Score Increase",
+      "SkillProficiencies": "Skills",
+      "ProficiencyMulti": "Proficiency in ",
+      "ProficiencySelectPlaceholder": "Choose..",
+      "InvalidProfKeys": "Invalid proficiency values for modeKey[{modeKey}], proficiencyKey[{proficiencyKey}] and proficiency[{proficiency}]"
+    },
+    "Class": {
+      "Select.Default": "Please select your class",
+      "SavingThrows": "Saving Throws",
+      "HitPoints": "Hit Points",
+      "HitPointsBlob": "<b>Hit Dice:</b> {value} per {className} level<br><b>Hit Points at 1st Level:</b> {max} + your Constitution modifier<br><b>Hit Points at Higher Levels:</b> {value} (or {average}) + your Constitution modifier per {className} level after 1st"
+    },
+    "Abilities": {
+      "Title": "Abilities",
+      "Buttons": {
+        "Info": "Info",
+        "Roll": "Roll 4d6 keep 3",
+        "StandardArray": "Standard Array",
+        "PointBuy": "Point Buy",
+        "ManualEntry": "Manual Entry"
+      },
+      "PointBuy": {
+        "Score": " Point Buy Score: ",
+        "OverLimit": "You have gone over the maximum points allowed for Point Buy"
+      },
+      "Select.Placeholder": "Select ability..",
+      "NotAllSixAbilities": "Hero doesn't have all six abilities scores or has some repeated one"
+    },
+    "Background": {
+      "ChooseBackground": "Choose a Background"
+    },
+    "Equipment": {
+      "HowToChoose": "How would you like to choose your equipment?",
+      "Select.Default": "Choose",
+      "Select.ClassEquipment": "Class Equipment",
+      "Select.StartingGold": "Starting Wealth (PBH)",
+      "FromBackground": "Equipment from Background",
+      "StartingGold.Subtitle": "Starting Gold",
+      "StartingGold.Hint": "You have chosen starting gold and do not get equipment from your background."
+    },
+    "Spells": {
+      "tbd": "tbd"
+    },
+    "Bio": {
+      "Age": "Age",
+      "Height": "Height",
+      "Weight": "Weight",
+      "Eyes": "Eyes",
+      "Hair": "Hair",
+      "Skin": "Skin",
+      "Biography": "Biography.."
+    }
+  }
 }

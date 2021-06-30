@@ -143,8 +143,7 @@ async function rollAbilities() {
 
 function prepareStandardArray() {
   const values = [15, 14, 13, 12, 10, 8];
-  toggleAbilitySelects(false, false); // JUST FOR TEST
-  //toggleAbilitySelects(true, true);
+  toggleAbilitySelects(true, true);
   toggleAbilityInputs(false);
   togglePointBuyScore(false);
   toggleAbilityUpDownButtons(false, false);
@@ -198,7 +197,7 @@ function changeAbility(i: string, up: boolean) {
       $('#up' + j).prop('disabled', disableUp);
       $('#down' + j).prop('disabled', disableDown);
     }
-    if (newPoints > maxPoints) alert(game.i18n.localize('HCT.Abitilies.PointBuyOverLimit'));
+    if (newPoints > maxPoints) alert(game.i18n.localize('HCT.Abitilies.PointBuy.OverLimit'));
   } else {
     if (newValue == 20) {
       $('#up' + i).prop('disabled', true);

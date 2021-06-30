@@ -1,8 +1,23 @@
+export async function getItemListFromCompendiumByName(compendiumName: string) {
+  const pack = game.packs.get(compendiumName);
+  const items: Item[] = [];
+  for (const itemIndex of pack.index.keys()) {
+    items.push(pack.getDocument(itemIndex));
+  }
+  return await (await Promise.all(items)).map((i) => game.items.fromCompendium(i));
+}
+
 export async function getItemFromCompendiumByName(compendiumName: string, itemName: string) {
   const pack = game.packs.get(compendiumName);
-  const index = (pack as any).index.getName(itemName);
-  const item = await (pack as any).getDocument(index._id);
-  return (game as any).items.fromCompendium(item);
+  const index = pack.index.getName(itemName);
+  const item = await pack.getDocument(index._id);
+  return game.items.fromCompendium(item);
+}
+
+export async function getItemFromCompendiumByIndexId(compendiumName: string, itemId: string) {
+  const pack = game.packs.get(compendiumName);
+  const item = await pack.getDocument(itemId);
+  return game.items.fromCompendium(item);
 }
 
 export function getAbilityNameByKey(key: string) {

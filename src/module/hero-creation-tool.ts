@@ -14,10 +14,11 @@ Hooks.once('init', async () => {
 
 Hooks.on('renderApp', async function (app: any, html: any, data: any) {
   if (app.options.title == 'Hero Creation') {
-    if (app._priorState == 0) {
-      console.log(`${Constants.LOG_PREFIX} | Setting up data-derived elements`);
-      await moduleApp.setupData();
-    }
+    // if (app._priorState == 0) {
+    //   // first start, if we need to calculate something ?
+    // }
+    console.log(`${Constants.LOG_PREFIX} | Setting up data-derived elements`);
+    await moduleApp.setupData();
     moduleApp.renderChildrenData();
   }
 });
@@ -29,7 +30,7 @@ Hooks.on('renderActorDirectory', () => {
     .first()
     .prepend(
       `<button class='header-hct-button' data-hct_start><i class='fas fa-dice-d20'></i>${game.i18n.localize(
-        'HCT.Title',
+        'HCT.ActorsDirectoryButton',
       )}</button>`,
     );
   $('[data-hct_start]').on('click', function () {
