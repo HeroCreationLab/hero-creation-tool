@@ -1,7 +1,4 @@
 export async function getItemFromCompendiumByName(compendiumName: string, itemName: string) {
-  // const compendium = await game.packs.get(compendiumName).getDocuments();
-  // return await compendium?.find((r: any) => r.data.name == itemName);
-
   const pack = game.packs.get(compendiumName);
   const index = (pack as any).index.getName(itemName);
   const item = await (pack as any).getDocument(index._id);
@@ -17,8 +14,11 @@ export function modifierSign(val: number) {
 }
 
 export function openTab(id: string): void {
+  $('.hct-container .tabs').toggle(id !== 'startDiv'); // hides the tabs if switching to startDiv, else show them.
+
   $('.tab-body').hide();
   $('.tablinks').removeClass('active');
+  $(`[data-hct_tab=${id}]`).addClass('active');
   $(`#${id}`).show();
 }
 

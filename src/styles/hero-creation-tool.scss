@@ -13,8 +13,8 @@
 }
 
 .hct {
-  &_race {
-    &_icon {
+  &-race {
+    &-icon {
       width: 48px;
       height: 48px;
     }
@@ -168,10 +168,8 @@
 /* ## Create an active/current tablink class */
 
 .tabs button.active {
-  border-radius: 50px;
-  transform: scale(1.08) translateY(-5px);
-  text-decoration: underline;
-  text-shadow: 0 0 5px red;
+  background: #fff;
+  border-bottom: 4px solid #c00;
 }
 
 /* ## Equipment */
