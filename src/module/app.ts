@@ -30,13 +30,13 @@ export default class App extends Application {
   static get defaultOptions() {
     const options = super.defaultOptions;
     options.template = Constants.MODULE_PATH + '/templates/app.html';
-    options.width = 700;
-    options.height = 700;
-    options.title = 'Hero Creation';
+    options.width = 720;
+    options.height = 680;
     return options;
   }
 
   async openForActor(actorId?: string) {
+    this.options.title = game.i18n.localize('HCT.WindowTitle');
     console.log(`${Constants.LOG_PREFIX} | Opening for ${actorId ? 'actor id: ' + actorId : 'new actor'}`);
     if (actorId) this.actorId = actorId;
     for (const step of this.steps) {

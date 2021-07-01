@@ -2,9 +2,24 @@
     <h1 class='tab-header'>{{localize 'ITEM.TypeClass'}}</h1>
 
     <main class='tab-content'>
-        <select id="class-dropdown" name="class">
-            <option value="class">this should be a list of classes</option>
+        <img class="hct-icon" title="classIcon" src="icons/svg/mystery-man.svg" data-hct_class_icon>
+        <select class='hct_picker' , data-hct_class_picker>
+            <option value="" disabled selected hidden> {{localize 'HCT.Class.Select.Default'}} </option>
         </select>
+        <div data-hct_class_data>
+            <div data-hct_class_area="hit-points">
+                <h2>{{localize 'HCT.Class.HitPoints'}}</h2>
+                <section class='hct_class_data_elem' data-hct_class_hit_points></section>
+            </div>
+            <div data-hct_class_area="proficiencies">
+                <h2>{{localize 'HCT.Common.Proficiencies'}}</h2>
+                <section class='hct_class_data_elem' data-hct_class_proficiencies></section>
+            </div>
+            <div data-hct_class_area="saving-throws">
+                <h2>{{localize 'HCT.Class.SavingThrows'}}</h2>
+                <section class='hct_class_data_elem' data-hct_class_saving_throws></section>
+            </div>
+        </div>
     </main>
 
     <footer class='tab-footer'>

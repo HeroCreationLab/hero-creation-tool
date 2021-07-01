@@ -79,10 +79,18 @@ const game = {
         })
     },
     scenes: null,
+    items: {
+        fromCompendium: jest.fn(),
+    },
     packs: {
         get: jest.fn((packageName: string) => {
             return {
-                getDocuments: jest.fn()
+                getDocuments: jest.fn(),
+                getDocument: jest.fn(),
+                index: {
+                    keys: jest.fn(),
+                    getName: jest.fn(),
+                }
             }
         })
     }

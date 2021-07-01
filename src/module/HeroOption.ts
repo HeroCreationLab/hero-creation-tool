@@ -22,7 +22,13 @@ const apply = (existingData: HeroData, key: string, value: any, addValues: boole
   if (addValues) {
     // find any previous value on existing data
     dataSnapshot[key] = getValueFromInnerProperty(existingData, key);
-    value = dataSnapshot[key] ? dataSnapshot[key] + value : value;
+    if (dataSnapshot[key]) {
+      if (Array.isArray(dataSnapshot[key])) {
+        value = dataSnapshot[key].concat(...value);
+      } else {
+        value = dataSnapshot[key] + value;
+      }
+    }
   }
   dataSnapshot[key] = value;
   mergeObject(existingData, dataSnapshot, Constants.MERGE_OPTIONS);
@@ -54,7 +60,7 @@ export class FixedHeroOption implements HeroOption {
     apply(actor, this.key, this.value(), this.addValues);
   }
 
-  private $elem = $('<p>').text(`${this.textToShow}`);
+  private $elem = $('<p>').html(`${this.textToShow}`);
 
   /**
    * Builds the HTML element for this option and appends it to the parent

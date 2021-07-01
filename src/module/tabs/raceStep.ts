@@ -39,14 +39,14 @@ class _Race extends Step {
         this.race = this.races.filter((r) => r.name === raceName)[0];
         const resolvedRaceItems = await Promise.all(
           getItemNames(this.race).map((itemName) => {
-            return Utils.getItemFromCompendiumByName(Constants.DND5E_COMPENDIUM_RACES, itemName);
+            return Utils.getItemFromCompendiumByName(Constants.DND5E_COMPENDIUMS.RACES, itemName);
           }),
         );
         this.updateValuesForRace(raceName as string, resolvedRaceItems);
 
         // update icon
         $('[data-hct_race_icon]').attr('src', resolvedRaceItems[resolvedRaceItems.length - 1].img);
-      } else ui.notifications!.error(game.i18n.localize('HCT.Race.UpdateValueLoadError'));
+      } else ui.notifications!.error(game.i18n.format('HCT.Error.UpdateValueLoad', { value: 'Races' }));
     });
   }
 
@@ -57,10 +57,11 @@ class _Race extends Step {
   renderData(): void {
     $('[data-hct_race_data]').hide();
     if (this.races) setRaceOptions(this.races);
-    else ui.notifications!.error(game.i18n.localize('HCT.Race.RenderLoadError'));
+    else ui.notifications!.error(game.i18n.format('HCT.Error.RenderLoad', { value: 'Races' }));
   }
 
   updateValuesForRace(raceName: string, raceItems: any[]) {
+    this.clearOptions();
     $('[data-hct_race_area]').each((i, area) => {
       const $area = $(area).hide();
       const areaName = $area.data('hct_race_area') as string;
@@ -76,7 +77,7 @@ class _Race extends Step {
     // Condition interactions
     this.$context.show();
 
-    this.stepOptions.push(new HiddenHeroOption(StepEnum.Race, 'items', raceItems));
+    this.stepOptions.push(new HiddenHeroOption(StepEnum.Race, 'items', raceItems, true));
     this.stepOptions.push(new HiddenHeroOption(StepEnum.Race, 'data.details.race', raceName));
   }
 
