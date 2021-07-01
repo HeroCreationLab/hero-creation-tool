@@ -98,6 +98,10 @@ export default class App extends Application {
       }
     }
     if (!errors) {
+      console.log(newActor);
+      // calculate whatever needs inter-tab values like HP
+      calculateStartingHp(newActor);
+
       Actor.create(newActor);
       this.close();
     }
@@ -114,4 +118,16 @@ export default class App extends Application {
     }
     return false;
   }
+}
+function calculateStartingHp(newActor: HeroData) {
+  const totalCon = newActor.data?.abilities?.con?.value;
+  const raceAndConHp: number = totalCon ? Utils.getAbilityModifierValue(totalCon) : 0;
+  const classHp: number = newActor.data?.attributes.hp.max
+    ? Number.parseInt(newActor.data?.attributes.hp.max as any)
+    : 10;
+
+  const startingHp = raceAndConHp + classHp;
+  console.log(`Starting HP: ${startingHp}`);
+  newActor.data!.attributes.hp.max = startingHp;
+  newActor.data!.attributes.hp.value = startingHp;
 }

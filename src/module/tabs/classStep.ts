@@ -36,13 +36,11 @@ class _Class extends Step {
 
   async setSourceData() {
     const items: Item[] = await Utils.getItemListFromCompendiumByName(Constants.DND5E_COMPENDIUMS.CLASSES);
-    console.log(items);
     const customPack = await game.settings.get(Constants.MODULE_NAME, Settings.CLASS_PACKS);
     if (customPack) {
       const customClasses = await Utils.getItemListFromCompendiumByName(customPack);
       items.push(...customClasses);
     }
-    console.log(`setting source data with items ${items}`);
     this.classes = items?.sort((a, b) => a.name.localeCompare(b.name));
     if (this.classes) setClassPickerOptions(this.classes);
     else ui.notifications!.error(game.i18n.format('HCT.Error.RenderLoad', { value: 'Classes' }));
@@ -90,7 +88,6 @@ function updateClass(classItem: any, $section: JQuery): HeroOption[] {
   options.push(new HiddenHeroOption(ClassTab.step, 'items', [classItem], true));
 
   // hit points
-  const $hitPointSection = $('section', $('[data-hct_class_area=hit-points]', $context)).empty();
   const hitDice = new HitDice(classItem.data.hitDice);
   const textBlob = game.i18n.format('HCT.Class.HitPointsBlob', {
     value: hitDice.getVal(),
@@ -98,13 +95,32 @@ function updateClass(classItem: any, $section: JQuery): HeroOption[] {
     average: hitDice.getAvg(),
     className: classItem.name,
   });
-  const hitPointsOption = new FixedHeroOption(ClassTab.step, 'key', hitDice.getMax(), textBlob);
+  const hitPointsOption = new FixedHeroOption(
+    ClassTab.step,
+    'data.attributes.hp.max',
+    hitDice.getMax(),
+    textBlob,
+    true,
+  );
+  const $hitPointSection = $('section', $('[data-hct_class_area=hit-points]', $context)).empty();
   hitPointsOption.render($hitPointSection);
   options.push(hitPointsOption);
 
   // proficiencies
 
   // saving throws
+  const savingThrows: string[] = classItem.data.saves;
+  const $savingThrowsSection = $('section', $('[data-hct_class_area=saving-throws]', $context)).empty();
+  savingThrows.forEach((save) => {
+    const savingThrowOption = new FixedHeroOption(
+      ClassTab.step,
+      `data.abilities.${save}.proficient`,
+      1,
+      Utils.getAbilityNameByKey(save),
+    );
+    savingThrowOption.render($savingThrowsSection);
+    options.push(savingThrowOption);
+  });
 
   $('[data-hct_class_data]').show();
   return options;

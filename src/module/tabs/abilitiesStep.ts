@@ -267,7 +267,7 @@ function toggleAbilityUpDownButtons(show: boolean, enableDown: boolean) {
 function updateAbilityModifiers() {
   for (let i = 0; i < 6; i++) {
     const num = parseInt($('#number' + (i + 1)).val() as string);
-    const mod = Math.floor((num - 10) / 2);
+    const mod = Utils.getAbilityModifierValue(num);
     const id = 'mod' + (i + 1);
     (document.getElementById(id) as any).innerHTML = (mod >= 0 ? '+' + mod : mod) + '';
   }

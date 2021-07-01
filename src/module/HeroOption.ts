@@ -26,7 +26,11 @@ const apply = (existingData: HeroData, key: string, value: any, addValues: boole
       if (Array.isArray(dataSnapshot[key])) {
         value = dataSnapshot[key].concat(...value);
       } else {
-        value = dataSnapshot[key] + value;
+        if (!isNaN(value)) {
+          value = Number.parseInt(dataSnapshot[key]) + Number.parseInt(value);
+        } else {
+          console.error('Expected to add value to previous, but value is not a number');
+        }
       }
     }
   }

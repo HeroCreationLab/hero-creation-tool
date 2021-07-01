@@ -14,7 +14,7 @@ import {
   HiddenHeroOption,
 } from '../HeroOption';
 import * as DataPrep from '../dataPrep';
-import { AbilityScore, AbilityScoreLabel } from '../types/AbilityScore';
+import { Ability, AbilityScoreLabel } from '../types/Ability';
 
 type updateMethodType = () => HeroOption[] | HeroOptionsContainer[];
 //type KeyValue = { key: string; value: string };
@@ -219,7 +219,7 @@ class _Race extends Step {
     for (const key of Object.keys(asis)) {
       const asi: number = (asis as any)[key];
       if (Array.isArray(asi)) {
-        const asiList: { key: string; value: string }[] = Object.values(AbilityScore).map((a) => ({
+        const asiList: { key: string; value: string }[] = Object.values(Ability).map((a) => ({
           key: a,
           value: game.i18n.localize(AbilityScoreLabel[a]),
         }));
