@@ -22,6 +22,12 @@ export default class HeroData {
         value: string;
       };
     };
+    attributes: {
+      hp: {
+        value: number;
+        max: number;
+      };
+    };
   };
   token?: any;
   items?: Array<any>;
@@ -53,6 +59,12 @@ export default class HeroData {
         int: { value: 0 },
         wis: { value: 0 },
         cha: { value: 0 },
+      },
+      attributes: {
+        hp: {
+          value: 0,
+          max: 0,
+        },
       },
     };
   }
