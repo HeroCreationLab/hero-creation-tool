@@ -1,10 +1,10 @@
 {
   "name": "hero-creation-tool",
   "title": "Hero Creation Tool for DnD5E",
-  "description": "A foundry version of the roll20 Charactermancer",
+  "description": "A step-by-step tool for creating player characters with race, class, etc.",
   "version": "0.0.3",
-  "minimumCoreVersion": "0.8.1",
-  "compatibleCoreVersion": "0.8.1",
+  "minimumCoreVersion": "0.8.8",
+  "compatibleCoreVersion": "0.8.8",
   "esmodules": ["module/hero-creation-tool.js"],
   "styles": ["styles/hero-creation-tool.css"],
   "packs": [],
@@ -17,12 +17,15 @@
     }
   ],
   "url": "https://github.com/AndrewJiangB/hero-creation-tool",
-  "license": "https://domain.com/my/project/{{name}}/LICENSE",
+  "license": "https://github.com/AndrewJiangB/hero-creation-tool/LICENSE",
   "manifest": "https://domain.com/my/project/{{name}}/bundle/module.json",
   "download": "https://domain.com/my/project/{{name}}/bundle/{{name}}.zip",
-  "readme": "https://domain.com/my/project/{{name}}/README.md",
-  "changelog": "https://domain.com/my/project/{{name}}/CHANGELOG.md",
-  "bugs": "",
+  "readme": "https://github.com/AndrewJiangB/hero-creation-tool/README.md",
+  "changelog": "https://github.com/AndrewJiangB/hero-creation-tool/CHANGELOG.md",
+  "bugs": "https://github.com/AndrewJiangB/hero-creation-tool/issues",
+  "flags": {
+    "allowBugReporter": true
+  },
   "system": ["dnd5e"],
   "authors": [
     {
