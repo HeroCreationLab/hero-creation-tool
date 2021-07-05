@@ -106,7 +106,7 @@ export class SelectableHeroOption implements HeroOption {
 
   $elem: JQuery = $(`<select>
         <option value="" selected disabled hidden>${game.i18n.localize(
-          'HCT.Race.ProficiencySelectPlaceholder',
+          'HCT.Common.ProficiencySelectPlaceholder',
         )}</option>
       ${this.options.map((option) => `<option value="${option.key}">${game.i18n.localize(option.value)}</option>`)}
     </select>`);
@@ -150,7 +150,7 @@ export class MultiHeroOption implements HeroOption {
   }
 
   applyToHero(actor: HeroData) {
-    apply(actor, this.key, this.value(), this.addValues);
+    this.value().forEach((v) => apply(actor, this.key.replace('$VALUE$', v), 1, this.addValues));
   }
 
   $elem: JQuery = $();
@@ -161,7 +161,7 @@ export class MultiHeroOption implements HeroOption {
    */
   render(parent: JQuery): void {
     this.$elem = $(`<fieldset>
-        <legend>${this.label}(${this.quantity})</legend>
+        <legend>${this.label} (${this.quantity})</legend>
           ${this.options
             .map(
               (option) =>

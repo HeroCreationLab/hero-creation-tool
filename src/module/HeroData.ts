@@ -28,6 +28,26 @@ export default class HeroData {
         max: number;
       };
     };
+    skills: {
+      acr: { value: number };
+      ani: { value: number };
+      arc: { value: number };
+      ath: { value: number };
+      dec: { value: number };
+      his: { value: number };
+      ins: { value: number };
+      inv: { value: number };
+      itm: { value: number };
+      med: { value: number };
+      nat: { value: number };
+      per: { value: number };
+      prc: { value: number };
+      prf: { value: number };
+      rel: { value: number };
+      slt: { value: number };
+      ste: { value: number };
+      sur: { value: number };
+    };
   };
   token?: any;
   items?: Array<any>;
@@ -65,6 +85,26 @@ export default class HeroData {
           value: 0,
           max: 0,
         },
+      },
+      skills: {
+        acr: { value: 0 },
+        ani: { value: 0 },
+        arc: { value: 0 },
+        ath: { value: 0 },
+        dec: { value: 0 },
+        his: { value: 0 },
+        ins: { value: 0 },
+        inv: { value: 0 },
+        itm: { value: 0 },
+        med: { value: 0 },
+        nat: { value: 0 },
+        per: { value: 0 },
+        prc: { value: 0 },
+        prf: { value: 0 },
+        rel: { value: 0 },
+        slt: { value: 0 },
+        ste: { value: 0 },
+        sur: { value: 0 },
       },
     };
   }
