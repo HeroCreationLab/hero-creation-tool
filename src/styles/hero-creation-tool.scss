@@ -1,3 +1,5 @@
+$margin-small: 10px;
+
 .header-hct-button {
   margin: 2px;
   width: 97%;
@@ -18,6 +20,38 @@
     border-radius: 5px;
     width: 48px;
     height: 48px;
+  }
+
+  &-panel-container {
+    display: flex;
+  }
+  &-panel-left {
+    min-width: 230px;
+    margin-right: 15px;
+  }
+  &-panel-right {
+    width: 100%;
+  }
+
+  &-selector-with-icon {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: $margin-small;
+  }
+
+  &_picker {
+    margin: 0 0 $margin-small $margin-small;
+  }
+
+  /* ## Scrollable Textareas */
+  &-infoArea {
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.3);
+    transition: all 0.3s;
+    &:hover {
+      box-shadow: 0 0 5px black;
+      background: rgba(255, 255, 255, 0.5);
+    }
   }
 }
 
@@ -94,24 +128,6 @@
   justify-content: space-between;
 }
 
-/* ## Scrollable Textareas */
-
-.infoArea {
-  border-spacing: 10px;
-  border-spacing: 15px;
-  border-collapse: seperate;
-  padding: 5px;
-  height: inherit;
-  margin-left: 50px;
-  background: rgba(255, 255, 255, 0.3);
-  transition: all 0.3s;
-}
-
-.infoArea:hover {
-  box-shadow: 0 0 5px black;
-  background: rgba(255, 255, 255, 0.5);
-}
-
 /* ## Style the buttons inside the tab */
 
 .tablinks {
@@ -126,14 +142,6 @@
   font-size: 1.25rem;
   display: inline-block;
   text-align: center;
-}
-
-.light-pane {
-  display: inline-block;
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 20px;
-  padding: 20px;
-  margin: 20px;
 }
 
 .horizontal-flex {
@@ -154,15 +162,13 @@
 /* ## Change background color of buttons on hover */
 
 .tabs button:hover {
-  transform: scale(1.08) translateY(-5px);
+  transform: scale(1.08); // translateY(-5px);
   box-shadow: none;
   text-shadow: 0 0 5px red;
 }
 
 .tabs button:focus {
   box-shadow: none;
-  transform: scale(1.08) translateY(-5px);
-  text-shadow: 0 0 5px red;
 }
 
 /* ## Create an active/current tablink class */
@@ -170,6 +176,8 @@
 .tabs button.active {
   background-color: rgba(255, 255, 255, 0.5);
   border-bottom: 4px solid #c00;
+  transform: scale(1.08);
+  text-shadow: 0 0 5px red;
 }
 
 /* ## Equipment */
@@ -335,10 +343,6 @@
 
 .justified-text {
   text-align: justify;
-}
-
-.hct_picker {
-  margin-bottom: 10px;
 }
 
 .hct_picker_primary {

@@ -1,38 +1,45 @@
 <section id="raceDiv" class="tab-body apply-header-font">
-    <main class='tab-content'>
-        <img class="hct-icon" title="raceIcon" src="icons/svg/mystery-man.svg" data-hct_race_icon>
-        <select class='hct_picker' , data-hct_race_picker>
-            <option value="" disabled selected hidden> {{localize 'HCT.Race.Select.Default'}} </option>
-        </select>
-        <div data-hct_race_data>
-            <!-- filled by tabs/race.ts -->
-            <div data-hct_race_area="abilityScores">
-                <h2>{{localize 'HCT.Race.ASI'}}</h2>
-                <section class='hct_race_data_elem' data-hct_race_abilityScoreImprovements></section>
+    <main class='tab-content hct-panel-container'>
+        <div class="hct-panel-left">
+            <div class="hct-selector-with-icon">
+                <img class="hct-icon" title="raceIcon" src="icons/svg/mystery-man.svg" data-hct_race_icon>
+                <select class='hct_picker' , data-hct_race_picker>
+                    <option value="" disabled selected hidden> {{localize 'HCT.Race.Select.Default'}} </option>
+                </select>
             </div>
+            <div data-hct_race_data>
+                <!-- filled by tabs/race.ts -->
+                <div data-hct_race_area="abilityScores">
+                    <h2>{{localize 'HCT.Race.ASI'}}</h2>
+                    <section class='hct_race_data_elem' data-hct_race_abilityScoreImprovements></section>
+                </div>
 
-            <div data-hct_race_area="size">
-                <h2>{{localize 'DND5E.Size'}}</h2>
-                <section class='hct_race_data_elem' data-hct_race_size></section>
+                <div data-hct_race_area="size">
+                    <h2>{{localize 'DND5E.Size'}}</h2>
+                    <section class='hct_race_data_elem' data-hct_race_size></section>
+                </div>
+
+                <div data-hct_race_area="senses">
+                    <h2>{{localize 'DND5E.Senses'}}</h2>
+                    <section class='hct_race_data_elem' data-hct_race_senses></section>
+                </div>
+
+                <div data-hct_race_area="movement">
+                    <h2>{{localize 'DND5E.Movement'}}</h2>
+                    <section class='hct_race_data_elem' data-hct_race_movement></section>
+                </div>
+
+                <div data-hct_race_area="proficiencies">
+                    <h2>{{localize 'HCT.Common.Proficiencies'}}</h2>
+                    <section class='hct_race_data_elem' data-hct_race_proficiencies></section>
+                </div>
+
+                <!-- <h2>Language Proficiencies</h2> -->
+                <!-- <div id="race-language" name="race-language"></div> -->
             </div>
-
-            <div data-hct_race_area="senses">
-                <h2>{{localize 'DND5E.Senses'}}</h2>
-                <section class='hct_race_data_elem' data-hct_race_senses></section>
-            </div>
-
-            <div data-hct_race_area="movement">
-                <h2>{{localize 'DND5E.Movement'}}</h2>
-                <section class='hct_race_data_elem' data-hct_race_movement></section>
-            </div>
-
-            <div data-hct_race_area="proficiencies">
-                <h2>{{localize 'HCT.Common.Proficiencies'}}</h2>
-                <section class='hct_race_data_elem' data-hct_race_proficiencies></section>
-            </div>
-
-            <!-- <h2>Language Proficiencies</h2> -->
-            <!-- <div id="race-language" name="race-language"></div> -->
+        </div>
+        <div class="hct-panel-right hct-infoArea" data-hct_race_description>
+            {{ localize 'HCT.Race.DescriptionPlaceholder' }}
         </div>
 
     </main>

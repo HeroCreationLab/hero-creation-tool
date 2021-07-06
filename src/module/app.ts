@@ -98,7 +98,6 @@ export default class App extends Application {
       }
     }
     if (!errors) {
-      console.log(newActor);
       // calculate whatever needs inter-tab values like HP
       calculateStartingHp(newActor);
 
@@ -127,7 +126,6 @@ function calculateStartingHp(newActor: HeroData) {
     : 10;
 
   const startingHp = raceAndConHp + classHp;
-  console.log(`Starting HP: ${startingHp}`);
   newActor.data!.attributes.hp.max = startingHp;
   newActor.data!.attributes.hp.value = startingHp;
 }

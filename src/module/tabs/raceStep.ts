@@ -44,8 +44,9 @@ class _Race extends Step {
         );
         this.updateValuesForRace(raceName as string, resolvedRaceItems);
 
-        // update icon
+        // update icon and description
         $('[data-hct_race_icon]').attr('src', resolvedRaceItems[resolvedRaceItems.length - 1].img);
+        $('[data-hct_race_description]').html(resolvedRaceItems[resolvedRaceItems.length - 1].data.description.value);
       } else ui.notifications!.error(game.i18n.format('HCT.Error.UpdateValueLoad', { value: 'Races' }));
     });
   }
@@ -134,7 +135,7 @@ class _Race extends Step {
     //             getActorKeyForProficiency(proficiencyKey, proficiency),
     //             anyOptions,
     //             proficiency,
-    //             game.i18n.localize('HCT.Race.ProficiencyMulti'),
+    //             game.i18n.localize('HCT.Common.ProficiencyMulti'),
     //           ),
     //         );
     //       } else {
@@ -158,7 +159,7 @@ class _Race extends Step {
     //             getActorKeyForProficiency(proficiencyKey, proficiency),
     //             selectableOptions,
     //             choose.quantity,
-    //             game.i18n.localize('HCT.Race.ProficiencyMulti'),
+    //             game.i18n.localize('HCT.Common.ProficiencyMulti'),
     //           ),
     //         );
     //       } else {
@@ -281,28 +282,6 @@ export default RaceTab;
 //       ui.notifications?.error(errMsg);
 //       throw new Error(errMsg);
 //   }
-// }
-
-// function getActorKeyForProficiency(proficiencyKey: string, proficiencyValue: string): string {
-//   let actorKey = "data.traits.";
-//   console.log(`getting actor key for [${proficiencyKey}] with value:`);
-//   console.log(proficiencyValue);
-//   if (Array.isArray(proficiencyValue) && proficiencyValue.length == 1) {
-//     proficiencyValue = proficiencyValue[0];
-//   }
-//   switch (proficiencyKey) {
-//     case 'skills':
-//       break;
-//     case 'weapons':
-//       actorKey += Utils.isCustomKey(WeaponType, proficiencyValue) ? 'weaponProf.custom' : 'weaponProf.value';
-//       break;
-//     case 'armor':
-//       break;
-//     case 'tools':
-//       break;
-//   }
-//   console.log(`actorKey: [${actorKey}]`);
-//   return actorKey;
 // }
 
 // function mapProficiency(profEnum: any, enumLabel: any) {

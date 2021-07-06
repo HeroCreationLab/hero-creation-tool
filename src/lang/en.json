@@ -16,6 +16,8 @@
     },
     "Common": {
       "Proficiencies": "Proficiencies",
+      "ProficiencyMulti": "Proficiency in ",
+      "ProficiencySelectPlaceholder": "Choose..",
       "SkillProficiencies": "Skill Proficiencies",
       "LanguageProficiencies": "Language Proficiencies",
       "ANY": "Any ",
@@ -61,18 +63,17 @@
       "NoName": "Hero has no name"
     },
     "Race": {
+      "DescriptionPlaceholder": "Please select a race to see it's description",
       "Select.Default": "Please select your race",
       "ASI": "Ability Score Increase",
-      "SkillProficiencies": "Skills",
-      "ProficiencyMulti": "Proficiency in ",
-      "ProficiencySelectPlaceholder": "Choose..",
       "InvalidProfKeys": "Invalid proficiency values for modeKey[{modeKey}], proficiencyKey[{proficiencyKey}] and proficiency[{proficiency}]"
     },
     "Class": {
+      "DescriptionPlaceholder": "Please select a class to see it's description",
       "Select.Default": "Please select your class",
       "SavingThrows": "Saving Throws",
       "HitPoints": "Hit Points",
-      "HitPointsBlob": "<b>Hit Dice:</b> {value} per {className} level<br><b>Hit Points at 1st Level:</b> {max} + your Constitution modifier<br><b>Hit Points at Higher Levels:</b> {value} (or {average}) + your Constitution modifier per {className} level after 1st"
+      "HitPointsBlob": "<b>Hit Points at 1st Level:</b> {max} + your Constitution modifier"
     },
     "Abilities": {
       "Title": "Abilities",

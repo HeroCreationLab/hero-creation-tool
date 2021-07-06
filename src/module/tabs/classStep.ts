@@ -5,7 +5,7 @@ import { Step, StepEnum } from '../Step';
 import * as Constants from '../constants';
 import * as Utils from '../utils';
 import { Settings } from '../settings';
-import { HeroOption, FixedHeroOption, HiddenHeroOption } from '../HeroOption';
+import { HeroOption, FixedHeroOption, HiddenHeroOption, MultiHeroOption } from '../HeroOption';
 
 type Clazz = {
   img: string;
@@ -83,17 +83,15 @@ function updateClass(classItem: any, $section: JQuery): HeroOption[] {
   const options: HeroOption[] = [];
   console.log(classItem);
 
-  // icon and class item
+  // icon, description and class item
   $('[data-hct_class_icon]', $section).attr('src', classItem.img);
+  $('[data-hct_class_description]', $section).html(classItem.data.description.value);
   options.push(new HiddenHeroOption(ClassTab.step, 'items', [classItem], true));
 
   // hit points
   const hitDice = new HitDice(classItem.data.hitDice);
   const textBlob = game.i18n.format('HCT.Class.HitPointsBlob', {
-    value: hitDice.getVal(),
     max: hitDice.getMax(),
-    average: hitDice.getAvg(),
-    className: classItem.name,
   });
   const hitPointsOption = new FixedHeroOption(
     ClassTab.step,
@@ -107,6 +105,19 @@ function updateClass(classItem: any, $section: JQuery): HeroOption[] {
   options.push(hitPointsOption);
 
   // proficiencies
+  const $skillProficiencySection: JQuery = $('section', $('[data-hct_class_area=proficiencies]', $context)).empty();
+  const skillChoices = classItem.data.skills.choices;
+  const skillNumber = classItem.data.skills.number;
+  const skillOptions = new MultiHeroOption(
+    ClassTab.step,
+    Utils.getActorKeyForProficiency('skills', skillChoices),
+    skillChoices.map((s: string) => ({ key: s, value: Utils.getSkillNameByKey(s) })),
+    skillNumber,
+    game.i18n.localize(`HCT.Common.SkillProficiencies`),
+    true,
+  );
+  skillOptions.render($skillProficiencySection);
+  options.push(skillOptions);
 
   // saving throws
   const savingThrows: string[] = classItem.data.saves;
