@@ -38,13 +38,22 @@ export function modifierSign(val: number) {
   return val >= 0 ? `+${val}` : `-${val}`;
 }
 
-export function openTab(id: string): void {
-  $('.hct-container .tabs').toggle(id !== 'startDiv'); // hides the tabs if switching to startDiv, else show them.
-
+export function openTab(index: number): void {
+  handleNavs(index);
   $('.tab-body').hide();
   $('.tablinks').removeClass('active');
-  $(`[data-hct_tab=${id}]`).addClass('active');
-  $(`#${id}`).show();
+  $(`[data-hct_tab_index=${index}]`).addClass('active');
+  $(`[data-hct_tab_section=${index}]`).show();
+}
+
+function handleNavs(index: number) {
+  // hides the tabs if switching to startDiv, else show them.
+  $('.hct-container .tabs').toggle(index !== 0);
+
+  // disables back/next buttons where appropriate
+  const $footer = $('.hct-container footer');
+  $('[data-hct_back]', $footer).prop('disabled', index == 0);
+  $('[data-hct_next]', $footer).prop('disabled', index == 8);
 }
 
 export function getValueFromInnerProperty(obj: any, key: string): any {

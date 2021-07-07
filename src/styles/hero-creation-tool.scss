@@ -65,7 +65,7 @@ $margin-small: 10px;
   padding: 2% 4%;
   border-top: none;
   width: 100%;
-  height: 92%;
+  height: 88%;
   position: relative;
 }
 
@@ -75,7 +75,7 @@ $margin-small: 10px;
 
 .tab-content {
   width: 100%;
-  height: 480px;
+  height: 100%;
   overflow-y: auto;
 }
 
@@ -259,8 +259,15 @@ $margin-small: 10px;
   font-family: 'Signika', sans-serif;
 }
 
-.step-button:hover {
-  background-color: rgba(245, 245, 230, 0.8);
+.step-button {
+  &:hover {
+    background-color: rgba(245, 245, 230, 0.8);
+  }
+  &:disabled {
+    background: none;
+    box-shadow: none;
+    cursor: not-allowed;
+  }
 }
 
 /* ## Forms */
