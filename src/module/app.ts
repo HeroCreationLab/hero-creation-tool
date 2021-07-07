@@ -20,6 +20,7 @@ import { HeroOption } from './HeroOption';
 export default class App extends Application {
   actorId?: string;
   readonly steps: Array<Step>;
+  currentTab = 0;
 
   constructor() {
     super();
@@ -42,6 +43,7 @@ export default class App extends Application {
     for (const step of this.steps) {
       step.clearOptions();
     }
+    this.currentTab = 0;
     this.render(true, { log: true });
   }
 
@@ -54,21 +56,21 @@ export default class App extends Application {
     }
 
     // set listeners for tab navigation
-    $('[data-hct_tab]').on('click', function () {
-      Utils.openTab($(this).data('hct_tab'));
+    $('[data-hct_tab_index]').on('click', (event) => {
+      this.currentTab = $(event.target).data('hct_tab_index');
+      Utils.openTab(this.currentTab);
     });
-    $('[data-hct_back]').on('click', function () {
-      Utils.openTab($(this).data('hct_back'));
+    $('[data-hct_back]').on('click', () => {
+      this.currentTab--;
+      Utils.openTab(this.currentTab);
     });
-    $('[data-hct_next]').on('click', function () {
-      Utils.openTab($(this).data('hct_next'));
+    $('[data-hct_next]').on('click', () => {
+      this.currentTab++;
+      Utils.openTab(this.currentTab);
     });
+    $('[data-hct_submit]').on('click', () => this.buildActor());
 
-    $('[data-hct_submit]').on('click', (event) => {
-      this.buildActor();
-    });
-
-    Utils.openTab('startDiv');
+    Utils.openTab(this.currentTab);
   }
 
   async setupData() {
