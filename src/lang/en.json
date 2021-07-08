@@ -20,7 +20,6 @@
       "ProficiencySelectPlaceholder": "Choose..",
       "SkillProficiencies": "Skill Proficiencies",
       "LanguageProficiencies": "Language Proficiencies",
-      "ANY": "Any ",
       "Movement": {
         "walk": "Walking",
         "burrow": "Burrowing",
@@ -63,13 +62,13 @@
       "NoName": "Hero has no name"
     },
     "Race": {
-      "DescriptionPlaceholder": "Please select a race to see it's description",
+      "DescriptionPlaceholder": "Please select a race to see its description",
       "Select.Default": "Please select your race",
       "ASI": "Ability Score Increase",
       "InvalidProfKeys": "Invalid proficiency values for modeKey[{modeKey}], proficiencyKey[{proficiencyKey}] and proficiency[{proficiency}]"
     },
     "Class": {
-      "DescriptionPlaceholder": "Please select a class to see it's description",
+      "DescriptionPlaceholder": "Please select a class to see its description",
       "Select.Default": "Please select your class",
       "SavingThrows": "Saving Throws",
       "HitPoints": "Starting Hit Points",
@@ -92,7 +91,8 @@
       "NotAllSixAbilities": "Hero doesn't have all six abilities scores or has some repeated one"
     },
     "Background": {
-      "ChooseBackground": "Choose a Background"
+      "Name": "Background Name",
+      "NamePlaceholder": "Background.."
     },
     "Equipment": {
       "HowToChoose": "How would you like to choose your equipment?",
