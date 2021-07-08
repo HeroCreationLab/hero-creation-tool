@@ -4,7 +4,7 @@
 import * as Constants from '../constants';
 import * as Utils from '../utils';
 import { Step, StepEnum } from '../Step';
-import { FixedHeroOption, HeroOption } from '../HeroOption';
+import * as HeroOption from '../HeroOption';
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 
 class _Abilities extends Step {
@@ -64,7 +64,7 @@ class _Abilities extends Step {
     /* IMPLEMENT AS NEEDED */
   }
 
-  getOptions(): HeroOption[] {
+  getOptions(): HeroOption.Option[] {
     this.clearOptions();
     for (let i = 1; i < 7; i++) {
       const $input: JQuery = $(`#number${i}`, this.section());
@@ -74,7 +74,7 @@ class _Abilities extends Step {
         const key = `data.abilities.${asiKey}.value`;
         const asiValue: number = Number.parseInt($input.val() as string);
         const textToShow = `${Utils.getAbilityNameByKey(asiKey)}: ${asiValue}`;
-        this.stepOptions.push(new FixedHeroOption(this.step, key, asiValue, textToShow, true));
+        this.stepOptions.push(new HeroOption.Fixed(this.step, key, asiValue, textToShow, true));
       }
     }
     return this.stepOptions;

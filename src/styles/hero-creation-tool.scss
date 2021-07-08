@@ -45,12 +45,31 @@ $margin-small: 10px;
 
   /* ## Scrollable Textareas */
   &-infoArea {
+    height: fit-content;
+    min-height: 100%;
+    overflow-y: hidden;
+    overflow-x: scroll;
     padding: 5px;
     background: rgba(255, 255, 255, 0.3);
     transition: all 0.3s;
     &:hover {
       box-shadow: 0 0 5px black;
       background: rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  &-option {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    padding: 0;
+
+    &-label {
+      padding-right: 10px;
+    }
+    &-select {
+      flex-grow: 1;
     }
   }
 }
@@ -366,7 +385,7 @@ $margin-small: 10px;
   background-color: white;
 }
 
-.hct_race_data_elem {
+.hct_data_elem {
   margin-bottom: 10px;
 }
 

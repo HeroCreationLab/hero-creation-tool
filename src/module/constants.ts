@@ -8,6 +8,7 @@ export const MYSTERY_MAN = 'icons/svg/mystery-man.svg';
 export const enum DND5E_COMPENDIUMS {
   RACES = 'dnd5e.races',
   CLASSES = 'dnd5e.classes',
+  RULES = 'dnd5e.rules',
 }
 
 export const MERGE_OPTIONS = {

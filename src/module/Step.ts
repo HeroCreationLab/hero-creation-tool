@@ -1,8 +1,8 @@
-import { HeroOption } from './HeroOption';
+import { Option } from './HeroOption';
 
 export abstract class Step {
   readonly step: StepEnum;
-  protected readonly stepOptions: HeroOption[];
+  protected readonly stepOptions: Option[];
 
   constructor(step: StepEnum) {
     this.step = step;
@@ -38,7 +38,7 @@ export abstract class Step {
    *
    * By default returns stepOptions, but should be overloaded as needed.
    */
-  getOptions(): HeroOption[] {
+  getOptions(): Option[] {
     return this.stepOptions;
   }
 
