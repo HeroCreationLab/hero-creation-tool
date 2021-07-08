@@ -69,7 +69,7 @@ export function getSkillNameByKey(key: string) {
 }
 
 export function getAbilityNameByKey(key: string) {
-  return key === 'any' ? game.i18n.localize(`HCT.Common.ANY`) : game.i18n.localize(`DND5E.Ability${key.capitalize()}`);
+  return key === 'any' ? '' : game.i18n.localize(`DND5E.Ability${key.capitalize()}`);
 }
 
 export function getAbilityModifierValue(value: number) {

@@ -105,7 +105,7 @@ export class Selectable implements Option {
   }
 
   applyToHero(actor: ActorDataConstructorData) {
-    apply(actor, this.key, this.value(), this.addValues);
+    apply(actor, this.key.replace('$VALUE$', this.value()), this.value(), this.addValues);
   }
 
   $elem: JQuery = $(`<select class="hct-option-select">
@@ -121,7 +121,9 @@ export class Selectable implements Option {
    */
   render(parent: JQuery): void {
     const $block = $('<div class="hct-option">');
-    $block.append($('<span class="hct-option-label">').text(this.label));
+    if (this.label) {
+      $block.append($('<span class="hct-option-label">').text(this.label));
+    }
     $block.append(this.$elem);
     parent.append($block);
   }
@@ -200,7 +202,7 @@ export class TextInput implements Option {
   $elem!: JQuery;
 
   render($parent: JQuery<HTMLElement>): void {
-    this.$elem = $(`<input class="hct-option" type="text" placeholder=${this.placeholder} value=${this.val}>`);
+    this.$elem = $(`<input class="hct-option" type="text" placeholder="${this.placeholder}" value=${this.val}>`);
     $parent.append(this.$elem);
   }
 

@@ -114,7 +114,7 @@ function updateClass(classItem: any, $section: JQuery): HeroOption.Option[] {
         Utils.getActorKeyForProficiency('skills', classItem.data.skills.choices),
         classItem.data.skills.choices.map((s: string) => ({ key: s, value: Utils.getSkillNameByKey(s) })),
         classItem.data.skills.number,
-        '',
+        ' ',
         true,
       ),
     ],
@@ -141,7 +141,7 @@ function updateClass(classItem: any, $section: JQuery): HeroOption.Option[] {
 }
 
 class HitDice {
-  constructor(private hd: string) {}
+  constructor(private hd: string) { }
 
   getVal() {
     return `1${this.hd}`;

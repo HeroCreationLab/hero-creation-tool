@@ -58,6 +58,10 @@ $margin-small: 10px;
     }
   }
 
+  &-area-title {
+    margin: 10px 0 10px 0;
+  }
+
   &-option {
     display: flex;
     align-items: baseline;
@@ -121,7 +125,7 @@ $margin-small: 10px;
 
 .apply-header-font h1,
 .apply-header-font h2 {
-  font-family: 'Modesto Condensed', 'Signika', 'Arial';
+  font-family: "Modesto Condensed", "Signika", "Arial";
 }
 
 .apply-header-font h1 {
@@ -150,7 +154,7 @@ $margin-small: 10px;
 /* ## Style the buttons inside the tab */
 
 .tablinks {
-  font-family: 'Modesto Condensed', 'Signika', 'Arial';
+  font-family: "Modesto Condensed", "Signika", "Arial";
   background-color: inherit;
   height: 40px;
   padding: 10px;
@@ -275,7 +279,7 @@ $margin-small: 10px;
   border: 2px groove #f0f0e0;
   cursor: pointer;
   font-size: 15px;
-  font-family: 'Signika', sans-serif;
+  font-family: "Signika", sans-serif;
 }
 
 .step-button {
@@ -301,12 +305,12 @@ $margin-small: 10px;
   margin: 0;
 }
 
-.form-group input[type='color'] {
+.form-group input[type="color"] {
   margin-left: 10px;
 }
 
 .form-group label {
-  font-family: 'Signika', 'serif', 'Arial';
+  font-family: "Signika", "serif", "Arial";
   font-size: 1.2em;
 }
 
@@ -357,7 +361,7 @@ $margin-small: 10px;
 }
 
 .hct-select {
-  font-family: 'Signika', sans-serif;
+  font-family: "Signika", sans-serif;
   border: 2px groove #f0f0e0;
 }
 
