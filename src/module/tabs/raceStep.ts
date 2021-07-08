@@ -6,17 +6,11 @@ import Race, { getItemNames, Movement } from '../types/Race';
 import * as Utils from '../utils';
 import * as Constants from '../constants';
 import { Size, SizeLabel } from '../types/Size';
-import {
-  HeroOption,
-  HeroOptionsContainer,
-  FixedHeroOption,
-  SelectableHeroOption,
-  HiddenHeroOption,
-} from '../HeroOption';
+import * as HeroOption from '../HeroOption';
 import * as DataPrep from '../dataPrep';
 import { Ability, AbilityScoreLabel } from '../types/Ability';
 
-type updateMethodType = () => HeroOption[] | HeroOptionsContainer[];
+type updateMethodType = () => HeroOption.Option[] | HeroOption.Container[];
 //type KeyValue = { key: string; value: string };
 
 class _Race extends Step {
@@ -45,9 +39,9 @@ class _Race extends Step {
         this.updateValuesForRace(raceName as string, resolvedRaceItems);
 
         // update icon and description
-        const endRaceItem = resolvedRaceItems[resolvedRaceItems.length - 1];
-        $('[data-hct_race_icon]').attr('src', endRaceItem.img);
-        $('[data-hct_race_description]').html((endRaceItem.data as any).description.value);
+        const c = resolvedRaceItems[resolvedRaceItems.length - 1];
+        $('[data-hct_race_icon]').attr('src', c.img);
+        $('[data-hct_race_description]').html(TextEditor.enrichHTML((c.data as any).description.value));
       } else ui.notifications!.error(game.i18n.format('HCT.Error.UpdateValueLoad', { value: 'Races' }));
     });
   }
@@ -79,13 +73,13 @@ class _Race extends Step {
     // Condition interactions
     this.$context.show();
 
-    this.stepOptions.push(new HiddenHeroOption(StepEnum.Race, 'items', raceItems, true));
-    this.stepOptions.push(new HiddenHeroOption(StepEnum.Race, 'data.details.race', raceName));
+    this.stepOptions.push(new HeroOption.Hidden(StepEnum.Race, 'items', raceItems, true));
+    this.stepOptions.push(new HeroOption.Hidden(StepEnum.Race, 'data.details.race', raceName));
   }
 
-  processOptions(options: HeroOption[] | HeroOptionsContainer[], $parent: JQuery) {
+  processOptions(options: HeroOption.Option[] | HeroOption.Container[], $parent: JQuery) {
     for (const opt of options) {
-      if (opt instanceof HeroOptionsContainer) {
+      if (opt instanceof HeroOption.Container) {
         $parent.append(`<h3 class='race_proficiency_subtype'>${game.i18n.localize(opt.title)}</h3>`);
         this.processOptions(opt.options, $parent);
       } else {
@@ -95,9 +89,9 @@ class _Race extends Step {
     }
   }
 
-  updateProficiencies(): HeroOptionsContainer[] {
+  updateProficiencies(): HeroOption.Container[] {
     // FIXME do proficiencies later
-    const container = new HeroOptionsContainer('SOON..');
+    const container = new HeroOption.Container('SOON..');
     return [container];
     // const profs = this.race.proficiencies;
     // const containers: HeroOptionsContainer[] = [];
@@ -184,7 +178,7 @@ class _Race extends Step {
     if (!mov) return [];
     return Object.keys(mov).map(
       (key) =>
-        new FixedHeroOption(
+        new HeroOption.Fixed(
           StepEnum.Race,
           `data.attributes.movement.${key}`,
           (mov as any)[key],
@@ -193,12 +187,12 @@ class _Race extends Step {
     );
   }
 
-  updateSenses(): HeroOption[] {
+  updateSenses(): HeroOption.Option[] {
     const senses = this.race.senses;
     if (!senses) return [];
     return Object.keys(senses).map(
       (key) =>
-        new FixedHeroOption(
+        new HeroOption.Fixed(
           StepEnum.Race,
           `data.attributes.senses.${key}`,
           (senses as any)[key],
@@ -211,13 +205,13 @@ class _Race extends Step {
     const size: Size = this.race.size as Size;
     if (!size) return [];
     const sizeText = `${game.i18n.localize(SizeLabel[size])}`;
-    return [new FixedHeroOption(StepEnum.Race, 'data.traits.size', size, sizeText)];
+    return [new HeroOption.Fixed(StepEnum.Race, 'data.traits.size', size, sizeText)];
   }
 
   updateAbilityScores() {
     const asis = this.race.abilityScoreImprovements;
     if (!asis) return [];
-    const options: HeroOption[] = [];
+    const options: HeroOption.Option[] = [];
     for (const key of Object.keys(asis)) {
       const asi: number = (asis as any)[key];
       if (Array.isArray(asi)) {
@@ -227,7 +221,7 @@ class _Race extends Step {
         }));
         asi.forEach(() => {
           options.push(
-            new SelectableHeroOption(
+            new HeroOption.Selectable(
               StepEnum.Race,
               'key',
               asiList,
@@ -239,7 +233,7 @@ class _Race extends Step {
       } else {
         const text = `${Utils.getAbilityNameByKey(key)}: ${Utils.modifierSign(asi)}`;
         options.push(
-          new FixedHeroOption(StepEnum.Race, `data.abilities.${(key as string).toLowerCase()}.value`, asi, text, true),
+          new HeroOption.Fixed(StepEnum.Race, `data.abilities.${(key as string).toLowerCase()}.value`, asi, text, true),
         );
       }
     }

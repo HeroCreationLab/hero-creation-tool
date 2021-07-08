@@ -3,7 +3,7 @@
 */
 import * as Constants from '../constants';
 import { Step, StepEnum } from '../Step';
-import { TextInputHeroOption } from '../HeroOption';
+import * as HeroOption from '../HeroOption';
 
 class _Basics extends Step {
   constructor() {
@@ -12,8 +12,8 @@ class _Basics extends Step {
 
   section = () => $('#basicsDiv');
 
-  avatarOption!: TextInputHeroOption;
-  tokenOption!: TextInputHeroOption;
+  avatarOption!: HeroOption.TextInput;
+  tokenOption!: HeroOption.TextInput;
 
   setListeners(): void {
     $('[data-filepick]', this.section()).on('click', (event) => {
@@ -28,13 +28,13 @@ class _Basics extends Step {
 
   renderData(): void {
     this.clearOptions();
-    const nameOption = new TextInputHeroOption(this.step, 'name', game.i18n.localize('HCT.Basics.CharName'), '');
+    const nameOption = new HeroOption.TextInput(this.step, 'name', game.i18n.localize('HCT.Basics.CharName'), '');
     nameOption.render($('[data-hero_name]', this.section()));
 
-    this.avatarOption = new TextInputHeroOption(this.step, 'img', Constants.MYSTERY_MAN, Constants.MYSTERY_MAN);
+    this.avatarOption = new HeroOption.TextInput(this.step, 'img', Constants.MYSTERY_MAN, Constants.MYSTERY_MAN);
     this.avatarOption.render($('[data-hero_avatar]', this.section()));
 
-    this.tokenOption = new TextInputHeroOption(this.step, 'token.img', Constants.MYSTERY_MAN, Constants.MYSTERY_MAN);
+    this.tokenOption = new HeroOption.TextInput(this.step, 'token.img', Constants.MYSTERY_MAN, Constants.MYSTERY_MAN);
     this.tokenOption.render($('[data-hero_token]', this.section()));
 
     this.stepOptions.push(nameOption, this.avatarOption, this.tokenOption);

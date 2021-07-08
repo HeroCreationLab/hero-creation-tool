@@ -5,7 +5,7 @@ import type { ActorDataConstructorData } from '@league-of-foundry-developers/fou
  * Represents an option that will be reflected on the final hero.
  * @interface
  */
-export interface HeroOption {
+export interface Option {
   render(parent: JQuery): void;
   value(): any;
   isFulfilled(): boolean;
@@ -36,8 +36,14 @@ const apply = (existingData: ActorDataConstructorData, key: string, value: any, 
   mergeObject(existingData, dataSnapshot);
 };
 
-export class HeroOptionsContainer {
-  constructor(readonly title: string, public options: HeroOption[] = []) {}
+export class Container {
+  constructor(readonly title: string, public options: Option[] = []) {}
+
+  render(parent: JQuery): void {
+    const $container: JQuery = $(`<div><p>${this.title}</p></div>`);
+    this.options.forEach((o) => o.render($container));
+    parent.append($container);
+  }
 }
 
 /**
@@ -45,7 +51,7 @@ export class HeroOptionsContainer {
  * (e.g. how all Elves get Perception proficiency)
  * @class
  */
-export class FixedHeroOption implements HeroOption {
+export class Fixed implements Option {
   constructor(
     readonly origin: StepEnum,
     readonly key: string,
@@ -62,7 +68,7 @@ export class FixedHeroOption implements HeroOption {
     apply(actor, this.key, this.value(), this.addValues);
   }
 
-  private $elem = $('<p>').html(`${this.textToShow}`);
+  private $elem = $('<p class="hct-option">').html(`${this.textToShow}`);
 
   /**
    * Builds the HTML element for this option and appends it to the parent
@@ -85,7 +91,7 @@ export class FixedHeroOption implements HeroOption {
  * (e.g. Dwarven's Tool Proficiency is a single option between three defined ones)
  * @class
  */
-export class SelectableHeroOption implements HeroOption {
+export class Selectable implements Option {
   constructor(
     readonly origin: StepEnum,
     readonly key: string,
@@ -102,7 +108,7 @@ export class SelectableHeroOption implements HeroOption {
     apply(actor, this.key, this.value(), this.addValues);
   }
 
-  $elem: JQuery = $(`<select>
+  $elem: JQuery = $(`<select class="hct-option-select">
         <option value="" selected disabled hidden>${game.i18n.localize(
           'HCT.Common.ProficiencySelectPlaceholder',
         )}</option>
@@ -114,8 +120,8 @@ export class SelectableHeroOption implements HeroOption {
    * @param {JQuery} parent
    */
   render(parent: JQuery): void {
-    const $block = $('<div>');
-    $block.append($('<span>').text(this.label));
+    const $block = $('<div class="hct-option">');
+    $block.append($('<span class="hct-option-label">').text(this.label));
     $block.append(this.$elem);
     parent.append($block);
   }
@@ -133,7 +139,7 @@ export class SelectableHeroOption implements HeroOption {
  * (e.g. A class allowing to pick 2 skills from a list)
  * @class
  */
-export class MultiHeroOption implements HeroOption {
+export class Multi implements Option {
   constructor(
     readonly origin: StepEnum,
     readonly key: string,
@@ -151,25 +157,19 @@ export class MultiHeroOption implements HeroOption {
     this.value().forEach((v) => apply(actor, this.key.replace('$VALUE$', v), 1, this.addValues));
   }
 
-  $elem: JQuery = $();
+  optionList!: Selectable[];
 
   /**
    * Builds the HTML element for this option and appends it to the parent
    * @param {JQuery} parent
    */
   render(parent: JQuery): void {
-    this.$elem = $(`<fieldset>
-        <legend>${this.label} (${this.quantity})</legend>
-          ${this.options
-            .map(
-              (option) =>
-                `<div><label><input type="checkbox" name="${option.key}" value="${option.key}"> ${game.i18n.localize(
-                  option.value,
-                )}</label></div>`,
-            )
-            .join('')}
-        </fieldset>`);
-    parent.append(this.$elem);
+    this.optionList = [];
+    for (let i = 0; i < this.quantity; i++) {
+      const o = new Selectable(this.origin, this.key, this.options, this.label, this.addValues);
+      this.optionList.push(o);
+      o.render(parent);
+    }
   }
 
   /**
@@ -177,9 +177,7 @@ export class MultiHeroOption implements HeroOption {
    */
   value(): any[] {
     const values: any[] = [];
-    $(':checked', this.$elem).each(function (index, input) {
-      values.push((input as HTMLInputElement).value);
-    });
+    this.optionList.forEach((o) => values.push(o.value()));
     return values; // this are the KEYS
   }
 }
@@ -190,7 +188,7 @@ export class MultiHeroOption implements HeroOption {
  * e.g. Hero name
  * @class
  */
-export class TextInputHeroOption implements HeroOption {
+export class TextInput implements Option {
   constructor(
     readonly origin: StepEnum,
     readonly key: string,
@@ -202,7 +200,7 @@ export class TextInputHeroOption implements HeroOption {
   $elem!: JQuery;
 
   render($parent: JQuery<HTMLElement>): void {
-    this.$elem = $(`<input type="text" placeholder=${this.placeholder} value=${this.val}>`);
+    this.$elem = $(`<input class="hct-option" type="text" placeholder=${this.placeholder} value=${this.val}>`);
     $parent.append(this.$elem);
   }
 
@@ -224,7 +222,7 @@ export class TextInputHeroOption implements HeroOption {
  * e.g. the foundry Items that will be added to the Actor, like Race/Class.
  * @class
  */
-export class HiddenHeroOption implements HeroOption {
+export class Hidden implements Option {
   constructor(
     readonly origin: StepEnum,
     readonly key: string,

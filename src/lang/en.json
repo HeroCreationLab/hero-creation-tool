@@ -72,8 +72,8 @@
       "DescriptionPlaceholder": "Please select a class to see it's description",
       "Select.Default": "Please select your class",
       "SavingThrows": "Saving Throws",
-      "HitPoints": "Hit Points",
-      "HitPointsBlob": "<b>Hit Points at 1st Level:</b> {max} + your Constitution modifier"
+      "HitPoints": "Starting Hit Points",
+      "HitPointsBlob": "{max} + your Constitution modifier"
     },
     "Abilities": {
       "Title": "Abilities",

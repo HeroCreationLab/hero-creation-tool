@@ -5,7 +5,6 @@ import { Size } from './types/Size';
 import { Condition } from './types/Condition';
 import { Skill } from './types/Skill';
 import { Language } from './types/Language';
-import { WeaponType } from './types/WeaponType';
 
 export async function setupRaces(): Promise<Race[]> {
   console.log(`${Constants.LOG_PREFIX} | Building races`);
@@ -60,48 +59,6 @@ export async function setupRaces(): Promise<Race[]> {
     Constants.MERGE_OPTIONS,
   );
   races.push(hillDwarf);
-
-  // FIXME TEST
-  const pepeDwarf: Race = mergeObject(
-    dwarf,
-    {
-      ...new Race('Pepe Dwarf', dwarf),
-      abilityScoreImprovements: { Int: 1 },
-      proficiencies: {
-        skills: {
-          fixed: {
-            value: [Skill.Perception],
-          },
-        },
-        armor: {
-          any: 1,
-        },
-        weapons: {
-          fixed: {
-            value: [WeaponType.Simple],
-            custom: ['battleaxe', 'warhammer'],
-          },
-          choose: {
-            quantity: 1,
-            options: {
-              custom: ['longsword', 'shortsword', 'shortbow', 'longbow'],
-            },
-          },
-        },
-        tools: {
-          choose: {
-            quantity: 2,
-            options: {
-              custom: ["smith's tools", "brewer's supplies", "mason's tools"],
-            },
-          },
-        },
-      },
-    },
-    Constants.MERGE_OPTIONS,
-  );
-  races.push(pepeDwarf);
-  // END TEST
 
   const elf: Race = {
     ...new Race('Elf'),

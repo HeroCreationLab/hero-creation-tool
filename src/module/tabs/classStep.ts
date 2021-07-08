@@ -5,7 +5,7 @@ import { Step, StepEnum } from '../Step';
 import * as Constants from '../constants';
 import * as Utils from '../utils';
 import { Settings } from '../settings';
-import { HeroOption, FixedHeroOption, HiddenHeroOption, MultiHeroOption } from '../HeroOption';
+import * as HeroOption from '../HeroOption';
 
 type Clazz = {
   img: string;
@@ -78,22 +78,22 @@ function setClassPickerOptions(classes: Item[]) {
   }
 }
 
-function updateClass(classItem: any, $section: JQuery): HeroOption[] {
+function updateClass(classItem: any, $section: JQuery): HeroOption.Option[] {
   const $context = $('[data-hct_class_data]', $section);
-  const options: HeroOption[] = [];
+  const options: HeroOption.Option[] = [];
   console.log(classItem);
 
   // icon, description and class item
   $('[data-hct_class_icon]', $section).attr('src', classItem.img);
-  $('[data-hct_class_description]', $section).html(classItem.data.description.value);
-  options.push(new HiddenHeroOption(ClassTab.step, 'items', [classItem], true));
+  $('[data-hct_class_description]', $section).html(TextEditor.enrichHTML(classItem.data.description.value));
+  options.push(new HeroOption.Hidden(ClassTab.step, 'items', [classItem], true));
 
   // hit points
   const hitDice = new HitDice(classItem.data.hitDice);
   const textBlob = game.i18n.format('HCT.Class.HitPointsBlob', {
     max: hitDice.getMax(),
   });
-  const hitPointsOption = new FixedHeroOption(
+  const hitPointsOption = new HeroOption.Fixed(
     ClassTab.step,
     'data.attributes.hp.max',
     hitDice.getMax(),
@@ -106,24 +106,27 @@ function updateClass(classItem: any, $section: JQuery): HeroOption[] {
 
   // proficiencies
   const $skillProficiencySection: JQuery = $('section', $('[data-hct_class_area=proficiencies]', $context)).empty();
-  const skillChoices = classItem.data.skills.choices;
-  const skillNumber = classItem.data.skills.number;
-  const skillOptions = new MultiHeroOption(
-    ClassTab.step,
-    Utils.getActorKeyForProficiency('skills', skillChoices),
-    skillChoices.map((s: string) => ({ key: s, value: Utils.getSkillNameByKey(s) })),
-    skillNumber,
-    game.i18n.localize(`HCT.Common.SkillProficiencies`),
-    true,
+  const skillsContainer: HeroOption.Container = new HeroOption.Container(
+    game.i18n.localize('HCT.Common.SkillProficiencies'),
+    [
+      new HeroOption.Multi(
+        ClassTab.step,
+        Utils.getActorKeyForProficiency('skills', classItem.data.skills.choices),
+        classItem.data.skills.choices.map((s: string) => ({ key: s, value: Utils.getSkillNameByKey(s) })),
+        classItem.data.skills.number,
+        '',
+        true,
+      ),
+    ],
   );
-  skillOptions.render($skillProficiencySection);
-  options.push(skillOptions);
+  skillsContainer.render($skillProficiencySection);
+  options.push(...skillsContainer.options);
 
   // saving throws
   const savingThrows: string[] = classItem.data.saves;
   const $savingThrowsSection = $('section', $('[data-hct_class_area=saving-throws]', $context)).empty();
   savingThrows.forEach((save) => {
-    const savingThrowOption = new FixedHeroOption(
+    const savingThrowOption = new HeroOption.Fixed(
       ClassTab.step,
       `data.abilities.${save}.proficient`,
       1,

@@ -19,6 +19,22 @@ export async function getItemListFromCompendiumByName(compendiumName: string) {
   return items.filter((item): item is Item => !!item).map((item) => worldItems.fromCompendium(item));
 }
 
+export async function getJournalFromCompendiumByName(compendiumName: string, itemName: string) {
+  const worldItems = game.items;
+  if (!worldItems) throw new Error('game.items not initialized yet');
+
+  const pack = game.packs.get(compendiumName);
+  if (!pack) throw new Error(`No pack for name ${compendiumName}!`);
+  if (pack.documentName !== 'JournalEntry') throw new Error(`${compendiumName} is not an JournalEntry pack`);
+
+  const itemPack = pack as CompendiumCollection<CompendiumCollection.Metadata & { entity: 'Item' }>;
+  const index = itemPack.index.getName(itemName) as any;
+  if (!index) throw new Error(`No index for item name ${itemName}!`);
+  const item = await itemPack.getDocument(index._id);
+  if (!item) throw new Error(`No item for id ${index._id}!`);
+  return worldItems.fromCompendium(item);
+}
+
 export async function getItemFromCompendiumByName(compendiumName: string, itemName: string) {
   const worldItems = game.items;
   if (!worldItems) throw new Error('game.items not initialized yet');
