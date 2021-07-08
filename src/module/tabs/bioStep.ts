@@ -1,7 +1,7 @@
 /*
     Functions used exclusively on the Biography tab
 */
-import HeroData from '../HeroData';
+import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 import * as Constants from '../constants';
 import { Step, StepEnum } from '../Step';
 
@@ -28,7 +28,7 @@ class _Bio extends Step {
    * @deprecated
    */
   // TODO convert to HeroOptions
-  getHeroOptions(newActor: HeroData): void {
+  getHeroOptions(newActor: ActorDataConstructorData): void {
     console.log(`${Constants.LOG_PREFIX} | Saving Biography Tab data into actor`);
 
     const appearance = `Age: ${$('#character_age').val()}

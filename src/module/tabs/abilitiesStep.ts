@@ -1,11 +1,11 @@
 /*
   Functions used exclusively on the Abilities tab
 */
-import HeroData from '../HeroData';
 import * as Constants from '../constants';
 import * as Utils from '../utils';
 import { Step, StepEnum } from '../Step';
 import { FixedHeroOption, HeroOption } from '../HeroOption';
+import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 
 class _Abilities extends Step {
   constructor() {
@@ -80,7 +80,7 @@ class _Abilities extends Step {
     return this.stepOptions;
   }
 
-  getHeroOptions(newActor: HeroData) {
+  getHeroOptions(newActor: ActorDataConstructorData) {
     console.log(`${Constants.LOG_PREFIX} | Saving Abilities Tab data into actor`);
 
     const values: number[] = [];
@@ -97,7 +97,7 @@ class _Abilities extends Step {
       // Push abilities into the newActor object data
       const stat = stats[i].toLowerCase();
       if (newActor.data) {
-        (newActor.data.abilities as any)[`${stat}`] = { value: values[i] };
+        (newActor.data as any).abilities[`${stat}`] = { value: values[i] };
       }
     }
   }

@@ -2,24 +2,50 @@ import { WeaponType } from './types/WeaponType';
 
 export async function getItemListFromCompendiumByName(compendiumName: string) {
   const pack = game.packs.get(compendiumName);
-  const items: Item[] = [];
+  const worldItems = game.items;
+  if (!worldItems) throw new Error('game.items not initialized yet');
+  if (!pack) throw new Error(`No pack for name ${compendiumName}!`);
+  if (pack.documentName !== 'Item') throw new Error(`${compendiumName} is not an Item pack`);
+
+  const itemPack = pack as CompendiumCollection<CompendiumCollection.Metadata & { entity: 'Item' }>;
+
+  const itemsPromises: Promise<Item | null | undefined>[] = [];
   for (const itemIndex of pack.index.keys()) {
-    items.push(pack.getDocument(itemIndex));
+    const item = itemPack.getDocument(itemIndex);
+    itemsPromises.push(item);
   }
-  return await (await Promise.all(items)).map((i) => game.items.fromCompendium(i));
+  const items = await Promise.all(itemsPromises);
+
+  return items.filter((item): item is Item => !!item).map((item) => worldItems.fromCompendium(item));
 }
 
 export async function getItemFromCompendiumByName(compendiumName: string, itemName: string) {
+  const worldItems = game.items;
+  if (!worldItems) throw new Error('game.items not initialized yet');
+
   const pack = game.packs.get(compendiumName);
-  const index = pack.index.getName(itemName);
-  const item = await pack.getDocument(index._id);
-  return game.items.fromCompendium(item);
+  if (!pack) throw new Error(`No pack for name ${compendiumName}!`);
+  if (pack.documentName !== 'Item') throw new Error(`${compendiumName} is not an Item pack`);
+
+  const itemPack = pack as CompendiumCollection<CompendiumCollection.Metadata & { entity: 'Item' }>;
+  const index = itemPack.index.getName(itemName) as any;
+  if (!index) throw new Error(`No index for item name ${itemName}!`);
+  const item = await itemPack.getDocument(index._id);
+  if (!item) throw new Error(`No item for id ${index._id}!`);
+  return worldItems.fromCompendium(item);
 }
 
 export async function getItemFromCompendiumByIndexId(compendiumName: string, itemId: string) {
   const pack = game.packs.get(compendiumName);
-  const item = await pack.getDocument(itemId);
-  return game.items.fromCompendium(item);
+  const worldItems = game.items;
+  if (!worldItems) throw new Error('game.items not initialized yet');
+  if (!pack) throw new Error(`No pack for name ${compendiumName}!`);
+  if (pack.documentName !== 'Item') throw new Error(`${compendiumName} is not an Item pack`);
+
+  const itemPack = pack as CompendiumCollection<CompendiumCollection.Metadata & { entity: 'Item' }>;
+  const item = await itemPack.getDocument(itemId);
+  if (!item) throw new Error(`No item for id ${itemId}!`);
+  return worldItems.fromCompendium(item);
 }
 
 export function getSkillNameByKey(key: string) {
@@ -54,15 +80,6 @@ function handleNavs(index: number) {
   const $footer = $('.hct-container footer');
   $('[data-hct_back]', $footer).prop('disabled', index == 0);
   $('[data-hct_next]', $footer).prop('disabled', index == 8);
-}
-
-export function getValueFromInnerProperty(obj: any, key: string): any {
-  const keyParts: string[] = key.split('.');
-  if (keyParts.length == 1) {
-    return (obj as any)[keyParts[0]];
-  }
-  const currentKey: string = keyParts.shift() as string;
-  return getValueFromInnerProperty((obj as any)[currentKey], keyParts.join('.'));
 }
 
 export function isCustomKey(keyList: any, value: string): boolean {

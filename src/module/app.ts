@@ -4,7 +4,7 @@
  */
 import * as Constants from './constants';
 import * as Utils from './utils';
-import HeroData from './HeroData';
+import { Settings } from './settings';
 
 import BasicsTab from './tabs/basicsStep';
 import AbilitiesTab from './tabs/abilitiesStep';
@@ -16,6 +16,7 @@ import SpellsTab from './tabs/spellsStep';
 import BioTab from './tabs/bioStep';
 import { Step } from './Step';
 import { HeroOption } from './HeroOption';
+import type { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 
 export default class App extends Application {
   actorId?: string;
@@ -44,7 +45,7 @@ export default class App extends Application {
       step.clearOptions();
     }
     this.currentTab = 0;
-    this.render(true, { log: true });
+    this.render(true);
   }
 
   activateListeners() {
@@ -87,7 +88,7 @@ export default class App extends Application {
 
   private async buildActor() {
     console.log(`${Constants.LOG_PREFIX} | Building actor`);
-    const newActor = new HeroData();
+    const newActor: ActorDataConstructorData = this.initializeActorData();
     let errors = false;
     // yeah, a loop label, sue me.
     mainloop: for (const step of this.steps) {
@@ -102,10 +103,31 @@ export default class App extends Application {
     if (!errors) {
       // calculate whatever needs inter-tab values like HP
       calculateStartingHp(newActor);
-
-      Actor.create(newActor);
+      setTokenDisplaySettings(newActor);
+      console.log(newActor);
+      Actor.create({ ...newActor });
       this.close();
     }
+  }
+
+  private initializeActorData(): ActorDataConstructorData {
+    const newActor: ActorDataConstructorData = {
+      name: '',
+      type: 'character',
+      sort: 12000,
+      img: Constants.MYSTERY_MAN,
+      token: {
+        actorLink: true,
+        disposition: 1,
+        img: Constants.MYSTERY_MAN,
+        vision: true,
+        dimSight: 0,
+        bar1: { attribute: 'attributes.hp' },
+        displayBars: 0,
+        displayName: 0,
+      },
+    };
+    return newActor;
   }
 
   private requiredOptionNotFulfilled(opt: HeroOption): boolean {
@@ -120,14 +142,20 @@ export default class App extends Application {
     return false;
   }
 }
-function calculateStartingHp(newActor: HeroData) {
-  const totalCon = newActor.data?.abilities?.con?.value;
+function calculateStartingHp(newActor: ActorDataConstructorData) {
+  const totalCon = getProperty(newActor, 'data.abilities.con.value');
   const raceAndConHp: number = totalCon ? Utils.getAbilityModifierValue(totalCon) : 0;
-  const classHp: number = newActor.data?.attributes.hp.max
-    ? Number.parseInt(newActor.data?.attributes.hp.max as any)
-    : 10;
+  const maxHp = getProperty(newActor, 'data.attributes.hp.max');
+  const classHp: number = maxHp ? Number.parseInt(maxHp) : 10;
 
   const startingHp = raceAndConHp + classHp;
-  newActor.data!.attributes.hp.max = startingHp;
-  newActor.data!.attributes.hp.value = startingHp;
+  setProperty(newActor, 'data.attributes.hp.max', startingHp);
+  setProperty(newActor, 'data.attributes.hp.value', startingHp);
+}
+
+function setTokenDisplaySettings(newActor: ActorDataConstructorData) {
+  const displayBarsSetting = game.settings.get(Constants.MODULE_NAME, Settings.TOKEN_BAR);
+  const displayNameSetting = game.settings.get(Constants.MODULE_NAME, Settings.TOKEN_NAME);
+  setProperty(newActor, 'token.displayBars', displayBarsSetting);
+  setProperty(newActor, 'token.displayName', displayNameSetting);
 }

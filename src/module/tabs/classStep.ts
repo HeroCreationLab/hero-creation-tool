@@ -35,13 +35,13 @@ class _Class extends Step {
   }
 
   async setSourceData() {
-    const items: Item[] = await Utils.getItemListFromCompendiumByName(Constants.DND5E_COMPENDIUMS.CLASSES);
-    const customPack = await game.settings.get(Constants.MODULE_NAME, Settings.CLASS_PACKS);
+    const items = await Utils.getItemListFromCompendiumByName(Constants.DND5E_COMPENDIUMS.CLASSES);
+    const customPack = (await game.settings.get(Constants.MODULE_NAME, Settings.CLASS_PACKS)) as string;
     if (customPack) {
       const customClasses = await Utils.getItemListFromCompendiumByName(customPack);
       items.push(...customClasses);
     }
-    this.classes = items?.sort((a, b) => a.name.localeCompare(b.name));
+    this.classes = items?.sort((a, b) => a.name.localeCompare(b.name)) as any;
     if (this.classes) setClassPickerOptions(this.classes);
     else ui.notifications!.error(game.i18n.format('HCT.Error.RenderLoad', { value: 'Classes' }));
   }
@@ -53,7 +53,7 @@ class _Class extends Step {
 const ClassTab: Step = new _Class();
 export default ClassTab;
 
-function setClassPickerOptions(classes: Item<Item.Data<any>, Item.Data<any>>[]) {
+function setClassPickerOptions(classes: Item[]) {
   const picker = $('[data-hct_class_picker]');
   for (const clazz of classes) {
     picker.append($(`<option class='hct_picker_primary' value='${clazz.name}'>${clazz.name}</option>`));
