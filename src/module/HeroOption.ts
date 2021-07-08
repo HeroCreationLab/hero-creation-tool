@@ -1,7 +1,5 @@
-import HeroData from './HeroData';
 import { StepEnum } from './Step';
-import * as Constants from './constants';
-import { getValueFromInnerProperty } from './utils';
+import type { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 
 /**
  * Represents an option that will be reflected on the final hero.
@@ -11,17 +9,17 @@ export interface HeroOption {
   render(parent: JQuery): void;
   value(): any;
   isFulfilled(): boolean;
-  applyToHero(actor: HeroData): void;
+  applyToHero(actor: ActorDataConstructorData): void;
   addValues: boolean;
   key: string;
   origin: StepEnum;
 }
 
-const apply = (existingData: HeroData, key: string, value: any, addValues: boolean) => {
+const apply = (existingData: ActorDataConstructorData, key: string, value: any, addValues: boolean) => {
   const dataSnapshot: any = {};
   if (addValues) {
     // find any previous value on existing data
-    dataSnapshot[key] = getValueFromInnerProperty(existingData, key);
+    dataSnapshot[key] = getProperty(existingData, key); //getValueFromInnerProperty(existingData, key);
     if (dataSnapshot[key]) {
       if (Array.isArray(dataSnapshot[key])) {
         value = dataSnapshot[key].concat(...value);
@@ -35,7 +33,7 @@ const apply = (existingData: HeroData, key: string, value: any, addValues: boole
     }
   }
   dataSnapshot[key] = value;
-  mergeObject(existingData, dataSnapshot, Constants.MERGE_OPTIONS);
+  mergeObject(existingData, dataSnapshot);
 };
 
 export class HeroOptionsContainer {
@@ -60,7 +58,7 @@ export class FixedHeroOption implements HeroOption {
     return !!this.option;
   }
 
-  applyToHero(actor: HeroData) {
+  applyToHero(actor: ActorDataConstructorData) {
     apply(actor, this.key, this.value(), this.addValues);
   }
 
@@ -100,7 +98,7 @@ export class SelectableHeroOption implements HeroOption {
     return !!this.value();
   }
 
-  applyToHero(actor: HeroData) {
+  applyToHero(actor: ActorDataConstructorData) {
     apply(actor, this.key, this.value(), this.addValues);
   }
 
@@ -149,7 +147,7 @@ export class MultiHeroOption implements HeroOption {
     return this.value().length > 0;
   }
 
-  applyToHero(actor: HeroData) {
+  applyToHero(actor: ActorDataConstructorData) {
     this.value().forEach((v) => apply(actor, this.key.replace('$VALUE$', v), 1, this.addValues));
   }
 
@@ -216,7 +214,7 @@ export class TextInputHeroOption implements HeroOption {
     return !!this.$elem.val();
   }
 
-  applyToHero(actor: HeroData) {
+  applyToHero(actor: ActorDataConstructorData) {
     apply(actor, this.key, this.value(), this.addValues);
   }
 }
@@ -246,7 +244,7 @@ export class HiddenHeroOption implements HeroOption {
     return !!this.value();
   }
 
-  applyToHero(actor: HeroData): void {
+  applyToHero(actor: ActorDataConstructorData): void {
     apply(actor, this.key, this.value(), this.addValues);
   }
 }

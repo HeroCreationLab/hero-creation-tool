@@ -45,8 +45,9 @@ class _Race extends Step {
         this.updateValuesForRace(raceName as string, resolvedRaceItems);
 
         // update icon and description
-        $('[data-hct_race_icon]').attr('src', resolvedRaceItems[resolvedRaceItems.length - 1].img);
-        $('[data-hct_race_description]').html(resolvedRaceItems[resolvedRaceItems.length - 1].data.description.value);
+        const endRaceItem = resolvedRaceItems[resolvedRaceItems.length - 1];
+        $('[data-hct_race_icon]').attr('src', endRaceItem.img);
+        $('[data-hct_race_description]').html((endRaceItem.data as any).description.value);
       } else ui.notifications!.error(game.i18n.format('HCT.Error.UpdateValueLoad', { value: 'Races' }));
     });
   }

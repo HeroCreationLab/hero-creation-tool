@@ -18,6 +18,7 @@ function tokenDisplayBarsMode() {
     name: game.i18n.localize('HCT.Setting.TokenBarMode.Name'),
     scope: 'world',
     config: true,
+    type: Number,
     choices: {
       0: 'Never Displayed',
       10: 'When Controlled',
@@ -35,6 +36,7 @@ function tokenDisplayNameMode() {
     name: game.i18n.localize('HCT.Setting.TokenNameMode.Name'),
     scope: 'world',
     config: true,
+    type: Number,
     choices: {
       0: 'Never Displayed',
       10: 'When Controlled',
