@@ -44,7 +44,7 @@ class _BackgroundTab extends Step {
       'data.details.background',
       game.i18n.localize('HCT.Background.NamePlaceholder'),
       '',
-      false,
+      { addValues: false },
     );
     nameOption.render($('[data-hct_area=name]', this.section()));
     this.stepOptions.push(nameOption);
@@ -56,7 +56,9 @@ class _BackgroundTab extends Step {
         const alignment = game.i18n.localize(AlignmentLabel[v as Alignment]);
         return { key: alignment, value: alignment };
       });
-    const alignmentOption = new SelectableOption(this.step, 'data.details.alignment', alignmentOptions, '', false);
+    const alignmentOption = new SelectableOption(this.step, 'data.details.alignment', alignmentOptions, '', {
+      addValues: false,
+    });
     alignmentOption.render($('[data-hct_area=alignment]', this.section()));
     this.stepOptions.push(alignmentOption);
 
@@ -67,7 +69,7 @@ class _BackgroundTab extends Step {
     });
     const skillsContainer: OptionsContainer = new OptionsContainer(
       game.i18n.localize('HCT.Common.SkillProficiencies'),
-      [new MultiOption(this.step, 'skills', skillOptions, 2, ' ', true, true)],
+      [new MultiOption(this.step, 'skills', skillOptions, 2, ' ', { addValues: true, expandable: true })],
     );
     skillsContainer.render($proficienciesArea);
     this.stepOptions.push(...skillsContainer.options);
@@ -76,7 +78,11 @@ class _BackgroundTab extends Step {
       return { key: s, value: game.i18n.localize(ToolLabel[s as Tool]) };
     });
     const toolsContainer: OptionsContainer = new OptionsContainer(game.i18n.localize('DND5E.TraitToolProf'), [
-      new MultiOption(this.step, 'toolProf', toolOptions, 0, ' ', true, true),
+      new MultiOption(this.step, 'toolProf', toolOptions, 0, ' ', {
+        addValues: true,
+        expandable: true,
+        customizable: true,
+      }),
     ]);
     toolsContainer.render($proficienciesArea);
     this.stepOptions.push(...toolsContainer.options);
@@ -86,7 +92,13 @@ class _BackgroundTab extends Step {
     });
     const languagesContainer: OptionsContainer = new OptionsContainer(
       game.i18n.localize('HCT.Common.LanguageProficiencies'),
-      [new MultiOption(this.step, 'languages', languageOptions, 0, ' ', true, true)],
+      [
+        new MultiOption(this.step, 'languages', languageOptions, 0, ' ', {
+          addValues: true,
+          expandable: true,
+          customizable: true,
+        }),
+      ],
     );
     languagesContainer.render($proficienciesArea);
     this.stepOptions.push(...languagesContainer.options);

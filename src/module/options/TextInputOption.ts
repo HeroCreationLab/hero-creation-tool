@@ -14,14 +14,20 @@ export default class TextInputOption implements HeroOption {
     readonly key: string,
     private placeholder: string,
     private val: string,
-    readonly addValues: boolean = false,
+    readonly settings: {
+      addValues: boolean;
+    } = { addValues: false },
   ) {}
 
   $elem!: JQuery;
 
-  render($parent: JQuery<HTMLElement>): void {
+  render($parent: JQuery<HTMLElement>, settings?: { beforeParent: boolean }): void {
     this.$elem = $(`<input class="hct-option" type="text" placeholder="${this.placeholder}" value=${this.val}>`);
-    $parent.append(this.$elem);
+    if (settings?.beforeParent) {
+      $parent.before(this.$elem);
+    } else {
+      $parent.append(this.$elem);
+    }
   }
 
   value() {
@@ -33,6 +39,6 @@ export default class TextInputOption implements HeroOption {
   }
 
   applyToHero(actor: ActorDataConstructorData) {
-    apply(actor, this.key, this.value(), this.addValues);
+    apply(actor, this.key, this.value(), this.settings.addValues);
   }
 }

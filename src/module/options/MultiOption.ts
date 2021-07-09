@@ -2,6 +2,7 @@ import { StepEnum } from '../Step';
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 import SelectableOption from './SelectableOption';
 import HeroOption, { apply } from './HeroOption';
+import TextInputOption from './TextInputOption';
 
 /**
  * Represents an array of values selected by the player for the created actor.
@@ -15,8 +16,11 @@ export default class MultiOption implements HeroOption {
     private options: { key: string; value: string }[],
     private quantity: number,
     private label: string,
-    readonly addValues: boolean = false,
-    readonly expandable: boolean = false,
+    readonly settings: {
+      addValues: boolean;
+      expandable?: boolean;
+      customizable?: boolean;
+    } = { addValues: false, expandable: false, customizable: false },
   ) {}
 
   isFulfilled() {
@@ -24,11 +28,11 @@ export default class MultiOption implements HeroOption {
   }
 
   applyToHero(actor: ActorDataConstructorData) {
-    this.optionList.forEach((v) => apply(actor, v.key, v.value(), this.addValues));
+    this.optionList.forEach((v) => apply(actor, v.key, v.value(), this.settings.addValues));
   }
 
-  optionList!: SelectableOption[];
-  $addButton!: JQuery;
+  optionList!: HeroOption[];
+  $buttonGroup!: JQuery;
 
   /**
    * Builds the HTML element for this option and appends it to the parent
@@ -37,21 +41,41 @@ export default class MultiOption implements HeroOption {
   render($parent: JQuery): void {
     this.optionList = [];
     for (let i = 0; i < this.quantity; i++) {
-      const o = new SelectableOption(this.origin, this.key, this.options, this.label, this.addValues);
+      const o = new SelectableOption(this.origin, this.key, this.options, this.label, { ...this.settings });
       this.optionList.push(o);
       o.render($parent);
     }
-    if (this.expandable) {
-      this.$addButton = $('<button class="hct-options-container-button">').html('<i class="fa fa-plus"></i>');
-      this.$addButton.on('click', () => this.addOption());
-      $parent.append(this.$addButton);
+    if (this.settings.expandable) {
+      this.$buttonGroup = $('<div class="hct-options-container-buttongroup">');
+
+      if (this.settings.customizable) {
+        const $customButtom = $('<button class="hct-options-container-button">').html(
+          `<p class="hct-options-container-button-label">${game.i18n.localize('HCT.Common.AddCustom')}</p>`,
+        );
+        $customButtom.on('click', () => this.addCustomOption());
+        this.$buttonGroup.append($customButtom);
+      }
+
+      const $addButton = $('<button class="hct-options-container-button">').html(
+        `<p class="hct-options-container-button-label">${game.i18n.localize('HCT.Common.AddStandard')}</p>`,
+      );
+      $addButton.on('click', () => this.addOption());
+      this.$buttonGroup.append($addButton);
+
+      $parent.append(this.$buttonGroup);
     }
   }
 
   addOption(): void {
-    const o = new SelectableOption(this.origin, this.key, this.options, this.label, this.addValues);
+    const o = new SelectableOption(this.origin, this.key, this.options, this.label, { ...this.settings });
     this.optionList.push(o);
-    o.render(this.$addButton, { beforeParent: true });
+    o.render(this.$buttonGroup, { beforeParent: true });
+  }
+
+  addCustomOption(): void {
+    const o = new TextInputOption(this.origin, this.key, '...', this.label, { ...this.settings });
+    this.optionList.push(o);
+    o.render(this.$buttonGroup, { beforeParent: true });
   }
 
   /**

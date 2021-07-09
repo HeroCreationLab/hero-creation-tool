@@ -90,14 +90,16 @@ function updateClass(classItem: any, $section: JQuery): HeroOption[] {
   // icon, description and class item
   $('[data-hct_class_icon]', $section).attr('src', classItem.img);
   $('[data-hct_class_description]', $section).html(TextEditor.enrichHTML(classItem.data.description.value));
-  options.push(new HiddenOption(ClassTab.step, 'items', [classItem], true));
+  options.push(new HiddenOption(ClassTab.step, 'items', [classItem], { addValues: true }));
 
   // hit points
   const hitDice = new HitDice(classItem.data.hitDice);
   const textBlob = game.i18n.format('HCT.Class.HitPointsBlob', {
     max: hitDice.getMax(),
   });
-  const hitPointsOption = new FixedOption(ClassTab.step, 'data.attributes.hp.max', hitDice.getMax(), textBlob, true);
+  const hitPointsOption = new FixedOption(ClassTab.step, 'data.attributes.hp.max', hitDice.getMax(), textBlob, {
+    addValues: true,
+  });
   const $hitPointSection = $('section', $('[data-hct_class_area=hit-points]', $context)).empty();
   hitPointsOption.render($hitPointSection);
   options.push(hitPointsOption);
@@ -111,7 +113,7 @@ function updateClass(classItem: any, $section: JQuery): HeroOption[] {
       classItem.data.skills.choices.map((s: string) => ({ key: s, value: Utils.getSkillNameByKey(s) })),
       classItem.data.skills.number,
       ' ',
-      true,
+      { addValues: true },
     ),
   ]);
   skillsContainer.render($skillProficiencySection);

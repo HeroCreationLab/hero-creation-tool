@@ -13,7 +13,9 @@ export default class SelectableOption implements HeroOption {
     readonly key: string,
     private options: { key: string; value: string }[],
     private label: string,
-    readonly addValues: boolean = false,
+    readonly settings: {
+      addValues: boolean;
+    } = { addValues: false },
   ) {}
 
   isFulfilled() {
@@ -21,7 +23,7 @@ export default class SelectableOption implements HeroOption {
   }
 
   applyToHero(actor: ActorDataConstructorData) {
-    apply(actor, this.key, this.value(), this.addValues);
+    apply(actor, this.key, this.value(), this.settings.addValues);
   }
 
   $elem: JQuery = $(`<select class="hct-option-select">
