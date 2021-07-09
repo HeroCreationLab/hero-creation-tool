@@ -1,3 +1,6 @@
+import { ArmorType } from './types/ArmorType';
+import { Language } from './types/Language';
+import { Tool } from './types/Tool';
 import { WeaponType } from './types/WeaponType';
 
 export async function getItemListFromCompendiumByName(compendiumName: string) {
@@ -98,29 +101,50 @@ function handleNavs(index: number) {
   $('[data-hct_next]', $footer).prop('disabled', index == 8);
 }
 
-export function isCustomKey(keyList: any, value: string): boolean {
+export function isCustomKey(key: string, value: string): boolean {
+  let keyList: any;
+  switch (key) {
+    case 'weaponProf':
+      keyList = WeaponType;
+      break;
+    case 'armorProf':
+      keyList = ArmorType;
+      break;
+    case 'toolProf':
+      keyList = Tool;
+      break;
+    case 'languages':
+      keyList = Language;
+      break;
+  }
   for (const key in keyList) {
     if (keyList[key] === value) return false;
   }
   return true;
 }
 
-export function getActorKeyForProficiency(proficiencyKey: string, proficiencyValue: string): string {
-  let actorKey = 'data.traits.';
-  if (Array.isArray(proficiencyValue) && proficiencyValue.length == 1) {
-    proficiencyValue = proficiencyValue[0];
+export function isProficiencyKey(key: string): boolean {
+  if (key.indexOf('skill') > -1) return true;
+  if (key.indexOf('language') > -1) return true;
+  if (key.indexOf('weapon') > -1) return true;
+  if (key.indexOf('armor') > -1) return true;
+  if (key.indexOf('tool') > -1) return true;
+  return false;
+}
+
+export function getActorDataForProficiency(key: string, value: any): [key: string, value: any] {
+  if (!isProficiencyKey(key)) return [key, value];
+
+  if (Array.isArray(value) && value.length == 1) {
+    value = value[0];
   }
-  switch (proficiencyKey) {
-    case 'skills':
-      actorKey = 'data.skills.$VALUE$.value';
-      break;
-    case 'weapons':
-      actorKey += isCustomKey(WeaponType, proficiencyValue) ? 'weaponProf.custom' : 'weaponProf.value';
-      break;
-    case 'armor':
-      break;
-    case 'tools':
-      break;
+  const baseKey = 'data.traits';
+  let pair: [string, any];
+  if (key === 'skills') {
+    pair = [`data.skills.${value}.value`, 1];
+  } else {
+    if (isCustomKey(key, value)) pair = [`${baseKey}.${key}.custom`, value];
+    else pair = [`${baseKey}.${key}.value`, [value]];
   }
-  return actorKey;
+  return pair;
 }

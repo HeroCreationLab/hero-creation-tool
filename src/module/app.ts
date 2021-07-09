@@ -15,7 +15,7 @@ import EquipmentTab from './tabs/equipmentStep';
 import SpellsTab from './tabs/spellsStep';
 import BioTab from './tabs/bioStep';
 import { Step } from './Step';
-import { Option } from './HeroOption';
+import HeroOption from './options/HeroOption';
 import type { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 
 export default class App extends Application {
@@ -130,7 +130,7 @@ export default class App extends Application {
     return newActor;
   }
 
-  private requiredOptionNotFulfilled(opt: Option): boolean {
+  private requiredOptionNotFulfilled(opt: HeroOption): boolean {
     const key = opt.key;
     if (key === 'name' && !opt.isFulfilled()) {
       // TODO consider if it would make sense to include a filter to make sure a race and class has been selected

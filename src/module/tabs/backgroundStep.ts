@@ -4,9 +4,14 @@
 import * as Utils from '../utils';
 import * as Constants from '../constants';
 import { Step, StepEnum } from '../Step';
-import * as HeroOption from '../HeroOption';
+import TextInputOption from '../options/TextInputOption';
+import MultiOption from '../options/MultiOption';
+import SelectableOption from '../options/SelectableOption';
+import OptionsContainer from '../options/OptionsContainer';
 import { Skill, SkillLabel } from '../types/Skill';
 import { Alignment, AlignmentLabel } from '../types/Alignment';
+import { Tool, ToolLabel } from '../types/Tool';
+import { Language, LanguageLabel } from '../types/Language';
 
 class _BackgroundTab extends Step {
   constructor() {
@@ -29,13 +34,12 @@ class _BackgroundTab extends Step {
       Constants.DND5E_COMPENDIUMS.RULES,
       'Backgrounds',
     );
-    console.log(backgroundRulesItem);
     $('[data-hct_background_description]', this.section()).html(
       TextEditor.enrichHTML((backgroundRulesItem as any).content),
     );
 
     // background name
-    const nameOption = new HeroOption.TextInput(
+    const nameOption = new TextInputOption(
       this.step,
       'data.details.background',
       game.i18n.localize('HCT.Background.NamePlaceholder'),
@@ -52,7 +56,7 @@ class _BackgroundTab extends Step {
         const alignment = game.i18n.localize(AlignmentLabel[v as Alignment]);
         return { key: alignment, value: alignment };
       });
-    const alignmentOption = new HeroOption.Selectable(this.step, 'data.details.alignment', alignmentOptions, '', false);
+    const alignmentOption = new SelectableOption(this.step, 'data.details.alignment', alignmentOptions, '', false);
     alignmentOption.render($('[data-hct_area=alignment]', this.section()));
     this.stepOptions.push(alignmentOption);
 
@@ -61,25 +65,31 @@ class _BackgroundTab extends Step {
     const skillOptions: { key: string; value: string }[] = Object.values(Skill).map((s) => {
       return { key: s, value: game.i18n.localize(SkillLabel[s as Skill]) };
     });
-    const skillsContainer: HeroOption.Container = new HeroOption.Container(
+    const skillsContainer: OptionsContainer = new OptionsContainer(
       game.i18n.localize('HCT.Common.SkillProficiencies'),
-      [new HeroOption.Multi(this.step, Utils.getActorKeyForProficiency('skills', ''), skillOptions, 2, ' ', true)],
+      [new MultiOption(this.step, 'skills', skillOptions, 2, ' ', true, true)],
     );
     skillsContainer.render($proficienciesArea);
     this.stepOptions.push(...skillsContainer.options);
 
-    // const toolsContainer: HeroOption.Container = new HeroOption.Container(game.i18n.localize('DND5E.TraitToolProf'), [
-    //   new HeroOption.Selectable(this.step, 'key', [], ' ', true),
-    // ]);
-    // toolsContainer.render($proficienciesArea);
-    // this.stepOptions.push(...toolsContainer.options);
+    const toolOptions: { key: string; value: string }[] = Object.values(Tool).map((s) => {
+      return { key: s, value: game.i18n.localize(ToolLabel[s as Tool]) };
+    });
+    const toolsContainer: OptionsContainer = new OptionsContainer(game.i18n.localize('DND5E.TraitToolProf'), [
+      new MultiOption(this.step, 'toolProf', toolOptions, 0, ' ', true, true),
+    ]);
+    toolsContainer.render($proficienciesArea);
+    this.stepOptions.push(...toolsContainer.options);
 
-    // const languagesContainer: HeroOption.Container = new HeroOption.Container(
-    //   game.i18n.localize('HCT.Common.LanguageProficiencies'),
-    //   [new HeroOption.Selectable(this.step, 'key', [], ' ', true)],
-    // );
-    // languagesContainer.render($proficienciesArea);
-    // this.stepOptions.push(...languagesContainer.options);
+    const languageOptions: { key: string; value: string }[] = Object.values(Language).map((s) => {
+      return { key: s, value: game.i18n.localize(LanguageLabel[s as Language]) };
+    });
+    const languagesContainer: OptionsContainer = new OptionsContainer(
+      game.i18n.localize('HCT.Common.LanguageProficiencies'),
+      [new MultiOption(this.step, 'languages', languageOptions, 0, ' ', true, true)],
+    );
+    languagesContainer.render($proficienciesArea);
+    this.stepOptions.push(...languagesContainer.options);
   }
 }
 const BackgroundTab: Step = new _BackgroundTab();
