@@ -66,7 +66,7 @@ class _Abilities extends Step {
         const key = `data.abilities.${asiKey}.value`;
         const asiValue: number = Number.parseInt($input.val() as string);
         const textToShow = `${Utils.getAbilityNameByKey(asiKey)}: ${asiValue}`;
-        this.stepOptions.push(new FixedOption(this.step, key, asiValue, textToShow, true));
+        this.stepOptions.push(new FixedOption(this.step, key, asiValue, textToShow, { addValues: true }));
       }
     }
     return this.stepOptions;

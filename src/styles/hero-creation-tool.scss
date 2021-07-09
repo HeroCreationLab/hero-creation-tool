@@ -88,10 +88,17 @@ $color-accent: darkred;
       width: 100%;
     }
     &-button {
-      width: 27px;
+      width: 50%;
       height: 27px;
       background-color: $color-button-background;
       color: #242424;
+      border: 1px solid #7a7971;
+      line-height: normal;
+    }
+    &-buttongroup {
+      width: 80%;
+      display: flex;
+      justify-content: flex-end;
     }
   }
 }

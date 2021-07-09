@@ -13,7 +13,9 @@ export default class FixedOption implements HeroOption {
     readonly key: string,
     private option: any,
     private textToShow: string,
-    readonly addValues: boolean = false,
+    readonly settings: {
+      addValues: boolean;
+    } = { addValues: false },
   ) {}
 
   isFulfilled() {
@@ -21,7 +23,7 @@ export default class FixedOption implements HeroOption {
   }
 
   applyToHero(actor: ActorDataConstructorData) {
-    apply(actor, this.key, this.value(), this.addValues);
+    apply(actor, this.key, this.value(), this.settings.addValues);
   }
 
   private $elem = $('<p class="hct-option">').html(`${this.textToShow}`);

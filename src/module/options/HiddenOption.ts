@@ -12,7 +12,9 @@ export default class HiddenOption implements HeroOption {
     readonly origin: StepEnum,
     readonly key: string,
     readonly opt: any,
-    readonly addValues: boolean = false,
+    readonly settings: {
+      addValues: boolean;
+    } = { addValues: false },
   ) {}
 
   render(parent: JQuery<HTMLElement>): void {
@@ -28,6 +30,6 @@ export default class HiddenOption implements HeroOption {
   }
 
   applyToHero(actor: ActorDataConstructorData): void {
-    apply(actor, this.key, this.value(), this.addValues);
+    apply(actor, this.key, this.value(), this.settings.addValues);
   }
 }

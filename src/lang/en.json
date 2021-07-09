@@ -20,6 +20,8 @@
       "ProficiencySelectPlaceholder": "Choose..",
       "SkillProficiencies": "Skill Proficiencies",
       "LanguageProficiencies": "Language Proficiencies",
+      "AddCustom": "Add custom",
+      "AddStandard": "Add one",
       "Movement": {
         "walk": "Walking",
         "burrow": "Burrowing",

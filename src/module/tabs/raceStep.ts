@@ -77,7 +77,7 @@ class _Race extends Step {
     // Condition interactions
     this.$context.show();
 
-    this.stepOptions.push(new HiddenOption(StepEnum.Race, 'items', raceItems, true));
+    this.stepOptions.push(new HiddenOption(StepEnum.Race, 'items', raceItems, { addValues: true }));
     this.stepOptions.push(new HiddenOption(StepEnum.Race, 'data.details.race', raceName));
   }
 
@@ -225,19 +225,15 @@ class _Race extends Step {
         }));
         asi.forEach(() => {
           options.push(
-            new SelectableOption(
-              StepEnum.Race,
-              'key',
-              asiList,
-              Utils.getAbilityNameByKey(key),
-              true, // add this to abilities from Abilities tab
-            ),
+            new SelectableOption(StepEnum.Race, 'key', asiList, Utils.getAbilityNameByKey(key), { addValues: true }),
           );
         });
       } else {
         const text = `${Utils.getAbilityNameByKey(key)}: ${Utils.modifierSign(asi)}`;
         options.push(
-          new FixedOption(StepEnum.Race, `data.abilities.${(key as string).toLowerCase()}.value`, asi, text, true),
+          new FixedOption(StepEnum.Race, `data.abilities.${(key as string).toLowerCase()}.value`, asi, text, {
+            addValues: true,
+          }),
         );
       }
     }
