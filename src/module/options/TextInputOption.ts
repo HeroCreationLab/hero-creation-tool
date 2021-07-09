@@ -22,11 +22,13 @@ export default class TextInputOption implements HeroOption {
   $elem!: JQuery;
 
   render($parent: JQuery<HTMLElement>, settings?: { beforeParent: boolean }): void {
-    this.$elem = $(`<input class="hct-option" type="text" placeholder="${this.placeholder}" value=${this.val}>`);
+    const $container = $('<div class="hct-option">');
+    this.$elem = $(`<input type="text" placeholder="${this.placeholder}" value=${this.val}>`);
+    $container.append(this.$elem);
     if (settings?.beforeParent) {
-      $parent.before(this.$elem);
+      $parent.before($container);
     } else {
-      $parent.append(this.$elem);
+      $parent.append($container);
     }
   }
 
