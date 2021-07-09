@@ -6,11 +6,15 @@ import Race, { getItemNames, Movement } from '../types/Race';
 import * as Utils from '../utils';
 import * as Constants from '../constants';
 import { Size, SizeLabel } from '../types/Size';
-import * as HeroOption from '../HeroOption';
+import HeroOption from '../options/HeroOption';
+import HiddenOption from '../options/HiddenOption';
+import SelectableOption from '../options/SelectableOption';
+import FixedOption from '../options/FixedOption';
+import OptionsContainer from '../options/OptionsContainer';
 import * as DataPrep from '../dataPrep';
 import { Ability, AbilityScoreLabel } from '../types/Ability';
 
-type updateMethodType = () => HeroOption.Option[] | HeroOption.Container[];
+type updateMethodType = () => HeroOption[] | OptionsContainer[];
 //type KeyValue = { key: string; value: string };
 
 class _Race extends Step {
@@ -73,13 +77,13 @@ class _Race extends Step {
     // Condition interactions
     this.$context.show();
 
-    this.stepOptions.push(new HeroOption.Hidden(StepEnum.Race, 'items', raceItems, true));
-    this.stepOptions.push(new HeroOption.Hidden(StepEnum.Race, 'data.details.race', raceName));
+    this.stepOptions.push(new HiddenOption(StepEnum.Race, 'items', raceItems, true));
+    this.stepOptions.push(new HiddenOption(StepEnum.Race, 'data.details.race', raceName));
   }
 
-  processOptions(options: HeroOption.Option[] | HeroOption.Container[], $parent: JQuery) {
+  processOptions(options: HeroOption[] | OptionsContainer[], $parent: JQuery) {
     for (const opt of options) {
-      if (opt instanceof HeroOption.Container) {
+      if (opt instanceof OptionsContainer) {
         $parent.append(`<h3 class='race_proficiency_subtype'>${game.i18n.localize(opt.title)}</h3>`);
         this.processOptions(opt.options, $parent);
       } else {
@@ -89,9 +93,9 @@ class _Race extends Step {
     }
   }
 
-  updateProficiencies(): HeroOption.Container[] {
+  updateProficiencies(): OptionsContainer[] {
     // FIXME do proficiencies later
-    const container = new HeroOption.Container('SOON..');
+    const container = new OptionsContainer('SOON..');
     return [container];
     // const profs = this.race.proficiencies;
     // const containers: HeroOptionsContainer[] = [];
@@ -178,7 +182,7 @@ class _Race extends Step {
     if (!mov) return [];
     return Object.keys(mov).map(
       (key) =>
-        new HeroOption.Fixed(
+        new FixedOption(
           StepEnum.Race,
           `data.attributes.movement.${key}`,
           (mov as any)[key],
@@ -187,12 +191,12 @@ class _Race extends Step {
     );
   }
 
-  updateSenses(): HeroOption.Option[] {
+  updateSenses(): HeroOption[] {
     const senses = this.race.senses;
     if (!senses) return [];
     return Object.keys(senses).map(
       (key) =>
-        new HeroOption.Fixed(
+        new FixedOption(
           StepEnum.Race,
           `data.attributes.senses.${key}`,
           (senses as any)[key],
@@ -205,13 +209,13 @@ class _Race extends Step {
     const size: Size = this.race.size as Size;
     if (!size) return [];
     const sizeText = `${game.i18n.localize(SizeLabel[size])}`;
-    return [new HeroOption.Fixed(StepEnum.Race, 'data.traits.size', size, sizeText)];
+    return [new FixedOption(StepEnum.Race, 'data.traits.size', size, sizeText)];
   }
 
   updateAbilityScores() {
     const asis = this.race.abilityScoreImprovements;
     if (!asis) return [];
-    const options: HeroOption.Option[] = [];
+    const options: HeroOption[] = [];
     for (const key of Object.keys(asis)) {
       const asi: number = (asis as any)[key];
       if (Array.isArray(asi)) {
@@ -221,7 +225,7 @@ class _Race extends Step {
         }));
         asi.forEach(() => {
           options.push(
-            new HeroOption.Selectable(
+            new SelectableOption(
               StepEnum.Race,
               'key',
               asiList,
@@ -233,7 +237,7 @@ class _Race extends Step {
       } else {
         const text = `${Utils.getAbilityNameByKey(key)}: ${Utils.modifierSign(asi)}`;
         options.push(
-          new HeroOption.Fixed(StepEnum.Race, `data.abilities.${(key as string).toLowerCase()}.value`, asi, text, true),
+          new FixedOption(StepEnum.Race, `data.abilities.${(key as string).toLowerCase()}.value`, asi, text, true),
         );
       }
     }

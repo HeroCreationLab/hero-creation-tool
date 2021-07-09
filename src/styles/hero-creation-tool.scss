@@ -1,4 +1,6 @@
 $margin-small: 10px;
+$color-button-background: rgba(0, 0, 0, 0.05);
+$color-accent: darkred;
 
 .header-hct-button {
   margin: 2px;
@@ -59,10 +61,11 @@ $margin-small: 10px;
   }
 
   &-area-title {
-    margin: 10px 0 10px 0;
+    margin: $margin-small 0 $margin-small 0;
   }
 
   &-option {
+    width: 100%;
     display: flex;
     align-items: baseline;
     justify-content: space-between;
@@ -74,6 +77,21 @@ $margin-small: 10px;
     }
     &-select {
       flex-grow: 1;
+    }
+  }
+  &-options-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    &-label {
+      width: 100%;
+    }
+    &-button {
+      width: 27px;
+      height: 27px;
+      background-color: $color-button-background;
+      color: #242424;
     }
   }
 }
@@ -125,7 +143,7 @@ $margin-small: 10px;
 
 .apply-header-font h1,
 .apply-header-font h2 {
-  font-family: "Modesto Condensed", "Signika", "Arial";
+  font-family: 'Modesto Condensed', 'Signika', 'Arial';
 }
 
 .apply-header-font h1 {
@@ -154,7 +172,7 @@ $margin-small: 10px;
 /* ## Style the buttons inside the tab */
 
 .tablinks {
-  font-family: "Modesto Condensed", "Signika", "Arial";
+  font-family: 'Modesto Condensed', 'Signika', 'Arial';
   background-color: inherit;
   height: 40px;
   padding: 10px;
@@ -198,7 +216,7 @@ $margin-small: 10px;
 
 .tabs button.active {
   background-color: rgba(255, 255, 255, 0.5);
-  border-bottom: 4px solid #c00;
+  border-bottom: 4px solid $color-accent;
   transform: scale(1.08);
   text-shadow: 0 0 5px red;
 }
@@ -274,12 +292,12 @@ $margin-small: 10px;
 .step-button {
   width: 80px;
   height: 35px;
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: $color-button-background;
   border-radius: 3px;
   border: 2px groove #f0f0e0;
   cursor: pointer;
   font-size: 15px;
-  font-family: "Signika", sans-serif;
+  font-family: 'Signika', sans-serif;
 }
 
 .step-button {
@@ -305,12 +323,12 @@ $margin-small: 10px;
   margin: 0;
 }
 
-.form-group input[type="color"] {
+.form-group input[type='color'] {
   margin-left: 10px;
 }
 
 .form-group label {
-  font-family: "Signika", "serif", "Arial";
+  font-family: 'Signika', 'serif', 'Arial';
   font-size: 1.2em;
 }
 
@@ -344,24 +362,8 @@ $margin-small: 10px;
   align-items: center;
 }
 
-.accordion-button {
-  background: rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  border: 2px groove #f0f0e0;
-  outline: none;
-  transition: 0.4s;
-  margin: 5px 0px;
-}
-
-.accordion-panel {
-  padding: 0 18px;
-  display: none;
-  overflow-y: scroll;
-  margin: 5px;
-}
-
 .hct-select {
-  font-family: "Signika", sans-serif;
+  font-family: 'Signika', sans-serif;
   border: 2px groove #f0f0e0;
 }
 
