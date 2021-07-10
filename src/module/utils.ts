@@ -4,22 +4,27 @@ import { Tool } from './types/Tool';
 import { WeaponType } from './types/WeaponType';
 
 export async function getItemListFromCompendiumByName(compendiumName: string) {
-  const pack = game.packs.get(compendiumName);
-  const worldItems = game.items;
-  if (!worldItems) throw new Error('game.items not initialized yet');
-  if (!pack) throw new Error(`No pack for name ${compendiumName}!`);
-  if (pack.documentName !== 'Item') throw new Error(`${compendiumName} is not an Item pack`);
+  return getItemListFromCompendiumListByNames([compendiumName]);
+}
 
-  const itemPack = pack as CompendiumCollection<CompendiumCollection.Metadata & { entity: 'Item' }>;
-
-  const itemsPromises: Promise<Item | null | undefined>[] = [];
-  for (const itemIndex of pack.index.keys()) {
-    const item = itemPack.getDocument(itemIndex);
-    itemsPromises.push(item);
+export async function getItemListFromCompendiumListByNames(compendiumNames: string[]) {
+  const allItems = [];
+  for (const compendiumName of compendiumNames) {
+    const pack = game.packs.get(compendiumName);
+    const worldItems = game.items;
+    if (!worldItems) throw new Error('game.items not initialized yet');
+    if (!pack) ui.notifications?.warn(`No pack for name ${compendiumName}!`);
+    if (pack?.documentName !== 'Item') throw new Error(`${compendiumName} is not an Item pack`);
+    const itemPack = pack as CompendiumCollection<CompendiumCollection.Metadata & { entity: 'Item' }>;
+    const itemsPromises: Promise<Item | null | undefined>[] = [];
+    for (const itemIndex of pack.index.keys()) {
+      const item = itemPack.getDocument(itemIndex);
+      itemsPromises.push(item);
+    }
+    const items = await Promise.all(itemsPromises);
+    allItems.push(...items.filter((item): item is Item => !!item).map((item) => worldItems.fromCompendium(item)));
   }
-  const items = await Promise.all(itemsPromises);
-
-  return items.filter((item): item is Item => !!item).map((item) => worldItems.fromCompendium(item));
+  return allItems;
 }
 
 export async function getJournalFromCompendiumByName(compendiumName: string, itemName: string) {

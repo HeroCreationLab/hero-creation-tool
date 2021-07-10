@@ -7,7 +7,7 @@ import * as Utils from '../utils';
 import { Settings } from '../settings';
 import HiddenOption from '../options/HiddenOption';
 import MultiOption from '../options/MultiOption';
-import FixedOption from '../options/FixedOption';
+import FixedOption, { OptionType } from '../options/FixedOption';
 import OptionsContainer from '../options/OptionsContainer';
 import HeroOption from '../options/HeroOption';
 
@@ -18,6 +18,7 @@ type Clazz = {
 
 class _Class extends Step {
   classes?: Item[] = [];
+  classFeatures?: Item[] = [];
   clazz!: Clazz;
   constructor() {
     super(StepEnum.Class);
@@ -32,26 +33,110 @@ class _Class extends Step {
       const className: string = $(event.currentTarget).val() as string;
       this.clazz = this.classes!.filter((c) => c.name === className)[0] as any;
       if (this.classes) {
-        const options = updateClass(this.clazz, this.section());
+        const options = this.updateClass(this.clazz, this.section());
         this.stepOptions.push(...options);
       } else ui.notifications!.error(game.i18n.format('HCT.Error.UpdateValueLoad', { value: 'Classes' }));
     });
   }
 
   async setSourceData() {
-    const items = await Utils.getItemListFromCompendiumByName(Constants.DND5E_COMPENDIUMS.CLASSES);
-    const customPack = (await game.settings.get(Constants.MODULE_NAME, Settings.CLASS_PACKS)) as string;
-    if (customPack) {
-      const customClasses = await Utils.getItemListFromCompendiumByName(customPack);
-      items.push(...customClasses);
+    // classes
+    const classCompendiums: string[] = [Constants.DND5E_COMPENDIUMS.CLASSES];
+    const classCustomPack = (await game.settings.get(Constants.MODULE_NAME, Settings.CLASS_PACKS)) as string;
+    if (classCustomPack) {
+      classCompendiums.push(classCustomPack);
     }
-    this.classes = items?.sort((a, b) => a.name.localeCompare(b.name)) as any;
+    const classItems = await Utils.getItemListFromCompendiumListByNames(classCompendiums);
+    this.classes = classItems?.sort((a, b) => a.name.localeCompare(b.name)) as any;
     if (this.classes) setClassPickerOptions(this.classes);
     else ui.notifications!.error(game.i18n.format('HCT.Error.RenderLoad', { value: 'Classes' }));
+
+    // class features
+    const classFeatureCompendiums: string[] = [Constants.DND5E_COMPENDIUMS.CLASS_FEATURES];
+    const classFeatureCustomPack = (await game.settings.get(
+      Constants.MODULE_NAME,
+      Settings.CLASS_FEATURE_PACKS,
+    )) as string;
+    if (classFeatureCustomPack) {
+      classFeatureCompendiums.push(classFeatureCustomPack);
+    }
+    const classFeeatureItems = await Utils.getItemListFromCompendiumListByNames(classFeatureCompendiums);
+    this.classFeatures = classFeeatureItems?.sort((a, b) => a.name.localeCompare(b.name)) as any;
   }
 
   renderData(): void {
     $('[data-hct_class_data]', this.section()).hide();
+  }
+
+  updateClass(classItem: any, $section: JQuery): HeroOption[] {
+    const $context = $('[data-hct_class_data]', $section);
+    const options: HeroOption[] = [];
+    console.log(classItem);
+
+    // icon, description and class item
+    $('[data-hct_class_icon]', $section).attr('src', classItem.img);
+    $('[data-hct_class_description]', $section).html(TextEditor.enrichHTML(classItem.data.description.value));
+    options.push(new HiddenOption(ClassTab.step, 'items', [classItem], { addValues: true }));
+
+    // hit points
+    const hitDice = new HitDice(classItem.data.hitDice);
+    const textBlob = game.i18n.format('HCT.Class.HitPointsBlob', {
+      max: hitDice.getMax(),
+    });
+    const hitPointsOption = new FixedOption(ClassTab.step, 'data.attributes.hp.max', hitDice.getMax(), textBlob, {
+      addValues: true,
+      type: OptionType.TEXT,
+    });
+    const $hitPointSection = $('section', $('[data-hct_class_area=hit-points]', $context)).empty();
+    hitPointsOption.render($hitPointSection);
+    options.push(hitPointsOption);
+
+    // saving throws
+    const savingThrows: string[] = classItem.data.saves;
+    const $savingThrowsSection = $('section', $('[data-hct_class_area=saving-throws]', $context)).empty();
+    savingThrows.forEach((save) => {
+      const savingThrowOption = new FixedOption(
+        ClassTab.step,
+        `data.abilities.${save}.proficient`,
+        1,
+        Utils.getAbilityNameByKey(save),
+      );
+      savingThrowOption.render($savingThrowsSection);
+      options.push(savingThrowOption);
+    });
+
+    // proficiencies
+    const $skillProficiencySection: JQuery = $('section', $('[data-hct_class_area=proficiencies]', $context)).empty();
+    const skillsContainer: OptionsContainer = new OptionsContainer(
+      game.i18n.localize('HCT.Common.SkillProficiencies'),
+      [
+        new MultiOption(
+          ClassTab.step,
+          'skills',
+          classItem.data.skills.choices.map((s: string) => ({ key: s, value: Utils.getSkillNameByKey(s) })),
+          classItem.data.skills.number,
+          ' ',
+          { addValues: true },
+        ),
+      ],
+    );
+    skillsContainer.render($skillProficiencySection);
+    options.push(...skillsContainer.options);
+
+    // class features
+    const $featuresSection = $('section', $('[data-hct_class_area=features]', $context)).empty();
+    const classFeatures: Item[] = getClassFeaturesForClassNameAndLevel(classItem.name, 1, this.classFeatures);
+    classFeatures.forEach((feature) => {
+      const featureOption = new FixedOption(ClassTab.step, 'items', feature, '', {
+        addValues: true,
+        type: OptionType.ITEM,
+      });
+      featureOption.render($featuresSection);
+      options.push(featureOption);
+    });
+
+    $('[data-hct_class_data]').show();
+    return options;
   }
 }
 const ClassTab: Step = new _Class();
@@ -60,7 +145,7 @@ export default ClassTab;
 function setClassPickerOptions(classes: Item[]) {
   const picker = $('[data-hct_class_picker]');
   for (const clazz of classes) {
-    picker.append($(`<option class='hct_picker_primary' value='${clazz.name}'>${clazz.name}</option>`));
+    picker.append($(`<option value='${clazz.name}'>${clazz.name}</option>`));
     // if (!clazz.parentRace) {
     //   // race is a primary race
     //   const subclasses = races.filter((r: Race) => r.parentRace == clazz);
@@ -82,60 +167,23 @@ function setClassPickerOptions(classes: Item[]) {
   }
 }
 
-function updateClass(classItem: any, $section: JQuery): HeroOption[] {
-  const $context = $('[data-hct_class_data]', $section);
-  const options: HeroOption[] = [];
-  console.log(classItem);
-
-  // icon, description and class item
-  $('[data-hct_class_icon]', $section).attr('src', classItem.img);
-  $('[data-hct_class_description]', $section).html(TextEditor.enrichHTML(classItem.data.description.value));
-  options.push(new HiddenOption(ClassTab.step, 'items', [classItem], { addValues: true }));
-
-  // hit points
-  const hitDice = new HitDice(classItem.data.hitDice);
-  const textBlob = game.i18n.format('HCT.Class.HitPointsBlob', {
-    max: hitDice.getMax(),
+function getClassFeaturesForClassNameAndLevel(className: string, level: number, classFeatures?: Item[]): Item[] {
+  if (!classFeatures) return [];
+  const requirement = `${className} ${level}`;
+  const filtered = classFeatures.filter((cf: any) => {
+    const req: string = cf.data.requirements;
+    if (req.indexOf(',')) {
+      // feature applies for multiple classes / levels
+      const reqs: string[] = req.split(',').map((r) => r.trim());
+      return reqs.indexOf(requirement) > -1;
+    } else {
+      return req === requirement;
+    }
   });
-  const hitPointsOption = new FixedOption(ClassTab.step, 'data.attributes.hp.max', hitDice.getMax(), textBlob, {
-    addValues: true,
-  });
-  const $hitPointSection = $('section', $('[data-hct_class_area=hit-points]', $context)).empty();
-  hitPointsOption.render($hitPointSection);
-  options.push(hitPointsOption);
-
-  // proficiencies
-  const $skillProficiencySection: JQuery = $('section', $('[data-hct_class_area=proficiencies]', $context)).empty();
-  const skillsContainer: OptionsContainer = new OptionsContainer(game.i18n.localize('HCT.Common.SkillProficiencies'), [
-    new MultiOption(
-      ClassTab.step,
-      'skills',
-      classItem.data.skills.choices.map((s: string) => ({ key: s, value: Utils.getSkillNameByKey(s) })),
-      classItem.data.skills.number,
-      ' ',
-      { addValues: true },
-    ),
-  ]);
-  skillsContainer.render($skillProficiencySection);
-  options.push(...skillsContainer.options);
-
-  // saving throws
-  const savingThrows: string[] = classItem.data.saves;
-  const $savingThrowsSection = $('section', $('[data-hct_class_area=saving-throws]', $context)).empty();
-  savingThrows.forEach((save) => {
-    const savingThrowOption = new FixedOption(
-      ClassTab.step,
-      `data.abilities.${save}.proficient`,
-      1,
-      Utils.getAbilityNameByKey(save),
-    );
-    savingThrowOption.render($savingThrowsSection);
-    options.push(savingThrowOption);
-  });
-
-  $('[data-hct_class_data]').show();
-  return options;
+  return filtered;
 }
+
+//===============================================================
 
 class HitDice {
   constructor(private hd: string) {}

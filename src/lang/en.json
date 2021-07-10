@@ -11,7 +11,11 @@
       },
       "ClassCompendiums": {
         "Name": "Class compendiums",
-        "Hint": "Here you can define the name of a complementary compendium with other classes"
+        "Hint": "Here you can define the name of a complementary compendium with custom classes"
+      },
+      "ClassFeatureCompendiums": {
+        "Name": "Class features compendiums",
+        "Hint": "Here you can define the name of a complementary compendium with custom class features"
       }
     },
     "Common": {
@@ -34,7 +38,9 @@
     },
     "Error": {
       "UpdateValueLoad": "{value} not loaded for updating values",
-      "RenderLoad": "{value} not loaded for render data"
+      "RenderLoad": "{value} not loaded for render data",
+      "CustomItemWithoutName": "Can't create custom feature on {origin} - Item name is mandatory (Item will be skipped)",
+      "RequiredOptionNotFulfilled": "Option {opt} is required but not fulfilled."
     },
     "List": {
       "DefaultOption": "Choose your {listType}",
@@ -47,7 +53,6 @@
     "Next": "Next",
     "Back": "Back",
     "Submit": "Submit",
-    "Creation.RequiredOptionNotFulfilled": "Option {opt} is required but not fulfilled.",
     "Start": {
       "Title": "Start",
       "Welcome": "Welcome to the Hero Creation Tool for DnD 5e",

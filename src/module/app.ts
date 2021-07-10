@@ -102,10 +102,11 @@ export default class App extends Application {
     }
     if (!errors) {
       // calculate whatever needs inter-tab values like HP
+      cleanUpErroneousItems(newActor);
       calculateStartingHp(newActor);
       setTokenDisplaySettings(newActor);
       console.log(newActor);
-      Actor.create({ ...newActor });
+      Actor.create(newActor);
       this.close();
     }
   }
@@ -135,7 +136,7 @@ export default class App extends Application {
     if (key === 'name' && !opt.isFulfilled()) {
       // TODO consider if it would make sense to include a filter to make sure a race and class has been selected
       // on Foundry the only *required* field to create an actor is Name, as seen on Foundry's vanilla new actor window.
-      const errorMessage = game.i18n.format('HCT.Creation.RequiredOptionNotFulfilled', { opt: opt.key });
+      const errorMessage = game.i18n.format('HCT.Error.RequiredOptionNotFulfilled', { opt: opt.key });
       ui.notifications?.error(errorMessage);
       return true;
     }
@@ -158,4 +159,10 @@ function setTokenDisplaySettings(newActor: ActorDataConstructorData) {
   const displayNameSetting = game.settings.get(Constants.MODULE_NAME, Settings.TOKEN_NAME);
   setProperty(newActor, 'token.displayBars', displayBarsSetting);
   setProperty(newActor, 'token.displayName', displayNameSetting);
+}
+
+function cleanUpErroneousItems(newActor: ActorDataConstructorData) {
+  let items = getProperty(newActor, 'items');
+  items = items.filter(Boolean); // filter undefined items
+  setProperty(newActor, 'items', items);
 }

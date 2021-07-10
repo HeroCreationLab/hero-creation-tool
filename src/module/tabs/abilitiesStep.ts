@@ -5,7 +5,7 @@ import * as Constants from '../constants';
 import * as Utils from '../utils';
 import { Step, StepEnum } from '../Step';
 import HeroOption from '../options/HeroOption';
-import FixedOption from '../options/FixedOption';
+import FixedOption, { OptionType } from '../options/FixedOption';
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 
 class _Abilities extends Step {
@@ -66,7 +66,9 @@ class _Abilities extends Step {
         const key = `data.abilities.${asiKey}.value`;
         const asiValue: number = Number.parseInt($input.val() as string);
         const textToShow = `${Utils.getAbilityNameByKey(asiKey)}: ${asiValue}`;
-        this.stepOptions.push(new FixedOption(this.step, key, asiValue, textToShow, { addValues: true }));
+        this.stepOptions.push(
+          new FixedOption(this.step, key, asiValue, textToShow, { addValues: true, type: OptionType.TEXT }),
+        );
       }
     }
     return this.stepOptions;

@@ -22,6 +22,7 @@ $color-accent: darkred;
     border-radius: 5px;
     width: 48px;
     height: 48px;
+    margin-right: $margin-small;
 
     &-clickable {
       cursor: pointer;
@@ -39,14 +40,10 @@ $color-accent: darkred;
     width: 100%;
   }
 
-  &-selector-with-icon {
+  &-icon-with-context {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     margin-bottom: $margin-small;
-  }
-
-  &_picker {
-    margin: 0 0 $margin-small $margin-small;
   }
 
   /* ## Scrollable Textareas */
