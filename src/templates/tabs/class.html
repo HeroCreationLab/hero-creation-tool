@@ -1,24 +1,28 @@
 <section id="classDiv" class="tab-body apply-header-font" data-hct_tab_section="3">
     <main class='tab-content hct-panel-container'>
         <div class="hct-panel-left">
-            <div class="hct-selector-with-icon">
+            <div class="hct-icon-with-context">
                 <img class="hct-icon" title="classIcon" src="icons/svg/mystery-man.svg" data-hct_class_icon>
-                <select class='hct_picker' , data-hct_class_picker>
+                <select data-hct_class_picker>
                     <option value="" disabled selected hidden> {{localize 'HCT.Class.Select.Default'}} </option>
                 </select>
             </div>
             <div data-hct_class_data>
                 <div data-hct_class_area="hit-points">
                     <h2 class="hct-area-title">{{localize 'HCT.Class.HitPoints'}}</h2>
-                    <section class='hct_data_elem' data-hct_class_hit_points></section>
+                    <section class='hct_data_elem'></section>
                 </div>
                 <div data-hct_class_area="saving-throws">
                     <h2 class="hct-area-title">{{localize 'HCT.Class.SavingThrows'}}</h2>
-                    <section class='hct_data_elem' data-hct_class_saving_throws></section>
+                    <section class='hct_data_elem'></section>
                 </div>
                 <div data-hct_class_area="proficiencies">
                     <h2 class="hct-area-title">{{localize 'HCT.Common.Proficiencies'}}</h2>
-                    <section class='hct_data_elem' data-hct_class_proficiencies></section>
+                    <section class='hct_data_elem'></section>
+                </div>
+                <div data-hct_class_area="features">
+                    <h2 class="hct-area-title">{{localize 'DND5E.Features'}}</h2>
+                    <section class='hct_data_elem'></section>
                 </div>
             </div>
         </div>

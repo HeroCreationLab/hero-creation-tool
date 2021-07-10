@@ -11,11 +11,12 @@ export default class FixedOption implements HeroOption {
   constructor(
     readonly origin: StepEnum,
     readonly key: string,
-    private option: any,
+    private option: string | number | Item,
     private textToShow: string,
     readonly settings: {
       addValues: boolean;
-    } = { addValues: false },
+      type: OptionType;
+    } = { addValues: false, type: OptionType.TEXT },
   ) {}
 
   isFulfilled() {
@@ -23,17 +24,34 @@ export default class FixedOption implements HeroOption {
   }
 
   applyToHero(actor: ActorDataConstructorData) {
-    apply(actor, this.key, this.value(), this.settings.addValues);
+    apply(
+      actor,
+      this.key,
+      this.settings.type === OptionType.TEXT ? this.value() : [this.value()],
+      this.settings.addValues,
+    );
   }
 
-  private $elem = $('<p class="hct-option">').html(`${this.textToShow}`);
+  private $textElem = $('<p class="hct-option">').html(`${this.textToShow}`);
+  private $itemImg = $('<img class="hct-icon">');
+  private $itemName = $('<p>');
 
   /**
    * Builds the HTML element for this option and appends it to the parent
    * @param {JQuery} parent
    */
   render(parent: JQuery): void {
-    parent.append(this.$elem);
+    if (this.settings.type === OptionType.TEXT) {
+      parent.append(this.$textElem);
+    } else {
+      const $container = $('<div class="hct-icon-with-context">');
+      const item: Item = this.option as Item;
+      this.$itemImg.attr('src', item.img);
+      this.$itemName.html(item.name as string);
+      $container.append(this.$itemImg);
+      $container.append(this.$itemName);
+      parent.append($container);
+    }
   }
 
   /**
@@ -42,4 +60,9 @@ export default class FixedOption implements HeroOption {
   value(): any {
     return this.option;
   }
+}
+
+export enum OptionType {
+  TEXT,
+  ITEM,
 }

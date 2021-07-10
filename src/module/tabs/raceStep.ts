@@ -9,7 +9,7 @@ import { Size, SizeLabel } from '../types/Size';
 import HeroOption from '../options/HeroOption';
 import HiddenOption from '../options/HiddenOption';
 import SelectableOption from '../options/SelectableOption';
-import FixedOption from '../options/FixedOption';
+import FixedOption, { OptionType } from '../options/FixedOption';
 import OptionsContainer from '../options/OptionsContainer';
 import * as DataPrep from '../dataPrep';
 import { Ability, AbilityScoreLabel } from '../types/Ability';
@@ -233,6 +233,7 @@ class _Race extends Step {
         options.push(
           new FixedOption(StepEnum.Race, `data.abilities.${(key as string).toLowerCase()}.value`, asi, text, {
             addValues: true,
+            type: OptionType.TEXT,
           }),
         );
       }

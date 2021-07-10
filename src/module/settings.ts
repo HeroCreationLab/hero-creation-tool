@@ -4,6 +4,7 @@ export const enum Settings {
   TOKEN_BAR = 'displayBarsMode',
   TOKEN_NAME = 'displayNameMode',
   CLASS_PACKS = 'classCompendiums',
+  CLASS_FEATURE_PACKS = 'classFeaturesCompendiums',
 }
 
 export function registerSettings(): void {
@@ -11,6 +12,7 @@ export function registerSettings(): void {
   tokenDisplayNameMode();
   tokenDisplayBarsMode();
   classCompendiumSelector();
+  classFeaturesCompendiumSelector();
 }
 
 function tokenDisplayBarsMode() {
@@ -53,6 +55,16 @@ function classCompendiumSelector() {
   game.settings.register(Constants.MODULE_NAME, Settings.CLASS_PACKS, {
     name: game.i18n.localize('HCT.Setting.ClassCompendiums.Name'),
     hint: game.i18n.localize('HCT.Setting.ClassCompendiums.Hint'),
+    scope: 'world',
+    config: true,
+    type: String,
+  });
+}
+
+function classFeaturesCompendiumSelector() {
+  game.settings.register(Constants.MODULE_NAME, Settings.CLASS_FEATURE_PACKS, {
+    name: game.i18n.localize('HCT.Setting.ClassFeatureCompendiums.Name'),
+    hint: game.i18n.localize('HCT.Setting.ClassFeatureCompendiums.Hint'),
     scope: 'world',
     config: true,
     type: String,

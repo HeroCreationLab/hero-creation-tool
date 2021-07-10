@@ -35,7 +35,7 @@
     "postinstall": "husky install"
   },
   "devDependencies": {
-    "@league-of-foundry-developers/foundry-vtt-types": "^0.8.8-0",
+    "@league-of-foundry-developers/foundry-vtt-types": "^0.8.8-4",
     "@rollup/plugin-node-resolve": "^11.2.1",
     "@types/jest": "^26.0.23",
     "@typescript-eslint/eslint-plugin": "^4.22.0",

@@ -1,3 +1,4 @@
+import * as Constants from '../constants';
 import { StepEnum } from '../Step';
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 import HeroOption, { apply } from './HeroOption';
@@ -35,6 +36,12 @@ export default class CustomItemOption implements HeroOption {
       const featureName = this.$name.val() as string;
       const featureDesc = this.$description.val() as string;
       const featureIcon = this.$icon.attr('src') as string;
+      if (!featureName || !featureName.trim()) {
+        if (featureDesc || (featureIcon && featureIcon !== Constants.MYSTERY_MAN)) {
+          ui.notifications?.error(game.i18n.format('HCT.Error.CustomItemWithoutName', { origin: this.origin }));
+          return;
+        }
+      }
       itemDataConstructorData = {
         name: featureName,
         type: this.data.type,
@@ -46,9 +53,10 @@ export default class CustomItemOption implements HeroOption {
           source: this.data.source || '',
         },
       };
-      const item = await Item.create({ ...itemDataConstructorData });
+      const item = await Item.create(itemDataConstructorData /*, { temporary: true }*/);
+      const itemObject = item?.toObject();
 
-      apply(actor, this.key, [item], this.settings.addValues);
+      apply(actor, this.key, [itemObject], this.settings.addValues);
     } catch (error) {
       console.warn('Error trying to create custom item');
       console.error(error);
@@ -70,7 +78,7 @@ export default class CustomItemOption implements HeroOption {
     this.$icon.on('click', () => this.openFilePicker());
     this.$name = $(`<input type="text" placeholder="${game.i18n.localize('HCT.Common.FeatureName')}">`);
     this.$description = $(`<textarea type="text" placeholder="${game.i18n.localize('DND5E.Description')}">`);
-    const $iconTitle = $(`<div class="hct-selector-with-icon">`);
+    const $iconTitle = $(`<div class="hct-icon-with-context">`);
     $iconTitle.append(this.$icon);
     $iconTitle.append(this.$name);
     $container.append($iconTitle);
