@@ -12,6 +12,7 @@ import { Skill, SkillLabel } from '../types/Skill';
 import { Alignment, AlignmentLabel } from '../types/Alignment';
 import { Tool, ToolLabel } from '../types/Tool';
 import { Language, LanguageLabel } from '../types/Language';
+import CustomItemOption from '../options/CustomItemOption';
 
 class _BackgroundTab extends Step {
   constructor() {
@@ -29,7 +30,7 @@ class _BackgroundTab extends Step {
   }
 
   async renderData() {
-    // show rules on the side panel
+    // Show rules on the side panel
     const backgroundRulesItem = await Utils.getJournalFromCompendiumByName(
       Constants.DND5E_COMPENDIUMS.RULES,
       'Backgrounds',
@@ -38,7 +39,7 @@ class _BackgroundTab extends Step {
       TextEditor.enrichHTML((backgroundRulesItem as any).content),
     );
 
-    // background name
+    // Background name
     const nameOption = new TextInputOption(
       this.step,
       'data.details.background',
@@ -49,7 +50,7 @@ class _BackgroundTab extends Step {
     nameOption.render($('[data-hct_area=name]', this.section()));
     this.stepOptions.push(nameOption);
 
-    // alignment
+    // Alignment
     const alignmentOptions: { key: string; value: string }[] = Object.values(Alignment)
       .filter((v) => !isNaN(v as any))
       .map((v) => {
@@ -62,7 +63,7 @@ class _BackgroundTab extends Step {
     alignmentOption.render($('[data-hct_area=alignment]', this.section()));
     this.stepOptions.push(alignmentOption);
 
-    // create skills
+    // Skills proficiencies
     const $proficienciesArea = $('[data-hct_area=proficiences]', this.section());
     const skillOptions: { key: string; value: string }[] = Object.values(Skill).map((s) => {
       return { key: s, value: game.i18n.localize(SkillLabel[s as Skill]) };
@@ -74,6 +75,7 @@ class _BackgroundTab extends Step {
     skillsContainer.render($proficienciesArea);
     this.stepOptions.push(...skillsContainer.options);
 
+    // Tool proficiencies
     const toolOptions: { key: string; value: string }[] = Object.values(Tool).map((s) => {
       return { key: s, value: game.i18n.localize(ToolLabel[s as Tool]) };
     });
@@ -87,6 +89,7 @@ class _BackgroundTab extends Step {
     toolsContainer.render($proficienciesArea);
     this.stepOptions.push(...toolsContainer.options);
 
+    // Language proficiencies
     const languageOptions: { key: string; value: string }[] = Object.values(Language).map((s) => {
       return { key: s, value: game.i18n.localize(LanguageLabel[s as Language]) };
     });
@@ -102,6 +105,15 @@ class _BackgroundTab extends Step {
     );
     languagesContainer.render($proficienciesArea);
     this.stepOptions.push(...languagesContainer.options);
+
+    // Background feature
+    const $featureArea = $('[data-hct_area=feature]', this.section());
+    const featureOption: CustomItemOption = new CustomItemOption(this.step, {
+      type: 'feat',
+      source: 'Background',
+    });
+    featureOption.render($featureArea);
+    this.stepOptions.push(featureOption);
   }
 }
 const BackgroundTab: Step = new _BackgroundTab();

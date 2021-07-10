@@ -22,6 +22,10 @@ $color-accent: darkred;
     border-radius: 5px;
     width: 48px;
     height: 48px;
+
+    &-clickable {
+      cursor: pointer;
+    }
   }
 
   &-panel-container {

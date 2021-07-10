@@ -15,6 +15,7 @@
       }
     },
     "Common": {
+      "FeatureName": "Feature name..",
       "Proficiencies": "Proficiencies",
       "ProficiencyMulti": "Proficiency in ",
       "ProficiencySelectPlaceholder": "Choose..",
