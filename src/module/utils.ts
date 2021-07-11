@@ -3,17 +3,39 @@ import { Language } from './types/Language';
 import { Tool } from './types/Tool';
 import { WeaponType } from './types/WeaponType';
 
-export async function getItemListFromCompendiumByName(compendiumName: string) {
-  return getItemListFromCompendiumListByNames([compendiumName]);
+import * as Constants from './constants';
+
+type getSourcesOptions = {
+  baseSource: string;
+  customSourcesProperty?: string;
+};
+/**
+ * @param baseSource pack name of the base source
+ * @param customSources property that holds the array of pack names of custom sources
+ */
+export async function getSources({ baseSource: baseSource, customSourcesProperty }: getSourcesOptions) {
+  const packs: string[] = [];
+  if (!baseSource) {
+    throw new Error(`Invalid base source value: ${baseSource}`);
+  }
+  packs.push(baseSource);
+  if (customSourcesProperty) {
+    const propValue: string = (await game.settings.get(Constants.MODULE_NAME, customSourcesProperty)) as string;
+    if (propValue) {
+      const customSources: string[] = propValue.split(';');
+      packs.push(...customSources);
+    }
+  }
+  return await getItemListFromPackListByNames(packs);
 }
 
-export async function getItemListFromCompendiumListByNames(compendiumNames: string[]) {
+async function getItemListFromPackListByNames(packNames: string[]) {
   const allItems = [];
-  for (const compendiumName of compendiumNames) {
+  for (const compendiumName of packNames) {
     const pack = game.packs.get(compendiumName);
     const worldItems = game.items;
     if (!worldItems) throw new Error('game.items not initialized yet');
-    if (!pack) ui.notifications?.warn(`No pack for name ${compendiumName}!`);
+    if (!pack) ui.notifications?.warn(`No pack for name [${compendiumName}]!`);
     if (pack?.documentName !== 'Item') throw new Error(`${compendiumName} is not an Item pack`);
     const itemPack = pack as CompendiumCollection<CompendiumCollection.Metadata & { entity: 'Item' }>;
     const itemsPromises: Promise<Item | null | undefined>[] = [];
@@ -27,13 +49,13 @@ export async function getItemListFromCompendiumListByNames(compendiumNames: stri
   return allItems;
 }
 
-export async function getJournalFromCompendiumByName(compendiumName: string, itemName: string) {
+export async function getJournalFromPackByName(packName: string, itemName: string) {
   const worldItems = game.items;
   if (!worldItems) throw new Error('game.items not initialized yet');
 
-  const pack = game.packs.get(compendiumName);
-  if (!pack) throw new Error(`No pack for name ${compendiumName}!`);
-  if (pack.documentName !== 'JournalEntry') throw new Error(`${compendiumName} is not an JournalEntry pack`);
+  const pack = game.packs.get(packName);
+  if (!pack) throw new Error(`No pack for name [${packName}]!`);
+  if (pack.documentName !== 'JournalEntry') throw new Error(`${packName} is not an JournalEntry pack`);
 
   const itemPack = pack as CompendiumCollection<CompendiumCollection.Metadata & { entity: 'Item' }>;
   const index = itemPack.index.getName(itemName) as any;
@@ -43,13 +65,13 @@ export async function getJournalFromCompendiumByName(compendiumName: string, ite
   return worldItems.fromCompendium(item);
 }
 
-export async function getItemFromCompendiumByName(compendiumName: string, itemName: string) {
+export async function getItemFromPackByName(packName: string, itemName: string) {
   const worldItems = game.items;
   if (!worldItems) throw new Error('game.items not initialized yet');
 
-  const pack = game.packs.get(compendiumName);
-  if (!pack) throw new Error(`No pack for name ${compendiumName}!`);
-  if (pack.documentName !== 'Item') throw new Error(`${compendiumName} is not an Item pack`);
+  const pack = game.packs.get(packName);
+  if (!pack) throw new Error(`No pack for name ${packName}!`);
+  if (pack.documentName !== 'Item') throw new Error(`${packName} is not an Item pack`);
 
   const itemPack = pack as CompendiumCollection<CompendiumCollection.Metadata & { entity: 'Item' }>;
   const index = itemPack.index.getName(itemName) as any;
@@ -59,12 +81,12 @@ export async function getItemFromCompendiumByName(compendiumName: string, itemNa
   return worldItems.fromCompendium(item);
 }
 
-export async function getItemFromCompendiumByIndexId(compendiumName: string, itemId: string) {
-  const pack = game.packs.get(compendiumName);
+export async function getItemFromPackByIndexId(packName: string, itemId: string) {
+  const pack = game.packs.get(packName);
   const worldItems = game.items;
   if (!worldItems) throw new Error('game.items not initialized yet');
-  if (!pack) throw new Error(`No pack for name ${compendiumName}!`);
-  if (pack.documentName !== 'Item') throw new Error(`${compendiumName} is not an Item pack`);
+  if (!pack) throw new Error(`No pack for name ${packName}!`);
+  if (pack.documentName !== 'Item') throw new Error(`${packName} is not an Item pack`);
 
   const itemPack = pack as CompendiumCollection<CompendiumCollection.Metadata & { entity: 'Item' }>;
   const item = await itemPack.getDocument(itemId);
@@ -152,4 +174,21 @@ export function getActorDataForProficiency(key: string, value: any): [key: strin
     else pair = [`${baseKey}.${key}.value`, [value]];
   }
   return pair;
+}
+
+export type filterPackOptions = { filterValues: string[]; filterField: string; itemList: Item[] };
+export function filterItemList({ filterValues, filterField, itemList }: filterPackOptions): Item[] {
+  if (!itemList) return [];
+  const filtered = itemList.filter((item: any) => {
+    const req: string = getProperty(item, filterField);
+    let reqs: string[];
+    if (req.indexOf(',') > -1) {
+      // feature applies for multiple classes / races / levels
+      reqs = req.split(',').map((r) => r.trim());
+    } else {
+      reqs = [req];
+    }
+    return reqs.some((r) => filterValues.includes(r) && !filterValues.includes(item.name));
+  });
+  return filtered;
 }

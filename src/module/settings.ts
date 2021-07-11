@@ -1,16 +1,19 @@
 import * as Constants from './constants';
 
-export const enum Settings {
+const enum Settings {
   TOKEN_BAR = 'displayBarsMode',
   TOKEN_NAME = 'displayNameMode',
+  RACE_FEATURES_PACK = 'raceFeaturesCompendiums',
   CLASS_PACKS = 'classCompendiums',
   CLASS_FEATURE_PACKS = 'classFeaturesCompendiums',
 }
+export default Settings;
 
 export function registerSettings(): void {
   console.log(`${Constants.LOG_PREFIX} | Building module settings`);
   tokenDisplayNameMode();
   tokenDisplayBarsMode();
+  raceFeaturesCompendiumSelector();
   classCompendiumSelector();
   classFeaturesCompendiumSelector();
 }
@@ -65,6 +68,16 @@ function classFeaturesCompendiumSelector() {
   game.settings.register(Constants.MODULE_NAME, Settings.CLASS_FEATURE_PACKS, {
     name: game.i18n.localize('HCT.Setting.ClassFeatureCompendiums.Name'),
     hint: game.i18n.localize('HCT.Setting.ClassFeatureCompendiums.Hint'),
+    scope: 'world',
+    config: true,
+    type: String,
+  });
+}
+
+function raceFeaturesCompendiumSelector() {
+  game.settings.register(Constants.MODULE_NAME, Settings.RACE_FEATURES_PACK, {
+    name: game.i18n.localize('HCT.Setting.RaceFeatureCompendiums.Name'),
+    hint: game.i18n.localize('HCT.Setting.RaceFeatureCompendiums.Hint'),
     scope: 'world',
     config: true,
     type: String,

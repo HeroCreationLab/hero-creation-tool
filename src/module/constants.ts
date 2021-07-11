@@ -2,11 +2,13 @@
 
 export const MODULE_NAME = 'hero-creation-tool';
 export const MODULE_PATH = 'modules/hero-creation-tool';
+
 export const LOG_PREFIX = 'Hero Creation Tool';
 export const MYSTERY_MAN = 'icons/svg/mystery-man.svg';
 
-export const enum DND5E_COMPENDIUMS {
+export const enum DEFAULT_PACKS {
   RACES = 'dnd5e.races',
+  RACE_FEATURES = 'dnd5e.races',
   CLASSES = 'dnd5e.classes',
   CLASS_FEATURES = 'dnd5e.classfeatures',
   RULES = 'dnd5e.rules',
