@@ -52,8 +52,13 @@ class _Abilities extends Step {
     /* IMPLEMENT AS NEEDED */
   }
 
-  renderData(): void {
-    /* IMPLEMENT AS NEEDED */
+  async renderData() {
+    // Show rules on the side panel
+    const abilitiesRulesItem = await Utils.getJournalFromPackByName(
+      Constants.DEFAULT_PACKS.RULES,
+      'Ability Scores and Modifiers',
+    );
+    $('[data-hct_spells_description]', this.section()).html(TextEditor.enrichHTML((abilitiesRulesItem as any).content));
   }
 
   getOptions(): HeroOption[] {
