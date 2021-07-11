@@ -4,7 +4,7 @@
  */
 import * as Constants from './constants';
 import * as Utils from './utils';
-import { Settings } from './settings';
+import Settings from './settings';
 
 import BasicsTab from './tabs/basicsStep';
 import AbilitiesTab from './tabs/abilitiesStep';

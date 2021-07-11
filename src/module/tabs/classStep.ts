@@ -4,7 +4,7 @@
 import { Step, StepEnum } from '../Step';
 import * as Constants from '../constants';
 import * as Utils from '../utils';
-import { Settings } from '../settings';
+import Settings from '../settings';
 import HiddenOption from '../options/HiddenOption';
 import MultiOption from '../options/MultiOption';
 import FixedOption, { OptionType } from '../options/FixedOption';
@@ -41,27 +41,20 @@ class _Class extends Step {
 
   async setSourceData() {
     // classes
-    const classCompendiums: string[] = [Constants.DND5E_COMPENDIUMS.CLASSES];
-    const classCustomPack = (await game.settings.get(Constants.MODULE_NAME, Settings.CLASS_PACKS)) as string;
-    if (classCustomPack) {
-      classCompendiums.push(classCustomPack);
-    }
-    const classItems = await Utils.getItemListFromCompendiumListByNames(classCompendiums);
+    const classItems = await Utils.getSources({
+      baseSource: Constants.DEFAULT_PACKS.CLASSES,
+      customSourcesProperty: Settings.CLASS_PACKS,
+    });
     this.classes = classItems?.sort((a, b) => a.name.localeCompare(b.name)) as any;
     if (this.classes) setClassPickerOptions(this.classes);
     else ui.notifications!.error(game.i18n.format('HCT.Error.RenderLoad', { value: 'Classes' }));
 
     // class features
-    const classFeatureCompendiums: string[] = [Constants.DND5E_COMPENDIUMS.CLASS_FEATURES];
-    const classFeatureCustomPack = (await game.settings.get(
-      Constants.MODULE_NAME,
-      Settings.CLASS_FEATURE_PACKS,
-    )) as string;
-    if (classFeatureCustomPack) {
-      classFeatureCompendiums.push(classFeatureCustomPack);
-    }
-    const classFeeatureItems = await Utils.getItemListFromCompendiumListByNames(classFeatureCompendiums);
-    this.classFeatures = classFeeatureItems?.sort((a, b) => a.name.localeCompare(b.name)) as any;
+    const classFeatureItems = await Utils.getSources({
+      baseSource: Constants.DEFAULT_PACKS.CLASS_FEATURES,
+      customSourcesProperty: Settings.CLASS_FEATURE_PACKS,
+    });
+    this.classFeatures = classFeatureItems?.sort((a, b) => a.name.localeCompare(b.name)) as any;
   }
 
   renderData(): void {
@@ -125,7 +118,11 @@ class _Class extends Step {
 
     // class features
     const $featuresSection = $('section', $('[data-hct_class_area=features]', $context)).empty();
-    const classFeatures: Item[] = getClassFeaturesForClassNameAndLevel(classItem.name, 1, this.classFeatures);
+    const classFeatures: Item[] = Utils.filterItemList({
+      filterValues: [`${classItem.name} ${1}`],
+      filterField: 'data.requirements',
+      itemList: this.classFeatures!,
+    });
     classFeatures.forEach((feature) => {
       const featureOption = new FixedOption(ClassTab.step, 'items', feature, '', {
         addValues: true,
@@ -146,41 +143,7 @@ function setClassPickerOptions(classes: Item[]) {
   const picker = $('[data-hct_class_picker]');
   for (const clazz of classes) {
     picker.append($(`<option value='${clazz.name}'>${clazz.name}</option>`));
-    // if (!clazz.parentRace) {
-    //   // race is a primary race
-    //   const subclasses = races.filter((r: Race) => r.parentRace == clazz);
-    //   if (subclasses.length) {
-    //     // race has classes - make an optgroup
-    //     picker.append(
-    //       $(`<optgroup class='hct_picker_primary hct_picker_primary_group' label='${clazz.name}'></optgroup>`),
-    //     );
-    //   } else {
-    //     // race is standalone - make an option
-    //     picker.append($(`<option class='hct_picker_primary' value='${clazz.name}'>${clazz.name}</option>`));
-    //   }
-    // } else {
-    //   // race is a subclass - find the parent and append to its optgroup
-    //   $(`[label=${clazz.parentRace.name}]`, picker).append(
-    //     $(`<option class='hct_picker_secondary' value='${clazz.name}'>${clazz.name}</option>`),
-    //   );
-    // }
   }
-}
-
-function getClassFeaturesForClassNameAndLevel(className: string, level: number, classFeatures?: Item[]): Item[] {
-  if (!classFeatures) return [];
-  const requirement = `${className} ${level}`;
-  const filtered = classFeatures.filter((cf: any) => {
-    const req: string = cf.data.requirements;
-    if (req.indexOf(',')) {
-      // feature applies for multiple classes / levels
-      const reqs: string[] = req.split(',').map((r) => r.trim());
-      return reqs.indexOf(requirement) > -1;
-    } else {
-      return req === requirement;
-    }
-  });
-  return filtered;
 }
 
 //===============================================================

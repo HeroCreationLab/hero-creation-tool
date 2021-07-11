@@ -5,6 +5,7 @@ import { Step, StepEnum } from '../Step';
 import Race, { getItemNames, Movement } from '../types/Race';
 import * as Utils from '../utils';
 import * as Constants from '../constants';
+import Settings from '../settings';
 import { Size, SizeLabel } from '../types/Size';
 import HeroOption from '../options/HeroOption';
 import HiddenOption from '../options/HiddenOption';
@@ -19,6 +20,8 @@ type updateMethodType = () => HeroOption[] | OptionsContainer[];
 
 class _Race extends Step {
   races?: Race[];
+  raceFeatures?: Item[];
+
   race!: Race;
 
   $context!: JQuery;
@@ -37,7 +40,7 @@ class _Race extends Step {
         this.race = this.races.filter((r) => r.name === raceName)[0];
         const resolvedRaceItems = await Promise.all(
           getItemNames(this.race).map((itemName) => {
-            return Utils.getItemFromCompendiumByName(Constants.DND5E_COMPENDIUMS.RACES, itemName);
+            return Utils.getItemFromPackByName(Constants.DEFAULT_PACKS.RACES, itemName);
           }),
         );
         this.updateValuesForRace(raceName as string, resolvedRaceItems);
@@ -52,6 +55,12 @@ class _Race extends Step {
 
   async setSourceData() {
     this.races = await DataPrep.setupRaces();
+
+    const raceFeatureItems = await Utils.getSources({
+      baseSource: Constants.DEFAULT_PACKS.RACE_FEATURES,
+      customSourcesProperty: Settings.RACE_FEATURES_PACK,
+    });
+    this.raceFeatures = raceFeatureItems?.sort((a, b) => a.name.localeCompare(b.name)) as any;
   }
 
   renderData(): void {
@@ -238,6 +247,28 @@ class _Race extends Step {
         );
       }
     }
+    return options;
+  }
+
+  updateFeatures() {
+    const options: HeroOption[] = [];
+    const filterBy: string[] = [this.race.name];
+    if (this.race.parentRace) {
+      filterBy.push(this.race.parentRace.name);
+    }
+    const raceFeatures: Item[] = Utils.filterItemList({
+      filterValues: filterBy,
+      filterField: 'data.requirements',
+      itemList: this.raceFeatures!,
+    });
+    raceFeatures.forEach((feature) => {
+      const featureOption = new FixedOption(RaceTab.step, 'items', feature, '', {
+        addValues: true,
+        type: OptionType.ITEM,
+      });
+      options.push(featureOption);
+    });
+
     return options;
   }
 }

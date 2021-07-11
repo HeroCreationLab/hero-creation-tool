@@ -9,13 +9,17 @@
       "TokenBarMode": {
         "Name": "Token bar 1 display mode"
       },
+      "RaceFeatureCompendiums": {
+        "Name": "Race features compendiums",
+        "Hint": "Name of complementary compendium with custom race features, separated by semi-colons (;)"
+      },
       "ClassCompendiums": {
         "Name": "Class compendiums",
-        "Hint": "Here you can define the name of a complementary compendium with custom classes"
+        "Hint": "Name of complementary compendium with custom classes, separated by semi-colons (;)"
       },
       "ClassFeatureCompendiums": {
         "Name": "Class features compendiums",
-        "Hint": "Here you can define the name of a complementary compendium with custom class features"
+        "Hint": "Name of complementary compendium with custom class features, separated by semi-colons (;)"
       }
     },
     "Common": {

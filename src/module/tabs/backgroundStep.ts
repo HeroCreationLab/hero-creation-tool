@@ -31,10 +31,7 @@ class _BackgroundTab extends Step {
 
   async renderData() {
     // Show rules on the side panel
-    const backgroundRulesItem = await Utils.getJournalFromCompendiumByName(
-      Constants.DND5E_COMPENDIUMS.RULES,
-      'Backgrounds',
-    );
+    const backgroundRulesItem = await Utils.getJournalFromPackByName(Constants.DEFAULT_PACKS.RULES, 'Backgrounds');
     $('[data-hct_background_description]', this.section()).html(
       TextEditor.enrichHTML((backgroundRulesItem as any).content),
     );
