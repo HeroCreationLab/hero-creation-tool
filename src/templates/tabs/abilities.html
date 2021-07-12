@@ -1,109 +1,113 @@
 <section id="abDiv" class="tab-body apply-header-font" data-hct_tab_section="4">
-    <main class='tab-content'>
-        <form class="flexcol prototype" autocomplete="off">
-
-            <div class="horizontal-flex">
-                <button type="button" class="div-button centered-text" data-mode="roll">{{localize
+    <main class='tab-content hct-panel-container'>
+        <div class="hct-panel-left">
+            <div>
+                <h2 class="hct-area-title">{{localize 'HCT.Abilities.Method'}}</h2>
+                <button type="button" class="step-button hct-option centered-text" data-mode="roll">{{localize
                     'HCT.Abilities.Buttons.Roll'}}</button>
-                <button type="button" class="div-button centered-text" data-mode="standard">{{localize
+                <button type="button" class="step-button hct-option centered-text" data-mode="standard">{{localize
                     'HCT.Abilities.Buttons.StandardArray'}}</button>
-                <button type="button" class="div-button centered-text" data-mode="point-buy">{{localize
+                <button type="button" class="step-button hct-option centered-text" data-mode="point-buy">{{localize
                     'HCT.Abilities.Buttons.PointBuy'}}</button>
-                <button type="button" class="div-button centered-text" data-mode="manual">{{localize
+                <button type="button" class="step-button hct-option centered-text" data-mode="manual">{{localize
                     'HCT.Abilities.Buttons.ManualEntry'}}</button>
             </div>
-            <p class="centered-text" id="point-buy-score" hidden>{{localize 'HCT.Abilities.PointBuy.Score'}}<span
-                    id="point-buy-current-score">0</span> / <span id="point-buy-max-score">27</span></p>
-            <div class="form-group horizontal-flex">
-                <input class="flex-sixth" type="number" id="number1" placeholder="10" disabled>
-                <span id="mod1" flex>+0</span>
-                <button class="flex-sixth abilityUp" type="button" hidden id="up1">↑</button>
-                <button class="flex-sixth abilityDown" type="button" hidden id="down1">↓</button>
-                <select class="flex-half hct-select" name="stats" id="stat1">
-                    <option value="" disabled selected>{{localize 'HCT.Abilities.Select.Placeholder'}}</option>
-                    <option value="STR">{{localize 'DND5E.AbilityStr'}}</option>
-                    <option value="DEX">{{localize 'DND5E.AbilityDex'}}</option>
-                    <option value="CON">{{localize 'DND5E.AbilityCon'}}</option>
-                    <option value="INT">{{localize 'DND5E.AbilityInt'}}</option>
-                    <option value="WIS">{{localize 'DND5E.AbilityWis'}}</option>
-                    <option value="CHA">{{localize 'DND5E.AbilityCha'}}</option>
-                </select>
-            </div>
-            <div class="form-group horizontal-flex">
-                <input class="flex-sixth" type="number" id="number2" placeholder="10" disabled>
-                <span id="mod2">+0</span>
-                <button class="flex-sixth abilityUp" type="button" hidden id="up2">↑</button>
-                <button class="flex-sixth abilityDown" type="button" hidden id="down2">↓</button>
-                <select class="flex-half hct-select" name="stats" id="stat2">
-                    <option value="" disabled selected>{{localize 'HCT.Abilities.Select.Placeholder'}}</option>
-                    <option value="STR">{{localize 'DND5E.AbilityStr'}}</option>
-                    <option value="DEX">{{localize 'DND5E.AbilityDex'}}</option>
-                    <option value="CON">{{localize 'DND5E.AbilityCon'}}</option>
-                    <option value="INT">{{localize 'DND5E.AbilityInt'}}</option>
-                    <option value="WIS">{{localize 'DND5E.AbilityWis'}}</option>
-                    <option value="CHA">{{localize 'DND5E.AbilityCha'}}</option>
-                </select>
-            </div>
-            <div class="form-group horizontal-flex">
-                <input class="flex-sixth" type="number" id="number3" placeholder="10" disabled>
-                <span id="mod3">+0</span>
-                <button class="flex-sixth abilityUp" type="button" hidden id="up3">↑</button>
-                <button class="flex-sixth abilityDown" type="button" hidden id="down3">↓</button>
-                <select class="flex-half hct-select" name="stats" id="stat3">
-                    <option value="" disabled selected>{{localize 'HCT.Abilities.Select.Placeholder'}}</option>
-                    <option value="STR">{{localize 'DND5E.AbilityStr'}}</option>
-                    <option value="DEX">{{localize 'DND5E.AbilityDex'}}</option>
-                    <option value="CON">{{localize 'DND5E.AbilityCon'}}</option>
-                    <option value="INT">{{localize 'DND5E.AbilityInt'}}</option>
-                    <option value="WIS">{{localize 'DND5E.AbilityWis'}}</option>
-                    <option value="CHA">{{localize 'DND5E.AbilityCha'}}</option>
-                </select>
-            </div>
-            <div class="form-group horizontal-flex">
-                <input class="flex-sixth" type="number" id="number4" placeholder="10" disabled>
-                <span id="mod4">+0</span>
-                <button class="flex-sixth abilityUp" type="button" hidden id="up4">↑</button>
-                <button class="flex-sixth abilityDown" type="button" hidden id="down4">↓</button>
-                <select class="flex-half hct-select" name="stats" id="stat4">
-                    <option value="" disabled selected>{{localize 'HCT.Abilities.Select.Placeholder'}}</option>
-                    <option value="STR">{{localize 'DND5E.AbilityStr'}}</option>
-                    <option value="DEX">{{localize 'DND5E.AbilityDex'}}</option>
-                    <option value="CON">{{localize 'DND5E.AbilityCon'}}</option>
-                    <option value="INT">{{localize 'DND5E.AbilityInt'}}</option>
-                    <option value="WIS">{{localize 'DND5E.AbilityWis'}}</option>
-                    <option value="CHA">{{localize 'DND5E.AbilityCha'}}</option>
-                </select>
-            </div>
-            <div class="form-group horizontal-flex">
-                <input class="flex-sixth" type="number" id="number5" placeholder="10" disabled>
-                <span id="mod5">+0</span>
-                <button class="flex-sixth abilityUp" type="button" hidden id="up5">↑</button>
-                <button class="flex-sixth abilityDown" type="button" hidden id="down5">↓</button>
-                <select class="flex-half hct-select" name="stats" id="stat5">
-                    <option value="" disabled selected>{{localize 'HCT.Abilities.Select.Placeholder'}}</option>
-                    <option value="STR">{{localize 'DND5E.AbilityStr'}}</option>
-                    <option value="DEX">{{localize 'DND5E.AbilityDex'}}</option>
-                    <option value="CON">{{localize 'DND5E.AbilityCon'}}</option>
-                    <option value="INT">{{localize 'DND5E.AbilityInt'}}</option>
-                    <option value="WIS">{{localize 'DND5E.AbilityWis'}}</option>
-                    <option value="CHA">{{localize 'DND5E.AbilityCha'}}</option>
-                </select>
-            </div>
-            <div class="form-group horizontal-flex">
-                <input class="flex-sixth" type="number" id="number6" placeholder="10" disabled>
-                <span id="mod6">+0</span>
-                <button class="flex-sixth abilityUp" type="button" hidden id="up6">↑</button>
-                <button class="flex-sixth abilityDown" type="button" hidden id="down6">↓</button>
-                <select class="flex-half hct-select" name="stats" id="stat6">
-                    <option value="" disabled selected>{{localize 'HCT.Abilities.Select.Placeholder'}}</option>
-                    <option value="STR">{{localize 'DND5E.AbilityStr'}}</option>
-                    <option value="DEX">{{localize 'DND5E.AbilityDex'}}</option>
-                    <option value="CON">{{localize 'DND5E.AbilityCon'}}</option>
-                    <option value="INT">{{localize 'DND5E.AbilityInt'}}</option>
-                    <option value="WIS">{{localize 'DND5E.AbilityWis'}}</option>
-                    <option value="CHA">{{localize 'DND5E.AbilityCha'}}</option>
-                </select>
-            </div>
-        </form>
+            <form class="flexcol prototype" autocomplete="off">
+                <h2 class="hct-area-title">{{localize 'HCT.Abilities.Values'}}</h2>
+                <p class="centered-text" id="point-buy-score" hidden>{{localize 'HCT.Abilities.PointBuy.Score'}}<span
+                        id="point-buy-current-score">0</span> / <span id="point-buy-max-score">27</span></p>
+                <div class="form-group">
+                    <input class="flex-sixth" type="number" id="number1" placeholder="10" disabled>
+                    <span id="mod1" flex>+0</span>
+                    <button class="flex-sixth abilityUp" type="button" hidden id="up1">↑</button>
+                    <button class="flex-sixth abilityDown" type="button" hidden id="down1">↓</button>
+                    <select class="flex-half hct-select" name="stats" id="stat1">
+                        <option value="" disabled selected>{{localize 'HCT.Abilities.Select.Placeholder'}}</option>
+                        <option value="STR">{{localize 'DND5E.AbilityStr'}}</option>
+                        <option value="DEX">{{localize 'DND5E.AbilityDex'}}</option>
+                        <option value="CON">{{localize 'DND5E.AbilityCon'}}</option>
+                        <option value="INT">{{localize 'DND5E.AbilityInt'}}</option>
+                        <option value="WIS">{{localize 'DND5E.AbilityWis'}}</option>
+                        <option value="CHA">{{localize 'DND5E.AbilityCha'}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input class="flex-sixth" type="number" id="number2" placeholder="10" disabled>
+                    <span id="mod2">+0</span>
+                    <button class="flex-sixth abilityUp" type="button" hidden id="up2">↑</button>
+                    <button class="flex-sixth abilityDown" type="button" hidden id="down2">↓</button>
+                    <select class="flex-half hct-select" name="stats" id="stat2">
+                        <option value="" disabled selected>{{localize 'HCT.Abilities.Select.Placeholder'}}</option>
+                        <option value="STR">{{localize 'DND5E.AbilityStr'}}</option>
+                        <option value="DEX">{{localize 'DND5E.AbilityDex'}}</option>
+                        <option value="CON">{{localize 'DND5E.AbilityCon'}}</option>
+                        <option value="INT">{{localize 'DND5E.AbilityInt'}}</option>
+                        <option value="WIS">{{localize 'DND5E.AbilityWis'}}</option>
+                        <option value="CHA">{{localize 'DND5E.AbilityCha'}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input class="flex-sixth" type="number" id="number3" placeholder="10" disabled>
+                    <span id="mod3">+0</span>
+                    <button class="flex-sixth abilityUp" type="button" hidden id="up3">↑</button>
+                    <button class="flex-sixth abilityDown" type="button" hidden id="down3">↓</button>
+                    <select class="flex-half hct-select" name="stats" id="stat3">
+                        <option value="" disabled selected>{{localize 'HCT.Abilities.Select.Placeholder'}}</option>
+                        <option value="STR">{{localize 'DND5E.AbilityStr'}}</option>
+                        <option value="DEX">{{localize 'DND5E.AbilityDex'}}</option>
+                        <option value="CON">{{localize 'DND5E.AbilityCon'}}</option>
+                        <option value="INT">{{localize 'DND5E.AbilityInt'}}</option>
+                        <option value="WIS">{{localize 'DND5E.AbilityWis'}}</option>
+                        <option value="CHA">{{localize 'DND5E.AbilityCha'}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input class="flex-sixth" type="number" id="number4" placeholder="10" disabled>
+                    <span id="mod4">+0</span>
+                    <button class="flex-sixth abilityUp" type="button" hidden id="up4">↑</button>
+                    <button class="flex-sixth abilityDown" type="button" hidden id="down4">↓</button>
+                    <select class="flex-half hct-select" name="stats" id="stat4">
+                        <option value="" disabled selected>{{localize 'HCT.Abilities.Select.Placeholder'}}</option>
+                        <option value="STR">{{localize 'DND5E.AbilityStr'}}</option>
+                        <option value="DEX">{{localize 'DND5E.AbilityDex'}}</option>
+                        <option value="CON">{{localize 'DND5E.AbilityCon'}}</option>
+                        <option value="INT">{{localize 'DND5E.AbilityInt'}}</option>
+                        <option value="WIS">{{localize 'DND5E.AbilityWis'}}</option>
+                        <option value="CHA">{{localize 'DND5E.AbilityCha'}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input class="flex-sixth" type="number" id="number5" placeholder="10" disabled>
+                    <span id="mod5">+0</span>
+                    <button class="flex-sixth abilityUp" type="button" hidden id="up5">↑</button>
+                    <button class="flex-sixth abilityDown" type="button" hidden id="down5">↓</button>
+                    <select class="flex-half hct-select" name="stats" id="stat5">
+                        <option value="" disabled selected>{{localize 'HCT.Abilities.Select.Placeholder'}}</option>
+                        <option value="STR">{{localize 'DND5E.AbilityStr'}}</option>
+                        <option value="DEX">{{localize 'DND5E.AbilityDex'}}</option>
+                        <option value="CON">{{localize 'DND5E.AbilityCon'}}</option>
+                        <option value="INT">{{localize 'DND5E.AbilityInt'}}</option>
+                        <option value="WIS">{{localize 'DND5E.AbilityWis'}}</option>
+                        <option value="CHA">{{localize 'DND5E.AbilityCha'}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input class="flex-sixth" type="number" id="number6" placeholder="10" disabled>
+                    <span id="mod6">+0</span>
+                    <button class="flex-sixth abilityUp" type="button" hidden id="up6">↑</button>
+                    <button class="flex-sixth abilityDown" type="button" hidden id="down6">↓</button>
+                    <select class="flex-half hct-select" name="stats" id="stat6">
+                        <option value="" disabled selected>{{localize 'HCT.Abilities.Select.Placeholder'}}</option>
+                        <option value="STR">{{localize 'DND5E.AbilityStr'}}</option>
+                        <option value="DEX">{{localize 'DND5E.AbilityDex'}}</option>
+                        <option value="CON">{{localize 'DND5E.AbilityCon'}}</option>
+                        <option value="INT">{{localize 'DND5E.AbilityInt'}}</option>
+                        <option value="WIS">{{localize 'DND5E.AbilityWis'}}</option>
+                        <option value="CHA">{{localize 'DND5E.AbilityCha'}}</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="hct-panel-right hct-infoArea" data-hct_spells_description></div>
     </main>
 </section>

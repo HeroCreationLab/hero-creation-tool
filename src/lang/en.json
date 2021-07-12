@@ -60,8 +60,8 @@
     "Start": {
       "Title": "Start",
       "Welcome": "Welcome to the Hero Creation Tool for DnD 5e",
-      "p1": "The Hero Creation Tool is a step-by-step process for creating a character in your tabletop game. Changes are saved as you progress, but the character sheet is only updated upon completion.",
-      "p2": "The Hero Creation Tool currently supports Dungeons & Dragons 5th Edition SRD material from the Players HandBook. You can add further content through the import function of the module (future implementation) or by creating custom modules in the creation tool.",
+      "p1": "The Hero Creation Tool is a step-by-step process for creating a brand-new character for your games. Changes are saved as you progress, but the character is only created upon completion.",
+      "p2": "The tool supports SRD material available within FoundryVTT by default. You can add further content by defining in the settings your own compendiums with your custom races, classes, features and others.",
       "Remark": "Your Adventure Awaits! Get started by clicking Next."
     },
     "Basics": {
@@ -88,6 +88,8 @@
     },
     "Abilities": {
       "Title": "Abilities",
+      "Method": "How are abilities calculated?",
+      "Values": "Ability Values",
       "Buttons": {
         "Info": "Info",
         "Roll": "Roll 4d6 keep 3",

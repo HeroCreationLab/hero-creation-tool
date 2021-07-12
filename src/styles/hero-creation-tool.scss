@@ -193,19 +193,9 @@ $color-accent: darkred;
   text-align: center;
 }
 
-.horizontal-flex {
-  display: flex;
-  flex-flow: row;
-}
-
 .vertical-flex {
   display: flex;
   flex-flow: column;
-}
-
-.horizontal-flex {
-  display: flex;
-  flex-flow: row;
 }
 
 /* ## Change background color of buttons on hover */
@@ -323,7 +313,7 @@ $color-accent: darkred;
 
 .form-group {
   display: flex;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
 }
 
 .form-group div {
@@ -343,10 +333,6 @@ $color-accent: darkred;
 .form-group span,
 .form-group button {
   flex: 0 0 35px;
-}
-
-.div-button {
-  min-width: 80px;
 }
 
 .basics-top-label {
