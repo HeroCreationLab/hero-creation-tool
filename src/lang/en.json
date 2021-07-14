@@ -3,6 +3,10 @@
     "ActorsDirectoryButton": "Hero Creation Tool",
     "WindowTitle": "Hero Creation",
     "Setting": {
+      "UseTokenizer": {
+        "Name": "Use Tokenizer if available",
+        "Hint": "The tool will try to use the Tokenizer module, if found, as default to generate avatar and token pictures."
+      },
       "TokenNameMode": {
         "Name": "Token name display mode"
       },
@@ -20,6 +24,18 @@
       "ClassFeatureCompendiums": {
         "Name": "Class features compendiums",
         "Hint": "Name of complementary compendium with custom class features, separated by semi-colons (;)"
+      }
+    },
+    "Integration": {
+      "Tokenizer": {
+        "WarningOn": "Tokenizer module is set as preferred, you can shift-click to use the default one",
+        "NeedActorName": "Tokenizer needs a character name; please complete that first",
+        "Error": {
+          "ModuleNotFound": "Tokenizer not found, using default FilePicker",
+          "ModuleInactive": "Tokenizer found but not active, using default FilePicker",
+          "VersionUnobtainable": "Error getting Tokenizer version, using default FilePicker",
+          "VersionIncompatible": "Tokenizer version needs to be newer than {version}"
+        }
       }
     },
     "Common": {

@@ -1,6 +1,7 @@
 import * as Constants from './constants';
 
 const enum Settings {
+  USE_TOKENIZER = 'useTokenizer',
   TOKEN_BAR = 'displayBarsMode',
   TOKEN_NAME = 'displayNameMode',
   RACE_FEATURES_PACK = 'raceFeaturesCompendiums',
@@ -11,11 +12,23 @@ export default Settings;
 
 export function registerSettings(): void {
   console.log(`${Constants.LOG_PREFIX} | Building module settings`);
+  useTokenizerIfAvailable();
   tokenDisplayNameMode();
   tokenDisplayBarsMode();
   raceFeaturesCompendiumSelector();
   classCompendiumSelector();
   classFeaturesCompendiumSelector();
+}
+
+function useTokenizerIfAvailable() {
+  game.settings.register(Constants.MODULE_NAME, Settings.USE_TOKENIZER, {
+    name: game.i18n.localize('HCT.Setting.UseTokenizer.Name'),
+    hint: game.i18n.localize('HCT.Setting.UseTokenizer.Hint'),
+    scope: 'world',
+    config: true,
+    type: Boolean,
+    default: false,
+  });
 }
 
 function tokenDisplayBarsMode() {

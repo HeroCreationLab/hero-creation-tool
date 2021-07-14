@@ -33,6 +33,15 @@ $color-accent: darkred;
     }
   }
 
+  &-banner {
+    width: 100%;
+    text-align: center;
+    margin-top: 50px;
+    border: 1px solid gray;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
   &-panel-container {
     display: flex;
   }

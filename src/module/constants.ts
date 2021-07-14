@@ -14,6 +14,12 @@ export const enum DEFAULT_PACKS {
   RULES = 'dnd5e.rules',
 }
 
+export const INTEGRATION = {
+  TOKENIZER: {
+    VERSION: '3.3.0',
+  },
+};
+
 export const MERGE_OPTIONS = {
   insertKeys: true,
   insertValues: true,
