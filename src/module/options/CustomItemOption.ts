@@ -32,38 +32,40 @@ export default class CustomItemOption implements HeroOption {
   async applyToHero(actor: ActorDataConstructorData) {
     // create feature, then reference item
     let itemDataConstructorData: ItemDataConstructorData;
-    try {
-      const featureName = this.$name.val() as string;
-      const featureDesc = this.$description.val() as string;
-      const featureIcon = this.$icon.attr('src') as string;
-      if (!featureName || !featureName.trim()) {
-        if (featureDesc || (featureIcon && featureIcon !== Constants.MYSTERY_MAN)) {
-          ui.notifications?.error(game.i18n.format('HCT.Error.CustomItemWithoutName', { origin: this.origin }));
-          return;
+    if (this.$name.val()) {
+      try {
+        const featureName = this.$name.val() as string;
+        const featureDesc = this.$description.val() as string;
+        const featureIcon = this.$icon.attr('src') as string;
+        if (!featureName || !featureName.trim()) {
+          if (featureDesc || (featureIcon && featureIcon !== Constants.MYSTERY_MAN)) {
+            ui.notifications?.error(game.i18n.format('HCT.Error.CustomItemWithoutName', { origin: this.origin }));
+            return;
+          }
         }
-      }
-      itemDataConstructorData = {
-        name: featureName,
-        type: this.data.type,
-        img: featureIcon,
-        data: {
-          description: {
-            value: featureDesc,
+        itemDataConstructorData = {
+          name: featureName,
+          type: this.data.type,
+          img: featureIcon,
+          data: {
+            description: {
+              value: featureDesc,
+            },
+            source: this.data.source || '',
           },
-          source: this.data.source || '',
-        },
-      };
-      const item = await Item.create(itemDataConstructorData /*, { temporary: true }*/);
-      const itemObject = item?.toObject();
+        };
+        const item = await Item.create(itemDataConstructorData /*, { temporary: true }*/);
+        const itemObject = item?.toObject();
 
-      apply(actor, this.key, [itemObject], this.settings.addValues);
-    } catch (error) {
-      console.warn('Error trying to create custom item');
-      console.error(error);
-      console.warn(`name.val: [${this.$name.val()}]`);
-      console.warn(`desc.val: [${this.$description.val()}]`);
-      console.warn('itemData: ');
-      console.warn(itemDataConstructorData!);
+        apply(actor, this.key, [itemObject], this.settings.addValues);
+      } catch (error) {
+        console.warn('Error trying to create custom item');
+        console.error(error);
+        console.warn(`name.val: [${this.$name.val()}]`);
+        console.warn(`desc.val: [${this.$description.val()}]`);
+        console.warn('itemData: ');
+        console.warn(itemDataConstructorData!);
+      }
     }
   }
 

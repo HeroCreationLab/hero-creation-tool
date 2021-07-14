@@ -97,7 +97,7 @@ export default class App extends Application {
           errors = true;
           break mainloop;
         }
-        opt.applyToHero(newActor);
+        await opt.applyToHero(newActor);
       }
     }
     if (!errors) {
@@ -163,6 +163,7 @@ function setTokenDisplaySettings(newActor: ActorDataConstructorData) {
 
 function cleanUpErroneousItems(newActor: ActorDataConstructorData) {
   let items = getProperty(newActor, 'items');
-  items = items.filter(Boolean); // filter undefined items
-  setProperty(newActor, 'items', items);
+  items = items?.filter(Boolean); // filter undefined items
+  if (items) setProperty(newActor, 'items', items);
+  else delete newActor.items;
 }
