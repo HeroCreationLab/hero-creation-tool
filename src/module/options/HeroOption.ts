@@ -18,7 +18,13 @@ export default interface HeroOption {
   };
 }
 
-export const apply = (existingData: ActorDataConstructorData, key: string, value: any, addValues: boolean) => {
+export const apply = (
+  existingData: ActorDataConstructorData,
+  key: string,
+  value: any,
+  addValues: boolean,
+  enforceNumber?: boolean,
+) => {
   try {
     [key, value] = Utils.getActorDataForProficiency(key, value);
     if (
@@ -40,12 +46,12 @@ export const apply = (existingData: ActorDataConstructorData, key: string, value
           if (!isNaN(value)) {
             value = Number.parseInt(dataSnapshot[key]) + Number.parseInt(value);
           } else {
-            console.error('Expected to add value to previous, but value is not a number');
+            console.error('Expected to add value to previous, but value is not a number nor array');
           }
         }
       }
     }
-    dataSnapshot[key] = value;
+    dataSnapshot[key] = enforceNumber ? Number.parseInt(value) : value;
     mergeObject(existingData, dataSnapshot);
   } catch (error) {
     console.warn('Error on HeroOption.apply(..) - printing error and logging variables');

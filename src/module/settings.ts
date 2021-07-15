@@ -4,9 +4,10 @@ const enum Settings {
   USE_TOKENIZER = 'useTokenizer',
   TOKEN_BAR = 'displayBarsMode',
   TOKEN_NAME = 'displayNameMode',
-  RACE_FEATURES_PACK = 'raceFeaturesCompendiums',
-  CLASS_PACKS = 'classCompendiums',
-  CLASS_FEATURE_PACKS = 'classFeaturesCompendiums',
+  CUSTOM_RACE_PACKS = 'raceCompendiums',
+  CUSTOM_RACE_FEATURES_PACKS = 'raceFeaturesCompendiums',
+  CUSTOM_CLASS_PACKS = 'classCompendiums',
+  CUSTOM_CLASS_FEATURE_PACKS = 'classFeaturesCompendiums',
 }
 export default Settings;
 
@@ -15,6 +16,7 @@ export function registerSettings(): void {
   useTokenizerIfAvailable();
   tokenDisplayNameMode();
   tokenDisplayBarsMode();
+  raceCompendiumSelector();
   raceFeaturesCompendiumSelector();
   classCompendiumSelector();
   classFeaturesCompendiumSelector();
@@ -68,7 +70,7 @@ function tokenDisplayNameMode() {
 }
 
 function classCompendiumSelector() {
-  game.settings.register(Constants.MODULE_NAME, Settings.CLASS_PACKS, {
+  game.settings.register(Constants.MODULE_NAME, Settings.CUSTOM_CLASS_PACKS, {
     name: game.i18n.localize('HCT.Setting.ClassCompendiums.Name'),
     hint: game.i18n.localize('HCT.Setting.ClassCompendiums.Hint'),
     scope: 'world',
@@ -78,7 +80,7 @@ function classCompendiumSelector() {
 }
 
 function classFeaturesCompendiumSelector() {
-  game.settings.register(Constants.MODULE_NAME, Settings.CLASS_FEATURE_PACKS, {
+  game.settings.register(Constants.MODULE_NAME, Settings.CUSTOM_CLASS_FEATURE_PACKS, {
     name: game.i18n.localize('HCT.Setting.ClassFeatureCompendiums.Name'),
     hint: game.i18n.localize('HCT.Setting.ClassFeatureCompendiums.Hint'),
     scope: 'world',
@@ -88,9 +90,19 @@ function classFeaturesCompendiumSelector() {
 }
 
 function raceFeaturesCompendiumSelector() {
-  game.settings.register(Constants.MODULE_NAME, Settings.RACE_FEATURES_PACK, {
+  game.settings.register(Constants.MODULE_NAME, Settings.CUSTOM_RACE_FEATURES_PACKS, {
     name: game.i18n.localize('HCT.Setting.RaceFeatureCompendiums.Name'),
     hint: game.i18n.localize('HCT.Setting.RaceFeatureCompendiums.Hint'),
+    scope: 'world',
+    config: true,
+    type: String,
+  });
+}
+
+function raceCompendiumSelector() {
+  game.settings.register(Constants.MODULE_NAME, Settings.CUSTOM_RACE_PACKS, {
+    name: game.i18n.localize('HCT.Setting.RaceCompendiums.Name'),
+    hint: game.i18n.localize('HCT.Setting.RaceCompendiums.Hint'),
     scope: 'world',
     config: true,
     type: String,

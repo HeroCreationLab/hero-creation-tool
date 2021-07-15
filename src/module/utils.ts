@@ -1,8 +1,3 @@
-import { ArmorType } from './types/ArmorType';
-import { Language } from './types/Language';
-import { Tool } from './types/Tool';
-import { WeaponType } from './types/WeaponType';
-
 import * as Constants from './constants';
 
 type getSourcesOptions = {
@@ -94,14 +89,6 @@ export async function getItemFromPackByIndexId(packName: string, itemId: string)
   return worldItems.fromCompendium(item);
 }
 
-export function getSkillNameByKey(key: string) {
-  return game.i18n.localize(`DND5E.Skill${key.capitalize()}`);
-}
-
-export function getAbilityNameByKey(key: string) {
-  return key === 'any' ? '' : game.i18n.localize(`DND5E.Ability${key.capitalize()}`);
-}
-
 export function getAbilityModifierValue(value: number) {
   return Math.floor((value - 10) / 2);
 }
@@ -110,38 +97,21 @@ export function modifierSign(val: number) {
   return val >= 0 ? `+${val}` : `-${val}`;
 }
 
-export function openTab(index: number): void {
-  handleNavs(index);
-  $('.tab-body').hide();
-  $('.tablinks').removeClass('active');
-  $(`[data-hct_tab_index=${index}]`).addClass('active');
-  $(`[data-hct_tab_section=${index}]`).show();
-}
-
-function handleNavs(index: number) {
-  // hides the tabs if switching to startDiv, else show them.
-  $('.hct-container .tabs').toggle(index !== 0);
-
-  // disables back/next buttons where appropriate
-  const $footer = $('.hct-container footer');
-  $('[data-hct_back]', $footer).prop('disabled', index == 0);
-  $('[data-hct_next]', $footer).prop('disabled', index == 8);
-}
-
 export function isCustomKey(key: string, value: string): boolean {
+  const dnd5e = (game as any).dnd5e;
   let keyList: any;
   switch (key) {
     case 'weaponProf':
-      keyList = WeaponType;
+      keyList = Object.keys(dnd5e.config.weaponProficiencies);
       break;
     case 'armorProf':
-      keyList = ArmorType;
+      keyList = Object.keys(dnd5e.config.armorProficiencies);
       break;
     case 'toolProf':
-      keyList = Tool;
+      keyList = Object.keys(dnd5e.config.toolProficiencies);
       break;
     case 'languages':
-      keyList = Language;
+      keyList = Object.keys(dnd5e.config.languages);
       break;
   }
   for (const key in keyList) {

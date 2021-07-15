@@ -15,8 +15,27 @@ export default class SelectableOption implements HeroOption {
     private label: string,
     readonly settings: {
       addValues: boolean;
+      default?: string;
     } = { addValues: false },
-  ) {}
+  ) {
+    this.$elem = $(`<select class="hct-option-select">`);
+    if (!settings.default) {
+      this.$elem.append(
+        $(`<option value="" selected disabled hidden>
+      ${game.i18n.localize('HCT.Common.ProficiencySelectPlaceholder')}
+      </option>`),
+      );
+    }
+    this.$elem.append(
+      this.options.map((option) =>
+        $(
+          `<option value="${option.key}" ${option.key === settings.default ? 'selected' : ''}>${game.i18n.localize(
+            option.value,
+          )}</option>`,
+        ),
+      ),
+    );
+  }
 
   isFulfilled() {
     return !!this.value();
@@ -26,12 +45,7 @@ export default class SelectableOption implements HeroOption {
     apply(actor, this.key, this.value(), this.settings.addValues);
   }
 
-  $elem: JQuery = $(`<select class="hct-option-select">
-        <option value="" selected disabled hidden>${game.i18n.localize(
-          'HCT.Common.ProficiencySelectPlaceholder',
-        )}</option>
-      ${this.options.map((option) => `<option value="${option.key}">${game.i18n.localize(option.value)}</option>`)}
-    </select>`);
+  $elem: JQuery;
 
   /**
    * Builds the HTML element for this option and appends it to the parent

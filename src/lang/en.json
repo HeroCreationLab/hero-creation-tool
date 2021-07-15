@@ -13,6 +13,10 @@
       "TokenBarMode": {
         "Name": "Token bar 1 display mode"
       },
+      "RaceCompendiums": {
+        "Name": "Race compendiums",
+        "Hint": "Name of complementary compendium with custom races, separated by semi-colons (;)"
+      },
       "RaceFeatureCompendiums": {
         "Name": "Race features compendiums",
         "Hint": "Name of complementary compendium with custom race features, separated by semi-colons (;)"
@@ -45,8 +49,8 @@
       "ProficiencySelectPlaceholder": "Choose..",
       "SkillProficiencies": "Skill Proficiencies",
       "LanguageProficiencies": "Language Proficiencies",
-      "AddCustom": "Add custom",
-      "AddStandard": "Add one",
+      "AddCustom": "Custom",
+      "AddStandard": "Add",
       "Movement": {
         "walk": "Walking",
         "burrow": "Burrowing",
@@ -90,7 +94,7 @@
       "NoName": "Hero has no name"
     },
     "Race": {
-      "DescriptionPlaceholder": "Please select a race to see its description",
+      "DescriptionPlaceholder": "Please select a race to see its description (subrace would show at the end)",
       "Select.Default": "Please select your race",
       "ASI": "Ability Score Increase",
       "InvalidProfKeys": "Invalid proficiency values for modeKey[{modeKey}], proficiencyKey[{proficiencyKey}] and proficiency[{proficiency}]"

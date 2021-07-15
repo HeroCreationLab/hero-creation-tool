@@ -3,15 +3,10 @@
 */
 import * as Utils from '../utils';
 import * as Constants from '../constants';
+import * as ProficiencyUtils from '../proficiencyUtils';
 import { Step, StepEnum } from '../Step';
-import TextInputOption from '../options/TextInputOption';
-import MultiOption from '../options/MultiOption';
+import InputOption from '../options/TextInputOption';
 import SelectableOption from '../options/SelectableOption';
-import OptionsContainer from '../options/OptionsContainer';
-import { Skill, SkillLabel } from '../types/Skill';
-import { Alignment, AlignmentLabel } from '../types/Alignment';
-import { Tool, ToolLabel } from '../types/Tool';
-import { Language, LanguageLabel } from '../types/Language';
 import CustomItemOption from '../options/CustomItemOption';
 
 class _BackgroundTab extends Step {
@@ -36,74 +31,42 @@ class _BackgroundTab extends Step {
       TextEditor.enrichHTML((backgroundRulesItem as any).content),
     );
 
-    // Background name
-    const nameOption = new TextInputOption(
-      this.step,
-      'data.details.background',
-      game.i18n.localize('HCT.Background.NamePlaceholder'),
-      '',
-      { addValues: false },
-    );
-    nameOption.render($('[data-hct_area=name]', this.section()));
-    this.stepOptions.push(nameOption);
+    this.setBackgroundNameUi();
+    this.setAlignmentUi();
 
-    // Alignment
-    const alignmentOptions: { key: string; value: string }[] = Object.values(Alignment)
-      .filter((v) => !isNaN(v as any))
-      .map((v) => {
-        const alignment = game.i18n.localize(AlignmentLabel[v as Alignment]);
-        return { key: alignment, value: alignment };
-      });
-    const alignmentOption = new SelectableOption(this.step, 'data.details.alignment', alignmentOptions, '', {
-      addValues: false,
-    });
-    alignmentOption.render($('[data-hct_area=alignment]', this.section()));
-    this.stepOptions.push(alignmentOption);
-
-    // Skills proficiencies
     const $proficienciesArea = $('[data-hct_area=proficiences]', this.section());
-    const skillOptions: { key: string; value: string }[] = Object.values(Skill).map((s) => {
-      return { key: s, value: game.i18n.localize(SkillLabel[s as Skill]) };
+    ProficiencyUtils.prepareSkillOptions({
+      step: this.step,
+      $parent: $proficienciesArea,
+      pushTo: this.stepOptions,
+      quantity: 2,
+      addValues: true,
+      expandable: true,
+      customizable: false,
     });
-    const skillsContainer: OptionsContainer = new OptionsContainer(
-      game.i18n.localize('HCT.Common.SkillProficiencies'),
-      [new MultiOption(this.step, 'skills', skillOptions, 2, ' ', { addValues: true, expandable: true })],
-    );
-    skillsContainer.render($proficienciesArea);
-    this.stepOptions.push(...skillsContainer.options);
-
-    // Tool proficiencies
-    const toolOptions: { key: string; value: string }[] = Object.values(Tool).map((s) => {
-      return { key: s, value: game.i18n.localize(ToolLabel[s as Tool]) };
+    ProficiencyUtils.prepareToolOptions({
+      step: this.step,
+      $parent: $proficienciesArea,
+      pushTo: this.stepOptions,
+      quantity: 0,
+      addValues: true,
+      expandable: true,
+      customizable: true,
     });
-    const toolsContainer: OptionsContainer = new OptionsContainer(game.i18n.localize('DND5E.TraitToolProf'), [
-      new MultiOption(this.step, 'toolProf', toolOptions, 0, ' ', {
-        addValues: true,
-        expandable: true,
-        customizable: true,
-      }),
-    ]);
-    toolsContainer.render($proficienciesArea);
-    this.stepOptions.push(...toolsContainer.options);
-
-    // Language proficiencies
-    const languageOptions: { key: string; value: string }[] = Object.values(Language).map((s) => {
-      return { key: s, value: game.i18n.localize(LanguageLabel[s as Language]) };
+    ProficiencyUtils.prepareLanguageOptions({
+      step: this.step,
+      $parent: $proficienciesArea,
+      pushTo: this.stepOptions,
+      quantity: 0,
+      addValues: true,
+      expandable: true,
+      customizable: true,
     });
-    const languagesContainer: OptionsContainer = new OptionsContainer(
-      game.i18n.localize('HCT.Common.LanguageProficiencies'),
-      [
-        new MultiOption(this.step, 'languages', languageOptions, 0, ' ', {
-          addValues: true,
-          expandable: true,
-          customizable: true,
-        }),
-      ],
-    );
-    languagesContainer.render($proficienciesArea);
-    this.stepOptions.push(...languagesContainer.options);
 
-    // Background feature
+    this.setBackgroundFeatureUi();
+  }
+
+  private setBackgroundFeatureUi() {
     const $featureArea = $('[data-hct_area=feature]', this.section());
     const featureOption: CustomItemOption = new CustomItemOption(this.step, {
       type: 'feat',
@@ -111,6 +74,28 @@ class _BackgroundTab extends Step {
     });
     featureOption.render($featureArea);
     this.stepOptions.push(featureOption);
+  }
+
+  private setAlignmentUi() {
+    const foundryAligments = (game as any).dnd5e.config.alignments;
+    const alignmentChoices = Object.keys(foundryAligments).map((k) => ({ key: k, value: foundryAligments[k] }));
+    const alignmentOption = new SelectableOption(this.step, 'data.details.alignment', alignmentChoices, '', {
+      addValues: false,
+    });
+    alignmentOption.render($('[data-hct_area=alignment]', this.section()));
+    this.stepOptions.push(alignmentOption);
+  }
+
+  private setBackgroundNameUi() {
+    const nameOption = new InputOption(
+      this.step,
+      'data.details.background',
+      game.i18n.localize('HCT.Background.NamePlaceholder'),
+      '',
+      { addValues: false, type: 'text' },
+    );
+    nameOption.render($('[data-hct_area=name]', this.section()));
+    this.stepOptions.push(nameOption);
   }
 }
 const BackgroundTab: Step = new _BackgroundTab();

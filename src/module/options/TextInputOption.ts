@@ -8,23 +8,46 @@ import HeroOption, { apply } from './HeroOption';
  * e.g. Hero name
  * @class
  */
-export default class TextInputOption implements HeroOption {
+export default class InputOption implements HeroOption {
   constructor(
     readonly origin: StepEnum,
     readonly key: string,
     private placeholder: string,
-    private val: string,
+    private val: string | number,
     readonly settings: {
       addValues: boolean;
-    } = { addValues: false },
+      type: 'text' | 'number';
+      min?: number;
+      max?: number;
+      preLabel?: string;
+      postLabel?: string;
+    } = { addValues: false, type: 'text' },
   ) {}
 
   $elem!: JQuery;
 
   render($parent: JQuery<HTMLElement>, settings?: { beforeParent: boolean }): void {
     const $container = $('<div class="hct-option">');
-    this.$elem = $(`<input type="text" placeholder="${this.placeholder}" value=${this.val}>`);
+    const min = this.settings.min ? `min="${this.settings.min}"` : '';
+    const max = this.settings.max ? `max="${this.settings.max}"` : '';
+
+    if (this.settings.preLabel) {
+      const $preLabel = $(`<p class='hct-prelabel'>${this.settings.preLabel}</p>`);
+      $container.append($preLabel);
+    }
+
+    this.$elem = $(`<input type="${this.settings.type}" 
+    placeholder="${this.placeholder}" 
+    value=${this.val} 
+    ${this.settings.type == 'number' ? `${min} ${max}` : ''}
+    >`);
     $container.append(this.$elem);
+
+    if (this.settings.postLabel) {
+      const $postLabel = $(`<p class='hct-postlabel'>${this.settings.postLabel}</p>`);
+      $container.append($postLabel);
+    }
+
     if (settings?.beforeParent) {
       $parent.before($container);
     } else {
@@ -32,8 +55,10 @@ export default class TextInputOption implements HeroOption {
     }
   }
 
-  value() {
-    return this.$elem.val();
+  value(): string | number {
+    const val = this.$elem.val();
+    if (this.settings.type == 'number') return val as number;
+    return val as string;
   }
 
   isFulfilled(): boolean {
@@ -41,6 +66,6 @@ export default class TextInputOption implements HeroOption {
   }
 
   applyToHero(actor: ActorDataConstructorData) {
-    apply(actor, this.key, this.value(), this.settings.addValues);
+    apply(actor, this.key, this.value(), this.settings.addValues, this.settings.type === 'number');
   }
 }

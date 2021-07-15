@@ -2,7 +2,7 @@ import { StepEnum } from '../Step';
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 import SelectableOption from './SelectableOption';
 import HeroOption, { apply } from './HeroOption';
-import TextInputOption from './TextInputOption';
+import InputOption from './TextInputOption';
 
 /**
  * Represents an array of values selected by the player for the created actor.
@@ -50,14 +50,14 @@ export default class MultiOption implements HeroOption {
 
       if (this.settings.customizable) {
         const $customButtom = $('<button class="hct-options-container-button">').html(
-          `<p class="hct-options-container-button-label">${game.i18n.localize('HCT.Common.AddCustom')}</p>`,
+          `${game.i18n.localize('HCT.Common.AddCustom')}`,
         );
         $customButtom.on('click', () => this.addCustomOption());
         this.$buttonGroup.append($customButtom);
       }
 
       const $addButton = $('<button class="hct-options-container-button">').html(
-        `<p class="hct-options-container-button-label">${game.i18n.localize('HCT.Common.AddStandard')}</p>`,
+        `${game.i18n.localize('HCT.Common.AddStandard')}`,
       );
       $addButton.on('click', () => this.addOption());
       this.$buttonGroup.append($addButton);
@@ -73,7 +73,7 @@ export default class MultiOption implements HeroOption {
   }
 
   addCustomOption(): void {
-    const o = new TextInputOption(this.origin, this.key, '...', this.label, { ...this.settings });
+    const o = new InputOption(this.origin, this.key, '...', this.label, { ...this.settings, type: 'text' });
     this.optionList.push(o);
     o.render(this.$buttonGroup, { beforeParent: true });
   }

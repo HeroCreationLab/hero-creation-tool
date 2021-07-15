@@ -42,6 +42,14 @@ $color-accent: darkred;
     border-radius: 10px;
   }
 
+  &-prelabel {
+    margin-right: 5px;
+  }
+
+  &-postlabel {
+    margin-left: 5px;
+  }
+
   &-panel-container {
     display: flex;
   }
@@ -102,7 +110,7 @@ $color-accent: darkred;
       width: 100%;
     }
     &-button {
-      width: 50%;
+      width: auto;
       height: 27px;
       background-color: $color-button-background;
       color: #242424;
