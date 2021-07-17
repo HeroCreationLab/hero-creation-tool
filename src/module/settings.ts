@@ -8,18 +8,31 @@ const enum Settings {
   CUSTOM_RACE_FEATURES_PACKS = 'raceFeaturesCompendiums',
   CUSTOM_CLASS_PACKS = 'classCompendiums',
   CUSTOM_CLASS_FEATURE_PACKS = 'classFeaturesCompendiums',
+  DEFAULT_GOLD_DICE = 'defaultGoldDice',
 }
 export default Settings;
 
 export function registerSettings(): void {
   console.log(`${Constants.LOG_PREFIX} | Building module settings`);
-  useTokenizerIfAvailable();
+  defaultStartingGoldDice();
   tokenDisplayNameMode();
   tokenDisplayBarsMode();
   raceCompendiumSelector();
   raceFeaturesCompendiumSelector();
   classCompendiumSelector();
   classFeaturesCompendiumSelector();
+  useTokenizerIfAvailable();
+}
+
+function defaultStartingGoldDice() {
+  game.settings.register(Constants.MODULE_NAME, Settings.DEFAULT_GOLD_DICE, {
+    name: game.i18n.localize('HCT.Setting.DefaultGoldDice.Name'),
+    hint: game.i18n.localize('HCT.Setting.DefaultGoldDice.Hint'),
+    scope: 'world',
+    config: true,
+    default: '5d4 x 10',
+    type: String,
+  });
 }
 
 function useTokenizerIfAvailable() {

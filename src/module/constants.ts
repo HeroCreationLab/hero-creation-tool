@@ -11,6 +11,7 @@ export const enum DEFAULT_PACKS {
   RACE_FEATURES = 'dnd5e.races',
   CLASSES = 'dnd5e.classes',
   CLASS_FEATURES = 'dnd5e.classfeatures',
+  ITEMS = 'dnd5e.items',
   RULES = 'dnd5e.rules',
 }
 

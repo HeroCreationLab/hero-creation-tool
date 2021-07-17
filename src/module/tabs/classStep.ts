@@ -56,7 +56,6 @@ class _Class extends Step {
   updateClass($section: JQuery) {
     const $context = $('[data-hct_class_data]', $section);
     this.clearOptions();
-    console.log(this.clazz);
 
     // icon, description and class item
     $('[data-hct_class_icon]', $section).attr('src', this.clazz.img);
@@ -138,7 +137,7 @@ class _Class extends Step {
       itemList: this.classFeatures!,
     });
     classFeatures.forEach((feature) => {
-      const featureOption = new FixedOption(ClassTab.step, 'items', feature, '', {
+      const featureOption = new FixedOption(ClassTab.step, 'items', feature, undefined, {
         addValues: true,
         type: OptionType.ITEM,
       });

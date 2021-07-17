@@ -12,10 +12,11 @@ export default class FixedOption implements HeroOption {
     readonly origin: StepEnum,
     readonly key: string,
     private option: string | number | Item,
-    private textToShow: string,
+    private textToShow?: string,
     readonly settings: {
       addValues: boolean;
       type: OptionType;
+      quantity?: number;
     } = { addValues: false, type: OptionType.TEXT },
   ) {}
 
@@ -24,6 +25,10 @@ export default class FixedOption implements HeroOption {
   }
 
   applyToHero(actor: ActorDataConstructorData) {
+    if (this.settings.type == OptionType.ITEM && this.settings.quantity && this.settings.quantity > 1) {
+      (this.option as any).data.quantity = this.settings.quantity;
+    }
+
     apply(
       actor,
       this.key,
@@ -51,9 +56,14 @@ export default class FixedOption implements HeroOption {
     } else {
       const $container = $('<div class="hct-icon-with-context">');
       const item: Item = this.option as Item;
+      const source = (item as any).flags.core.sourceId.split('.');
+      const pack = `${source[1]}.${source[2]}`;
+      const id = source[3];
+      const $link = $(`<a class="entity-link hct-icon-link" draggable="false" data-pack="${pack}" data-id="${id}">`);
       this.$itemImg.attr('src', item.img);
-      this.$itemName.html(item.name as string);
-      $container.append(this.$itemImg);
+      $link.append(this.$itemImg);
+      this.$itemName.html(this.textToShow ?? (item.name as string));
+      $container.append($link);
       $container.append(this.$itemName);
       parent.append($container);
     }

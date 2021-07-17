@@ -239,7 +239,7 @@ class _Race extends Step {
       itemList: this.raceFeatures!,
     });
     raceFeatures.forEach((feature) => {
-      const featureOption = new FixedOption(RaceTab.step, 'items', feature, '', {
+      const featureOption = new FixedOption(RaceTab.step, 'items', feature, undefined, {
         addValues: true,
         type: OptionType.ITEM,
       });

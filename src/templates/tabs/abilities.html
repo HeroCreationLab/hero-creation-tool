@@ -12,16 +12,15 @@
                 <button type="button" class="step-button hct-option centered-text" data-mode="manual">{{localize
                     'HCT.Abilities.Buttons.ManualEntry'}}</button>
             </div>
-            <form class="flexcol prototype" autocomplete="off">
+            <form autocomplete="off">
                 <h2 class="hct-area-title">{{localize 'HCT.Abilities.Values'}}</h2>
-                <p class="centered-text" id="point-buy-score" hidden>{{localize 'HCT.Abilities.PointBuy.Score'}}<span
-                        id="point-buy-current-score">0</span> / <span id="point-buy-max-score">27</span></p>
-                <div class="form-group">
-                    <input class="flex-sixth" type="number" id="number1" placeholder="10" disabled>
-                    <span id="mod1" flex>+0</span>
-                    <button class="flex-sixth abilityUp" type="button" hidden id="up1">↑</button>
-                    <button class="flex-sixth abilityDown" type="button" hidden id="down1">↓</button>
-                    <select class="flex-half hct-select" name="stats" id="stat1">
+                <div class='hct-asi-group'>
+                    <input class="hct-asi-value" type="number" id="number1" value="10" min="1" max="20" disabled>
+                    <span class="hct-asi-value" id="mod1" flex>+0</span>
+                    <button class="hct-asi-button" type="button" data-hct-abilities-up="1" hidden id="up1">+</button>
+                    <button class="hct-asi-button" type="button" data-hct-abilities-down="1" hidden
+                        id="down1">-</button>
+                    <select disabled class="hct-select" name="stats" id="stat1">
                         <option value="" disabled selected>{{localize 'HCT.Abilities.Select.Placeholder'}}</option>
                         <option value="STR">{{localize 'DND5E.AbilityStr'}}</option>
                         <option value="DEX">{{localize 'DND5E.AbilityDex'}}</option>
@@ -31,12 +30,13 @@
                         <option value="CHA">{{localize 'DND5E.AbilityCha'}}</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <input class="flex-sixth" type="number" id="number2" placeholder="10" disabled>
-                    <span id="mod2">+0</span>
-                    <button class="flex-sixth abilityUp" type="button" hidden id="up2">↑</button>
-                    <button class="flex-sixth abilityDown" type="button" hidden id="down2">↓</button>
-                    <select class="flex-half hct-select" name="stats" id="stat2">
+                <div class='hct-asi-group'>
+                    <input class="hct-asi-value" type="number" id="number2" value="10" min="1" max="20" disabled>
+                    <span class="hct-asi-value" id="mod2">+0</span>
+                    <button class="hct-asi-button" type="button" data-hct-abilities-up="2" hidden id="up2">+</button>
+                    <button class="hct-asi-button" type="button" data-hct-abilities-down="2" hidden
+                        id="down2">-</button>
+                    <select disabled class="hct-select" name="stats" id="stat2">
                         <option value="" disabled selected>{{localize 'HCT.Abilities.Select.Placeholder'}}</option>
                         <option value="STR">{{localize 'DND5E.AbilityStr'}}</option>
                         <option value="DEX">{{localize 'DND5E.AbilityDex'}}</option>
@@ -46,12 +46,13 @@
                         <option value="CHA">{{localize 'DND5E.AbilityCha'}}</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <input class="flex-sixth" type="number" id="number3" placeholder="10" disabled>
-                    <span id="mod3">+0</span>
-                    <button class="flex-sixth abilityUp" type="button" hidden id="up3">↑</button>
-                    <button class="flex-sixth abilityDown" type="button" hidden id="down3">↓</button>
-                    <select class="flex-half hct-select" name="stats" id="stat3">
+                <div class='hct-asi-group'>
+                    <input class="hct-asi-value" type="number" id="number3" value="10" min="1" max="20" disabled>
+                    <span class="hct-asi-value" id="mod3">+0</span>
+                    <button class="hct-asi-button" type="button" data-hct-abilities-up="3" hidden id="up3">+</button>
+                    <button class="hct-asi-button" type="button" data-hct-abilities-down="3" hidden
+                        id="down3">-</button>
+                    <select disabled class="hct-select" name="stats" id="stat3">
                         <option value="" disabled selected>{{localize 'HCT.Abilities.Select.Placeholder'}}</option>
                         <option value="STR">{{localize 'DND5E.AbilityStr'}}</option>
                         <option value="DEX">{{localize 'DND5E.AbilityDex'}}</option>
@@ -61,12 +62,13 @@
                         <option value="CHA">{{localize 'DND5E.AbilityCha'}}</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <input class="flex-sixth" type="number" id="number4" placeholder="10" disabled>
-                    <span id="mod4">+0</span>
-                    <button class="flex-sixth abilityUp" type="button" hidden id="up4">↑</button>
-                    <button class="flex-sixth abilityDown" type="button" hidden id="down4">↓</button>
-                    <select class="flex-half hct-select" name="stats" id="stat4">
+                <div class='hct-asi-group'>
+                    <input class="hct-asi-value" type="number" id="number4" value="10" min="1" max="20" disabled>
+                    <span class="hct-asi-value" id="mod4">+0</span>
+                    <button class="hct-asi-button" type="button" data-hct-abilities-up="4" hidden id="up4">+</button>
+                    <button class="hct-asi-button" type="button" data-hct-abilities-down="4" hidden
+                        id="down4">-</button>
+                    <select disabled class="hct-select" name="stats" id="stat4">
                         <option value="" disabled selected>{{localize 'HCT.Abilities.Select.Placeholder'}}</option>
                         <option value="STR">{{localize 'DND5E.AbilityStr'}}</option>
                         <option value="DEX">{{localize 'DND5E.AbilityDex'}}</option>
@@ -76,12 +78,13 @@
                         <option value="CHA">{{localize 'DND5E.AbilityCha'}}</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <input class="flex-sixth" type="number" id="number5" placeholder="10" disabled>
-                    <span id="mod5">+0</span>
-                    <button class="flex-sixth abilityUp" type="button" hidden id="up5">↑</button>
-                    <button class="flex-sixth abilityDown" type="button" hidden id="down5">↓</button>
-                    <select class="flex-half hct-select" name="stats" id="stat5">
+                <div class='hct-asi-group'>
+                    <input class="hct-asi-value" type="number" id="number5" value="10" min="1" max="20" disabled>
+                    <span class="hct-asi-value" id="mod5">+0</span>
+                    <button class="hct-asi-button" type="button" data-hct-abilities-up="5" hidden id="up5">+</button>
+                    <button class="hct-asi-button" type="button" data-hct-abilities-down="5" hidden
+                        id="down5">-</button>
+                    <select disabled class="hct-select" name="stats" id="stat5">
                         <option value="" disabled selected>{{localize 'HCT.Abilities.Select.Placeholder'}}</option>
                         <option value="STR">{{localize 'DND5E.AbilityStr'}}</option>
                         <option value="DEX">{{localize 'DND5E.AbilityDex'}}</option>
@@ -91,12 +94,13 @@
                         <option value="CHA">{{localize 'DND5E.AbilityCha'}}</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <input class="flex-sixth" type="number" id="number6" placeholder="10" disabled>
-                    <span id="mod6">+0</span>
-                    <button class="flex-sixth abilityUp" type="button" hidden id="up6">↑</button>
-                    <button class="flex-sixth abilityDown" type="button" hidden id="down6">↓</button>
-                    <select class="flex-half hct-select" name="stats" id="stat6">
+                <div class='hct-asi-group'>
+                    <input class="hct-asi-value" type="number" id="number6" value="10" min="1" max="20" disabled>
+                    <span class="hct-asi-value" id="mod6">+0</span>
+                    <button class="hct-asi-button" type="button" data-hct-abilities-up="6" hidden id="up6">+</button>
+                    <button class="hct-asi-button" type="button" data-hct-abilities-down="6" hidden
+                        id="down6">-</button>
+                    <select disabled class="hct-select" name="stats" id="stat6">
                         <option value="" disabled selected>{{localize 'HCT.Abilities.Select.Placeholder'}}</option>
                         <option value="STR">{{localize 'DND5E.AbilityStr'}}</option>
                         <option value="DEX">{{localize 'DND5E.AbilityDex'}}</option>
@@ -105,9 +109,15 @@
                         <option value="WIS">{{localize 'DND5E.AbilityWis'}}</option>
                         <option value="CHA">{{localize 'DND5E.AbilityCha'}}</option>
                     </select>
+                </div>
+                <div class="hct-point-buy-area" data-hct-point-buy style="display: none;">
+                    <p class="centered-text hct-large-font">{{localize
+                        'HCT.Abilities.PointBuy.Score'}}
+                        <span data-hct-point-buy-score>0</span> / <span data-hct-point-buy-max>27</span>
+                    </p>
                 </div>
             </form>
         </div>
-        <div class="hct-panel-right hct-infoArea" data-hct_spells_description></div>
+        <div class="hct-panel-right hct-infoArea" data-hct_abilities_description></div>
     </main>
 </section>

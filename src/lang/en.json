@@ -3,9 +3,13 @@
     "ActorsDirectoryButton": "Hero Creation Tool",
     "WindowTitle": "Hero Creation",
     "Setting": {
+      "DefaultGoldDice": {
+        "Name": "Default starting gold roll",
+        "Hint": "Here you can customize the starting gold dice rolled on the tool"
+      },
       "UseTokenizer": {
         "Name": "Use Tokenizer if available",
-        "Hint": "The tool will try to use the Tokenizer module, if found, as default to generate avatar and token pictures."
+        "Hint": "The tool will try to use the Tokenizer module, if found, as default to generate avatar and token pictures"
       },
       "TokenNameMode": {
         "Name": "Token name display mode"
@@ -58,6 +62,9 @@
         "fly": "Flying",
         "swim": "Swimming",
         "hover": "Hover"
+      },
+      "Searchbar": {
+        "Placeholder": "Type to search.."
       }
     },
     "Error": {
@@ -129,13 +136,12 @@
       "NamePlaceholder": "Background.."
     },
     "Equipment": {
-      "HowToChoose": "How would you like to choose your equipment?",
-      "Select.Default": "Choose",
-      "Select.ClassEquipment": "Class Equipment",
-      "Select.StartingGold": "Starting Wealth (PBH)",
-      "FromBackground": "Equipment from Background",
-      "StartingGold.Subtitle": "Starting Gold",
-      "StartingGold.Hint": "You have chosen starting gold and do not get equipment from your background."
+      "StartingGoldTitle": "Starting Gold",
+      "Roll": "Roll",
+      "ManualInput": "Manual Input",
+      "RemainingGoldLabel": "Remaining: ",
+      "StartingItemsTitle": "Starting Items",
+      "ClearList": "Clear list"
     },
     "Spells": {
       "tbd": "tbd"
