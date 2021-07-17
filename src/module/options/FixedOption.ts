@@ -27,8 +27,13 @@ export default class FixedOption implements HeroOption {
     apply(
       actor,
       this.key,
-      this.settings.type === OptionType.TEXT ? this.value() : [this.value()],
+      this.settings.type === OptionType.TEXT
+        ? this.value()
+        : this.settings.type === OptionType.NUMBER
+        ? (this.value() as number)
+        : [this.value()],
       this.settings.addValues,
+      this.settings.type === OptionType.NUMBER,
     );
   }
 
@@ -65,4 +70,5 @@ export default class FixedOption implements HeroOption {
 export enum OptionType {
   TEXT,
   ITEM,
+  NUMBER,
 }

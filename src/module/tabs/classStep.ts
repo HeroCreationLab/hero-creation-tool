@@ -4,22 +4,15 @@
 import { Step, StepEnum } from '../Step';
 import * as Constants from '../constants';
 import * as Utils from '../utils';
+import * as ProficiencyUtils from '../proficiencyUtils';
 import Settings from '../settings';
 import HiddenOption from '../options/HiddenOption';
-import MultiOption from '../options/MultiOption';
 import FixedOption, { OptionType } from '../options/FixedOption';
-import OptionsContainer from '../options/OptionsContainer';
-import HeroOption from '../options/HeroOption';
-
-type Clazz = {
-  img: string;
-  name: string;
-};
 
 class _Class extends Step {
   classes?: Item[] = [];
   classFeatures?: Item[] = [];
-  clazz!: Clazz;
+  clazz!: Item;
   constructor() {
     super(StepEnum.Class);
   }
@@ -33,8 +26,7 @@ class _Class extends Step {
       const className: string = $(event.currentTarget).val() as string;
       this.clazz = this.classes!.filter((c) => c.name === className)[0] as any;
       if (this.classes) {
-        const options = this.updateClass(this.clazz, this.section());
-        this.stepOptions.push(...options);
+        this.updateClass(this.section());
       } else ui.notifications!.error(game.i18n.format('HCT.Error.UpdateValueLoad', { value: 'Classes' }));
     });
   }
@@ -43,7 +35,7 @@ class _Class extends Step {
     // classes
     const classItems = await Utils.getSources({
       baseSource: Constants.DEFAULT_PACKS.CLASSES,
-      customSourcesProperty: Settings.CLASS_PACKS,
+      customSourcesProperty: Settings.CUSTOM_CLASS_PACKS,
     });
     this.classes = classItems?.sort((a, b) => a.name.localeCompare(b.name)) as any;
     if (this.classes) setClassPickerOptions(this.classes);
@@ -52,7 +44,7 @@ class _Class extends Step {
     // class features
     const classFeatureItems = await Utils.getSources({
       baseSource: Constants.DEFAULT_PACKS.CLASS_FEATURES,
-      customSourcesProperty: Settings.CLASS_FEATURE_PACKS,
+      customSourcesProperty: Settings.CUSTOM_CLASS_FEATURE_PACKS,
     });
     this.classFeatures = classFeatureItems?.sort((a, b) => a.name.localeCompare(b.name)) as any;
   }
@@ -61,65 +53,87 @@ class _Class extends Step {
     $('[data-hct_class_data]', this.section()).hide();
   }
 
-  updateClass(classItem: any, $section: JQuery): HeroOption[] {
+  updateClass($section: JQuery) {
     const $context = $('[data-hct_class_data]', $section);
-    const options: HeroOption[] = [];
-    console.log(classItem);
+    this.clearOptions();
+    console.log(this.clazz);
 
     // icon, description and class item
-    $('[data-hct_class_icon]', $section).attr('src', classItem.img);
-    $('[data-hct_class_description]', $section).html(TextEditor.enrichHTML(classItem.data.description.value));
-    options.push(new HiddenOption(ClassTab.step, 'items', [classItem], { addValues: true }));
+    $('[data-hct_class_icon]', $section).attr('src', this.clazz.img);
+    $('[data-hct_class_description]', $section).html(TextEditor.enrichHTML((this.clazz.data as any).description.value));
+    this.stepOptions.push(new HiddenOption(ClassTab.step, 'items', [this.clazz], { addValues: true }));
 
-    // hit points
-    const hitDice = new HitDice(classItem.data.hitDice);
-    const textBlob = game.i18n.format('HCT.Class.HitPointsBlob', {
-      max: hitDice.getMax(),
-    });
-    const hitPointsOption = new FixedOption(ClassTab.step, 'data.attributes.hp.max', hitDice.getMax(), textBlob, {
+    this.setHitPointsUi($context);
+    this.setSavingThrowsUi($context);
+    this.setProficienciesUi($context);
+    this.setClassFeaturesUi($context);
+
+    $('[data-hct_class_data]').show();
+    return;
+  }
+
+  private setProficienciesUi($context: JQuery<HTMLElement>) {
+    const $proficiencySection: JQuery = $('section', $('[data-hct_class_area=proficiencies]', $context)).empty();
+    const foundrySkills = (game as any).dnd5e.config.skills;
+    ProficiencyUtils.prepareSkillOptions({
+      step: this.step,
+      $parent: $proficiencySection,
+      pushTo: this.stepOptions,
+      filteredOptions: (this.clazz.data as any).skills.choices.map((s: string) => ({
+        key: s,
+        value: foundrySkills[s],
+      })),
+      quantity: (this.clazz.data as any).skills.number,
       addValues: true,
-      type: OptionType.TEXT,
-    });
-    const $hitPointSection = $('section', $('[data-hct_class_area=hit-points]', $context)).empty();
-    hitPointsOption.render($hitPointSection);
-    options.push(hitPointsOption);
-
-    // saving throws
-    const savingThrows: string[] = classItem.data.saves;
-    const $savingThrowsSection = $('section', $('[data-hct_class_area=saving-throws]', $context)).empty();
-    savingThrows.forEach((save) => {
-      const savingThrowOption = new FixedOption(
-        ClassTab.step,
-        `data.abilities.${save}.proficient`,
-        1,
-        Utils.getAbilityNameByKey(save),
-      );
-      savingThrowOption.render($savingThrowsSection);
-      options.push(savingThrowOption);
+      expandable: false,
+      customizable: false,
     });
 
-    // proficiencies
-    const $skillProficiencySection: JQuery = $('section', $('[data-hct_class_area=proficiencies]', $context)).empty();
-    const skillsContainer: OptionsContainer = new OptionsContainer(
-      game.i18n.localize('HCT.Common.SkillProficiencies'),
-      [
-        new MultiOption(
-          ClassTab.step,
-          'skills',
-          classItem.data.skills.choices.map((s: string) => ({ key: s, value: Utils.getSkillNameByKey(s) })),
-          classItem.data.skills.number,
-          ' ',
-          { addValues: true },
-        ),
-      ],
-    );
-    skillsContainer.render($skillProficiencySection);
-    options.push(...skillsContainer.options);
+    ProficiencyUtils.prepareWeaponOptions({
+      step: this.step,
+      $parent: $proficiencySection,
+      pushTo: this.stepOptions,
+      quantity: 0,
+      addValues: true,
+      expandable: true,
+      customizable: true,
+    });
 
-    // class features
+    ProficiencyUtils.prepareArmorOptions({
+      step: this.step,
+      $parent: $proficiencySection,
+      pushTo: this.stepOptions,
+      quantity: 0,
+      addValues: true,
+      expandable: true,
+      customizable: true,
+    });
+
+    ProficiencyUtils.prepareToolOptions({
+      step: this.step,
+      $parent: $proficiencySection,
+      pushTo: this.stepOptions,
+      quantity: 0,
+      addValues: true,
+      expandable: true,
+      customizable: true,
+    });
+
+    ProficiencyUtils.prepareLanguageOptions({
+      step: this.step,
+      $parent: $proficiencySection,
+      pushTo: this.stepOptions,
+      quantity: 0,
+      addValues: true,
+      expandable: true,
+      customizable: true,
+    });
+  }
+
+  private setClassFeaturesUi($context: JQuery<HTMLElement>) {
     const $featuresSection = $('section', $('[data-hct_class_area=features]', $context)).empty();
     const classFeatures: Item[] = Utils.filterItemList({
-      filterValues: [`${classItem.name} ${1}`],
+      filterValues: [`${this.clazz.name} ${1}`],
       filterField: 'data.requirements',
       itemList: this.classFeatures!,
     });
@@ -129,11 +143,38 @@ class _Class extends Step {
         type: OptionType.ITEM,
       });
       featureOption.render($featuresSection);
-      options.push(featureOption);
+      this.stepOptions.push(featureOption);
     });
+  }
 
-    $('[data-hct_class_data]').show();
-    return options;
+  private setSavingThrowsUi($context: JQuery<HTMLElement>) {
+    const savingThrows: string[] = (this.clazz as any).data.saves;
+    const foundryAbilities = (game as any).dnd5e.config.abilities;
+    const $savingThrowsSection = $('section', $('[data-hct_class_area=saving-throws]', $context)).empty();
+    savingThrows.forEach((save) => {
+      const savingThrowOption = new FixedOption(
+        ClassTab.step,
+        `data.abilities.${save}.proficient`,
+        1,
+        foundryAbilities[save],
+      );
+      savingThrowOption.render($savingThrowsSection);
+      this.stepOptions.push(savingThrowOption);
+    });
+  }
+
+  private setHitPointsUi($context: JQuery<HTMLElement>) {
+    const hitDice = new HitDice((this.clazz as any).data.hitDice);
+    const textBlob = game.i18n.format('HCT.Class.HitPointsBlob', {
+      max: hitDice.getMax(),
+    });
+    const hitPointsOption = new FixedOption(ClassTab.step, 'data.attributes.hp.max', hitDice.getMax(), textBlob, {
+      addValues: true,
+      type: OptionType.TEXT,
+    });
+    const $hitPointSection = $('section', $('[data-hct_class_area=hit-points]', $context)).empty();
+    hitPointsOption.render($hitPointSection);
+    this.stepOptions.push(hitPointsOption);
   }
 }
 const ClassTab: Step = new _Class();

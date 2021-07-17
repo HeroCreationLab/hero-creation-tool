@@ -59,24 +59,24 @@ export default class App extends Application {
     // set listeners for tab navigation
     $('[data-hct_tab_index]').on('click', (event) => {
       this.currentTab = $(event.target).data('hct_tab_index');
-      Utils.openTab(this.currentTab);
+      openTab(this.currentTab);
     });
     $('[data-hct_back]').on('click', () => {
       this.currentTab--;
-      Utils.openTab(this.currentTab);
+      openTab(this.currentTab);
     });
     $('[data-hct_next]').on('click', () => {
       this.currentTab++;
-      Utils.openTab(this.currentTab);
+      openTab(this.currentTab);
     });
     $('[data-hct_submit]').on('click', () => this.buildActor());
 
-    Utils.openTab(this.currentTab);
+    openTab(this.currentTab);
   }
 
   async setupData() {
     for (const step of this.steps) {
-      step.setSourceData();
+      await step.setSourceData();
     }
   }
 
@@ -166,4 +166,22 @@ function cleanUpErroneousItems(newActor: ActorDataConstructorData) {
   items = items?.filter(Boolean); // filter undefined items
   if (items) setProperty(newActor, 'items', items);
   else delete newActor.items;
+}
+
+function openTab(index: number): void {
+  handleNavs(index);
+  $('.tab-body').hide();
+  $('.tablinks').removeClass('active');
+  $(`[data-hct_tab_index=${index}]`).addClass('active');
+  $(`[data-hct_tab_section=${index}]`).show();
+}
+
+function handleNavs(index: number) {
+  // hides the tabs if switching to startDiv, else show them.
+  $('.hct-container .tabs').toggle(index !== 0);
+
+  // disables back/next buttons where appropriate
+  const $footer = $('.hct-container footer');
+  $('[data-hct_back]', $footer).prop('disabled', index == 0);
+  $('[data-hct_next]', $footer).prop('disabled', index == 8);
 }

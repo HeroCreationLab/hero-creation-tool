@@ -63,6 +63,7 @@ class _Abilities extends Step {
 
   getOptions(): HeroOption[] {
     this.clearOptions();
+    const foundryAbilities = (game as any).dnd5e.config.abilities;
     for (let i = 1; i < 7; i++) {
       const $input: JQuery = $(`#number${i}`, this.section());
       const $select: JQuery = $(`#stat${i}`, this.section());
@@ -70,11 +71,24 @@ class _Abilities extends Step {
       if (asiKey) {
         const key = `data.abilities.${asiKey}.value`;
         const asiValue: number = Number.parseInt($input.val() as string);
-        const textToShow = `${Utils.getAbilityNameByKey(asiKey)}: ${asiValue}`;
+        const textToShow = `${foundryAbilities[asiKey]}: ${asiValue}`;
         this.stepOptions.push(
-          new FixedOption(this.step, key, asiValue, textToShow, { addValues: true, type: OptionType.TEXT }),
+          new FixedOption(this.step, key, asiValue, textToShow, { addValues: true, type: OptionType.NUMBER }),
         );
       }
+    }
+    if (this.stepOptions.length == 0) {
+      // default abilities
+      Object.keys(foundryAbilities).forEach((asi) => {
+        const defaultAsi = 10;
+        const textToShow = `${foundryAbilities[asi]}: ${defaultAsi}`;
+        this.stepOptions.push(
+          new FixedOption(this.step, `data.abilities.${asi}.value`, defaultAsi, textToShow, {
+            addValues: true,
+            type: OptionType.NUMBER,
+          }),
+        );
+      });
     }
     return this.stepOptions;
   }

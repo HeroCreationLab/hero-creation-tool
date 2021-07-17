@@ -3,7 +3,7 @@
 */
 import * as Constants from '../constants';
 import { Step, StepEnum } from '../Step';
-import TextInputOption from '../options/TextInputOption';
+import InputOption from '../options/TextInputOption';
 import Settings from '../settings';
 
 const enum ImgType {
@@ -23,9 +23,9 @@ class _Basics extends Step {
 
   section = () => $('#basicsDiv');
 
-  avatarOption!: TextInputOption;
-  tokenOption!: TextInputOption;
-  nameOption!: TextInputOption;
+  avatarOption!: InputOption;
+  tokenOption!: InputOption;
+  nameOption!: InputOption;
 
   useTokenizer!: boolean;
 
@@ -78,6 +78,8 @@ class _Basics extends Step {
         const tokenizerOptions = {
           name: this.nameOption.value(),
           type: 'pc',
+          avatarFilename: this.avatarOption.value(),
+          tokenFilename: this.tokenOption.value(),
         };
         (window as any).Tokenizer.launch(tokenizerOptions, (response: TokenizerResponse) => {
           this.fileChangedCallback(ImgType.AVATAR, response.avatarFilename);
@@ -95,13 +97,13 @@ class _Basics extends Step {
 
   renderData(): void {
     this.clearOptions();
-    this.nameOption = new TextInputOption(this.step, 'name', game.i18n.localize('HCT.Basics.CharName'), '');
+    this.nameOption = new InputOption(this.step, 'name', game.i18n.localize('HCT.Basics.CharName'), '');
     this.nameOption.render($('[data-hero_name]', this.section()));
 
-    this.avatarOption = new TextInputOption(this.step, 'img', Constants.MYSTERY_MAN, Constants.MYSTERY_MAN);
+    this.avatarOption = new InputOption(this.step, 'img', Constants.MYSTERY_MAN, Constants.MYSTERY_MAN);
     this.avatarOption.render($('[data-hero_avatar]', this.section()));
 
-    this.tokenOption = new TextInputOption(this.step, 'token.img', Constants.MYSTERY_MAN, Constants.MYSTERY_MAN);
+    this.tokenOption = new InputOption(this.step, 'token.img', Constants.MYSTERY_MAN, Constants.MYSTERY_MAN);
     this.tokenOption.render($('[data-hero_token]', this.section()));
 
     this.stepOptions.push(this.nameOption, this.avatarOption, this.tokenOption);
