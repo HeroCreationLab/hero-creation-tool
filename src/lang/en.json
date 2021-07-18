@@ -144,6 +144,8 @@
       "StartingGoldTitle": "Starting Gold",
       "Roll": "Roll",
       "ManualInput": "Manual Input",
+      "Additional": "Additional",
+      "TotalGoldLabel": "Total: ",
       "RemainingGoldLabel": "Remaining: ",
       "StartingItemsTitle": "Starting Items"
     },
