@@ -32,6 +32,10 @@
       "ClassFeatureCompendiums": {
         "Name": "Class features compendiums",
         "Hint": "Name of complementary compendium with custom class features, separated by semi-colons (;)"
+      },
+      "SpellCompendiums": {
+        "Name": "Spell compendiums",
+        "Hint": "Name of complementary compendium with custom spells, separated by semi-colons (;)"
       }
     },
     "Integration": {
@@ -64,7 +68,8 @@
         "hover": "Hover"
       },
       "Searchbar": {
-        "Placeholder": "Type to search.."
+        "Placeholder": "Type to search..",
+        "ClearList": "Clear list"
       }
     },
     "Error": {
@@ -140,11 +145,14 @@
       "Roll": "Roll",
       "ManualInput": "Manual Input",
       "RemainingGoldLabel": "Remaining: ",
-      "StartingItemsTitle": "Starting Items",
-      "ClearList": "Clear list"
+      "StartingItemsTitle": "Starting Items"
     },
     "Spells": {
-      "tbd": "tbd"
+      "SpellcastingAbilityLabel": "Spellcasting Ability",
+      "SpellcastingAbilityBlob": "You are a {class}, so your Spellcasting Ability is {spa}",
+      "SpellcastingAbilityNoClass": "You have no class selected; unknown Spellcasting Ability",
+      "SpellList": "Starting Spells",
+      "SelectItemError": "Incorrect itemName on Spells tab search entry"
     },
     "Bio": {
       "Age": "Age",

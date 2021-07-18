@@ -42,6 +42,21 @@ export abstract class Step {
     return this.stepOptions;
   }
 
+  /**
+   * Method called when another tab needs data from this one, to abstract the internal complexities
+   */
+  getUpdateData(): any {
+    throw Error('getUpdateData() not implemented in step ' + this.constructor.name);
+  }
+
+  /**
+   * Method called when switching to this tab, useful when trying to update this tab's content based on external data
+   * e.g. Updating Spells' spellcasting ability based on Class
+   */
+  update(data: any): void {
+    throw Error('update() not implemented in step ' + this.constructor.name);
+  }
+
   clearOptions(): void {
     this.stepOptions.splice(0, this.stepOptions.length);
   }

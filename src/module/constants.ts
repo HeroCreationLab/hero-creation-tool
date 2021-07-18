@@ -12,7 +12,15 @@ export const enum DEFAULT_PACKS {
   CLASSES = 'dnd5e.classes',
   CLASS_FEATURES = 'dnd5e.classfeatures',
   ITEMS = 'dnd5e.items',
+  SPELLS = 'dnd5e.spells',
   RULES = 'dnd5e.rules',
+}
+
+export const enum RULES {
+  ABILITIES = 'Ability Scores and Modifiers',
+  BACKGROUND = 'Backgrounds',
+  EQUIPMENT = '05. Equipment',
+  SPELLS = '10. Spellcasting',
 }
 
 export const INTEGRATION = {

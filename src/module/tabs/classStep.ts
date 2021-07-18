@@ -10,13 +10,16 @@ import HiddenOption from '../options/HiddenOption';
 import FixedOption, { OptionType } from '../options/FixedOption';
 
 class _Class extends Step {
-  classes?: Item[] = [];
-  classFeatures?: Item[] = [];
-  clazz!: Item;
+  private classes?: Item[] = [];
+  private classFeatures?: Item[] = [];
+  private _class!: Item;
   constructor() {
     super(StepEnum.Class);
   }
-  $context!: JQuery;
+
+  getUpdateData() {
+    return { item: this._class };
+  }
 
   section = () => $('#classDiv');
 
@@ -24,7 +27,7 @@ class _Class extends Step {
     $('[data-hct_class_picker]', this.section()).on('change', async (event) => {
       this.clearOptions();
       const className: string = $(event.currentTarget).val() as string;
-      this.clazz = this.classes!.filter((c) => c.name === className)[0] as any;
+      this._class = this.classes!.filter((c) => c.name === className)[0] as any;
       if (this.classes) {
         this.updateClass(this.section());
       } else ui.notifications!.error(game.i18n.format('HCT.Error.UpdateValueLoad', { value: 'Classes' }));
@@ -58,17 +61,34 @@ class _Class extends Step {
     this.clearOptions();
 
     // icon, description and class item
-    $('[data-hct_class_icon]', $section).attr('src', this.clazz.img);
-    $('[data-hct_class_description]', $section).html(TextEditor.enrichHTML((this.clazz.data as any).description.value));
-    this.stepOptions.push(new HiddenOption(ClassTab.step, 'items', [this.clazz], { addValues: true }));
+    $('[data-hct_class_icon]', $section).attr('src', this._class.img);
+    $('[data-hct_class_description]', $section).html(
+      TextEditor.enrichHTML((this._class.data as any).description.value),
+    );
+    this.stepOptions.push(new HiddenOption(ClassTab.step, 'items', [this._class], { addValues: true }));
 
     this.setHitPointsUi($context);
     this.setSavingThrowsUi($context);
     this.setProficienciesUi($context);
     this.setClassFeaturesUi($context);
 
+    this.setSpellcastingAbilityIfExisting();
+
     $('[data-hct_class_data]').show();
     return;
+  }
+
+  private setSpellcastingAbilityIfExisting() {
+    const spellCastingAbility = (this._class?.data as any)?.spellcasting?.ability;
+    console.log(`setting spa for class ${this._class.name} with spa ${spellCastingAbility}`);
+    if (spellCastingAbility) {
+      this.stepOptions.push(
+        new FixedOption(StepEnum.Spells, 'data.attributes.spellcasting', spellCastingAbility, '', {
+          addValues: false,
+          type: OptionType.TEXT,
+        }),
+      );
+    }
   }
 
   private setProficienciesUi($context: JQuery<HTMLElement>) {
@@ -78,11 +98,11 @@ class _Class extends Step {
       step: this.step,
       $parent: $proficiencySection,
       pushTo: this.stepOptions,
-      filteredOptions: (this.clazz.data as any).skills.choices.map((s: string) => ({
+      filteredOptions: (this._class.data as any).skills.choices.map((s: string) => ({
         key: s,
         value: foundrySkills[s],
       })),
-      quantity: (this.clazz.data as any).skills.number,
+      quantity: (this._class.data as any).skills.number,
       addValues: true,
       expandable: false,
       customizable: false,
@@ -132,7 +152,7 @@ class _Class extends Step {
   private setClassFeaturesUi($context: JQuery<HTMLElement>) {
     const $featuresSection = $('section', $('[data-hct_class_area=features]', $context)).empty();
     const classFeatures: Item[] = Utils.filterItemList({
-      filterValues: [`${this.clazz.name} ${1}`],
+      filterValues: [`${this._class.name} ${1}`],
       filterField: 'data.requirements',
       itemList: this.classFeatures!,
     });
@@ -147,7 +167,7 @@ class _Class extends Step {
   }
 
   private setSavingThrowsUi($context: JQuery<HTMLElement>) {
-    const savingThrows: string[] = (this.clazz as any).data.saves;
+    const savingThrows: string[] = (this._class as any).data.saves;
     const foundryAbilities = (game as any).dnd5e.config.abilities;
     const $savingThrowsSection = $('section', $('[data-hct_class_area=saving-throws]', $context)).empty();
     savingThrows.forEach((save) => {
@@ -163,7 +183,7 @@ class _Class extends Step {
   }
 
   private setHitPointsUi($context: JQuery<HTMLElement>) {
-    const hitDice = new HitDice((this.clazz as any).data.hitDice);
+    const hitDice = new HitDice((this._class as any).data.hitDice);
     const textBlob = game.i18n.format('HCT.Class.HitPointsBlob', {
       max: hitDice.getMax(),
     });

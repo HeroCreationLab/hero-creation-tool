@@ -18,10 +18,21 @@ import { Step } from './Step';
 import HeroOption from './options/HeroOption';
 import type { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 
+enum StepIndex {
+  Basics,
+  Abilities,
+  Race,
+  Class,
+  Background,
+  Equipment,
+  Spells,
+  Bio,
+}
+
 export default class App extends Application {
   actorId?: string;
   readonly steps: Array<Step>;
-  currentTab = 0;
+  currentTab: StepIndex = StepIndex.Basics;
 
   constructor() {
     super();
@@ -44,7 +55,7 @@ export default class App extends Application {
     for (const step of this.steps) {
       step.clearOptions();
     }
-    this.currentTab = 0;
+    this.currentTab = -1;
     this.render(true);
   }
 
@@ -59,19 +70,19 @@ export default class App extends Application {
     // set listeners for tab navigation
     $('[data-hct_tab_index]').on('click', (event) => {
       this.currentTab = $(event.target).data('hct_tab_index');
-      openTab(this.currentTab);
+      this.openTab(this.currentTab);
     });
     $('[data-hct_back]').on('click', () => {
       this.currentTab--;
-      openTab(this.currentTab);
+      this.openTab(this.currentTab);
     });
     $('[data-hct_next]').on('click', () => {
       this.currentTab++;
-      openTab(this.currentTab);
+      this.openTab(this.currentTab);
     });
     $('[data-hct_submit]').on('click', () => this.buildActor());
 
-    openTab(this.currentTab);
+    this.openTab(-1);
   }
 
   async setupData() {
@@ -105,6 +116,7 @@ export default class App extends Application {
       cleanUpErroneousItems(newActor);
       calculateStartingHp(newActor);
       setTokenDisplaySettings(newActor);
+      console.log(newActor);
       Actor.create(newActor);
       this.close();
     }
@@ -141,6 +153,19 @@ export default class App extends Application {
     }
     return false;
   }
+
+  openTab(index: StepIndex): void {
+    handleNavs(index);
+    $('.tab-body').hide();
+    $('.tablinks').removeClass('active');
+    $(`[data-hct_tab_index=${index}]`).addClass('active');
+    $(`[data-hct_tab_section=${index}]`).show();
+    switch (index) {
+      case StepIndex.Spells:
+        this.steps[StepIndex.Spells].update({ class: this.steps[StepIndex.Class].getUpdateData() });
+        break;
+    }
+  }
 }
 function calculateStartingHp(newActor: ActorDataConstructorData) {
   const totalCon = getProperty(newActor, 'data.abilities.con.value');
@@ -167,20 +192,12 @@ function cleanUpErroneousItems(newActor: ActorDataConstructorData) {
   else delete newActor.items;
 }
 
-function openTab(index: number): void {
-  handleNavs(index);
-  $('.tab-body').hide();
-  $('.tablinks').removeClass('active');
-  $(`[data-hct_tab_index=${index}]`).addClass('active');
-  $(`[data-hct_tab_section=${index}]`).show();
-}
-
 function handleNavs(index: number) {
   // hides the tabs if switching to startDiv, else show them.
-  $('.hct-container .tabs').toggle(index !== 0);
+  $('.hct-container .tabs').toggle(index !== -1);
 
   // disables back/next buttons where appropriate
   const $footer = $('.hct-container footer');
-  $('[data-hct_back]', $footer).prop('disabled', index == 0);
-  $('[data-hct_next]', $footer).prop('disabled', index == 8);
+  $('[data-hct_back]', $footer).prop('disabled', index < StepIndex.Basics);
+  $('[data-hct_next]', $footer).prop('disabled', index >= StepIndex.Bio);
 }

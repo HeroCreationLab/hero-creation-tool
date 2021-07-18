@@ -4,11 +4,12 @@ const enum Settings {
   USE_TOKENIZER = 'useTokenizer',
   TOKEN_BAR = 'displayBarsMode',
   TOKEN_NAME = 'displayNameMode',
+  DEFAULT_GOLD_DICE = 'defaultGoldDice',
   CUSTOM_RACE_PACKS = 'raceCompendiums',
   CUSTOM_RACE_FEATURES_PACKS = 'raceFeaturesCompendiums',
   CUSTOM_CLASS_PACKS = 'classCompendiums',
   CUSTOM_CLASS_FEATURE_PACKS = 'classFeaturesCompendiums',
-  DEFAULT_GOLD_DICE = 'defaultGoldDice',
+  CUSTOM_SPELL_PACKS = 'spellCompendiums',
 }
 export default Settings;
 
@@ -17,11 +18,25 @@ export function registerSettings(): void {
   defaultStartingGoldDice();
   tokenDisplayNameMode();
   tokenDisplayBarsMode();
+  // custom packs
   raceCompendiumSelector();
   raceFeaturesCompendiumSelector();
   classCompendiumSelector();
   classFeaturesCompendiumSelector();
+  classCompendiumSelector();
+  spellCompendiumSelector();
+  // integrations
   useTokenizerIfAvailable();
+}
+
+function spellCompendiumSelector() {
+  game.settings.register(Constants.MODULE_NAME, Settings.CUSTOM_SPELL_PACKS, {
+    name: game.i18n.localize('HCT.Setting.SpellCompendiums.Name'),
+    hint: game.i18n.localize('HCT.Setting.SpellCompendiums.Hint'),
+    scope: 'world',
+    config: true,
+    type: String,
+  });
 }
 
 function defaultStartingGoldDice() {
