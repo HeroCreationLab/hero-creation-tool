@@ -1,4 +1,5 @@
-$margin-small: 10px;
+$tiny: 5px;
+$small: 10px;
 $color-button-background: rgba(0, 0, 0, 0.05);
 $color-accent: darkred;
 
@@ -17,12 +18,86 @@ $color-accent: darkred;
 }
 
 .hct {
+  &-large-font {
+    font-size: large;
+  }
+  &-padding-small {
+    padding: $small;
+  }
+  &-baseline {
+    align-items: baseline;
+  }
+  &-search {
+    &-area {
+      display: flex;
+      margin: 1px;
+    }
+    &-fa {
+      padding: $small;
+    }
+    &-wrapper {
+      background: rgb(255 255 255 / 35%);
+      width: 100%;
+      border-radius: $tiny;
+      position: relative;
+      box-shadow: 0px 1px 5px 3px rgba(0, 0, 0, 0.12);
+      margin-bottom: $tiny;
+      margin-left: $tiny;
+
+      & input {
+        height: 34px;
+        width: 100%;
+        outline: none;
+        border: none;
+        border-radius: $tiny;
+        padding: 0 30px 0 10px;
+        font-size: 16px;
+        box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+      }
+      &.active input {
+        border-radius: $tiny $tiny 0 0;
+      }
+    }
+    &-autocom-box {
+      padding: 0;
+      opacity: 0;
+      pointer-events: none;
+      max-height: 280px;
+      overflow-y: auto;
+
+      & li {
+        list-style: none;
+        padding: $tiny $small;
+        display: none;
+        width: 100%;
+        cursor: default;
+        border-radius: 3px;
+      }
+    }
+    &-wrapper.active &-autocom-box {
+      padding: 10px 8px;
+      opacity: 1;
+      pointer-events: auto;
+    }
+    &-wrapper.active &-autocom-box li {
+      display: block;
+    }
+    &-autocom-box li:hover {
+      background: rgba(255, 255, 255, 0.7);
+    }
+  }
+
   &-icon {
     border: none;
-    border-radius: 5px;
+    border-radius: $tiny;
     width: 48px;
     height: 48px;
-    margin-right: $margin-small;
+    margin-right: $small;
+
+    &-with-context &-link {
+      border: none;
+      background: none;
+    }
 
     &-clickable {
       cursor: pointer;
@@ -38,21 +113,28 @@ $color-accent: darkred;
     text-align: center;
     margin-top: 50px;
     border: 1px solid gray;
-    padding: 10px;
-    border-radius: 10px;
+    padding: $small;
+    border-radius: $small;
   }
 
   &-prelabel {
-    margin-right: 5px;
+    margin-right: $tiny;
   }
 
   &-postlabel {
-    margin-left: 5px;
+    margin-left: $tiny;
   }
 
   &-panel-container {
     display: flex;
   }
+
+  &-panel-container &-roll-btn {
+    width: fit-content;
+    height: fit-content;
+    margin-left: $small;
+  }
+
   &-panel-left {
     min-width: 230px;
     margin-right: 15px;
@@ -64,7 +146,34 @@ $color-accent: darkred;
   &-icon-with-context {
     display: flex;
     align-items: center;
-    margin-bottom: $margin-small;
+    margin-bottom: $small;
+  }
+
+  &-point-buy-area {
+    min-height: 17px;
+  }
+
+  &-asi {
+    &-group {
+      display: flex;
+      justify-content: space-between;
+      padding-bottom: $small;
+    }
+
+    &-button {
+      display: inline-block;
+      line-height: unset;
+      width: 27px;
+    }
+
+    &-value {
+      &,
+      &[type='number'] {
+        width: 27px;
+        padding: $tiny;
+        text-align: center;
+      }
+    }
   }
 
   /* ## Scrollable Textareas */
@@ -73,17 +182,17 @@ $color-accent: darkred;
     min-height: 100%;
     overflow-y: hidden;
     overflow-x: scroll;
-    padding: 5px;
+    padding: $tiny;
     background: rgba(255, 255, 255, 0.3);
     transition: all 0.3s;
     &:hover {
-      box-shadow: 0 0 5px black;
+      box-shadow: 0 0 $tiny black;
       background: rgba(255, 255, 255, 0.5);
     }
   }
 
   &-area-title {
-    margin: $margin-small 0 $margin-small 0;
+    margin: $small 0 $small 0;
   }
 
   &-option {
@@ -91,11 +200,11 @@ $color-accent: darkred;
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    margin-bottom: 5px;
+    margin-bottom: $tiny;
     padding: 0;
 
     &-label {
-      padding-right: 10px;
+      padding-right: $small;
     }
     &-select {
       flex-grow: 1;
@@ -380,6 +489,7 @@ $color-accent: darkred;
 .hct-select {
   font-family: 'Signika', sans-serif;
   border: 2px groove #f0f0e0;
+  margin-left: auto;
 }
 
 .centered-text {

@@ -105,7 +105,6 @@ export default class App extends Application {
       cleanUpErroneousItems(newActor);
       calculateStartingHp(newActor);
       setTokenDisplaySettings(newActor);
-      console.log(newActor);
       Actor.create(newActor);
       this.close();
     }

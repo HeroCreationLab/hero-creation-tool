@@ -13,12 +13,15 @@ class _Abilities extends Step {
     super(StepEnum.Abilities);
   }
 
+  touched!: boolean;
+
   section = () => $('#abDiv');
 
   setListeners(): void {
     // entry mode
-    $('[data-mode]').on('click', function () {
-      const mode = $(this).data('mode');
+    $('[data-mode]').on('click', (event) => {
+      this.touched = true;
+      const mode = $(event.target).data('mode');
       switch (mode) {
         case 'roll':
           rollAbilities();
@@ -36,16 +39,8 @@ class _Abilities extends Step {
     });
 
     // for point buy and manual entry
-    $('.abilityUp').on('click', (ev) => {
-      const stat = ev.currentTarget.id;
-      const i = stat.charAt(stat.length - 1);
-      increaseAbility(i);
-    });
-    $('.abilityDown').on('click', (ev) => {
-      const stat = ev.currentTarget.id;
-      const i = stat.charAt(stat.length - 1);
-      decreaseAbility(i);
-    });
+    $('[data-hct-abilities-up]').on('click', (ev) => increaseAbility($(ev.target).data('hct-abilities-up')));
+    $('[data-hct-abilities-down]').on('click', (ev) => decreaseAbility($(ev.target).data('hct-abilities-down')));
   }
 
   setSourceData(): void {
@@ -58,11 +53,20 @@ class _Abilities extends Step {
       Constants.DEFAULT_PACKS.RULES,
       'Ability Scores and Modifiers',
     );
-    $('[data-hct_spells_description]', this.section()).html(TextEditor.enrichHTML((abilitiesRulesItem as any).content));
+    $('[data-hct_abilities_description]', this.section()).html(
+      TextEditor.enrichHTML((abilitiesRulesItem as any).content),
+    );
+
+    this.touched = false;
   }
 
   getOptions(): HeroOption[] {
     this.clearOptions();
+    if (this.touched && statsDuplicatedOrMissing()) {
+      ui.notifications?.error(game.i18n.localize('HCT.Abilities.NotAllSixAbilities'));
+      throw new Error('Invalid abilities');
+    }
+
     const foundryAbilities = (game as any).dnd5e.config.abilities;
     for (let i = 1; i < 7; i++) {
       const $input: JQuery = $(`#number${i}`, this.section());
@@ -118,26 +122,24 @@ class _Abilities extends Step {
 const AbilitiesTab: Step = new _Abilities();
 export default AbilitiesTab;
 
-// TODO see if we incorporate this or not
-
-// function statsDuplicatedOrMissing() {
-//   /**Check that there are no repeats */
-//   const stats: string[] = [];
-//   for (let i = 0; i < 6; i++) {
-//     stats.push($(`#stat${i + 1}`).val() as string);
-//   }
-//   for (let x = 0; x < stats.length; x++) {
-//     for (let y = 0; y < stats.length; y++) {
-//       if (!stats[x]) {
-//         return true;
-//       }
-//       if (x != y && stats[x] == stats[y]) {
-//         return true;
-//       }
-//     }
-//   }
-//   return false;
-// }
+function statsDuplicatedOrMissing() {
+  /**Check that there are no repeats */
+  const stats: string[] = [];
+  for (let i = 0; i < 6; i++) {
+    stats.push($(`#stat${i + 1}`).val() as string);
+  }
+  for (let x = 0; x < stats.length; x++) {
+    for (let y = 0; y < stats.length; y++) {
+      if (!stats[x]) {
+        return true;
+      }
+      if (x != y && stats[x] == stats[y]) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
 
 async function rollAbilities() {
   const values = [];
@@ -183,25 +185,25 @@ function manualAbilities() {
 }
 
 function togglePointBuyScore(isPointBuy: boolean) {
-  (document.getElementById('point-buy-current-score') as any).innerHTML = '0';
-  (document.getElementById('point-buy-score') as any).hidden = !isPointBuy;
+  $('[data-hct-point-buy]').toggle(isPointBuy);
+  $('[data-hct-point-buy-score]').html('0');
 }
 
 function changeAbility(i: string, up: boolean) {
   const stat = $('#number' + i) as any;
   const value = parseInt(stat.val());
-  const isPointBuy = $('#point-buy-score').is(':visible');
+  const isPointBuy = $('[data-hct-point-buy]').is(':visible');
   const newValue = value + (up ? 1 : -1);
 
   stat.val(newValue + '');
 
   if (isPointBuy) {
     const cost = (up && value > 12) || (!up && value > 13) ? 2 : 1;
-    const currentPointsElement: any = document.getElementById('point-buy-current-score');
-    const currentPoints = parseInt(currentPointsElement.innerHTML);
-    const maxPoints = parseInt((document.getElementById('point-buy-max-score') as any).innerHTML);
+    const $currentPoints: JQuery = $('[data-hct-point-buy-score]');
+    const currentPoints = parseInt($currentPoints.html());
+    const maxPoints = parseInt($('[data-hct-point-buy-max]').html());
     const newPoints = up ? currentPoints + cost : currentPoints - cost;
-    currentPointsElement.innerHTML = newPoints + '';
+    $currentPoints.html(newPoints + '');
 
     for (let j = 1; j < 7; j++) {
       const value = parseInt($('#number' + j).val() as string);
@@ -214,7 +216,7 @@ function changeAbility(i: string, up: boolean) {
   } else {
     if (newValue == 20) {
       $('#up' + i).prop('disabled', true);
-    } else if (newValue == 0) {
+    } else if (newValue == 1) {
       $('#down' + i).prop('disabled', true);
     } else {
       $('#up' + i).prop('disabled', false);
