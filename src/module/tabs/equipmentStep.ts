@@ -14,25 +14,25 @@ class _Equipment extends Step {
     super(StepEnum.Equipment);
   }
 
-  $searchWrapper!: JQuery;
-  $inputBox!: JQuery;
-  $suggBox!: JQuery;
-
-  $itemList!: JQuery;
   defaultGoldDice!: string;
   $rollInput!: JQuery;
   $gold!: JQuery;
 
   section = () => $('#eqDiv');
 
+  $searchWrapper!: JQuery;
+  $inputBox!: JQuery;
+  $suggBox!: JQuery;
+  $itemList!: JQuery;
   searchArray: Item[] = [];
+
   items!: Item[];
   searchableList!: Item[];
 
   spent = 0;
 
   async setListeners() {
-    $('[data-hct-searchbar]').on('submit', (event) => {
+    $('[data-hct-searchbar]', this.section()).on('submit', (event) => {
       if (this.searchArray.length == 1) {
         try {
           this.addItemOrPack({ item: this.searchArray[0] });
@@ -227,6 +227,7 @@ class _Equipment extends Step {
         break;
     }
   }
+
   addItemToSelection(item: Item, quantity = 1, discountGold = true) {
     const itemOption = new FixedOption(
       StepEnum.Background,
@@ -261,7 +262,10 @@ class _Equipment extends Step {
 
   async renderData() {
     // Show rules on the side panel
-    const equipmentRulesItem = await Utils.getJournalFromPackByName(Constants.DEFAULT_PACKS.RULES, '05. Equipment');
+    const equipmentRulesItem = await Utils.getJournalFromPackByName(
+      Constants.DEFAULT_PACKS.RULES,
+      Constants.RULES.EQUIPMENT,
+    );
     $('[data-hct_equipment_description]', this.section()).html(
       TextEditor.enrichHTML((equipmentRulesItem as any).content),
     );

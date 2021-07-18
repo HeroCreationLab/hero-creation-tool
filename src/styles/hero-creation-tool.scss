@@ -146,6 +146,9 @@ $color-accent: darkred;
   &-icon-with-context {
     display: flex;
     align-items: center;
+  }
+
+  &-small-margin-b {
     margin-bottom: $small;
   }
 

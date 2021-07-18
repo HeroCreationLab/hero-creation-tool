@@ -17,7 +17,7 @@ export async function getSources({ baseSource: baseSource, customSourcesProperty
   if (customSourcesProperty) {
     const propValue: string = (await game.settings.get(Constants.MODULE_NAME, customSourcesProperty)) as string;
     if (propValue) {
-      const customSources: string[] = propValue.split(';');
+      const customSources: string[] = propValue.split(';').map((s) => s.trim());
       packs.push(...customSources);
     }
   }
@@ -91,59 +91,6 @@ export async function getItemFromPackByIndexId(packName: string, itemId: string)
 
 export function getAbilityModifierValue(value: number) {
   return Math.floor((value - 10) / 2);
-}
-
-export function modifierSign(val: number) {
-  return val >= 0 ? `+${val}` : `-${val}`;
-}
-
-export function isCustomKey(key: string, value: string): boolean {
-  const dnd5e = (game as any).dnd5e;
-  let keyList: any;
-  switch (key) {
-    case 'weaponProf':
-      keyList = Object.keys(dnd5e.config.weaponProficiencies);
-      break;
-    case 'armorProf':
-      keyList = Object.keys(dnd5e.config.armorProficiencies);
-      break;
-    case 'toolProf':
-      keyList = Object.keys(dnd5e.config.toolProficiencies);
-      break;
-    case 'languages':
-      keyList = Object.keys(dnd5e.config.languages);
-      break;
-  }
-  for (const key in keyList) {
-    if (keyList[key] === value) return false;
-  }
-  return true;
-}
-
-export function isProficiencyKey(key: string): boolean {
-  if (key.indexOf('skill') > -1) return true;
-  if (key.indexOf('language') > -1) return true;
-  if (key.indexOf('weapon') > -1) return true;
-  if (key.indexOf('armor') > -1) return true;
-  if (key.indexOf('tool') > -1) return true;
-  return false;
-}
-
-export function getActorDataForProficiency(key: string, value: any): [key: string, value: any] {
-  if (!isProficiencyKey(key)) return [key, value];
-
-  if (Array.isArray(value) && value.length == 1) {
-    value = value[0];
-  }
-  const baseKey = 'data.traits';
-  let pair: [string, any];
-  if (key === 'skills') {
-    pair = [`data.skills.${value}.value`, 1];
-  } else {
-    if (isCustomKey(key, value)) pair = [`${baseKey}.${key}.custom`, value];
-    else pair = [`${baseKey}.${key}.value`, [value]];
-  }
-  return pair;
 }
 
 export type filterPackOptions = { filterValues: string[]; filterField: string; itemList: Item[] };

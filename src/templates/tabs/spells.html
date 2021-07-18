@@ -1,8 +1,31 @@
-<section id="spellsDiv" class="tab-body apply-header-font" data-hct_tab_section="7">
+<section id="spellsDiv" class="tab-body apply-header-font" data-hct_tab_section="6">
     <main class='tab-content hct-panel-container'>
         <div class="hct-panel-left">
             <div data-hct_spells_data>
-                <p>Soon!</p>
+                <div data-hct_area="spellcasting-ability">
+                    <h2 class="hct-area-title">{{localize 'HCT.Spells.SpellcastingAbilityLabel' }}</h2>
+                    <div>
+                        <p data-hct_spellcasting_ability></p>
+                    </div>
+                </div>
+
+                <div data-hct_area="spells">
+                    <h2 class="hct-area-title">{{localize 'HCT.Spells.SpellList' }}</h2>
+                    <form data-hct-searchbar autocomplete="off">
+                        <div class="hct-search-wrapper">
+                            <div class="hct-search-area">
+                                <i class="fas fa-search hct-search-fa"></i>
+                                <input type="text" placeholder="{{localize 'HCT.Common.Searchbar.Placeholder'}}">
+                            </div>
+                            <div class="hct-search-autocom-box" data-hct-searchbar-results>
+                                <!-- here list are inserted from javascript -->
+                            </div>
+                        </div>
+                    </form>
+                    <button class="step-button hct-option centered-text" data-hct_spells_clear>{{localize
+                        'HCT.Common.Searchbar.ClearList' }}</button>
+                    <div data-hct-itemlist></div>
+                </div>
             </div>
         </div>
         <div class="hct-panel-right hct-infoArea" data-hct_spells_description></div>

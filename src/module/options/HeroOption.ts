@@ -1,6 +1,5 @@
 import { StepEnum } from '../Step';
 import type { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
-import * as Utils from '../utils';
 
 /**
  * Represents an option that will be reflected on the final hero.
@@ -26,7 +25,7 @@ export const apply = (
   enforceNumber?: boolean,
 ) => {
   try {
-    [key, value] = Utils.getActorDataForProficiency(key, value);
+    [key, value] = getActorDataForProficiency(key, value);
     if (
       !key ||
       !value ||
@@ -64,3 +63,52 @@ export const apply = (
     console.warn(`addValues: [${addValues}]`);
   }
 };
+
+function getActorDataForProficiency(key: string, value: any): [key: string, value: any] {
+  if (!isProficiencyKey(key)) return [key, value];
+
+  if (Array.isArray(value) && value.length == 1) {
+    value = value[0];
+  }
+  const baseKey = 'data.traits';
+  let pair: [string, any];
+  if (key === 'skills') {
+    pair = [`data.skills.${value}.value`, 1];
+  } else {
+    if (isCustomKey(key, value)) pair = [`${baseKey}.${key}.custom`, value];
+    else pair = [`${baseKey}.${key}.value`, [value]];
+  }
+  return pair;
+}
+
+function isProficiencyKey(key: string): boolean {
+  if (key.indexOf('skill') > -1) return true;
+  if (key.indexOf('language') > -1) return true;
+  if (key.indexOf('weapon') > -1) return true;
+  if (key.indexOf('armor') > -1) return true;
+  if (key.indexOf('tool') > -1) return true;
+  return false;
+}
+
+function isCustomKey(key: string, value: string): boolean {
+  const dnd5e = (game as any).dnd5e;
+  let keyList: any;
+  switch (key) {
+    case 'weaponProf':
+      keyList = Object.keys(dnd5e.config.weaponProficiencies);
+      break;
+    case 'armorProf':
+      keyList = Object.keys(dnd5e.config.armorProficiencies);
+      break;
+    case 'toolProf':
+      keyList = Object.keys(dnd5e.config.toolProficiencies);
+      break;
+    case 'languages':
+      keyList = Object.keys(dnd5e.config.languages);
+      break;
+  }
+  for (const key in keyList) {
+    if (keyList[key] === value) return false;
+  }
+  return true;
+}

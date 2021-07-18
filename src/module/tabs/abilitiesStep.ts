@@ -51,7 +51,7 @@ class _Abilities extends Step {
     // Show rules on the side panel
     const abilitiesRulesItem = await Utils.getJournalFromPackByName(
       Constants.DEFAULT_PACKS.RULES,
-      'Ability Scores and Modifiers',
+      Constants.RULES.ABILITIES,
     );
     $('[data-hct_abilities_description]', this.section()).html(
       TextEditor.enrichHTML((abilitiesRulesItem as any).content),
