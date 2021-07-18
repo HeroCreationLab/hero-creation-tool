@@ -13,7 +13,9 @@ export abstract class Step {
    * Delegation method for this tab to set its own listeners when Application.activateListeners()
    * is called. Here all HTML event listeners should be registered.
    */
-  abstract setListeners(): void;
+  setListeners(): void {
+    return;
+  }
 
   /**
    * Method called by the Application for each tab to provide any specific
@@ -21,13 +23,17 @@ export abstract class Step {
    *
    * Might not be needed for every tab.
    */
-  abstract setSourceData(): void;
+  setSourceData(): void {
+    return;
+  }
 
   /**
    * Method called by the Application for each tab to render their internal HTML.
    * Called at the end of every 'renderApp' Hook.
    */
-  abstract renderData(): void;
+  renderData(): void {
+    return;
+  }
 
   /**
    * Method called by the Application when on final submit,

@@ -80,10 +80,13 @@ export default class CustomItemOption implements HeroOption {
     this.$icon.on('click', () => this.openFilePicker());
     this.$name = $(`<input type="text" placeholder="${game.i18n.localize('HCT.Common.FeatureName')}">`);
     this.$description = $(`<textarea type="text" placeholder="${game.i18n.localize('DND5E.Description')}">`);
-    const $iconTitle = $(`<div class="hct-icon-with-context">`);
-    $iconTitle.append(this.$icon);
-    $iconTitle.append(this.$name);
-    $container.append($iconTitle);
+    const $iconAndTitle = $(`<div class="hct-icon-with-context">`);
+    $iconAndTitle.append(this.$icon);
+    $iconAndTitle.append(this.$name);
+    $container.append(
+      $(`<div class="hct-margin-b-tiny">${game.i18n.localize('HCT.Common.CustomItemCreateYourOwn')}</div>`),
+    );
+    $container.append($iconAndTitle);
     $container.append($(`<div class="hct-option">`).append(this.$description));
 
     parent.append($container);

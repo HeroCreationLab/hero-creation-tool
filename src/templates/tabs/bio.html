@@ -1,47 +1,31 @@
 <section id="bioDiv" class="tab-body apply-header-font" data-hct_tab_section="7">
-    <main class='tab-content'>
-        <div class="form--padding">
-            <form class="flexcol" autocomplete="off">
-                <div class="form-group">
-                    <label>{{localize 'HCT.Bio.Age'}}</label>
-                    <input type="text" id="character_age" name="age" placeholder="{{localize 'HCT.Bio.Age'}}">
-                </div>
-                <div class="form-group">
-                    <label>{{localize 'HCT.Bio.Height'}}</label>
-                    <input type="text" id="character_height" name="height" placeholder="{{localize 'HCT.Bio.Height'}}">
-                </div>
-                <div class="form-group">
-                    <label>{{localize 'HCT.Bio.Weight'}}</label>
-                    <input type="text" id="character_weight" name="weight" placeholder="{{localize 'HCT.Bio.Weight'}}">
-                </div>
-                <div class="form-group">
-                    <label>{{localize 'HCT.Bio.Eyes'}}</label>
-                    <div>
-                        <input type="text" id="character_eye_color" name="eye-color"
-                            placeholder="{{localize 'HCT.Bio.Eyes'}}">
-                        <input type="color" id="character_eye_rgb" name="eye-rgb">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>{{localize 'HCT.Bio.Hair'}}</label>
-                    <div>
-                        <input type="text" id="character_hair_color" name="hair-color"
-                            placeholder="{{localize 'HCT.Bio.Hair'}}">
-                        <input type="color" id="character_hair_rgb" name="hair-rgb">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>{{localize 'HCT.Bio.Skin'}}</label>
-                    <div>
-                        <input type="text" id="character_skin_color" name="skin-color"
-                            placeholder="{{localize 'HCT.Bio.Skin'}}">
-                        <input type="color" id="character_skin_rgb" name="skin-rgb">
-                    </div>
-                </div>
-                <div>
-                    <textarea id="character_biography" placeholder="{{localize 'HCT.Bio.Biography'}}"></textarea>
-                </div>
-            </form>
+    <main class='tab-content hct-panel-container'>
+        <div class="hct-panel-left">
+            <div>
+                <h2 class="hct-area-title">{{localize 'HCT.Bio.AppearanceTitle'}}</h2>
+                <textarea class="hct-bio-larger hct-bio-no-resize" data-hct_bio_data='appearance'
+                    placeholder="..."></textarea>
+            </div>
+            <div>
+                <h2 class="hct-area-title">{{localize 'HCT.Bio.PersonalityTraitsTitle'}}</h2>
+                <textarea class="hct-bio-no-resize" data-hct_bio_data='trait' placeholder="..."></textarea>
+            </div>
+            <div>
+                <h2 class="hct-area-title">{{localize 'HCT.Bio.IdealsTitle'}}</h2>
+                <textarea class="hct-bio-no-resize" data-hct_bio_data='ideal' placeholder="..."></textarea>
+            </div>
+            <div>
+                <h2 class="hct-area-title">{{localize 'HCT.Bio.BondsTitle'}}</h2>
+                <textarea class="hct-bio-no-resize" data-hct_bio_data='bond' placeholder="..."></textarea>
+            </div>
+            <div>
+                <h2 class="hct-area-title">{{localize 'HCT.Bio.FlawsTitle'}}</h2>
+                <textarea class="hct-bio-no-resize" data-hct_bio_data='flaw' placeholder="..."></textarea>
+            </div>
+        </div>
+        <div class="hct-panel-right hct-infoArea">
+            <textarea class="hct-bio-fullsize hct-bio-no-resize" data-hct_bio_data='biography.value'
+                placeholder="{{localize 'HCT.Bio.BiographyPlaceholder'}}"></textarea>
         </div>
     </main>
 </section>

@@ -4,7 +4,7 @@
 import * as Constants from '../constants';
 import { Step, StepEnum } from '../Step';
 import InputOption from '../options/TextInputOption';
-import Settings from '../settings';
+import SettingKeys from '../settings';
 
 const enum ImgType {
   AVATAR = 'avatar',
@@ -92,7 +92,7 @@ class _Basics extends Step {
   }
 
   setSourceData(): void {
-    this.useTokenizer = game.settings.get(Constants.MODULE_NAME, Settings.USE_TOKENIZER) as boolean;
+    this.useTokenizer = game.settings.get(Constants.MODULE_NAME, SettingKeys.USE_TOKENIZER) as boolean;
   }
 
   renderData(): void {

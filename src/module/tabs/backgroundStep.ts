@@ -8,6 +8,8 @@ import { Step, StepEnum } from '../Step';
 import InputOption from '../options/TextInputOption';
 import SelectableOption from '../options/SelectableOption';
 import CustomItemOption from '../options/CustomItemOption';
+import SettingKeys from '../settings';
+import SelectableItemOption from '../options/SelectableItemOption';
 
 class _BackgroundTab extends Step {
   constructor() {
@@ -16,12 +18,12 @@ class _BackgroundTab extends Step {
 
   section = () => $('#backgroundDiv');
 
-  setListeners(): void {
-    /* IMPLEMENT AS NEEDED */
-  }
+  backgroundFeatures!: Item[];
 
-  setSourceData(): void {
-    /* IMPLEMENT AS NEEDED */
+  async setSourceData() {
+    this.backgroundFeatures = (await Utils.getSources({
+      customSourcesProperty: SettingKeys.CUSTOM_BACKGROUND_FEATURE_PACKS,
+    })) as any;
   }
 
   async renderData() {
@@ -71,12 +73,21 @@ class _BackgroundTab extends Step {
 
   private setBackgroundFeatureUi() {
     const $featureArea = $('[data-hct_area=feature]', this.section());
-    const featureOption: CustomItemOption = new CustomItemOption(this.step, {
+    const featureOption: SelectableItemOption = new SelectableItemOption(
+      StepEnum.Background,
+      'items',
+      this.backgroundFeatures,
+      '',
+    );
+    featureOption.render($featureArea);
+    this.stepOptions.push(featureOption);
+
+    const customFeatureOption: CustomItemOption = new CustomItemOption(this.step, {
       type: 'feat',
       source: 'Background',
     });
-    featureOption.render($featureArea);
-    this.stepOptions.push(featureOption);
+    customFeatureOption.render($featureArea);
+    this.stepOptions.push(customFeatureOption);
   }
 
   private setAlignmentUi() {

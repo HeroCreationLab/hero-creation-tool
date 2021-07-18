@@ -1,8 +1,5 @@
-/*
-    Functions used exclusively on the Biography tab
-*/
-import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
-import * as Constants from '../constants';
+import FixedOption from '../options/FixedOption';
+import HeroOption from '../options/HeroOption';
 import { Step, StepEnum } from '../Step';
 
 class _Bio extends Step {
@@ -12,36 +9,16 @@ class _Bio extends Step {
 
   section = () => $('#bioDiv');
 
-  setListeners(): void {
-    /* IMPLEMENT AS NEEDED */
-  }
+  getOptions(): HeroOption[] {
+    const options: HeroOption[] = [];
 
-  setSourceData(): void {
-    /* IMPLEMENT AS NEEDED */
-  }
-
-  renderData(): void {
-    /* IMPLEMENT AS NEEDED */
-  }
-
-  /**
-   * @deprecated
-   */
-  // TODO convert to HeroOptions
-  getHeroOptions(newActor: ActorDataConstructorData): void {
-    console.log(`${Constants.LOG_PREFIX} | Saving Biography Tab data into actor`);
-
-    const appearance = `Age: ${$('#character_age').val()}
-		Height: ${$('#character_height').val()}
-		Weight: ${$('#character_weight').val()}
-		Eyes: ${$('#character_eye_color').val()} ${$('#character_eye_rgb').val()}
-		Hair: ${$('#character_hair_color').val()} ${$('#character_hair_rgb').val()}
-		Skin: ${$('#character_skin_color').val()} ${$('#character_skin_rgb').val()}
-		`;
-    (newActor.data as any).details = {
-      appearance: appearance,
-      biography: { value: $('#character_biography').val() as string },
-    };
+    $('[data-hct_bio_data]', this.section()).map((index, elem) => {
+      const $elem = $(elem);
+      options.push(
+        new FixedOption(StepEnum.Biography, `data.details.${$elem.data('hct_bio_data')}`, $elem.val() as string),
+      );
+    });
+    return options;
   }
 }
 const BioTab: Step = new _Bio();

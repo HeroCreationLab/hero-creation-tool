@@ -1,7 +1,7 @@
 import * as Constants from './constants';
 
 type getSourcesOptions = {
-  baseSource: string;
+  baseSource?: string;
   customSourcesProperty?: string;
 };
 /**
@@ -10,10 +10,10 @@ type getSourcesOptions = {
  */
 export async function getSources({ baseSource: baseSource, customSourcesProperty }: getSourcesOptions) {
   const packs: string[] = [];
-  if (!baseSource) {
+  if (!baseSource && !customSourcesProperty) {
     throw new Error(`Invalid base source value: ${baseSource}`);
   }
-  packs.push(baseSource);
+  if (baseSource) packs.push(baseSource);
   if (customSourcesProperty) {
     const propValue: string = (await game.settings.get(Constants.MODULE_NAME, customSourcesProperty)) as string;
     if (propValue) {

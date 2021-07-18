@@ -1,5 +1,6 @@
 $tiny: 5px;
 $small: 10px;
+$medium: 30px;
 $color-button-background: rgba(0, 0, 0, 0.05);
 $color-accent: darkred;
 
@@ -23,6 +24,13 @@ $color-accent: darkred;
 
     &-justify-sb {
       justify-content: space-between;
+    }
+  }
+  &-margin {
+    &-b {
+      &-tiny {
+        margin-bottom: $tiny;
+      }
     }
   }
   &-padding {
@@ -90,11 +98,11 @@ $color-accent: darkred;
 
       & li {
         list-style: none;
-        padding: $tiny $small;
         display: none;
         width: 100%;
         cursor: default;
         border-radius: 3px;
+        margin-bottom: $tiny;
         &:hover {
           box-shadow: 0 0 5px red;
         }
@@ -119,6 +127,13 @@ $color-accent: darkred;
     width: 48px;
     height: 48px;
     margin-right: $small;
+
+    &-square-med {
+      width: $medium;
+      height: $medium;
+      border-radius: $tiny;
+      margin-right: $small;
+    }
 
     &-with-context &-link {
       border: none;
@@ -259,6 +274,21 @@ $color-accent: darkred;
       width: 80%;
       display: flex;
       justify-content: flex-end;
+    }
+  }
+  &-bio {
+    &-fullsize {
+      height: 510px;
+      width: 100%;
+      margin: 0;
+      background: none;
+      border: none;
+    }
+    &-larger {
+      height: 90px;
+    }
+    &-fix-area {
+      resize: none;
     }
   }
 }

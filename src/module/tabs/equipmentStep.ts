@@ -2,7 +2,7 @@ import * as Utils from '../utils';
 import * as Constants from '../constants';
 import { Step, StepEnum } from '../Step';
 import FixedOption, { OptionType } from '../options/FixedOption';
-import Settings from '../settings';
+import SettingKeys from '../settings';
 
 type itemOrPack = {
   itemName?: string;
@@ -98,8 +98,8 @@ class _Equipment extends Step {
         });
         this.$searchWrapper.addClass('active');
         this.showSuggestions(this.searchArray);
-        $('li', this.$suggBox).on('click', (event) => {
-          this.select($(event.target).data('item_name'));
+        $('div', this.$suggBox).on('click', (event) => {
+          this.select($(event.currentTarget).data('item_name'));
         });
       } else {
         this.$searchWrapper.removeClass('active');
@@ -128,7 +128,10 @@ class _Equipment extends Step {
       listData = `<li>${'No matches'}</li>`;
     } else {
       listData = list
-        .map((item: any) => `<li data-item_name=\"${item.name}\">${item.name} (${item.data.price}gp)</li>`)
+        .map(
+          (item: any) =>
+            `<li><div class="hct-icon-with-context" data-item_name=\"${item.name}\"><img class="hct-icon-square-med" src="${item.img}"><span>${item.name} (${item.data.price}gp)</span></div></li>`,
+        )
         .join('');
     }
     this.$suggBox.html(listData);
@@ -280,7 +283,7 @@ class _Equipment extends Step {
     })) as any;
     this.items = filteredItems.filter((item: Item) => itemWhiteList.includes((item as any).name));
 
-    this.defaultGoldDice = game.settings.get(Constants.MODULE_NAME, Settings.DEFAULT_GOLD_DICE) as string;
+    this.defaultGoldDice = game.settings.get(Constants.MODULE_NAME, SettingKeys.DEFAULT_GOLD_DICE) as string;
   }
 
   async renderData() {
@@ -341,13 +344,37 @@ const PackPrices = {
   SCHOLAR: 40,
 };
 const packs: Item[] = [
-  { name: PackNames.BURGLAR, data: { price: PackPrices.BURGLAR } },
-  { name: PackNames.DIPLOMAT, data: { price: PackPrices.DIPLOMAT } },
-  { name: PackNames.DUNGEONEER, data: { price: PackPrices.DUNGEONEER } },
-  { name: PackNames.ENTERNAINER, data: { price: PackPrices.ENTERNAINER } },
-  { name: PackNames.EXPLORER, data: { price: PackPrices.EXPLORER } },
-  { name: PackNames.PRIEST, data: { price: PackPrices.PRIEST } },
-  { name: PackNames.SCHOLAR, data: { price: PackPrices.SCHOLAR } },
+  { name: PackNames.BURGLAR, data: { price: PackPrices.BURGLAR }, img: 'icons/tools/hand/lockpicks-steel-grey.webp' },
+  {
+    name: PackNames.DIPLOMAT,
+    data: { price: PackPrices.DIPLOMAT },
+    img: 'icons/commodities/treasure/medal-ribbon-gold-red.webp',
+  },
+  {
+    name: PackNames.DUNGEONEER,
+    data: { price: PackPrices.DUNGEONEER },
+    img: 'icons/sundries/lights/torch-brown-lit.webp',
+  },
+  {
+    name: PackNames.ENTERNAINER,
+    data: { price: PackPrices.ENTERNAINER },
+    img: 'icons/tools/instruments/lute-gold-brown.webp',
+  },
+  {
+    name: PackNames.EXPLORER,
+    data: { price: PackPrices.EXPLORER },
+    img: 'icons/tools/navigation/map-marked-green.webp',
+  },
+  {
+    name: PackNames.PRIEST,
+    data: { price: PackPrices.PRIEST },
+    img: 'icons/commodities/treasure/token-gold-cross.webp',
+  },
+  {
+    name: PackNames.SCHOLAR,
+    data: { price: PackPrices.SCHOLAR },
+    img: 'icons/skills/trades/academics-merchant-scribe.webp',
+  },
 ] as any;
 
 const itemWhiteList = [

@@ -43,10 +43,6 @@ class _Abilities extends Step {
     $('[data-hct-abilities-down]').on('click', (ev) => decreaseAbility($(ev.target).data('hct-abilities-down')));
   }
 
-  setSourceData(): void {
-    /* IMPLEMENT AS NEEDED */
-  }
-
   async renderData() {
     // Show rules on the side panel
     const abilitiesRulesItem = await Utils.getJournalFromPackByName(

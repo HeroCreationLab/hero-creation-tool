@@ -1,6 +1,6 @@
 import * as Constants from './constants';
 
-const enum Settings {
+const enum SettingKeys {
   USE_TOKENIZER = 'useTokenizer',
   TOKEN_BAR = 'displayBarsMode',
   TOKEN_NAME = 'displayNameMode',
@@ -9,9 +9,10 @@ const enum Settings {
   CUSTOM_RACE_FEATURES_PACKS = 'raceFeaturesCompendiums',
   CUSTOM_CLASS_PACKS = 'classCompendiums',
   CUSTOM_CLASS_FEATURE_PACKS = 'classFeaturesCompendiums',
+  CUSTOM_BACKGROUND_FEATURE_PACKS = 'backgroundFeaturesCompendiums',
   CUSTOM_SPELL_PACKS = 'spellCompendiums',
 }
-export default Settings;
+export default SettingKeys;
 
 export function registerSettings(): void {
   console.log(`${Constants.LOG_PREFIX} | Building module settings`);
@@ -23,14 +24,24 @@ export function registerSettings(): void {
   raceFeaturesCompendiumSelector();
   classCompendiumSelector();
   classFeaturesCompendiumSelector();
-  classCompendiumSelector();
+  backgroundFeaturesCompendiumSelector();
   spellCompendiumSelector();
   // integrations
   useTokenizerIfAvailable();
 }
 
+function backgroundFeaturesCompendiumSelector() {
+  game.settings.register(Constants.MODULE_NAME, SettingKeys.CUSTOM_BACKGROUND_FEATURE_PACKS, {
+    name: game.i18n.localize('HCT.Setting.BackgroundFeatureCompendiums.Name'),
+    hint: game.i18n.localize('HCT.Setting.BackgroundFeatureCompendiums.Hint'),
+    scope: 'world',
+    config: true,
+    type: String,
+  });
+}
+
 function spellCompendiumSelector() {
-  game.settings.register(Constants.MODULE_NAME, Settings.CUSTOM_SPELL_PACKS, {
+  game.settings.register(Constants.MODULE_NAME, SettingKeys.CUSTOM_SPELL_PACKS, {
     name: game.i18n.localize('HCT.Setting.SpellCompendiums.Name'),
     hint: game.i18n.localize('HCT.Setting.SpellCompendiums.Hint'),
     scope: 'world',
@@ -40,7 +51,7 @@ function spellCompendiumSelector() {
 }
 
 function defaultStartingGoldDice() {
-  game.settings.register(Constants.MODULE_NAME, Settings.DEFAULT_GOLD_DICE, {
+  game.settings.register(Constants.MODULE_NAME, SettingKeys.DEFAULT_GOLD_DICE, {
     name: game.i18n.localize('HCT.Setting.DefaultGoldDice.Name'),
     hint: game.i18n.localize('HCT.Setting.DefaultGoldDice.Hint'),
     scope: 'world',
@@ -51,7 +62,7 @@ function defaultStartingGoldDice() {
 }
 
 function useTokenizerIfAvailable() {
-  game.settings.register(Constants.MODULE_NAME, Settings.USE_TOKENIZER, {
+  game.settings.register(Constants.MODULE_NAME, SettingKeys.USE_TOKENIZER, {
     name: game.i18n.localize('HCT.Setting.UseTokenizer.Name'),
     hint: game.i18n.localize('HCT.Setting.UseTokenizer.Hint'),
     scope: 'world',
@@ -62,7 +73,7 @@ function useTokenizerIfAvailable() {
 }
 
 function tokenDisplayBarsMode() {
-  game.settings.register(Constants.MODULE_NAME, Settings.TOKEN_BAR, {
+  game.settings.register(Constants.MODULE_NAME, SettingKeys.TOKEN_BAR, {
     name: game.i18n.localize('HCT.Setting.TokenBarMode.Name'),
     scope: 'world',
     config: true,
@@ -80,7 +91,7 @@ function tokenDisplayBarsMode() {
 }
 
 function tokenDisplayNameMode() {
-  game.settings.register(Constants.MODULE_NAME, Settings.TOKEN_NAME, {
+  game.settings.register(Constants.MODULE_NAME, SettingKeys.TOKEN_NAME, {
     name: game.i18n.localize('HCT.Setting.TokenNameMode.Name'),
     scope: 'world',
     config: true,
@@ -98,7 +109,7 @@ function tokenDisplayNameMode() {
 }
 
 function classCompendiumSelector() {
-  game.settings.register(Constants.MODULE_NAME, Settings.CUSTOM_CLASS_PACKS, {
+  game.settings.register(Constants.MODULE_NAME, SettingKeys.CUSTOM_CLASS_PACKS, {
     name: game.i18n.localize('HCT.Setting.ClassCompendiums.Name'),
     hint: game.i18n.localize('HCT.Setting.ClassCompendiums.Hint'),
     scope: 'world',
@@ -108,7 +119,7 @@ function classCompendiumSelector() {
 }
 
 function classFeaturesCompendiumSelector() {
-  game.settings.register(Constants.MODULE_NAME, Settings.CUSTOM_CLASS_FEATURE_PACKS, {
+  game.settings.register(Constants.MODULE_NAME, SettingKeys.CUSTOM_CLASS_FEATURE_PACKS, {
     name: game.i18n.localize('HCT.Setting.ClassFeatureCompendiums.Name'),
     hint: game.i18n.localize('HCT.Setting.ClassFeatureCompendiums.Hint'),
     scope: 'world',
@@ -118,7 +129,7 @@ function classFeaturesCompendiumSelector() {
 }
 
 function raceFeaturesCompendiumSelector() {
-  game.settings.register(Constants.MODULE_NAME, Settings.CUSTOM_RACE_FEATURES_PACKS, {
+  game.settings.register(Constants.MODULE_NAME, SettingKeys.CUSTOM_RACE_FEATURES_PACKS, {
     name: game.i18n.localize('HCT.Setting.RaceFeatureCompendiums.Name'),
     hint: game.i18n.localize('HCT.Setting.RaceFeatureCompendiums.Hint'),
     scope: 'world',
@@ -128,7 +139,7 @@ function raceFeaturesCompendiumSelector() {
 }
 
 function raceCompendiumSelector() {
-  game.settings.register(Constants.MODULE_NAME, Settings.CUSTOM_RACE_PACKS, {
+  game.settings.register(Constants.MODULE_NAME, SettingKeys.CUSTOM_RACE_PACKS, {
     name: game.i18n.localize('HCT.Setting.RaceCompendiums.Name'),
     hint: game.i18n.localize('HCT.Setting.RaceCompendiums.Hint'),
     scope: 'world',
