@@ -30,7 +30,7 @@ export const apply = (
       !key ||
       !value ||
       key.indexOf('null') > -1 ||
-      (!Array.isArray(value) && isNaN(value) && value.indexOf('null') > -1)
+      (!Array.isArray(value) && isNaN(value) && typeof value == 'string' && value.indexOf('null') > -1)
     )
       return existingData;
 

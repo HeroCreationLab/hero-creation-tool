@@ -11,7 +11,7 @@ export default class FixedOption implements HeroOption {
   constructor(
     readonly origin: StepEnum,
     readonly key: string,
-    private option: string | number | Item,
+    private option: string | number | Item | { cp: number; sp: number; gp: number },
     private textToShow?: string,
     readonly settings: {
       addValues: boolean;
@@ -32,7 +32,7 @@ export default class FixedOption implements HeroOption {
     apply(
       actor,
       this.key,
-      this.settings.type === OptionType.TEXT
+      this.settings.type === OptionType.TEXT || this.settings.type === OptionType.CURRENCY
         ? this.value()
         : this.settings.type === OptionType.NUMBER
         ? (this.value() as number)
@@ -81,4 +81,5 @@ export enum OptionType {
   TEXT,
   ITEM,
   NUMBER,
+  CURRENCY,
 }

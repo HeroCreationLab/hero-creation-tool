@@ -18,12 +18,31 @@ $color-accent: darkred;
 }
 
 .hct {
+  &-flex {
+    display: flex;
+
+    &-justify-sb {
+      justify-content: space-between;
+    }
+  }
+  &-padding {
+    &-b {
+      &-tiny {
+        padding-bottom: $tiny;
+      }
+    }
+    &-small {
+      padding: $small;
+    }
+    &-tiny {
+      padding: $tiny;
+    }
+  }
+
   &-large-font {
     font-size: large;
   }
-  &-padding-small {
-    padding: $small;
-  }
+
   &-baseline {
     align-items: baseline;
   }
@@ -64,6 +83,10 @@ $color-accent: darkred;
       pointer-events: none;
       max-height: 280px;
       overflow-y: auto;
+      position: absolute;
+      background: white;
+      width: 100%;
+      border-radius: 5px;
 
       & li {
         list-style: none;
@@ -72,6 +95,9 @@ $color-accent: darkred;
         width: 100%;
         cursor: default;
         border-radius: 3px;
+        &:hover {
+          box-shadow: 0 0 5px red;
+        }
       }
     }
     &-wrapper.active &-autocom-box {
@@ -160,7 +186,7 @@ $color-accent: darkred;
     &-group {
       display: flex;
       justify-content: space-between;
-      padding-bottom: $small;
+      padding-bottom: $tiny;
     }
 
     &-button {

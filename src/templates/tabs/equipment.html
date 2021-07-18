@@ -3,22 +3,32 @@
         <div class="hct-panel-left">
             <div data-hct_equipment_data>
                 <div data-hct_area="gold">
-                    <h2 class="hct-area-title">{{localize 'HCT.Equipment.StartingGoldTitle' }}</h2>
-                    <div class="hct-asi-group hct-baseline">
-                        <span class="hct-padding-small">{{localize 'HCT.Equipment.Roll' }}</span>
+                    <h2 class="hct-flex hct-flex-justify-sb hct-baseline">{{localize
+                        'HCT.Equipment.StartingGoldTitle' }}</h2>
+                    <div class="hct-flex hct-flex-justify-sb hct-baseline">
+                        <span class="hct-padding-tiny">{{localize 'HCT.Equipment.Roll' }}</span>
                         <input type="text" data-hct_equipment_roll_expression>
                         <button class="step-button hct-option hct-roll-btn" data-hct_equipment_roll>
                             <i class="fas fa-dice-d20" style="padding: 5px; margin: 0;"></i>
                         </button>
                     </div>
-                    <div class="hct-asi-group hct-baseline">
-                        <span class="hct-padding-small">{{localize 'HCT.Equipment.ManualInput' }}</span>
+                    <div class="hct-flex hct-flex-justify-sb hct-baseline">
+                        <span class="hct-padding-tiny">{{localize 'HCT.Equipment.ManualInput' }}</span>
+                        <input style="text-align: center; font-size: large;" type="number" value="0"
+                            data-hct_equipment_manual_gold disabled>
                         <button class="step-button hct-option hct-roll-btn" data-hct_equipment_input>
                             <i class="fas fa-pencil-alt" style="padding: 5px; margin: 0;"></i>
                         </button>
                     </div>
-                    <input style="text-align: center; font-size: large;" type="number" value="0"
-                        data-hct_equipment_available_gold disabled>
+                    <div class="hct-flex hct-flex-justify-sb hct-baseline">
+                        <span class="hct-padding-tiny">{{localize 'HCT.Equipment.Additional' }}</span>
+                        <input data-hct_equipment_extra type="number" value="0">
+                    </div>
+                    <hr>
+                    <p class="centered-text hct-large-font">
+                        <span>{{localize 'HCT.Equipment.TotalGoldLabel' }}</span><span
+                            data-hct_total_gold>0</span><span> gp</span>
+                    </p>
                     <p class="centered-text hct-large-font">
                         <span>{{localize 'HCT.Equipment.RemainingGoldLabel' }}</span><span
                             data-hct_remaining_gold>0</span><span> gp</span>

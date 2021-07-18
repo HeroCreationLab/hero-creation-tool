@@ -16,7 +16,10 @@ class _Equipment extends Step {
 
   defaultGoldDice!: string;
   $rollInput!: JQuery;
-  $gold!: JQuery;
+  $manualGold!: JQuery;
+  $totalGold!: JQuery;
+  $remainingGold!: JQuery;
+  $extraGold!: JQuery;
 
   section = () => $('#eqDiv');
 
@@ -29,9 +32,19 @@ class _Equipment extends Step {
   items!: Item[];
   searchableList!: Item[];
 
+  available = 0;
+  total = 0;
+  extra = 0;
   spent = 0;
 
   async setListeners() {
+    this.$searchWrapper = $('.hct-search-wrapper', this.section());
+    this.$inputBox = $('input', this.$searchWrapper);
+    this.$suggBox = $('[data-hct-searchbar-results]', this.$searchWrapper);
+    this.$itemList = $('[data-hct-itemlist]', this.section());
+    this.$manualGold = $('[data-hct_equipment_manual_gold]', this.section());
+    this.$extraGold = $('[data-hct_equipment_extra]', this.section());
+
     $('[data-hct-searchbar]', this.section()).on('submit', (event) => {
       if (this.searchArray.length == 1) {
         try {
@@ -48,15 +61,25 @@ class _Equipment extends Step {
     $('[data-hct_equipment_roll]', this.section()).on('click', async (e) => {
       const rollExpression = this.$rollInput.val() as string;
       const roll = await new Roll(rollExpression).evaluate({ async: true } as any);
-      this.$gold.prop('disabled', true).val(roll.total as number);
+      this.available = roll.total ?? 0;
+
+      this.$manualGold.prop('disabled', true).val('');
       this.updateGold();
     });
 
     $('[data-hct_equipment_input]', this.section()).on('click', (e) => {
-      this.$gold.prop('disabled', false).val(0);
+      this.$manualGold.prop('disabled', false).val(0);
+      this.available = 0;
+      this.updateGold();
     });
 
-    $('[data-hct_equipment_available_gold]', this.section()).on('keyup', (e) => {
+    this.$manualGold.on('keyup', (e) => {
+      this.available = parseInt(this.$manualGold.val() as string) || 0;
+      this.updateGold();
+    });
+
+    this.$extraGold.on('keyup', (e) => {
+      this.extra = parseInt(this.$extraGold.val() as string) || 0;
       this.updateGold();
     });
 
@@ -66,11 +89,6 @@ class _Equipment extends Step {
       this.spent = 0;
       this.updateGold();
     });
-
-    this.$searchWrapper = $('.hct-search-wrapper', this.section());
-    this.$inputBox = $('input', this.$searchWrapper);
-    this.$suggBox = $('[data-hct-searchbar-results]', this.$searchWrapper);
-    this.$itemList = $('[data-hct-itemlist]', this.section());
 
     this.$inputBox.on('keyup', (e) => {
       const userData = (e.target as any).value;
@@ -230,7 +248,7 @@ class _Equipment extends Step {
 
   addItemToSelection(item: Item, quantity = 1, discountGold = true) {
     const itemOption = new FixedOption(
-      StepEnum.Background,
+      StepEnum.Equipment,
       'items',
       item,
       `${item.name} x${quantity} (${(item.data as any).price * quantity}gp)`,
@@ -246,9 +264,14 @@ class _Equipment extends Step {
   }
 
   updateGold(reduceBy?: number) {
-    const available = this.$gold.val() as number;
     if (reduceBy) this.spent += reduceBy;
-    $('[data-hct_remaining_gold]', this.section()).html((available - this.spent).toString());
+    this.total = this.roundToTwo(this.available) + this.roundToTwo(this.extra);
+    this.$totalGold.html(this.total.toString());
+    this.$remainingGold.html(this.roundToTwo(this.total - this.spent).toString());
+  }
+
+  roundToTwo(num: number) {
+    return Math.round(num * 100 + Number.EPSILON) / 100;
   }
 
   async setSourceData() {
@@ -272,7 +295,23 @@ class _Equipment extends Step {
 
     this.searchableList = [...packs, ...(this.items.filter((data) => (data as any).name) as any)];
     this.$rollInput = $('[data-hct_equipment_roll_expression]', this.section()).val(this.defaultGoldDice);
-    this.$gold = $('[data-hct_equipment_available_gold]', this.section());
+    this.$totalGold = $('[data-hct_total_gold]', this.section());
+    this.$remainingGold = $('[data-hct_remaining_gold]', this.section());
+  }
+
+  getOptions() {
+    // add remaining gold
+    const remaining = parseFloat(this.$remainingGold.html()) || 0;
+    if (remaining && remaining > 0) {
+      this.stepOptions.push(
+        new FixedOption(StepEnum.Equipment, 'data.currency', {
+          cp: Math.floor((remaining * 100) % 10),
+          sp: Math.floor((remaining * 10) % 10),
+          gp: Math.floor(remaining),
+        }),
+      );
+    }
+    return this.stepOptions;
   }
 }
 const EquipmentTab: Step = new _Equipment();

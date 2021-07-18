@@ -72,7 +72,7 @@ class _Spells extends Step {
   }
 
   addItemToSelection(item: Item) {
-    const itemOption = new FixedOption(StepEnum.Background, 'items', item, undefined, {
+    const itemOption = new FixedOption(StepEnum.Spells, 'items', item, undefined, {
       addValues: true,
       type: OptionType.ITEM,
     });

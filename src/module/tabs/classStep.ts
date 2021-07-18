@@ -80,7 +80,6 @@ class _Class extends Step {
 
   private setSpellcastingAbilityIfExisting() {
     const spellCastingAbility = (this._class?.data as any)?.spellcasting?.ability;
-    console.log(`setting spa for class ${this._class.name} with spa ${spellCastingAbility}`);
     if (spellCastingAbility) {
       this.stepOptions.push(
         new FixedOption(StepEnum.Spells, 'data.attributes.spellcasting', spellCastingAbility, '', {

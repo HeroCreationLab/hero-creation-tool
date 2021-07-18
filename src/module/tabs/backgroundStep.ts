@@ -81,7 +81,10 @@ class _BackgroundTab extends Step {
 
   private setAlignmentUi() {
     const foundryAligments = (game as any).dnd5e.config.alignments;
-    const alignmentChoices = Object.keys(foundryAligments).map((k) => ({ key: k, value: foundryAligments[k] }));
+    const alignmentChoices = Object.keys(foundryAligments).map((k) => ({
+      key: foundryAligments[k],
+      value: foundryAligments[k],
+    }));
     const alignmentOption = new SelectableOption(this.step, 'data.details.alignment', alignmentChoices, '', {
       addValues: false,
     });
