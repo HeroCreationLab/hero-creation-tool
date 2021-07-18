@@ -5,7 +5,7 @@ import { Step, StepEnum } from '../Step';
 import * as Constants from '../constants';
 import * as Utils from '../utils';
 import * as ProficiencyUtils from '../proficiencyUtils';
-import Settings from '../settings';
+import SettingKeys from '../settings';
 import HiddenOption from '../options/HiddenOption';
 import FixedOption, { OptionType } from '../options/FixedOption';
 
@@ -38,7 +38,7 @@ class _Class extends Step {
     // classes
     const classItems = await Utils.getSources({
       baseSource: Constants.DEFAULT_PACKS.CLASSES,
-      customSourcesProperty: Settings.CUSTOM_CLASS_PACKS,
+      customSourcesProperty: SettingKeys.CUSTOM_CLASS_PACKS,
     });
     this.classes = classItems?.sort((a, b) => a.name.localeCompare(b.name)) as any;
     if (this.classes) setClassPickerOptions(this.classes);
@@ -47,7 +47,7 @@ class _Class extends Step {
     // class features
     const classFeatureItems = await Utils.getSources({
       baseSource: Constants.DEFAULT_PACKS.CLASS_FEATURES,
-      customSourcesProperty: Settings.CUSTOM_CLASS_FEATURE_PACKS,
+      customSourcesProperty: SettingKeys.CUSTOM_CLASS_FEATURE_PACKS,
     });
     this.classFeatures = classFeatureItems?.sort((a, b) => a.name.localeCompare(b.name)) as any;
   }

@@ -22,7 +22,7 @@
         "Hint": "Name of complementary compendium with custom races, separated by semi-colons (;)"
       },
       "RaceFeatureCompendiums": {
-        "Name": "Race features compendiums",
+        "Name": "Race feature compendiums",
         "Hint": "Name of complementary compendium with custom race features, separated by semi-colons (;)"
       },
       "ClassCompendiums": {
@@ -30,8 +30,12 @@
         "Hint": "Name of complementary compendium with custom classes, separated by semi-colons (;)"
       },
       "ClassFeatureCompendiums": {
-        "Name": "Class features compendiums",
+        "Name": "Class feature compendiums",
         "Hint": "Name of complementary compendium with custom class features, separated by semi-colons (;)"
+      },
+      "BackgroundFeatureCompendiums": {
+        "Name": "Background feature compendiums",
+        "Hint": "Name of complementary compendium with custom background features, separated by semi-colons (;)"
       },
       "SpellCompendiums": {
         "Name": "Spell compendiums",
@@ -59,6 +63,7 @@
       "LanguageProficiencies": "Language Proficiencies",
       "AddCustom": "Custom",
       "AddStandard": "Add",
+      "CustomItemCreateYourOwn": "Or create your own..",
       "Movement": {
         "walk": "Walking",
         "burrow": "Burrowing",
@@ -143,7 +148,7 @@
     "Equipment": {
       "StartingGoldTitle": "Starting Gold",
       "Roll": "Roll",
-      "ManualInput": "Manual Input",
+      "ManualInput": "Manual",
       "Additional": "Additional",
       "TotalGoldLabel": "Total: ",
       "RemainingGoldLabel": "Remaining: ",
@@ -157,13 +162,12 @@
       "SelectItemError": "Incorrect itemName on Spells tab search entry"
     },
     "Bio": {
-      "Age": "Age",
-      "Height": "Height",
-      "Weight": "Weight",
-      "Eyes": "Eyes",
-      "Hair": "Hair",
-      "Skin": "Skin",
-      "Biography": "Biography.."
+      "AppearanceTitle": "Appearance",
+      "PersonalityTraitsTitle": "Personality Traits",
+      "IdealsTitle": "Ideals",
+      "BondsTitle": "Bonds",
+      "FlawsTitle": "Flaws",
+      "BiographyPlaceholder": "Biography.."
     }
   }
 }

@@ -2,7 +2,7 @@ import * as Utils from '../utils';
 import * as Constants from '../constants';
 import { Step, StepEnum } from '../Step';
 import FixedOption, { OptionType } from '../options/FixedOption';
-import Settings from '../settings';
+import SettingKeys from '../settings';
 
 class _Spells extends Step {
   constructor() {
@@ -85,7 +85,12 @@ class _Spells extends Step {
     if (!list.length) {
       listData = `<li>${'No matches'}</li>`;
     } else {
-      listData = list.map((item: any) => `<li data-item_name=\"${item.name}\">${item.name}</li>`).join('');
+      listData = list
+        .map(
+          (item: any) =>
+            `<li><div class="hct-icon-with-context" data-item_name=\"${item.name}\"><img class="hct-icon-square-med" src="${item.img}"><span>${item.name}</span></div></li>`,
+        )
+        .join('');
     }
     this.$suggBox.html(listData);
   }
@@ -93,7 +98,7 @@ class _Spells extends Step {
   async setSourceData() {
     const filteredSpells = (await Utils.getSources({
       baseSource: Constants.DEFAULT_PACKS.SPELLS,
-      customSourcesProperty: Settings.CUSTOM_SPELL_PACKS,
+      customSourcesProperty: SettingKeys.CUSTOM_SPELL_PACKS,
     })) as any;
     const maxLevel = 1;
     this.spells = filteredSpells.filter((item: Item) => (item.data as any).level <= maxLevel);

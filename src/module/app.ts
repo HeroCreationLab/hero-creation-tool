@@ -4,7 +4,7 @@
  */
 import * as Constants from './constants';
 import * as Utils from './utils';
-import Settings from './settings';
+import SettingKeys from './settings';
 
 import BasicsTab from './tabs/basicsStep';
 import AbilitiesTab from './tabs/abilitiesStep';
@@ -179,8 +179,8 @@ function calculateStartingHp(newActor: ActorDataConstructorData) {
 }
 
 function setTokenDisplaySettings(newActor: ActorDataConstructorData) {
-  const displayBarsSetting = game.settings.get(Constants.MODULE_NAME, Settings.TOKEN_BAR);
-  const displayNameSetting = game.settings.get(Constants.MODULE_NAME, Settings.TOKEN_NAME);
+  const displayBarsSetting = game.settings.get(Constants.MODULE_NAME, SettingKeys.TOKEN_BAR);
+  const displayNameSetting = game.settings.get(Constants.MODULE_NAME, SettingKeys.TOKEN_NAME);
   setProperty(newActor, 'token.displayBars', displayBarsSetting);
   setProperty(newActor, 'token.displayName', displayNameSetting);
 }
