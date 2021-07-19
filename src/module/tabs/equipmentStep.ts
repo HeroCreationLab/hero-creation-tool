@@ -114,7 +114,11 @@ class _Equipment extends Step {
   }
 
   private addItemOrPack(itemOrPack: itemOrPack) {
-    const item = itemOrPack.item ?? this.searchableList.filter((i) => i.name == itemOrPack.itemName)[0];
+    const item = itemOrPack.item ?? this.searchableList.find((i) => i.name == itemOrPack.itemName);
+    if (!item) {
+      console.error(itemOrPack);
+      throw new Error(`Item for item/pack not found`);
+    }
     if (isPack(item)) {
       this.addPackToSelection(item.name as PackNames);
     } else {
@@ -156,10 +160,10 @@ class _Equipment extends Step {
             return itemsInPack.includes(item.name!);
           })
           .forEach((item) => this.addItemToSelection(item, 1, false));
-        this.addItemToSelection(this.items.filter((i: any) => i.name == 'Candle')[0], 5, false);
-        this.addItemToSelection(this.items.filter((i: any) => i.name == 'Piton')[0], 10, false);
-        this.addItemToSelection(this.items.filter((i: any) => i.name == 'Oil Flask')[0], 2, false);
-        this.addItemToSelection(this.items.filter((i: any) => i.name == 'Rations')[0], 5, false);
+        this.addItemToSelection(this.items.find((i: any) => i.name == 'Candle')!, 5, false);
+        this.addItemToSelection(this.items.find((i: any) => i.name == 'Piton')!, 10, false);
+        this.addItemToSelection(this.items.find((i: any) => i.name == 'Oil Flask')!, 2, false);
+        this.addItemToSelection(this.items.find((i: any) => i.name == 'Rations')!, 5, false);
         this.updateGold(PackPrices.BURGLAR);
         break;
 
@@ -179,9 +183,9 @@ class _Equipment extends Step {
             return itemsInPack.includes(item.name!);
           })
           .forEach((item) => this.addItemToSelection(item, 1, false));
-        this.addItemToSelection(this.items.filter((i: any) => i.name == 'Map or Scroll Case')[0], 2, false);
-        this.addItemToSelection(this.items.filter((i: any) => i.name == 'Oil Flask')[0], 2, false);
-        this.addItemToSelection(this.items.filter((i: any) => i.name == 'Paper')[0], 5, false);
+        this.addItemToSelection(this.items.find((i: any) => i.name == 'Map or Scroll Case')!, 2, false);
+        this.addItemToSelection(this.items.find((i: any) => i.name == 'Oil Flask')!, 2, false);
+        this.addItemToSelection(this.items.find((i: any) => i.name == 'Paper')!, 5, false);
         this.updateGold(PackPrices.DIPLOMAT);
         break;
 
@@ -192,9 +196,9 @@ class _Equipment extends Step {
             return itemsInPack.includes(item.name!);
           })
           .forEach((item) => this.addItemToSelection(item, 1, false));
-        this.addItemToSelection(this.items.filter((i: any) => i.name == 'Piton')[0], 10, false);
-        this.addItemToSelection(this.items.filter((i: any) => i.name == 'Torch')[0], 10, false);
-        this.addItemToSelection(this.items.filter((i: any) => i.name == 'Rations')[0], 10, false);
+        this.addItemToSelection(this.items.find((i: any) => i.name == 'Piton')!, 10, false);
+        this.addItemToSelection(this.items.find((i: any) => i.name == 'Torch')!, 10, false);
+        this.addItemToSelection(this.items.find((i: any) => i.name == 'Rations')!, 10, false);
         this.updateGold(PackPrices.DUNGEONEER);
         break;
 
@@ -205,9 +209,9 @@ class _Equipment extends Step {
             return itemsInPack.includes(item.name!);
           })
           .forEach((item) => this.addItemToSelection(item, 1, false));
-        this.addItemToSelection(this.items.filter((i: any) => i.name == 'Costume Clothes')[0], 2, false);
-        this.addItemToSelection(this.items.filter((i: any) => i.name == 'Candle')[0], 5, false);
-        this.addItemToSelection(this.items.filter((i: any) => i.name == 'Rations')[0], 5, false);
+        this.addItemToSelection(this.items.find((i: any) => i.name == 'Costume Clothes')!, 2, false);
+        this.addItemToSelection(this.items.find((i: any) => i.name == 'Candle')!, 5, false);
+        this.addItemToSelection(this.items.find((i: any) => i.name == 'Rations')!, 5, false);
         this.updateGold(PackPrices.ENTERNAINER);
         break;
 
@@ -218,8 +222,8 @@ class _Equipment extends Step {
             return itemsInPack.includes(item.name!);
           })
           .forEach((item) => this.addItemToSelection(item, 1, false));
-        this.addItemToSelection(this.items.filter((i: any) => i.name == 'Torch')[0], 10, false);
-        this.addItemToSelection(this.items.filter((i: any) => i.name == 'Rations')[0], 10, false);
+        this.addItemToSelection(this.items.find((i: any) => i.name == 'Torch')!, 10, false);
+        this.addItemToSelection(this.items.find((i: any) => i.name == 'Rations')!, 10, false);
         this.updateGold(PackPrices.EXPLORER);
         break;
 
@@ -230,9 +234,9 @@ class _Equipment extends Step {
             return itemsInPack.includes(item.name!);
           })
           .forEach((item) => this.addItemToSelection(item, 1, false));
-        this.addItemToSelection(this.items.filter((i: any) => i.name == 'Candle')[0], 10, false);
-        this.addItemToSelection(this.items.filter((i: any) => i.name == 'Block of Incense')[0], 2, false);
-        this.addItemToSelection(this.items.filter((i: any) => i.name == 'Rations')[0], 2, false);
+        this.addItemToSelection(this.items.find((i: any) => i.name == 'Candle')!, 10, false);
+        this.addItemToSelection(this.items.find((i: any) => i.name == 'Block of Incense')!, 2, false);
+        this.addItemToSelection(this.items.find((i: any) => i.name == 'Rations')!, 2, false);
         this.updateGold(PackPrices.PRIEST);
         break;
 
@@ -243,7 +247,7 @@ class _Equipment extends Step {
             return itemsInPack.includes(item.name!);
           })
           .forEach((item) => this.addItemToSelection(item, 1, false));
-        this.addItemToSelection(this.items.filter((i: any) => i.name == 'Parchment')[0], 10, false);
+        this.addItemToSelection(this.items.find((i: any) => i.name == 'Parchment')!, 10, false);
         this.updateGold(PackPrices.SCHOLAR);
         break;
     }

@@ -19,6 +19,12 @@ $color-accent: darkred;
 }
 
 .hct {
+  &-accented {
+    color: $color-accent;
+  }
+  &-accented[href] {
+    color: $color-accent;
+  }
   &-flex {
     display: flex;
 
@@ -109,7 +115,7 @@ $color-accent: darkred;
       }
     }
     &-wrapper.active &-autocom-box {
-      padding: 10px 8px;
+      padding: 10px 8px 3px 8px;
       opacity: 1;
       pointer-events: auto;
     }

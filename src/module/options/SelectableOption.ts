@@ -16,15 +16,33 @@ export default class SelectableOption implements HeroOption {
     readonly settings: {
       addValues: boolean;
       default?: string;
-    } = { addValues: false },
+      customizable: boolean;
+    } = { addValues: false, customizable: false },
+    readonly changeCallback?: (data?: any) => void,
+    readonly callbackMapping?: Map<string, string>,
   ) {
     this.$elem = $(`<select class="hct-option-select">`);
     if (!settings.default) {
       this.$elem.append(
         $(`<option value="" selected disabled hidden>
-      ${game.i18n.localize('HCT.Common.ProficiencySelectPlaceholder')}
-      </option>`),
+      ${game.i18n.localize('HCT.Common.SelectPlaceholder')}</option>`),
       );
+    }
+    if (this.settings.customizable) {
+      this.$elem.append(
+        $(`<option value="custom">
+      ${game.i18n.localize('HCT.Common.SelectCreateOne')}</option>`),
+      );
+      this.$customValue = $(`<input type="text" placeholder="${game.i18n.localize('HCT.Common.RequiredName')}">`);
+      this.$elem.on('change', () => {
+        const val = this.$elem.val() as string;
+        this.isCustom = val === 'custom';
+        this.$customValue.toggle(this.isCustom);
+        if (this.isCustom) {
+          this.$customValue.val('');
+        }
+        if (changeCallback) changeCallback(val === 'custom' ? val : this.callbackMapping!.get(val));
+      });
     }
     this.$elem.append(
       this.options.map((option) =>
@@ -36,6 +54,10 @@ export default class SelectableOption implements HeroOption {
       ),
     );
   }
+
+  isCustom = false;
+
+  $customValue!: JQuery;
 
   isFulfilled() {
     return !!this.value();
@@ -57,10 +79,16 @@ export default class SelectableOption implements HeroOption {
       $block.append($('<span class="hct-option-label">').text(this.label));
     }
     $block.append(this.$elem);
+    const $container = $('<div>');
+    if (this.settings.customizable) {
+      $container.append($block);
+      $container.append($('<div class="hct-option">').append(this.$customValue));
+      this.$customValue.hide();
+    }
     if (options?.beforeParent) {
-      $parent.before($block);
+      $parent.before(this.settings.customizable ? $container : $block);
     } else {
-      $parent.append($block);
+      $parent.append(this.settings.customizable ? $container : $block);
     }
   }
 
@@ -68,6 +96,9 @@ export default class SelectableOption implements HeroOption {
    * @returns the current value of this option
    */
   value(): any {
+    if (this.settings.customizable && this.$customValue.val()) {
+      return this.$customValue.val();
+    }
     return this.$elem.val();
   }
 }

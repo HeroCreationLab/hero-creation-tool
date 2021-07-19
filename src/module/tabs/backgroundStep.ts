@@ -5,11 +5,9 @@ import * as Utils from '../utils';
 import * as Constants from '../constants';
 import * as ProficiencyUtils from '../proficiencyUtils';
 import { Step, StepEnum } from '../Step';
-import InputOption from '../options/TextInputOption';
 import SelectableOption from '../options/SelectableOption';
-import CustomItemOption from '../options/CustomItemOption';
+import SelectOrCustomItemOption from '../options/SelectOrCustomItemOption';
 import SettingKeys from '../settings';
-import SelectableItemOption from '../options/SelectableItemOption';
 
 class _BackgroundTab extends Step {
   constructor() {
@@ -73,19 +71,20 @@ class _BackgroundTab extends Step {
 
   private setBackgroundFeatureUi() {
     const $featureArea = $('[data-hct_area=feature]', this.section());
-    const featureOption: SelectableItemOption = new SelectableItemOption(
-      StepEnum.Background,
-      'items',
+    const customFeatureOption: SelectOrCustomItemOption = new SelectOrCustomItemOption(
+      this.step,
+      { type: 'feat', source: 'Background' },
+      () => {
+        // properties callback
+        const $name = $('input', $('[data-hct_area=name]', this.section()));
+        return { requirements: $name.val() };
+      },
       this.backgroundFeatures,
-      '',
+      {
+        addValues: true,
+        allowNulls: true,
+      },
     );
-    featureOption.render($featureArea);
-    this.stepOptions.push(featureOption);
-
-    const customFeatureOption: CustomItemOption = new CustomItemOption(this.step, {
-      type: 'feat',
-      source: 'Background',
-    });
     customFeatureOption.render($featureArea);
     this.stepOptions.push(customFeatureOption);
   }
@@ -98,21 +97,56 @@ class _BackgroundTab extends Step {
     }));
     const alignmentOption = new SelectableOption(this.step, 'data.details.alignment', alignmentChoices, '', {
       addValues: false,
+      customizable: false,
     });
     alignmentOption.render($('[data-hct_area=alignment]', this.section()));
     this.stepOptions.push(alignmentOption);
   }
 
   private setBackgroundNameUi() {
-    const nameOption = new InputOption(
-      this.step,
+    const nameChoices = this.backgroundFeatures
+      .filter((f) => (f.data as any).requirements)
+      .map((f) => ({ key: (f.data as any).requirements, value: (f.data as any).requirements }));
+    const nameOption = new SelectableOption(
+      StepEnum.Background,
       'data.details.background',
-      game.i18n.localize('HCT.Background.NamePlaceholder'),
+      nameChoices,
       '',
-      { addValues: false, type: 'text' },
+      { addValues: false, customizable: true },
+      this.onBackgroundSelect,
+      new Map(this.backgroundFeatures.map((obj) => [(obj.data as any).requirements, obj.name!])),
     );
     nameOption.render($('[data-hct_area=name]', this.section()));
     this.stepOptions.push(nameOption);
+  }
+
+  private onBackgroundSelect(backgroundFeatureName: string) {
+    const $featureArea = $('[data-hct_area=feature]', $('#backgroundDiv'));
+    const $select = $('select', $featureArea);
+    const $img = $('img', $featureArea);
+    const $name = $('input', $featureArea);
+    const $desc = $('textarea', $featureArea);
+    let isCustomTouched = false;
+    if ($name.val() != '' || $desc.val() != '') isCustomTouched = true;
+
+    if (!isCustomTouched) {
+      if (backgroundFeatureName === 'custom') {
+        $('option:selected', $select).prop('selected', false);
+        $("option[value='']", $select).prop('selected', 'true');
+        $img.attr('src', Constants.MYSTERY_MAN);
+        return;
+      }
+      const value = $('option', $select)
+        .filter(function () {
+          return $(this).text() === backgroundFeatureName;
+        })
+        .first()
+        .attr('value');
+      if (value) {
+        $select.val(value);
+        $select.trigger('change');
+      }
+    }
   }
 }
 const BackgroundTab: Step = new _BackgroundTab();

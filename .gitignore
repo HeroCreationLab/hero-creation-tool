@@ -20,6 +20,6 @@ junit.xml
 **/*.snap
 
 # Test coverage
-docs/coverage/
+tests/coverage/
 
 foundryconfig.json
