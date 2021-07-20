@@ -55,15 +55,15 @@
       }
     },
     "Common": {
-      "FeatureName": "Feature name..",
+      "RequiredName": "Name (required)",
       "Proficiencies": "Proficiencies",
       "ProficiencyMulti": "Proficiency in ",
-      "ProficiencySelectPlaceholder": "Choose..",
+      "SelectPlaceholder": "Choose..",
+      "SelectCreateOne": "Create a new one",
       "SkillProficiencies": "Skill Proficiencies",
       "LanguageProficiencies": "Language Proficiencies",
       "AddCustom": "Custom",
       "AddStandard": "Add",
-      "CustomItemCreateYourOwn": "Or create your own..",
       "Movement": {
         "walk": "Walking",
         "burrow": "Burrowing",
@@ -99,11 +99,12 @@
       "Welcome": "Welcome to the Hero Creation Tool for DnD 5e",
       "p1": "The Hero Creation Tool is a step-by-step process for creating a brand-new character for your games. Changes are saved as you progress, but the character is only created upon completion.",
       "p2": "The tool supports SRD material available within FoundryVTT by default. You can add further content by defining in the settings your own compendiums with your custom races, classes, features and others.",
-      "Remark": "Your Adventure Awaits! Get started by clicking Next."
+      "Remark": "Your Adventure Awaits! Get started by clicking Next.",
+      "Faq": "If you have any doubts, please check our FAQ.",
+      "HowTo": "If you are a DM wanting to add custom races, classes and etc, you can read our How-To."
     },
     "Basics": {
       "Title": "Basics",
-      "CharName": "Name",
       "Avatar": "Avatar",
       "Token": "Token",
       "Preview": "Preview",
@@ -142,8 +143,7 @@
       "NotAllSixAbilities": "Hero doesn't have all six abilities scores or has some repeated one"
     },
     "Background": {
-      "Name": "Background Name",
-      "NamePlaceholder": "Background.."
+      "Name": "Background Name"
     },
     "Equipment": {
       "StartingGoldTitle": "Starting Gold",

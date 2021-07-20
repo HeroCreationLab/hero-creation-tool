@@ -54,8 +54,8 @@ class _Spells extends Step {
         });
         this.$searchWrapper.addClass('active');
         this.showSuggestions(this.searchArray);
-        $('li', this.$suggBox).on('click', (event) => {
-          this.select($(event.target).data('item_name'));
+        $('div', this.$suggBox).on('click', (event) => {
+          this.select($(event.currentTarget).data('item_name'));
         });
       } else {
         this.$searchWrapper.removeClass('active');

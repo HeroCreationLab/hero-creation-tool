@@ -43,14 +43,20 @@ class _Race extends Step {
         const raceParts = raceName?.toString().split('.');
         if (!raceParts) throw new Error('invalid race splitting on select');
 
-        const raceGroup = this.races.filter((race) => race.name == raceParts[0])[0];
+        const raceGroup = this.races.find((race) => race.name == raceParts[0]);
+        if (!raceGroup) {
+          throw new Error(`No parent race found for ${raceParts}`);
+        }
         const raceItems = [raceGroup.item];
         if (raceParts!.length > 1) {
           // has subclass
-          const subraceItem = raceGroup.subraces?.filter((subrace) => subrace.name == raceParts[1])[0];
+          const subraceItem = raceGroup.subraces?.find((subrace) => subrace.name == raceParts[1]);
+          if (!raceGroup) {
+            throw new Error(`No subrace found for ${raceParts}`);
+          }
           raceItems.push(subraceItem!);
         }
-        this.updateRace(raceName as string, raceItems);
+        this.updateRace(raceParts[raceParts.length - 1] as string, raceItems);
 
         // update icon and description
         const racetoShow = raceItems[raceItems.length - 1];
@@ -211,6 +217,7 @@ class _Race extends Step {
     const sizeOption = new SelectableOption(StepEnum.Race, 'data.traits.size', getSizeOptions(), '', {
       addValues: false,
       default: 'med',
+      customizable: false,
     });
     const $sizeSection = $('section', $('[data-hct_race_area=size]', this.$context)).empty();
     sizeOption.render($sizeSection);

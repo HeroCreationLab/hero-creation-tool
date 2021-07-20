@@ -27,7 +27,10 @@ class _Class extends Step {
     $('[data-hct_class_picker]', this.section()).on('change', async (event) => {
       this.clearOptions();
       const className: string = $(event.currentTarget).val() as string;
-      this._class = this.classes!.filter((c) => c.name === className)[0] as any;
+      this._class = this.classes!.find((c) => c.name === className) as Item;
+      if (!this._class) {
+        throw new Error(`Error finding class with name ${className}`);
+      }
       if (this.classes) {
         this.updateClass(this.section());
       } else ui.notifications!.error(game.i18n.format('HCT.Error.UpdateValueLoad', { value: 'Classes' }));

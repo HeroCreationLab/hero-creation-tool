@@ -41,7 +41,10 @@ export default class MultiOption implements HeroOption {
   render($parent: JQuery): void {
     this.optionList = [];
     for (let i = 0; i < this.quantity; i++) {
-      const o = new SelectableOption(this.origin, this.key, this.options, this.label, { ...this.settings });
+      const o = new SelectableOption(this.origin, this.key, this.options, this.label, {
+        ...this.settings,
+        customizable: false,
+      });
       this.optionList.push(o);
       o.render($parent);
     }
@@ -67,7 +70,10 @@ export default class MultiOption implements HeroOption {
   }
 
   addOption(): void {
-    const o = new SelectableOption(this.origin, this.key, this.options, this.label, { ...this.settings });
+    const o = new SelectableOption(this.origin, this.key, this.options, this.label, {
+      ...this.settings,
+      customizable: false,
+    });
     this.optionList.push(o);
     o.render(this.$buttonGroup, { beforeParent: true });
   }

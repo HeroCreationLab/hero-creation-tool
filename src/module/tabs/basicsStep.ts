@@ -97,7 +97,7 @@ class _Basics extends Step {
 
   renderData(): void {
     this.clearOptions();
-    this.nameOption = new InputOption(this.step, 'name', game.i18n.localize('HCT.Basics.CharName'), '');
+    this.nameOption = new InputOption(this.step, 'name', game.i18n.localize('HCT.Common.RequiredName'), '');
     this.nameOption.render($('[data-hero_name]', this.section()));
 
     this.avatarOption = new InputOption(this.step, 'img', Constants.MYSTERY_MAN, Constants.MYSTERY_MAN);

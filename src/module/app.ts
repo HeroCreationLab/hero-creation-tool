@@ -20,9 +20,9 @@ import type { ActorDataConstructorData } from '@league-of-foundry-developers/fou
 
 enum StepIndex {
   Basics,
-  Abilities,
   Race,
   Class,
+  Abilities,
   Background,
   Equipment,
   Spells,
@@ -37,7 +37,7 @@ export default class App extends Application {
   constructor() {
     super();
     this.actorId = undefined;
-    this.steps = [BasicsTab, AbilitiesTab, RaceTab, ClassTab, BackgroundTab, EquipmentTab, SpellsTab, BioTab];
+    this.steps = [BasicsTab, RaceTab, ClassTab, AbilitiesTab, BackgroundTab, EquipmentTab, SpellsTab, BioTab];
   }
 
   static get defaultOptions() {
