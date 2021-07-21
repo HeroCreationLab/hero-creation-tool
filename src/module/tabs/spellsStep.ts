@@ -3,6 +3,7 @@ import * as Constants from '../constants';
 import { Step, StepEnum } from '../Step';
 import FixedOption, { OptionType } from '../options/FixedOption';
 import SettingKeys from '../settings';
+import DeletableOption from '../options/DeletableOption';
 
 class _Spells extends Step {
   constructor() {
@@ -18,6 +19,7 @@ class _Spells extends Step {
   searchArray: Item[] = [];
 
   spells: Item[] = [];
+  archived: Item[] = [];
 
   setListeners(): void {
     this.$searchWrapper = $('.hct-search-wrapper', this.section());
@@ -38,9 +40,11 @@ class _Spells extends Step {
       return false;
     });
 
-    $('[data-hct_equipment_clear]', this.section()).on('click', () => {
+    $('[data-hct_spells_clear]', this.section()).on('click', () => {
       this.clearOptions();
       this.$itemList.empty();
+      const deletedItems = this.archived.splice(0);
+      this.spells.push(...deletedItems);
     });
 
     this.$inputBox.on('keyup', (e) => {
@@ -72,12 +76,35 @@ class _Spells extends Step {
   }
 
   addItemToSelection(item: Item) {
-    const itemOption = new FixedOption(StepEnum.Spells, 'items', item, undefined, {
-      addValues: true,
-      type: OptionType.ITEM,
-    });
+    const itemOption = new DeletableOption(
+      StepEnum.Spells,
+      new FixedOption(StepEnum.Spells, 'items', item, undefined, {
+        addValues: true,
+        type: OptionType.ITEM,
+      }),
+      { addValues: true },
+      (id) => this.onDelete(item),
+      item,
+    );
     itemOption.render(this.$itemList);
     this.stepOptions.push(itemOption);
+
+    //remove spell from the available list
+    const removedItem = this.spells.splice(this.spells.indexOf(item), 1);
+    this.archived.push(...removedItem);
+  }
+
+  onDelete(item: Item) {
+    const deletedItem = this.archived.splice(this.archived.indexOf(item), 1);
+    this.spells.push(...deletedItem);
+    $(`:contains(${item.name})`, this.$itemList).remove();
+    const optionToDelete = this.stepOptions.find((o) => {
+      const deletable = o as DeletableOption;
+      return deletable?.callbackParams === item;
+    });
+    if (optionToDelete) {
+      this.stepOptions.splice(this.stepOptions.indexOf(optionToDelete), 1);
+    }
   }
 
   showSuggestions(list: Item[]) {

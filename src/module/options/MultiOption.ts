@@ -3,6 +3,7 @@ import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-
 import SelectableOption from './SelectableOption';
 import HeroOption, { apply } from './HeroOption';
 import InputOption from './TextInputOption';
+import DeletableOption from './DeletableOption';
 
 /**
  * Represents an array of values selected by the player for the created actor.
@@ -46,7 +47,7 @@ export default class MultiOption implements HeroOption {
 
     if (this.settings.expandable) {
       const $addButton = $(
-        '<button class="hct-no-border hct-no-background hct-width-fit"><i class="fas fa-plus"></i></button>',
+        '<button class="hct-no-border hct-no-background hct-width-fit hct-hover-no-shadow hct-hover-accent-alt"><i class="fas fa-plus"></i></button>',
       );
       $addButton.on('click', () => {
         if (!this.settings.customizable) {
@@ -72,24 +73,6 @@ export default class MultiOption implements HeroOption {
         }
       });
       $titleDiv.append($addButton);
-
-      // this.$buttonGroup = $('<div class="hct-options-container-buttongroup">');
-
-      // if (this.settings.customizable) {
-      //   const $customButtom = $('<button class="hct-options-container-button">').html(
-      //     `${game.i18n.localize('HCT.Common.AddCustom')}`,
-      //   );
-      //   $customButtom.on('click', () => this.addCustomOption());
-      //   this.$buttonGroup.append($customButtom);
-      // }
-
-      // const $addButton = $('<button class="hct-options-container-button">').html(
-      //   `${game.i18n.localize('HCT.Common.AddStandard')}`,
-      // );
-      // $addButton.on('click', () => this.addOption());
-      // this.$buttonGroup.append($addButton);
-
-      // $parent.append(this.$buttonGroup);
     }
     this.$container.append($titleDiv);
 
@@ -107,10 +90,16 @@ export default class MultiOption implements HeroOption {
   }
 
   addOption(): void {
-    const o = new SelectableOption(this.origin, this.key, this.options, ' ', {
-      ...this.settings,
-      customizable: false,
-    });
+    const o = new DeletableOption(
+      this.origin,
+      new SelectableOption(this.origin, this.key, this.options, ' ', {
+        ...this.settings,
+        customizable: false,
+      }),
+      { addValues: this.settings.addValues },
+      (id) => this.onDelete(),
+      //deleteParam?
+    );
     this.optionList.push(o);
     o.render(this.$container);
   }
@@ -119,6 +108,20 @@ export default class MultiOption implements HeroOption {
     const o = new InputOption(this.origin, this.key, '...', ' ', { ...this.settings, type: 'text' });
     this.optionList.push(o);
     o.render(this.$container);
+  }
+
+  onDelete() {
+    // const deletedItem = this.archived.splice(this.archived.indexOf(item), 1);
+    // this.spells.push(...deletedItem);
+    // $(`:contains(${item.name})`, this.$itemList).remove();
+    // const optionToDelete = this.stepOptions.find(o => {
+    //   const deletable = o as DeletableOption;
+    //   return deletable?.callbackParams === item;
+    // });
+    // if (optionToDelete) {
+    //   this.stepOptions.splice(this.stepOptions.indexOf(optionToDelete), 1);
+    // }
+    console.log(`on delete!`);
   }
 
   /**

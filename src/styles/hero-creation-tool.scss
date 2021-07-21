@@ -3,6 +3,7 @@ $small: 10px;
 $medium: 30px;
 $color-button-background: rgba(0, 0, 0, 0.05);
 $color-accent: darkred;
+$color-accent-alt: darkgreen;
 
 .header-hct-button {
   margin: 2px;
@@ -38,6 +39,17 @@ $color-accent: darkred;
   }
   &-no-background {
     background: none;
+  }
+  &-hover {
+    &-accent:hover {
+      color: $color-accent;
+    }
+    &-accent-alt:hover {
+      color: $color-accent-alt;
+    }
+    &-no-shadow:hover {
+      box-shadow: none;
+    }
   }
   &-flex {
     display: flex;
