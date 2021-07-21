@@ -100,7 +100,7 @@
       "Title": "Start",
       "Welcome": "Welcome to the Hero Creation Tool for DnD 5e",
       "p1": "The Hero Creation Tool is a step-by-step process for creating a brand-new character for your games. Changes are saved as you progress, but the character is only created upon completion.",
-      "p2": "The tool supports SRD material available within FoundryVTT by default. You can add further content by defining in the settings your own compendiums with your custom races, classes, features and others.",
+      "p2": "The tool supports SRD material available within FoundryVTT by default. You can add further content by defining compendiums in the settings with your own custom races, classes, features and others.",
       "Remark": "Your Adventure Awaits! Get started by clicking Next.",
       "Faq": "If you have any doubts, please check our FAQ.",
       "HowTo": "If you are a DM wanting to add custom races, classes and etc, you can read our How-To."
@@ -154,6 +154,7 @@
       "Additional": "Additional",
       "TotalGoldLabel": "Total: ",
       "RemainingGoldLabel": "Remaining: ",
+      "RemainingGoldCheckboxLabel": "Add remaining gold to actor",
       "StartingItemsTitle": "Starting Items"
     },
     "Spells": {

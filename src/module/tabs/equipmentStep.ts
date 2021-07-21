@@ -309,7 +309,8 @@ class _Equipment extends Step {
   getOptions() {
     // add remaining gold
     const remaining = parseFloat(this.$remainingGold.html()) || 0;
-    if (remaining && remaining > 0) {
+    const $addRemainingCheckbox = $('#hct-remaining-gold', this.section());
+    if ($addRemainingCheckbox.is(':checked') && remaining && remaining > 0) {
       this.stepOptions.push(
         new FixedOption(StepEnum.Equipment, 'data.currency', {
           cp: Math.floor((remaining * 100) % 10),

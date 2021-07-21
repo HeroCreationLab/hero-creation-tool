@@ -33,14 +33,11 @@ As explained on the "Creating Custom ..." section above, on each entry you can t
 >game.packs
 >```
 
-## Setting default token attributes (name and bars)
+## Setting default token attributes (name and hp bar)
 
-On the module settings you will find options to set token name behaviors of actors created by the tool, and similar options for tokens bars 1 and 2. 
+On the module settings you will find options to set token name and bar1 behaviors of actors created by the tool. By default, the tool shows actor name as *Hover by Anyone* and hp in bar 1 as *Hover by Owner*.
 
->By default, the tool:
->* Shows the actor name as *Hover by Anyone*
->* Shows HP in bar 1 as *Hover by Owner*
->* Hides bar 2.
+>The choice of hp on the bar 1 is definitely opinionated, but showing name & HP should cover most cases. If there's demand for further default customization, like replacing hp with some other available attribute, and/or showing something by default on bar 2, it might be added later. Any modifications to the token bars and attributes is beyond the scope of this module.
 
 ## Defining the default Starting Gold dice roll
 
