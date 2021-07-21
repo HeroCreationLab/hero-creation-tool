@@ -92,16 +92,16 @@ function isProficiencyKey(key: string): boolean {
 
 function isCustomKey(key: string, value: string): boolean {
   const dnd5e = (game as any).dnd5e;
-  let keyList: any;
+  let keyList!: string[];
   switch (key) {
     case 'weaponProf':
-      keyList = Object.keys(dnd5e.config.weaponProficiencies);
+      keyList = [...Object.keys(dnd5e.config.weaponProficiencies), ...Object.keys(dnd5e.config.weaponIds)];
       break;
     case 'armorProf':
-      keyList = Object.keys(dnd5e.config.armorProficiencies);
+      keyList = [...Object.keys(dnd5e.config.armorProficiencies), ...Object.keys(dnd5e.config.armorIds)];
       break;
     case 'toolProf':
-      keyList = Object.keys(dnd5e.config.toolProficiencies);
+      keyList = [...Object.keys(dnd5e.config.toolProficiencies), ...Object.keys(dnd5e.config.toolIds)];
       break;
     case 'languages':
       keyList = Object.keys(dnd5e.config.languages);
