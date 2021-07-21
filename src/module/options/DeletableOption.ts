@@ -6,7 +6,7 @@ export default class DeletableOption implements HeroOption {
   constructor(
     readonly origin: StepEnum,
     private option: HeroOption,
-    readonly settings: { addValues: boolean } = { addValues: true },
+    readonly settings: { addValues: boolean; rightPadding?: boolean } = { addValues: true },
     private deleteCallback: (params?: any) => any,
     readonly callbackParams?: any,
   ) {}
@@ -15,13 +15,19 @@ export default class DeletableOption implements HeroOption {
   private deleted = false;
 
   render($parent: JQuery<HTMLElement>): void {
-    const $container = $(`<div class="hct-flex hct-flex-justify-sb">`);
+    const $container = $(
+      `<div class="hct-flex hct-flex-justify-sb hct-width-full" ${
+        this.callbackParams ? 'id="hct_deletable_' + this.callbackParams + '"' : ''
+      }>`,
+    );
     const $deleteButton = $(
-      `<button class="hct-no-border hct-no-background hct-width-fit hct-hover-no-shadow hct-hover-accent"><i class="fas fa-times"></i></button>`,
+      `<button class="hct-no-border hct-no-background hct-width-fit hct-hover-no-shadow hct-hover-accent ${
+        this.settings.rightPadding ? 'hct-padding-r-medium' : ''
+      }"><i class="fas fa-trash"></i></button>`,
     );
     $deleteButton.on('click', () => {
       this.deleted = true;
-      this.deleteCallback(this.callbackParams);
+      this.deleteCallback(this.callbackParams || this);
     });
     this.option.render($container);
     $container.append($deleteButton);

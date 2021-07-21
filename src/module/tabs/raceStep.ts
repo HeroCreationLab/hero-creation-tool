@@ -10,7 +10,7 @@ import HeroOption from '../options/HeroOption';
 import HiddenOption from '../options/HiddenOption';
 import SelectableOption from '../options/SelectableOption';
 import FixedOption, { OptionType } from '../options/FixedOption';
-import InputOption from '../options/TextInputOption';
+import InputOption from '../options/InputOption';
 
 type KeyValue = {
   key: string;

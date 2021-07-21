@@ -1,8 +1,8 @@
 import { StepEnum } from '../Step';
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 import SelectableOption from './SelectableOption';
-import HeroOption, { apply } from './HeroOption';
-import InputOption from './TextInputOption';
+import HeroOption from './HeroOption';
+import InputOption from './InputOption';
 import DeletableOption from './DeletableOption';
 
 /**
@@ -29,10 +29,10 @@ export default class MultiOption implements HeroOption {
   }
 
   applyToHero(actor: ActorDataConstructorData) {
-    this.optionList.forEach((v) => apply(actor, v.key, v.value(), this.settings.addValues));
+    this.optionMap.forEach((v) => v.applyToHero(actor));
   }
 
-  optionList!: HeroOption[];
+  optionMap: Map<string, HeroOption> = new Map<string, HeroOption>();
   $container!: JQuery;
 
   /**
@@ -76,13 +76,13 @@ export default class MultiOption implements HeroOption {
     }
     this.$container.append($titleDiv);
 
-    this.optionList = [];
+    this.optionMap = new Map();
     for (let i = 0; i < this.quantity; i++) {
       const o = new SelectableOption(this.origin, this.key, this.options, ' ', {
         ...this.settings,
         customizable: false,
       });
-      this.optionList.push(o);
+      this.optionMap.set(foundry.utils.randomID(), o);
       o.render(this.$container);
     }
 
@@ -96,21 +96,27 @@ export default class MultiOption implements HeroOption {
         ...this.settings,
         customizable: false,
       }),
-      { addValues: this.settings.addValues },
-      (id) => this.onDelete(),
-      //deleteParam?
+      { addValues: this.settings.addValues, rightPadding: true },
+      (arg: any) => this.onDelete(arg),
+      foundry.utils.randomID(),
     );
-    this.optionList.push(o);
+    this.optionMap.set(foundry.utils.randomID(), o);
     o.render(this.$container);
   }
 
   addCustomOption(): void {
-    const o = new InputOption(this.origin, this.key, '...', ' ', { ...this.settings, type: 'text' });
-    this.optionList.push(o);
+    const o = new DeletableOption(
+      this.origin,
+      new InputOption(this.origin, this.key, '...', ' ', { ...this.settings, type: 'text', preLabel: ' ' }),
+      { addValues: this.settings.addValues, rightPadding: true },
+      (arg: any) => this.onDelete(arg),
+      foundry.utils.randomID(),
+    );
+    this.optionMap.set(foundry.utils.randomID(), o);
     o.render(this.$container);
   }
 
-  onDelete() {
+  onDelete(deletableId: string) {
     // const deletedItem = this.archived.splice(this.archived.indexOf(item), 1);
     // this.spells.push(...deletedItem);
     // $(`:contains(${item.name})`, this.$itemList).remove();
@@ -121,7 +127,10 @@ export default class MultiOption implements HeroOption {
     // if (optionToDelete) {
     //   this.stepOptions.splice(this.stepOptions.indexOf(optionToDelete), 1);
     // }
-    console.log(`on delete!`);
+    if (deletableId) {
+      $(`#hct_deletable_${deletableId}`, this.$container).remove();
+    }
+    this.optionMap.delete(deletableId);
   }
 
   /**
@@ -129,7 +138,7 @@ export default class MultiOption implements HeroOption {
    */
   value(): any[] {
     const values: any[] = [];
-    this.optionList.forEach((o) => values.push(o.value()));
+    this.optionMap.forEach((o) => values.push(o.value()));
     return values;
   }
 }

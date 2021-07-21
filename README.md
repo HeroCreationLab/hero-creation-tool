@@ -73,7 +73,7 @@ There are some starting gold values on the Basic Rules, but they don't cover all
 
 
 * ### How do I add my own races/classes/...
-If you are a player -> Ask your DM to set those up, and/or help him setting them up.
+If you are a player -> Ask your DM to set those up, and/or help them setting them up.
 
 If you are a DM / Helping hand -> Please, refer to the [HOW-TO](https://github.com/AndrewJiangB/hero-creation-tool/blob/main/docs/HOW-TO.md).
 

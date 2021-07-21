@@ -32,7 +32,7 @@ export default class InputOption implements HeroOption {
     const max = this.settings.max ? `max="${this.settings.max}"` : '';
 
     if (this.settings.preLabel) {
-      const $preLabel = $(`<p class='hct-prelabel'>${this.settings.preLabel}</p>`);
+      const $preLabel = $(`<span class="hct-option-label">${this.settings.preLabel}</span>`);
       $container.append($preLabel);
     }
 
