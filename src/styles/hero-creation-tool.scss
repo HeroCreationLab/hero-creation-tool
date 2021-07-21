@@ -25,6 +25,20 @@ $color-accent: darkred;
   &-accented[href] {
     color: $color-accent;
   }
+  &-width {
+    &-full {
+      width: 100%;
+    }
+    &-fit {
+      width: fit-content;
+    }
+  }
+  &-no-border {
+    border: none;
+  }
+  &-no-background {
+    background: none;
+  }
   &-flex {
     display: flex;
 

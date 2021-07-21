@@ -1,6 +1,5 @@
 import HeroOption from './options/HeroOption';
 import MultiOption from './options/MultiOption';
-import OptionsContainer from './options/OptionsContainer';
 import { StepEnum } from './Step';
 
 export type OptionSettings = {
@@ -19,10 +18,10 @@ type KeyValue = {
   value: string;
 };
 
-export function prepareSkillOptions(optionSettings: OptionSettings) {
+export function prepareSkillOptions(optionSettings: OptionSettings): MultiOption {
   const foundrySkills = (game as any).dnd5e.config.skills;
   const skillChoices: KeyValue[] = Object.keys(foundrySkills).map((k) => ({ key: k, value: foundrySkills[k] }));
-  prepareOptions(
+  return prepareOptions(
     optionSettings,
     'skills',
     optionSettings.filteredOptions ?? skillChoices,
@@ -30,10 +29,10 @@ export function prepareSkillOptions(optionSettings: OptionSettings) {
   );
 }
 
-export function prepareLanguageOptions(optionSettings: OptionSettings) {
+export function prepareLanguageOptions(optionSettings: OptionSettings): MultiOption {
   const foundryLanguages = (game as any).dnd5e.config.languages;
   const langChoices: KeyValue[] = Object.keys(foundryLanguages).map((k) => ({ key: k, value: foundryLanguages[k] }));
-  prepareOptions(
+  return prepareOptions(
     optionSettings,
     'languages',
     optionSettings.filteredOptions ?? langChoices,
@@ -41,7 +40,7 @@ export function prepareLanguageOptions(optionSettings: OptionSettings) {
   );
 }
 
-export function prepareToolOptions(optionSettings: OptionSettings) {
+export function prepareToolOptions(optionSettings: OptionSettings): MultiOption {
   const foundryToolTypes = (game as any).dnd5e.config.toolProficiencies;
   const foundryTools = (game as any).dnd5e.config.toolIds;
   const toolTypeChoices: KeyValue[] = Object.keys(foundryToolTypes).map((k) => ({
@@ -49,7 +48,7 @@ export function prepareToolOptions(optionSettings: OptionSettings) {
     value: `All ${foundryToolTypes[k]}`,
   }));
   const toolChoices: KeyValue[] = Object.keys(foundryTools).map((k) => ({ key: k, value: k.capitalize() }));
-  prepareOptions(
+  return prepareOptions(
     optionSettings,
     'toolProf',
     optionSettings.filteredOptions ?? [...toolTypeChoices, ...toolChoices],
@@ -57,7 +56,7 @@ export function prepareToolOptions(optionSettings: OptionSettings) {
   );
 }
 
-export function prepareWeaponOptions(optionSettings: OptionSettings) {
+export function prepareWeaponOptions(optionSettings: OptionSettings): MultiOption {
   const foundryWeaponTypes = (game as any).dnd5e.config.weaponProficiencies;
   const foundryWeapons = (game as any).dnd5e.config.weaponIds;
   // const pack = getItemsPack();
@@ -71,7 +70,7 @@ export function prepareWeaponOptions(optionSettings: OptionSettings) {
     value: `All ${foundryWeaponTypes[k]}`,
   }));
   const weaponChoices: KeyValue[] = Object.keys(foundryWeapons).map((k) => ({ key: k, value: k.capitalize() }));
-  prepareOptions(
+  return prepareOptions(
     optionSettings,
     'weaponProf',
     optionSettings.filteredOptions ?? [...weaponTypeChoices, ...weaponChoices],
@@ -79,7 +78,7 @@ export function prepareWeaponOptions(optionSettings: OptionSettings) {
   );
 }
 
-export function prepareArmorOptions(optionSettings: OptionSettings) {
+export function prepareArmorOptions(optionSettings: OptionSettings): MultiOption {
   const foundryArmorTypes = (game as any).dnd5e.config.armorProficiencies;
   const foundryArmor = (game as any).dnd5e.config.armorIds;
   const armorTypeChoices: KeyValue[] = Object.keys(foundryArmorTypes).map((k) => ({
@@ -87,7 +86,7 @@ export function prepareArmorOptions(optionSettings: OptionSettings) {
     value: `All ${foundryArmorTypes[k]}`,
   }));
   const foundryArmorChoices: KeyValue[] = Object.keys(foundryArmor).map((k) => ({ key: k, value: k.capitalize() }));
-  prepareOptions(
+  return prepareOptions(
     optionSettings,
     'armorProf',
     optionSettings.filteredOptions ?? [...armorTypeChoices, ...foundryArmorChoices],
@@ -100,16 +99,14 @@ export function prepareOptions(
   key: string,
   options: KeyValue[],
   containerLabel: string,
-) {
-  const container = new OptionsContainer(containerLabel, [
-    new MultiOption(optionSettings.step, key, options, optionSettings.quantity, ' ', {
-      addValues: optionSettings.addValues,
-      expandable: optionSettings.expandable,
-      customizable: optionSettings.customizable,
-    }),
-  ]);
-  container.render(optionSettings.$parent);
-  optionSettings.pushTo.push(...container.options);
+): MultiOption {
+  const container = new MultiOption(optionSettings.step, key, options, optionSettings.quantity, containerLabel, {
+    addValues: optionSettings.addValues,
+    expandable: optionSettings.expandable,
+    customizable: optionSettings.customizable,
+  });
+  //container.render(optionSettings.$parent);
+  return container;
 }
 
 // function getItemsPack() {

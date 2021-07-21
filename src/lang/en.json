@@ -56,6 +56,8 @@
     },
     "Common": {
       "RequiredName": "Name (required)",
+      "ProfDialogTitle": "Add proficiency",
+      "ProfDialogContent": "Select existing proficiency or define a custom one?",
       "Proficiencies": "Proficiencies",
       "ProficiencyMulti": "Proficiency in ",
       "SelectPlaceholder": "Choose..",
@@ -63,7 +65,7 @@
       "SkillProficiencies": "Skill Proficiencies",
       "LanguageProficiencies": "Language Proficiencies",
       "AddCustom": "Custom",
-      "AddStandard": "Add",
+      "AddStandard": "Select",
       "Movement": {
         "walk": "Walking",
         "burrow": "Burrowing",

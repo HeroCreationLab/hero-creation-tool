@@ -135,58 +135,69 @@ class _Race extends Step {
 
   setProficienciesUi(): void {
     const $proficienciesSection = $('section', $('[data-hct_race_area=proficiencies]', this.$context)).empty();
+    const options = [];
+    options.push(
+      ProficiencyUtils.prepareSkillOptions({
+        step: this.step,
+        $parent: $proficienciesSection,
+        pushTo: this.stepOptions,
+        quantity: 0,
+        addValues: true,
+        expandable: true,
+        customizable: false,
+      }),
+    );
 
-    ProficiencyUtils.prepareSkillOptions({
-      step: this.step,
-      $parent: $proficienciesSection,
-      pushTo: this.stepOptions,
-      quantity: 0,
-      addValues: true,
-      expandable: true,
-      customizable: false,
-    });
+    options.push(
+      ProficiencyUtils.prepareWeaponOptions({
+        step: this.step,
+        $parent: $proficienciesSection,
+        pushTo: this.stepOptions,
+        quantity: 0,
+        addValues: true,
+        expandable: true,
+        customizable: true,
+      }),
+    );
 
-    ProficiencyUtils.prepareWeaponOptions({
-      step: this.step,
-      $parent: $proficienciesSection,
-      pushTo: this.stepOptions,
-      quantity: 0,
-      addValues: true,
-      expandable: true,
-      customizable: true,
-    });
+    options.push(
+      ProficiencyUtils.prepareArmorOptions({
+        step: this.step,
+        $parent: $proficienciesSection,
+        pushTo: this.stepOptions,
+        quantity: 0,
+        addValues: true,
+        expandable: true,
+        customizable: true,
+      }),
+    );
 
-    ProficiencyUtils.prepareArmorOptions({
-      step: this.step,
-      $parent: $proficienciesSection,
-      pushTo: this.stepOptions,
-      quantity: 0,
-      addValues: true,
-      expandable: true,
-      customizable: true,
-    });
+    options.push(
+      ProficiencyUtils.prepareToolOptions({
+        step: this.step,
+        $parent: $proficienciesSection,
+        pushTo: this.stepOptions,
+        quantity: 0,
+        addValues: true,
+        expandable: true,
+        customizable: true,
+      }),
+    );
 
-    ProficiencyUtils.prepareToolOptions({
-      step: this.step,
-      $parent: $proficienciesSection,
-      pushTo: this.stepOptions,
-      quantity: 0,
-      addValues: true,
-      expandable: true,
-      customizable: true,
-    });
+    options.push(
+      ProficiencyUtils.prepareLanguageOptions({
+        step: this.step,
+        $parent: $proficienciesSection,
+        pushTo: this.stepOptions,
+        quantity: 0,
+        addValues: true,
+        expandable: true,
+        customizable: true,
+      }),
+    );
 
-    ProficiencyUtils.prepareLanguageOptions({
-      step: this.step,
-      $parent: $proficienciesSection,
-      pushTo: this.stepOptions,
-      quantity: 0,
-      addValues: true,
-      expandable: true,
-      customizable: true,
-    });
-
-    return;
+    options.forEach((o) => o.render($proficienciesSection));
+    this.stepOptions.push(...options);
   }
 
   setMovementUi(): void {
