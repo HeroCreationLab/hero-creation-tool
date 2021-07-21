@@ -45,4 +45,4 @@ In the module settings you can set up a default gold roll for the Equipment tab.
 
 ## Using Tokenizer for avatars and tokens inside the tool
 
-If you have Tokenizer installed and active (v3.3.1 or newer), the tool allows you to use it instead of the vanilla File Picker. **There is no setup required, just having the module installed, active and the right version.** By default, the module will use Tokenizer as primary option if available, but you can shift-click to use the vanilla picker. Likewise, if you set the default off, players can shift-click to opt-in instead of the default picker if the module is working.
+If you have Tokenizer installed and active (v3.3.1 or newer), the tool allows you to use it instead of the vanilla File Picker. **There is no setup required, just having the module installed, active and the right version.** By default, the module will use Tokenizer as primary option if available, but players can opt-out by shift-clicking the Select buttons or the avatar/token images, just like in a character sheet. You can also disable the integration all together from the Settings.

@@ -44,7 +44,7 @@
     },
     "Integration": {
       "Tokenizer": {
-        "WarningOn": "Tokenizer module is set as preferred, you can shift-click to use the default one",
+        "WarningOn": "Tokenizer module is set as preferred, you can shift-click to use the default File Picker",
         "NeedActorName": "Tokenizer needs a character name; please complete that first",
         "Error": {
           "ModuleNotFound": "Tokenizer not found, using default FilePicker",
