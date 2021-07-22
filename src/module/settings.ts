@@ -56,7 +56,7 @@ function defaultStartingGoldDice() {
     hint: game.i18n.localize('HCT.Setting.DefaultGoldDice.Hint'),
     scope: 'world',
     config: true,
-    default: '5d4 x 10',
+    default: '5d4 * 10',
     type: String,
   });
 }

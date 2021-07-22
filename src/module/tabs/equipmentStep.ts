@@ -522,7 +522,7 @@ const itemWhiteList = [
   'Amulet',
   'Animal Feed (1 day)',
   'Antitoxin',
-  'Arrow',
+  'Arrows',
   'Backpack',
   'Bagpipes',
   'Ball Bearings',
