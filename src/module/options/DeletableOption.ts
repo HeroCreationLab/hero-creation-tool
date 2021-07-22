@@ -9,6 +9,7 @@ export default class DeletableOption implements HeroOption {
     readonly settings: { addValues: boolean; rightPadding?: boolean } = { addValues: true },
     private deleteCallback: (params?: any) => any,
     readonly callbackParams?: any,
+    readonly returnThis: boolean = false,
   ) {}
   key = '';
 
@@ -27,7 +28,7 @@ export default class DeletableOption implements HeroOption {
     );
     $deleteButton.on('click', () => {
       this.deleted = true;
-      this.deleteCallback(this.callbackParams || this);
+      this.deleteCallback((this.returnThis ? this : this.callbackParams) || this);
     });
     this.option.render($container);
     $container.append($deleteButton);

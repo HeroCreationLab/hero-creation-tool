@@ -67,14 +67,19 @@ $color-accent-alt: darkgreen;
     }
   }
   &-padding {
-    &-b {
-      &-tiny {
-        padding-bottom: $tiny;
+    &-l {
+      &-small {
+        padding-right: $small;
       }
     }
     &-r {
       &-medium {
         padding-right: $medium;
+      }
+    }
+    &-b {
+      &-tiny {
+        padding-bottom: $tiny;
       }
     }
     &-small {

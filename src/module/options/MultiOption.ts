@@ -117,16 +117,6 @@ export default class MultiOption implements HeroOption {
   }
 
   onDelete(deletableId: string) {
-    // const deletedItem = this.archived.splice(this.archived.indexOf(item), 1);
-    // this.spells.push(...deletedItem);
-    // $(`:contains(${item.name})`, this.$itemList).remove();
-    // const optionToDelete = this.stepOptions.find(o => {
-    //   const deletable = o as DeletableOption;
-    //   return deletable?.callbackParams === item;
-    // });
-    // if (optionToDelete) {
-    //   this.stepOptions.splice(this.stepOptions.indexOf(optionToDelete), 1);
-    // }
     if (deletableId) {
       $(`#hct_deletable_${deletableId}`, this.$container).remove();
     }
