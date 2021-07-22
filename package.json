@@ -1,23 +1,8 @@
 {
   "private": true,
   "name": "hero-creation-tool",
-  "version": "0.0.0",
-  "description": "",
-  "license": "",
-  "homepage": "",
-  "repository": {
-    "type": "git",
-    "url": ""
-  },
-  "bugs": {
-    "url": ""
-  },
-  "contributors": [
-    {
-      "name": "",
-      "email": ""
-    }
-  ],
+  "version": "1.0.0-rc0",
+  "license": "MIT",
   "scripts": {
     "start": "gulp watch",
     "build": "gulp build",
