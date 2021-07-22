@@ -8,6 +8,7 @@ import * as ProficiencyUtils from '../proficiencyUtils';
 import SettingKeys from '../settings';
 import HiddenOption from '../options/HiddenOption';
 import FixedOption, { OptionType } from '../options/FixedOption';
+import SelectableItemOption from '../options/SelectableItemOption';
 
 class _Class extends Step {
   private classes?: Item[] = [];
@@ -168,11 +169,21 @@ class _Class extends Step {
 
   private setClassFeaturesUi($context: JQuery<HTMLElement>) {
     const $featuresSection = $('section', $('[data-hct_class_area=features]', $context)).empty();
-    const classFeatures: Item[] = Utils.filterItemList({
+    let classFeatures: Item[] = Utils.filterItemList({
       filterValues: [`${this._class.name} ${1}`],
       filterField: 'data.requirements',
       itemList: this.classFeatures!,
     });
+    // handle fighting style
+    const fightingStyles = classFeatures.filter((i) => (i as any).name.startsWith('Fighting Style'));
+    classFeatures = classFeatures.filter((i) => !(i as any).name.startsWith('Fighting Style'));
+
+    if (fightingStyles && fightingStyles.length > 0) {
+      const fsOption = new SelectableItemOption(StepEnum.Class, 'items', fightingStyles, { addValues: true });
+      fsOption.render($featuresSection);
+      this.stepOptions.push(fsOption);
+    }
+
     classFeatures.forEach((feature) => {
       const featureOption = new FixedOption(ClassTab.step, 'items', feature, undefined, {
         addValues: true,
