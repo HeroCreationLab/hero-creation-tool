@@ -16,13 +16,13 @@
       "path": "lang/en.json"
     }
   ],
-  "url": "https://github.com/AndrewJiangB/hero-creation-tool",
-  "license": "https://github.com/AndrewJiangB/hero-creation-tool/LICENSE",
-  "manifest": "https://domain.com/my/project/{{name}}/bundle/module.json",
-  "download": "https://domain.com/my/project/{{name}}/bundle/{{name}}.zip",
-  "readme": "https://github.com/AndrewJiangB/hero-creation-tool/README.md",
-  "changelog": "https://github.com/AndrewJiangB/hero-creation-tool/CHANGELOG.md",
-  "bugs": "https://github.com/AndrewJiangB/hero-creation-tool/issues",
+  "url": "https://github.com/HeroCreationLab/hero-creation-tool",
+  "license": "https://github.com/HeroCreationLab/hero-creation-tool/LICENSE",
+  "manifest": "https://github.com/HeroCreationLab/hero-creation-tool/{{name}}/bundle/module.json",
+  "download": "https://github.com/HeroCreationLab/hero-creation-tool/{{name}}/bundle/{{name}}.zip",
+  "readme": "https://github.com/HeroCreationLab/hero-creation-tool/README.md",
+  "changelog": "https://github.com/HeroCreationLab/hero-creation-tool/CHANGELOG.md",
+  "bugs": "https://github.com/HeroCreationLab/hero-creation-tool/issues",
   "flags": {
     "allowBugReporter": true
   },

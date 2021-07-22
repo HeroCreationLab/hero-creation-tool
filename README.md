@@ -12,13 +12,13 @@
 
 * **[Report a bug](#report-a-bug)**
 
-* **[How-To for DMs](https://github.com/AndrewJiangB/hero-creation-tool/blob/main/docs/HOW-TO.md)**
+* **[How-To for DMs](https://github.com/HeroCreationLab/hero-creation-tool/blob/main/docs/HOW-TO.md)**
 
-* **[Changelog](https://github.com/AndrewJiangB/hero-creation-tool/blob/main/docs/CHANGELOG.md)**
+* **[Changelog](https://github.com/HeroCreationLab/hero-creation-tool/blob/main/docs/CHANGELOG.md)**
 
-* **[Setup for collaborators](https://github.com/AndrewJiangB/hero-creation-tool/blob/main/docs/DEV-SETUP.md)**
+* **[Setup for collaborators](https://github.com/HeroCreationLab/hero-creation-tool/blob/main/docs/DEV-SETUP.md)**
 
-* **[License](https://github.com/AndrewJiangB/hero-creation-tool/blob/main/docs/LICENSE)**
+* **[License](https://github.com/HeroCreationLab/hero-creation-tool/blob/main/docs/LICENSE)**
 
 ## Setup
 
@@ -75,10 +75,10 @@ There are some starting gold values on the Basic Rules, but they don't cover all
 * ### How do I add my own races/classes/...
 If you are a player -> Ask your DM to set those up, and/or help them setting them up.
 
-If you are a DM / Helping hand -> Please, refer to the [HOW-TO](https://github.com/AndrewJiangB/hero-creation-tool/blob/main/docs/HOW-TO.md).
+If you are a DM / Helping hand -> Please, refer to the [HOW-TO](https://github.com/HeroCreationLab/hero-creation-tool/blob/main/docs/HOW-TO.md).
 
 ## Report a bug
 
 The module integrates [Bug Reporter](https://foundryvtt.com/packages/bug-reporter) and is the preferred way of submitting bugs directly from inside your game, as it can easily include module settings and active modules.
 
-For any other issues, requests and bug reporting, you can visit the project's [Github](https://github.com/AndrewJiangB/hero-creation-tool/issues).
+For any other issues, requests and bug reporting, you can visit the project's [Github](https://github.com/HeroCreationLab/hero-creation-tool/issues).
