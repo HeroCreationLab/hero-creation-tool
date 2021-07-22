@@ -3,6 +3,9 @@ import * as Constants from '../constants';
 import { Step, StepEnum } from '../Step';
 import FixedOption, { OptionType } from '../options/FixedOption';
 import SettingKeys from '../settings';
+import HeroOption from '../options/HeroOption';
+import OptionContainer from '../options/OptionContainer';
+import DeletableOption from '../options/DeletableOption';
 
 type itemOrPack = {
   itemName?: string;
@@ -36,6 +39,8 @@ class _Equipment extends Step {
   total = 0;
   extra = 0;
   spent = 0;
+
+  priceMap: Map<string, number> = new Map();
 
   async setListeners() {
     this.$searchWrapper = $('.hct-search-wrapper', this.section());
@@ -122,7 +127,8 @@ class _Equipment extends Step {
     if (isPack(item)) {
       this.addPackToSelection(item.name as PackNames);
     } else {
-      this.addItemToSelection(item);
+      const id = foundry.utils.randomID();
+      this.addItemOptionToSelection(id, this.makeItemOption(id, item, 1), (item.data as any).price, 1);
     }
   }
 
@@ -142,6 +148,8 @@ class _Equipment extends Step {
   }
 
   addPackToSelection(packName: PackNames) {
+    const options = [];
+    const id = foundry.utils.randomID();
     switch (packName) {
       case PackNames.BURGLAR:
         this.items
@@ -159,12 +167,26 @@ class _Equipment extends Step {
             ];
             return itemsInPack.includes(item.name!);
           })
-          .forEach((item) => this.addItemToSelection(item, 1, false));
-        this.addItemToSelection(this.items.find((i: any) => i.name == 'Candle')!, 5, false);
-        this.addItemToSelection(this.items.find((i: any) => i.name == 'Piton')!, 10, false);
-        this.addItemToSelection(this.items.find((i: any) => i.name == 'Oil Flask')!, 2, false);
-        this.addItemToSelection(this.items.find((i: any) => i.name == 'Rations')!, 5, false);
-        this.updateGold(PackPrices.BURGLAR);
+          .forEach((item) => options.push(this.makeItemOption('', item, 1, false)));
+        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Candle')!, 5, false));
+        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Piton')!, 10, false));
+        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Oil Flask')!, 2, false));
+        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Rations')!, 5, false));
+
+        this.addItemOptionToSelection(
+          id,
+          new OptionContainer(
+            StepEnum.Equipment,
+            'items',
+            options,
+            PackNames.BURGLAR,
+            { addValues: true, deletable: true },
+            (opt: DeletableOption) => this.onDelete(opt),
+            id,
+          ),
+          PackPrices.BURGLAR,
+          1,
+        );
         break;
 
       case PackNames.DIPLOMAT:
@@ -182,11 +204,25 @@ class _Equipment extends Step {
             ];
             return itemsInPack.includes(item.name!);
           })
-          .forEach((item) => this.addItemToSelection(item, 1, false));
-        this.addItemToSelection(this.items.find((i: any) => i.name == 'Map or Scroll Case')!, 2, false);
-        this.addItemToSelection(this.items.find((i: any) => i.name == 'Oil Flask')!, 2, false);
-        this.addItemToSelection(this.items.find((i: any) => i.name == 'Paper')!, 5, false);
-        this.updateGold(PackPrices.DIPLOMAT);
+          .forEach((item) => options.push(this.makeItemOption('', item, 1, false)));
+        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Map or Scroll Case')!, 2, false));
+        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Oil Flask')!, 2, false));
+        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Paper')!, 5, false));
+
+        this.addItemOptionToSelection(
+          id,
+          new OptionContainer(
+            StepEnum.Equipment,
+            'items',
+            options,
+            PackNames.DIPLOMAT,
+            { addValues: true, deletable: true },
+            (opt: DeletableOption) => this.onDelete(opt),
+            foundry.utils.randomID(),
+          ),
+          PackPrices.DIPLOMAT,
+          1,
+        );
         break;
 
       case PackNames.DUNGEONEER:
@@ -195,11 +231,24 @@ class _Equipment extends Step {
             const itemsInPack = ['Backpack', 'Crowbar', 'Hammer', 'Tinderbox', 'Waterskin', 'Hempen Rope (50 ft.)'];
             return itemsInPack.includes(item.name!);
           })
-          .forEach((item) => this.addItemToSelection(item, 1, false));
-        this.addItemToSelection(this.items.find((i: any) => i.name == 'Piton')!, 10, false);
-        this.addItemToSelection(this.items.find((i: any) => i.name == 'Torch')!, 10, false);
-        this.addItemToSelection(this.items.find((i: any) => i.name == 'Rations')!, 10, false);
-        this.updateGold(PackPrices.DUNGEONEER);
+          .forEach((item) => options.push(this.makeItemOption('', item, 1, false)));
+        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Piton')!, 10, false));
+        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Torch')!, 10, false));
+        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Rations')!, 10, false));
+        this.addItemOptionToSelection(
+          id,
+          new OptionContainer(
+            StepEnum.Equipment,
+            'items',
+            options,
+            PackNames.DUNGEONEER,
+            { addValues: true, deletable: true },
+            (opt: DeletableOption) => this.onDelete(opt),
+            foundry.utils.randomID(),
+          ),
+          PackPrices.DUNGEONEER,
+          1,
+        );
         break;
 
       case PackNames.ENTERNAINER:
@@ -208,11 +257,24 @@ class _Equipment extends Step {
             const itemsInPack = ['Backpack', 'Bedroll', 'Waterskin', 'Disguise Kit'];
             return itemsInPack.includes(item.name!);
           })
-          .forEach((item) => this.addItemToSelection(item, 1, false));
-        this.addItemToSelection(this.items.find((i: any) => i.name == 'Costume Clothes')!, 2, false);
-        this.addItemToSelection(this.items.find((i: any) => i.name == 'Candle')!, 5, false);
-        this.addItemToSelection(this.items.find((i: any) => i.name == 'Rations')!, 5, false);
-        this.updateGold(PackPrices.ENTERNAINER);
+          .forEach((item) => options.push(this.makeItemOption('', item, 1, false)));
+        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Costume Clothes')!, 2, false));
+        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Candle')!, 5, false));
+        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Rations')!, 5, false));
+        this.addItemOptionToSelection(
+          id,
+          new OptionContainer(
+            StepEnum.Equipment,
+            'items',
+            options,
+            PackNames.ENTERNAINER,
+            { addValues: true, deletable: true },
+            (opt: DeletableOption) => this.onDelete(opt),
+            foundry.utils.randomID(),
+          ),
+          PackPrices.ENTERNAINER,
+          1,
+        );
         break;
 
       case PackNames.EXPLORER:
@@ -221,10 +283,23 @@ class _Equipment extends Step {
             const itemsInPack = ['Backpack', 'Bedroll', 'Mess Kit', 'Tinderbox', 'Waterskin', 'Hempen Rope (50 ft.)'];
             return itemsInPack.includes(item.name!);
           })
-          .forEach((item) => this.addItemToSelection(item, 1, false));
-        this.addItemToSelection(this.items.find((i: any) => i.name == 'Torch')!, 10, false);
-        this.addItemToSelection(this.items.find((i: any) => i.name == 'Rations')!, 10, false);
-        this.updateGold(PackPrices.EXPLORER);
+          .forEach((item) => options.push(this.makeItemOption('', item, 1, false)));
+        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Torch')!, 10, false));
+        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Rations')!, 10, false));
+        this.addItemOptionToSelection(
+          id,
+          new OptionContainer(
+            StepEnum.Equipment,
+            'items',
+            options,
+            PackNames.EXPLORER,
+            { addValues: true, deletable: true },
+            (opt: DeletableOption) => this.onDelete(opt),
+            foundry.utils.randomID(),
+          ),
+          PackPrices.EXPLORER,
+          1,
+        );
         break;
 
       case PackNames.PRIEST:
@@ -233,11 +308,24 @@ class _Equipment extends Step {
             const itemsInPack = ['Backpack', 'Blanket', 'Tinderbox', 'Alms Box', 'Censer', 'Vestments', 'Waterskin'];
             return itemsInPack.includes(item.name!);
           })
-          .forEach((item) => this.addItemToSelection(item, 1, false));
-        this.addItemToSelection(this.items.find((i: any) => i.name == 'Candle')!, 10, false);
-        this.addItemToSelection(this.items.find((i: any) => i.name == 'Block of Incense')!, 2, false);
-        this.addItemToSelection(this.items.find((i: any) => i.name == 'Rations')!, 2, false);
-        this.updateGold(PackPrices.PRIEST);
+          .forEach((item) => options.push(this.makeItemOption('', item, 1, false)));
+        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Candle')!, 10, false));
+        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Block of Incense')!, 2, false));
+        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Rations')!, 2, false));
+        this.addItemOptionToSelection(
+          id,
+          new OptionContainer(
+            StepEnum.Equipment,
+            'items',
+            options,
+            PackNames.PRIEST,
+            { addValues: true, deletable: true },
+            (opt: DeletableOption) => this.onDelete(opt),
+            foundry.utils.randomID(),
+          ),
+          PackPrices.PRIEST,
+          1,
+        );
         break;
 
       case PackNames.SCHOLAR:
@@ -246,15 +334,38 @@ class _Equipment extends Step {
             const itemsInPack = ['Backpack', 'Book of Lore', 'Ink Bottle', 'Ink Pen', 'Bag of Sand', 'Small Knife'];
             return itemsInPack.includes(item.name!);
           })
-          .forEach((item) => this.addItemToSelection(item, 1, false));
-        this.addItemToSelection(this.items.find((i: any) => i.name == 'Parchment')!, 10, false);
-        this.updateGold(PackPrices.SCHOLAR);
+          .forEach((item) => options.push(this.makeItemOption('', item, 1, false)));
+        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Parchment')!, 10, false));
+        this.addItemOptionToSelection(
+          id,
+          new OptionContainer(
+            StepEnum.Equipment,
+            'items',
+            options,
+            PackNames.SCHOLAR,
+            { addValues: true, deletable: true },
+            (opt: DeletableOption) => this.onDelete(opt),
+            foundry.utils.randomID(),
+          ),
+          PackPrices.SCHOLAR,
+          1,
+        );
         break;
     }
   }
 
-  addItemToSelection(item: Item, quantity = 1, discountGold = true) {
-    const itemOption = new FixedOption(
+  onDelete(option: DeletableOption) {
+    this.stepOptions.splice(this.stepOptions.indexOf(option), 1);
+    const deletableId = option.callbackParams;
+    $(`#hct_deletable_${deletableId}`, this.$itemList).remove();
+
+    const price = this.priceMap.get(deletableId);
+    this.priceMap.delete(deletableId);
+    this.updateGold(-price!);
+  }
+
+  makeItemOption(id: string, item: Item, quantity = 1, deletable = true): HeroOption {
+    const option = new FixedOption(
       StepEnum.Equipment,
       'items',
       item,
@@ -265,9 +376,25 @@ class _Equipment extends Step {
         quantity: quantity ?? 1,
       },
     );
+    if (deletable) {
+      return new DeletableOption(
+        StepEnum.Equipment,
+        option,
+        { addValues: true },
+        (args?: any) => this.onDelete(args),
+        id,
+        true,
+      );
+    } else {
+      return option;
+    }
+  }
+
+  addItemOptionToSelection(id: string, itemOption: HeroOption, cost: number, quantity = 1) {
+    this.priceMap.set(id, cost * quantity);
     itemOption.render(this.$itemList);
     this.stepOptions.push(itemOption);
-    if (discountGold) this.updateGold((item.data as any).price * quantity);
+    this.updateGold(cost * quantity);
   }
 
   updateGold(reduceBy?: number) {
@@ -304,12 +431,17 @@ class _Equipment extends Step {
     this.$rollInput = $('[data-hct_equipment_roll_expression]', this.section()).val(this.defaultGoldDice);
     this.$totalGold = $('[data-hct_total_gold]', this.section());
     this.$remainingGold = $('[data-hct_remaining_gold]', this.section());
+    this.available = 0;
+    this.total = 0;
+    this.extra = 0;
+    this.spent = 0;
   }
 
   getOptions() {
     // add remaining gold
     const remaining = parseFloat(this.$remainingGold.html()) || 0;
-    if (remaining && remaining > 0) {
+    const $addRemainingCheckbox = $('#hct-remaining-gold', this.section());
+    if ($addRemainingCheckbox.is(':checked') && remaining && remaining > 0) {
       this.stepOptions.push(
         new FixedOption(StepEnum.Equipment, 'data.currency', {
           cp: Math.floor((remaining * 100) % 10),

@@ -36,37 +36,49 @@ class _BackgroundTab extends Step {
 
     this.setBackgroundNameUi();
     this.setAlignmentUi();
-
-    const $proficienciesArea = $('[data-hct_area=proficiences]', this.section());
-    ProficiencyUtils.prepareSkillOptions({
-      step: this.step,
-      $parent: $proficienciesArea,
-      pushTo: this.stepOptions,
-      quantity: 2,
-      addValues: true,
-      expandable: true,
-      customizable: false,
-    });
-    ProficiencyUtils.prepareToolOptions({
-      step: this.step,
-      $parent: $proficienciesArea,
-      pushTo: this.stepOptions,
-      quantity: 0,
-      addValues: true,
-      expandable: true,
-      customizable: true,
-    });
-    ProficiencyUtils.prepareLanguageOptions({
-      step: this.step,
-      $parent: $proficienciesArea,
-      pushTo: this.stepOptions,
-      quantity: 0,
-      addValues: true,
-      expandable: true,
-      customizable: true,
-    });
-
+    this.setProficienciesUi();
     this.setBackgroundFeatureUi();
+  }
+
+  private setProficienciesUi() {
+    const $proficienciesArea = $('[data-hct_area=proficiences]', this.section());
+    const options = [];
+    options.push(
+      ProficiencyUtils.prepareSkillOptions({
+        step: this.step,
+        $parent: $proficienciesArea,
+        pushTo: this.stepOptions,
+        quantity: 2,
+        addValues: true,
+        expandable: true,
+        customizable: false,
+      }),
+    );
+    options.push(
+      ProficiencyUtils.prepareToolOptions({
+        step: this.step,
+        $parent: $proficienciesArea,
+        pushTo: this.stepOptions,
+        quantity: 0,
+        addValues: true,
+        expandable: true,
+        customizable: true,
+      }),
+    );
+    options.push(
+      ProficiencyUtils.prepareLanguageOptions({
+        step: this.step,
+        $parent: $proficienciesArea,
+        pushTo: this.stepOptions,
+        quantity: 0,
+        addValues: true,
+        expandable: true,
+        customizable: true,
+      }),
+    );
+
+    options.forEach((o) => o.render($proficienciesArea));
+    this.stepOptions.push(...options);
   }
 
   private setBackgroundFeatureUi() {

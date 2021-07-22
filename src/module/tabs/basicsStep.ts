@@ -3,7 +3,7 @@
 */
 import * as Constants from '../constants';
 import { Step, StepEnum } from '../Step';
-import InputOption from '../options/TextInputOption';
+import InputOption from '../options/InputOption';
 import SettingKeys from '../settings';
 
 const enum ImgType {

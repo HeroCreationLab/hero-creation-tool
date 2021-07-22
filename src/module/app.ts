@@ -98,7 +98,7 @@ export default class App extends Application {
   }
 
   private async buildActor() {
-    console.log(`${Constants.LOG_PREFIX} | Building actor`);
+    console.log(`${Constants.LOG_PREFIX} | Building actor - data used:`);
     const newActor: ActorDataConstructorData = this.initializeActorData();
     let errors = false;
     // yeah, a loop label, sue me.
