@@ -28,6 +28,8 @@ jobs:
           restore-keys: |
             ${{ runner.OS }}-node-
             ${{ runner.OS }}-
+
       - run: npm ci --cache .npm --prefer-offline
-      - name: compile typescript
+
+      - name: Compile Typescript
         run: tsc

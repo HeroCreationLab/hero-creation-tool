@@ -11,7 +11,26 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # Get the version from 'module.json'
+      # Install node
+      - name: install node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node_version }}
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v2
+        with:
+          path: .npm
+          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-node-
+            ${{ runner.OS }}-
+
+      - run: npm ci --cache .npm --prefer-offline
+
+      - run: npm run build
+
+      # Get the version from built 'module.json'
       - name: Get Version
         shell: bash
         id: get-version
