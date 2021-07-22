@@ -17,12 +17,12 @@
     }
   ],
   "url": "https://github.com/HeroCreationLab/hero-creation-tool",
-  "license": "https://github.com/HeroCreationLab/hero-creation-tool/LICENSE",
+  "license": "https://github.com/HeroCreationLab/hero-creation-tool/blob/main/LICENSE",
+  "readme": "https://github.com/HeroCreationLab/hero-creation-tool/blob/main/README.md",
+  "changelog": "https://github.com/HeroCreationLab/hero-creation-tool/blob/main/docs/CHANGELOG.md",
+  "bugs": "https://github.com/HeroCreationLab/hero-creation-tool/issues",
   "manifest": "https://github.com/HeroCreationLab/hero-creation-tool/{{name}}/bundle/module.json",
   "download": "https://github.com/HeroCreationLab/hero-creation-tool/{{name}}/bundle/{{name}}.zip",
-  "readme": "https://github.com/HeroCreationLab/hero-creation-tool/README.md",
-  "changelog": "https://github.com/HeroCreationLab/hero-creation-tool/CHANGELOG.md",
-  "bugs": "https://github.com/HeroCreationLab/hero-creation-tool/issues",
   "flags": {
     "allowBugReporter": true
   },
