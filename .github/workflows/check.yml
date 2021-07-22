@@ -1,0 +1,33 @@
+# This is a basic workflow to help you get started with Actions
+
+name: checks
+
+on:
+  - push
+  - pull_request
+
+env:
+  node_version: 14
+
+jobs:
+  typecheck:
+    name: type check code base
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+      - name: install node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node_version }}
+      - name: Cache Node.js modules
+        uses: actions/cache@v2
+        with:
+          path: .npm
+          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-node-
+            ${{ runner.OS }}-
+      - run: npm ci --cache .npm --prefer-offline
+      - name: compile typescript
+        run: tsc
