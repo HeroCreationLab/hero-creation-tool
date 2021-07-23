@@ -65,6 +65,9 @@ $color-accent-alt: darkgreen;
         margin-bottom: $tiny;
       }
     }
+    &-small {
+      margin: $small;
+    }
   }
   &-padding {
     &-l {
