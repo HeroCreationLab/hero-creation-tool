@@ -158,9 +158,10 @@
       "StartingItemsTitle": "Starting Items"
     },
     "Spells": {
-      "SpellcastingAbilityLabel": "Spellcasting Ability",
-      "SpellcastingAbilityBlob": "You are a {class}, so your Spellcasting Ability is {spa}",
-      "SpellcastingAbilityNoClass": "You have no class selected; unknown Spellcasting Ability",
+      "SpellcastingAbilityBlob": "<p>You selected {class} - your Spellcasting Ability is <b>{spa}</b></p>",
+      "NoSpellcastingClass": "No spellcasting class selected",
+      "ShowFeatureOnSide": "Show the class Spellcasting Feature on the side panel",
+      "SpellCount": "Number of Spells",
       "SpellList": "Starting Spells",
       "SelectItemError": "Incorrect itemName on Spells tab search entry"
     },

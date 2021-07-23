@@ -18,8 +18,15 @@ class _Class extends Step {
     super(StepEnum.Class);
   }
 
+  spellcasting!: { item: Item; ability: string };
+
   getUpdateData() {
-    return { item: this._class };
+    return this._class
+      ? {
+          name: this._class.name,
+          spellcasting: this.spellcasting,
+        }
+      : undefined;
   }
 
   section = () => $('#classDiv');
@@ -177,6 +184,16 @@ class _Class extends Step {
     // handle fighting style
     const fightingStyles = classFeatures.filter((i) => (i as any).name.startsWith('Fighting Style'));
     classFeatures = classFeatures.filter((i) => !(i as any).name.startsWith('Fighting Style'));
+
+    const spellcastingItem = classFeatures.find(
+      (i) => (i as any).name.startsWith('Spellcasting') || (i as any).name.startsWith('Pact Magic'),
+    );
+    if (spellcastingItem) {
+      this.spellcasting = {
+        item: spellcastingItem,
+        ability: (this._class.data as any).spellcasting.ability,
+      };
+    }
 
     if (fightingStyles && fightingStyles.length > 0) {
       const fsOption = new SelectableItemOption(StepEnum.Class, 'items', fightingStyles, { addValues: true });
