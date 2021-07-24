@@ -2,7 +2,6 @@ import * as Utils from '../utils';
 import * as Constants from '../constants';
 import { Step, StepEnum } from '../Step';
 import FixedOption, { OptionType } from '../options/FixedOption';
-import SettingKeys from '../settings';
 import DeletableOption from '../options/DeletableOption';
 
 class _Spells extends Step {
@@ -129,10 +128,7 @@ class _Spells extends Step {
   }
 
   async setSourceData() {
-    const filteredSpells = (await Utils.getSources({
-      baseSource: Constants.DEFAULT_PACKS.SPELLS,
-      customSourcesProperty: SettingKeys.CUSTOM_SPELL_PACKS,
-    })) as any;
+    const filteredSpells = (await Utils.getSources('spells')) as any;
     const maxLevel = 1;
     this.spells = filteredSpells.filter((item: Item) => (item.data as any).level <= maxLevel);
   }

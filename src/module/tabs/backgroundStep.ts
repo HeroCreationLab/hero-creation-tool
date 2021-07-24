@@ -7,7 +7,6 @@ import * as ProficiencyUtils from '../proficiencyUtils';
 import { Step, StepEnum } from '../Step';
 import SelectableOption from '../options/SelectableOption';
 import SelectOrCustomItemOption from '../options/SelectOrCustomItemOption';
-import SettingKeys from '../settings';
 
 class _BackgroundTab extends Step {
   constructor() {
@@ -19,9 +18,7 @@ class _BackgroundTab extends Step {
   backgroundFeatures!: Item[];
 
   async setSourceData() {
-    this.backgroundFeatures = (await Utils.getSources({
-      customSourcesProperty: SettingKeys.CUSTOM_BACKGROUND_FEATURE_PACKS,
-    })) as any;
+    this.backgroundFeatures = (await Utils.getSources('backgroundFeatures')) as any;
   }
 
   async renderData() {

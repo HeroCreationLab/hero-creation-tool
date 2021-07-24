@@ -409,9 +409,7 @@ class _Equipment extends Step {
   }
 
   async setSourceData() {
-    const filteredItems = (await Utils.getSources({
-      baseSource: Constants.DEFAULT_PACKS.ITEMS,
-    })) as any;
+    const filteredItems = (await Utils.getItemListFromPackListByNames([Constants.DEFAULT_PACKS.ITEMS])) as any;
     this.items = filteredItems.filter((item: Item) => itemWhiteList.includes((item as any).name));
 
     this.defaultGoldDice = game.settings.get(Constants.MODULE_NAME, SettingKeys.DEFAULT_GOLD_DICE) as string;

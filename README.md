@@ -34,7 +34,7 @@ After installing the module, you will find a new button on top of your Actors' D
 
 Sadly, in every approach there's pros and cons. The priority for the module has always been facilitating both the Players and the DMs work, allowing DMs to easily define new races, clases, features, spells, you name it, and for players to have a streamlined, yet flexible and customizable character creation experience.
 
-To support the first point, and with the goal of integrating as seemlessly as possible with any content that adds compendiums with character creation elements, the module restricts itself to only data values available in Foundry's DnD5e vanilla entities by default: Classes, Spells, and anything else as Features.
+To support the first point, and with the goal of integrating as seemlessly as possible with any content that adds compendia with character creation elements, the module restricts itself to only data values available in Foundry's DnD5e vanilla entities by default: Classes, Spells, and anything else as Features.
 
 This makes it that you can easily make a new custom class and define its skill proficiencies or spellcasting ability, for example, but renders a custom race into little more than an a name, an icon and a description. The module tries to brute-force as much as it can, finding for example Subraces and Racial features by the parent class name, but other than finding the item to show it on the creator, and adding it to the character, it can't really automate much else like Ability Score Improvements, proficiencies (others than the mentioned Class Skill Proficiencies) and long etc.
 

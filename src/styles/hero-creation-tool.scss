@@ -11,22 +11,24 @@ $color-accent-alt: darkgreen;
   width: 97%;
 }
 
-.hct-container {
-  overflow-y: hidden;
-  overflow-x: hidden;
-  height: 100%;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-}
-
 .hct {
+  &-container {
+    overflow-y: hidden;
+    overflow-x: hidden;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
   &-accented {
     color: $color-accent;
   }
+
   &-accented[href] {
     color: $color-accent;
   }
+
   &-width {
     &-full {
       width: 100%;
@@ -34,13 +36,24 @@ $color-accent-alt: darkgreen;
     &-fit {
       width: fit-content;
     }
+    &-250 {
+      max-width: 250px;
+      min-width: 250px;
+    }
+    &-180 {
+      max-width: 180px;
+      min-width: 180px;
+    }
   }
+
   &-no-border {
     border: none;
   }
+
   &-no-background {
     background: none;
   }
+
   &-hover {
     &-accent:hover {
       color: $color-accent;
@@ -52,6 +65,7 @@ $color-accent-alt: darkgreen;
       box-shadow: none;
     }
   }
+
   &-flex {
     display: flex;
 
@@ -59,6 +73,7 @@ $color-accent-alt: darkgreen;
       justify-content: space-between;
     }
   }
+
   &-margin {
     &-b {
       &-tiny {
@@ -69,22 +84,32 @@ $color-accent-alt: darkgreen;
       margin: $small;
     }
   }
+
   &-padding {
     &-l {
       &-small {
         padding-right: $small;
       }
     }
+
     &-r {
+      &-small {
+        padding-right: $small;
+      }
       &-medium {
-        padding-right: $medium;
+        padding-left: $medium;
       }
     }
+
     &-b {
       &-tiny {
         padding-bottom: $tiny;
       }
+      &-small {
+        padding-bottom: $small;
+      }
     }
+
     &-small {
       padding: $small;
     }
@@ -100,6 +125,7 @@ $color-accent-alt: darkgreen;
   &-baseline {
     align-items: baseline;
   }
+
   &-search {
     &-area {
       display: flex;
@@ -298,6 +324,7 @@ $color-accent-alt: darkgreen;
       flex-grow: 1;
     }
   }
+
   &-options-container {
     display: flex;
     flex-direction: column;
@@ -306,6 +333,7 @@ $color-accent-alt: darkgreen;
     &-label {
       width: 100%;
     }
+
     &-button {
       width: auto;
       height: 27px;
@@ -314,12 +342,14 @@ $color-accent-alt: darkgreen;
       border: 1px solid #7a7971;
       line-height: normal;
     }
+
     &-buttongroup {
       width: 80%;
       display: flex;
       justify-content: flex-end;
     }
   }
+
   &-bio {
     &-fullsize {
       height: 510px;
@@ -328,12 +358,37 @@ $color-accent-alt: darkgreen;
       background: none;
       border: none;
     }
+
     &-larger {
       height: 90px;
     }
+
     &-fix-area {
       resize: none;
     }
+  }
+
+  &-pointer {
+    cursor: pointer;
+  }
+
+  &-collapsible-content {
+    padding: $tiny $small;
+    display: none;
+    overflow: hidden;
+  }
+
+  &-submenu-header {
+    position: sticky;
+    top: 0px;
+    max-height: 56px;
+    overflow: hidden;
+  }
+
+  &-submenu-content {
+    max-height: 295px;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 }
 
@@ -378,10 +433,6 @@ $color-accent-alt: darkgreen;
   border: none;
 }
 
-.window-content .tabs {
-  flex: 0;
-}
-
 .apply-header-font h1,
 .apply-header-font h2 {
   font-family: 'Modesto Condensed', 'Signika', 'Arial';
@@ -393,21 +444,6 @@ $color-accent-alt: darkgreen;
 
 .form--padding {
   padding: 5%;
-}
-
-.form__select--margin > select {
-  margin-bottom: 20px;
-}
-
-.clickableText:hover {
-  text-decoration: underline;
-}
-
-.flex-separator {
-  width: 100%;
-  display: flex;
-  flex: column;
-  justify-content: space-between;
 }
 
 /* ## Style the buttons inside the tab */
@@ -426,13 +462,6 @@ $color-accent-alt: darkgreen;
   text-align: center;
 }
 
-.vertical-flex {
-  display: flex;
-  flex-flow: column;
-}
-
-/* ## Change background color of buttons on hover */
-
 .tabs button:hover {
   transform: scale(1.08); // translateY(-5px);
   box-shadow: none;
@@ -443,81 +472,11 @@ $color-accent-alt: darkgreen;
   box-shadow: none;
 }
 
-/* ## Create an active/current tablink class */
-
 .tabs button.active {
   background-color: rgba(255, 255, 255, 0.5);
   border-bottom: 4px solid $color-accent;
   transform: scale(1.08);
   text-shadow: 0 0 5px red;
-}
-
-/* ## Equipment */
-
-#class-equip,
-#gold-equip {
-  display: none;
-}
-
-/* ## Stats Panel */
-
-.stat-flex-container {
-  display: flex;
-  width: 100%;
-  height: 100px;
-  justify-content: space-evenly;
-  flex-flow: row;
-}
-
-.stat-box {
-  text-align: center;
-  border-radius: 10px;
-  padding: 30px 10px 0px 10px;
-  background: rgba(255, 255, 255, 0.5);
-}
-
-.info-panel {
-  border-radius: 10px;
-  margin: 20px;
-  height: 50px;
-  padding: 15px 10px 0 10px;
-  display: flex;
-  flex: 0;
-  justify-content: space-between;
-  background: rgba(255, 255, 255, 0.5);
-  text-align: center;
-}
-
-.smaller {
-  text-align: center;
-  max-width: 50px;
-  float: right;
-}
-
-/* ## Next and Roll */
-
-.rollButton {
-  width: 100px;
-  height: 40px;
-  box-shadow: inset 0px 0px 15px 3px #23395e;
-  background: linear-gradient(to bottom, #2e466e 5%, #415989 100%);
-  background-color: #2e466e;
-  border-radius: 10px;
-  border: 1px solid #1f2f47;
-  cursor: pointer;
-  color: #ffffff;
-  font-family: Arial;
-  font-size: 15px;
-  text-decoration: none;
-  text-shadow: 0px 1px 0px #263666;
-  text-align: center;
-  padding: 10px;
-  margin: 10px auto 10px;
-}
-
-.rollButton:hover {
-  background: linear-gradient(to bottom, #415989 5%, #2e466e 100%);
-  background-color: #415989;
 }
 
 .step-button {
@@ -529,9 +488,7 @@ $color-accent-alt: darkgreen;
   cursor: pointer;
   font-size: 15px;
   font-family: 'Signika', sans-serif;
-}
 
-.step-button {
   &:hover {
     background-color: rgba(245, 245, 230, 0.8);
   }
@@ -540,36 +497,6 @@ $color-accent-alt: darkgreen;
     box-shadow: none;
     cursor: not-allowed;
   }
-}
-
-/* ## Forms */
-
-.form-group {
-  display: flex;
-  padding-bottom: 5px;
-}
-
-.form-group div {
-  display: flex;
-  margin: 0;
-}
-
-.form-group input[type='color'] {
-  margin-left: 10px;
-}
-
-.form-group label {
-  font-family: 'Signika', 'serif', 'Arial';
-  font-size: 1.2em;
-}
-
-.form-group span,
-.form-group button {
-  flex: 0 0 35px;
-}
-
-.basics-top-label {
-  max-width: 180px;
 }
 
 #avatar_img {
@@ -621,8 +548,4 @@ $color-accent-alt: darkgreen;
 
 .hct_data_elem {
   margin-bottom: 10px;
-}
-
-.race_proficiency_subtype:not(:first-child) {
-  margin-top: 16px;
 }

@@ -17,29 +17,17 @@
       "TokenBarMode": {
         "Name": "Token bar 1 display mode"
       },
-      "RaceCompendiums": {
-        "Name": "Race compendiums",
-        "Hint": "Name of complementary compendium with custom races, separated by semi-colons (;)"
-      },
-      "RaceFeatureCompendiums": {
-        "Name": "Race feature compendiums",
-        "Hint": "Name of complementary compendium with custom race features, separated by semi-colons (;)"
-      },
-      "ClassCompendiums": {
-        "Name": "Class compendiums",
-        "Hint": "Name of complementary compendium with custom classes, separated by semi-colons (;)"
-      },
-      "ClassFeatureCompendiums": {
-        "Name": "Class feature compendiums",
-        "Hint": "Name of complementary compendium with custom class features, separated by semi-colons (;)"
-      },
-      "BackgroundFeatureCompendiums": {
-        "Name": "Background feature compendiums",
-        "Hint": "Name of complementary compendium with custom background features, separated by semi-colons (;)"
-      },
-      "SpellCompendiums": {
-        "Name": "Spell compendiums",
-        "Hint": "Name of complementary compendium with custom spells, separated by semi-colons (;)"
+      "Sources": {
+        "Name": "Compendium Sources",
+        "Hint": "Select the compendia that will serve as data source for the different creation steps",
+        "Label": "Select sources",
+        "Save": "Save",
+        "RaceCompendia": "Race Compendia",
+        "RacialFeatureCompendia": "Racial Features Compendia",
+        "ClassCompendia": "Class Compendia",
+        "ClassFeatureCompendia": "Class Features Compendia",
+        "BackgroundFeatureCompendia": "Background Features Compendia",
+        "SpellCompendia": "Spell Compendia"
       }
     },
     "Integration": {
@@ -100,7 +88,7 @@
       "Title": "Start",
       "Welcome": "Welcome to the Hero Creation Tool for DnD 5e",
       "p1": "The Hero Creation Tool is a step-by-step process for creating a brand-new character for your games. Changes are saved as you progress, but the character is only created upon completion.",
-      "p2": "The tool supports SRD material available within FoundryVTT by default. You can add further content by defining compendiums in the settings with your own custom races, classes, features and others.",
+      "p2": "The tool supports SRD material available within FoundryVTT by default. You can add further content by defining compendia in the settings with your own custom races, classes, features and others.",
       "Remark": "Your Adventure Awaits! Get started by clicking Next.",
       "Faq": "If you have any doubts, please check our FAQ.",
       "HowTo": "If you are a DM wanting to add custom races, classes and etc, you can read our How-To."
