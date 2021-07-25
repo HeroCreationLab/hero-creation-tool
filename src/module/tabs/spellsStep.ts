@@ -2,7 +2,6 @@ import * as Utils from '../utils';
 import * as Constants from '../constants';
 import { Step, StepEnum } from '../Step';
 import FixedOption, { OptionType } from '../options/FixedOption';
-import SettingKeys from '../settings';
 import DeletableOption from '../options/DeletableOption';
 
 class _Spells extends Step {
@@ -20,6 +19,7 @@ class _Spells extends Step {
 
   spells: Item[] = [];
   archived: Item[] = [];
+  rules: any;
 
   setListeners(): void {
     this.$searchWrapper = $('.hct-search-wrapper', this.section());
@@ -45,6 +45,8 @@ class _Spells extends Step {
       this.$itemList.empty();
       const deletedItems = this.archived.splice(0);
       this.spells.push(...deletedItems);
+      $(`[data-hct_lv0_count]`, this.section()).html('0');
+      $(`[data-hct_lv1_count]`, this.section()).html('0');
     });
 
     this.$inputBox.on('keyup', (e) => {
@@ -92,6 +94,8 @@ class _Spells extends Step {
     //remove spell from the available list
     const removedItem = this.spells.splice(this.spells.indexOf(item), 1);
     this.archived.push(...removedItem);
+
+    this.changeSpellCount((item.data as any).level, CountChange.UP);
   }
 
   onDelete(item: Item) {
@@ -105,6 +109,7 @@ class _Spells extends Step {
     if (optionToDelete) {
       this.stepOptions.splice(this.stepOptions.indexOf(optionToDelete), 1);
     }
+    this.changeSpellCount((item.data as any).level, CountChange.DOWN);
   }
 
   showSuggestions(list: Item[]) {
@@ -123,31 +128,53 @@ class _Spells extends Step {
   }
 
   async setSourceData() {
-    const filteredSpells = (await Utils.getSources({
-      baseSource: Constants.DEFAULT_PACKS.SPELLS,
-      customSourcesProperty: SettingKeys.CUSTOM_SPELL_PACKS,
-    })) as any;
+    const filteredSpells = (await Utils.getSources('spells')) as any;
     const maxLevel = 1;
     this.spells = filteredSpells.filter((item: Item) => (item.data as any).level <= maxLevel);
+  }
+
+  changeSpellCount(spellLevel: number, change: CountChange) {
+    const current = Number.parseInt($(`[data-hct_lv${spellLevel}_count]`, this.section()).html());
+    const newVal = change === CountChange.UP ? current + 1 : current - 1;
+    $(`[data-hct_lv${spellLevel}_count]`, this.section()).html(newVal.toString());
   }
 
   async renderData() {
     // Show rules on the side panel
     const spellsRulesItem = await Utils.getJournalFromPackByName(Constants.DEFAULT_PACKS.RULES, Constants.RULES.SPELLS);
-    $('[data-hct_spells_description]', this.section()).html(TextEditor.enrichHTML((spellsRulesItem as any).content));
+    this.rules = TextEditor.enrichHTML((spellsRulesItem as any).content);
+    $('[data-hct_spells_description]', this.section()).html(this.rules);
+
+    $('[data-hct_lv0_label]', this.section()).html(`${(game as any).dnd5e.config.spellLevels[0]}: `);
+    $('[data-hct_lv1_label]', this.section()).html(`${(game as any).dnd5e.config.spellLevels[1]}: `);
   }
 
-  update(data: { class: { item: Item } }) {
+  update(data: any) {
     const $spellCastingAbilityElem = $('[data-hct_spellcasting_ability]', this.section());
-    if (data?.class?.item) {
-      const spa = (game as any).dnd5e.config.abilities[(data.class.item.data as any)?.spellcasting?.ability];
+
+    if (data.class?.spellcasting) {
+      const spa = (game as any).dnd5e.config.abilities[data.class.spellcasting.ability];
       $spellCastingAbilityElem.html(
-        game.i18n.format('HCT.Spells.SpellcastingAbilityBlob', { class: data.class.item.name, spa: spa }),
+        game.i18n.format('HCT.Spells.SpellcastingAbilityBlob', { class: data.class.name, spa: spa }),
       );
+      const $showFeatureDescCheckbox: JQuery = $(`#hct-show-class-spellcasting-desc`, this.section());
+      const enrichedText = TextEditor.enrichHTML(data.class.spellcasting.item.data.description.value);
+      $showFeatureDescCheckbox.on('change', (event) => {
+        if ((event.currentTarget as any).checked) {
+          $('[data-hct_spells_description]', this.section()).html(enrichedText);
+        } else {
+          $('[data-hct_spells_description]', this.section()).html(this.rules);
+        }
+      });
     } else {
-      $spellCastingAbilityElem.html(game.i18n.format('HCT.Spells.SpellcastingAbilityNoClass'));
+      $spellCastingAbilityElem.html(game.i18n.localize('HCT.Spells.NoSpellcastingClass'));
     }
   }
 }
 const SpellsTab: Step = new _Spells();
 export default SpellsTab;
+
+const enum CountChange {
+  UP,
+  DOWN,
+}

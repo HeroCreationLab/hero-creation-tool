@@ -3,9 +3,7 @@
 */
 import { Step, StepEnum } from '../Step';
 import * as Utils from '../utils';
-import * as Constants from '../constants';
 import * as ProficiencyUtils from '../proficiencyUtils';
-import SettingKeys from '../settings';
 import HeroOption from '../options/HeroOption';
 import HiddenOption from '../options/HiddenOption';
 import SelectableOption from '../options/SelectableOption';
@@ -75,10 +73,7 @@ class _Race extends Step {
   }
 
   async setSourceData() {
-    const raceItems = await Utils.getSources({
-      baseSource: Constants.DEFAULT_PACKS.RACES,
-      customSourcesProperty: SettingKeys.CUSTOM_RACE_PACKS,
-    });
+    const raceItems = await Utils.getSources('races');
     // get races
     const races: Race[] = raceItems
       ?.filter((race) => (race as any).data.requirements == '')
@@ -102,10 +97,7 @@ class _Race extends Step {
       return parent;
     });
 
-    const raceFeatureItems = await Utils.getSources({
-      baseSource: Constants.DEFAULT_PACKS.RACE_FEATURES,
-      customSourcesProperty: SettingKeys.CUSTOM_RACE_FEATURES_PACKS,
-    });
+    const raceFeatureItems = await Utils.getSources('racialFeatures');
     this.raceFeatures = raceFeatureItems
       ?.filter((item) => !raceNames.includes(item.name))
       .sort((a, b) => a.name.localeCompare(b.name)) as any;

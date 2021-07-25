@@ -2,9 +2,9 @@
 
 ## Creating a custom race/subrace/racial feature/class/class feature/background feature/spell
 
-Custom content is added simply by creating compendiums for each type of items handled, and filling them with vanilla Foundry VTT items you create *-items in the foundry meaning - been "entities you link to an actor", not items like a sword of a torch-*. If you already have compendiums with appropriate items, you can just link to them.
+Custom content is added simply by creating compendia for each type of items handled, and filling them with vanilla Foundry VTT items you create *-items in the foundry meaning - been "entities you link to an actor", not items like a sword of a torch-*. If you already have compendia with appropriate items, you can just link to them.
 
-After you created and edited an item to your hearts' content, you need to add the item to the appropriate Custom Compendium. On the module settings you will find a list of every possible compendium type; there you need to specify the name of the compendium *-or compendiums, separated by a semi-color character (;)-*.
+After you created and edited an item to your hearts' content, you need to add the item to the appropriate Custom Compendium. On the module settings you will find a list of every possible compendium type; there you need to specify the name of the compendium *-or compendia, separated by a semi-color character (;)-*.
 
 The module makes some assumptions to understand some things apart, for example in the case where default SRD Races/Subraces/Racial Features are all cramped together on a single 'Racial Features (SRD)' compendium.
 
@@ -20,13 +20,13 @@ Here's a summary of what you need to keep in mind:
 
 > \* *Remember that the tool at the moment only assists in making 1st level characters, so things like class features higher-than-first-level or spells other than cantrips and 1st level spells are ignored by the tool for now.*
 
-## Defining what compendiums to use for each item category
+## Defining what compendia to use for each item category
 
-The tool will use DnD5e SRD compendiums by default, but you can also include your own compendiums in the module settings. There you will find an entry for each type of compendium supported *-for easier and smarter parsing, the module requires you to set different compendiums for each item category, please follow that rule and don't repeat compendiums between categories-*.
+The tool will use DnD5e SRD compendia by default, but you can also include your own compendia in the module settings. There you will find an entry for each type of compendium supported *-for easier and smarter parsing, the module requires you to set different compendia for each item category, please follow that rule and don't repeat compendia between categories-*.
 
-As explained on the "Creating Custom ..." section above, on each entry you can type one or more compendium names, separated by semi-colons. The module will pull those compendiums whenever anyone opens a new Hero Creation Tool window, so you don't need to refresh or anything.
+As explained on the "Creating Custom ..." section above, on each entry you can type one or more compendium names, separated by semi-colons. The module will pull those compendia whenever anyone opens a new Hero Creation Tool window, so you don't need to refresh or anything.
 
-**Compendium names need to be the internal foundry names, not the ones you see on screen on the compendiums tab.** Usually it is the module name (if coming from a module) dot (.) the same name in lowercase, with all spaces replaced by dashes (-). Compendiums created on a given world will be prefixed by "world." instead of a module name. 
+**Compendium names need to be the internal foundry names, not the ones you see on screen on the compendia tab.** Usually it is the module name (if coming from a module) dot (.) the same name in lowercase, with all spaces replaced by dashes (-). Compendia created on a given world will be prefixed by "world." instead of a module name. 
 
 > You can type the following on the console to see all loaded packs, just to make sure you got the names right.
 >```

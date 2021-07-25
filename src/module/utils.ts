@@ -1,30 +1,18 @@
 import * as Constants from './constants';
+import SettingKeys, { Source } from './settings';
 
-type getSourcesOptions = {
-  baseSource?: string;
-  customSourcesProperty?: string;
-};
 /**
  * @param baseSource pack name of the base source
  * @param customSources property that holds the array of pack names of custom sources
  */
-export async function getSources({ baseSource: baseSource, customSourcesProperty }: getSourcesOptions) {
-  const packs: string[] = [];
-  if (!baseSource && !customSourcesProperty) {
-    throw new Error(`Invalid base source value: ${baseSource}`);
-  }
-  if (baseSource) packs.push(baseSource);
-  if (customSourcesProperty) {
-    const propValue: string = (await game.settings.get(Constants.MODULE_NAME, customSourcesProperty)) as string;
-    if (propValue) {
-      const customSources: string[] = propValue.split(';').map((s) => s.trim());
-      packs.push(...customSources);
-    }
-  }
-  return await getItemListFromPackListByNames(packs);
+export async function getSources(source: keyof Source) {
+  const propValue: Source = (await game.settings.get(Constants.MODULE_NAME, SettingKeys.SOURCES)) as Source;
+  const packs = propValue[source];
+  const selectedPacks = Object.keys(packs).filter((p: string) => (packs as any)[p]);
+  return await getItemListFromPackListByNames(selectedPacks);
 }
 
-async function getItemListFromPackListByNames(packNames: string[]) {
+export async function getItemListFromPackListByNames(packNames: string[]) {
   const allItems = [];
   for (const compendiumName of packNames) {
     const pack = game.packs.get(compendiumName);

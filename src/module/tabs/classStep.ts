@@ -2,10 +2,8 @@
   Functions used exclusively on the Class tab
 */
 import { Step, StepEnum } from '../Step';
-import * as Constants from '../constants';
 import * as Utils from '../utils';
 import * as ProficiencyUtils from '../proficiencyUtils';
-import SettingKeys from '../settings';
 import HiddenOption from '../options/HiddenOption';
 import FixedOption, { OptionType } from '../options/FixedOption';
 import SelectableItemOption from '../options/SelectableItemOption';
@@ -18,8 +16,15 @@ class _Class extends Step {
     super(StepEnum.Class);
   }
 
+  spellcasting!: { item: Item; ability: string };
+
   getUpdateData() {
-    return { item: this._class };
+    return this._class
+      ? {
+          name: this._class.name,
+          spellcasting: this.spellcasting,
+        }
+      : undefined;
   }
 
   section = () => $('#classDiv');
@@ -40,19 +45,13 @@ class _Class extends Step {
 
   async setSourceData() {
     // classes
-    const classItems = await Utils.getSources({
-      baseSource: Constants.DEFAULT_PACKS.CLASSES,
-      customSourcesProperty: SettingKeys.CUSTOM_CLASS_PACKS,
-    });
+    const classItems = await Utils.getSources('classes');
     this.classes = classItems?.sort((a, b) => a.name.localeCompare(b.name)) as any;
     if (this.classes) setClassPickerOptions(this.classes);
     else ui.notifications!.error(game.i18n.format('HCT.Error.RenderLoad', { value: 'Classes' }));
 
     // class features
-    const classFeatureItems = await Utils.getSources({
-      baseSource: Constants.DEFAULT_PACKS.CLASS_FEATURES,
-      customSourcesProperty: SettingKeys.CUSTOM_CLASS_FEATURE_PACKS,
-    });
+    const classFeatureItems = await Utils.getSources('classFeatures');
     this.classFeatures = classFeatureItems?.sort((a, b) => a.name.localeCompare(b.name)) as any;
   }
 
@@ -177,6 +176,16 @@ class _Class extends Step {
     // handle fighting style
     const fightingStyles = classFeatures.filter((i) => (i as any).name.startsWith('Fighting Style'));
     classFeatures = classFeatures.filter((i) => !(i as any).name.startsWith('Fighting Style'));
+
+    const spellcastingItem = classFeatures.find(
+      (i) => (i as any).name.startsWith('Spellcasting') || (i as any).name.startsWith('Pact Magic'),
+    );
+    if (spellcastingItem) {
+      this.spellcasting = {
+        item: spellcastingItem,
+        ability: (this._class.data as any).spellcasting.ability,
+      };
+    }
 
     if (fightingStyles && fightingStyles.length > 0) {
       const fsOption = new SelectableItemOption(StepEnum.Class, 'items', fightingStyles, { addValues: true });
