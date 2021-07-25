@@ -1,5 +1,7 @@
 # DEV setup
 
+> This module was built using Ghost's [Foundry Factory](https://github.com/ghost-fvtt/foundry-factory), my deepest thanks to him for this wonderful tool + lots of help provided throughout the way!
+
 ### Prerequisites
 
 In order to build this module, recent versions of `node` and `npm` are
