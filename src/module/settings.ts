@@ -39,7 +39,14 @@ function sourcesConfiguration() {
     scope: 'world',
     config: false,
     type: Object,
-    default: {}, // can be used to set up the default structure
+    default: {
+      races: { [Constants.DEFAULT_PACKS.RACES]: true },
+      racialFeatures: { [Constants.DEFAULT_PACKS.RACE_FEATURES]: true },
+      classes: { [Constants.DEFAULT_PACKS.CLASSES]: true },
+      classFeatures: { [Constants.DEFAULT_PACKS.CLASS_FEATURES]: true },
+      backgroundFeatures: {},
+      spells: { [Constants.DEFAULT_PACKS.SPELLS]: true },
+    },
   });
   // Define a settings submenu which handles advanced configuration needs
   game.settings.registerMenu(Constants.MODULE_NAME, SettingKeys.SOURCES, {
