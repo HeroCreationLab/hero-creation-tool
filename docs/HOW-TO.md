@@ -30,7 +30,7 @@ The module makes some assumptions to understand how to link and differentiate it
 
 The tool will use DnD5e SRD compendia by default, but you can also include your own compendia in the module settings. There you will find a button to select entries for each type of compendium supported *-for easier and smarter parsing, the module requires you to set different compendia for each item category, please follow that rule and don't repeat compendia between categories with the sole exception of races/racial features, that are adequately parsed so long as the rules detailed on the previous point are followed-*.
 
-![Selecting Compendia](examples/selecting_compendia.webp)
+![Selecting Compendia](https://github.com/HeroCreationLab/hero-creation-tool/blob/main/examples/selecting_compendia.webp)
 
 ## Setting default token attributes (name and hp bar)
 
