@@ -2,36 +2,35 @@
 
 ## Creating a custom race/subrace/racial feature/class/class feature/background feature/spell
 
-Custom content is added simply by creating compendia for each type of items handled, and filling them with vanilla Foundry VTT items you create *-items in the foundry meaning - been "entities you link to an actor", not items like a sword of a torch-*. If you already have compendia with appropriate items, you can just link to them.
+Custom content is added simply by creating compendia for each type of items handled, filling them with vanilla Foundry VTT items you create *-items in the foundry meaning - been "entities you link to an actor", not items like a sword of a torch-*, and linking to those compendia in the module settings. If you already have compendia with appropriate items, you can just link to them.
 
-After you created and edited an item to your hearts' content, you need to add the item to the appropriate Custom Compendium. On the module settings you will find a list of every possible compendium type; there you need to specify the name of the compendium *-or compendia, separated by a semi-color character (;)-*.
+After you created and edited an item to your hearts' content, you need to add the item to the appropriate Custom Compendium. On the module settings you will find a button to select all the appropriate compendia for each item type supported.
 
-The module makes some assumptions to understand some things apart, for example in the case where default SRD Races/Subraces/Racial Features are all cramped together on a single 'Racial Features (SRD)' compendium.
+The module makes some assumptions to understand how to link and differentiate items apart, for example in the case where default SRD Races/Subraces/Racial Features are all cramped together on a single 'Racial Features (SRD)' compendium.
 
-Here's a summary of what you need to keep in mind:
+### Here's a summary of what you need to keep in mind:
 
 - Races are *Feature*-type items with no requirement.
+
 - Subraces are *Feature*-type items with: A) The parent full string as part of the name (e.g. "Metallic Dragonborn" or "Slighty-taller Halfling") and B) the parent race as sole requirement (e.g. requirement "Dragonborn" will make the item a dragonborn subclass).
+
 - Racial Features are *Feature*-type items that have the race/subrace they belong to as their sole requirement (e.g. "High Elf" will make this item an extra, custom feature for High Elves).
+
 - Classes are *Class*-type items with no requirements.
+
 - Class Features are *Feature*-type items with "[class name] [level]" as requirement (e.g. "Warlord 1" will make a feature for a custom class named "Warlord").*
+
 - Background Features are *Feature*-type items that have the "Background" source and a background name as Requirement. All found Background Names will be added to the background selector.
+
 - Spells are *Spell*-type items.*
 
-> \* *Remember that the tool at the moment only assists in making 1st level characters, so things like class features higher-than-first-level or spells other than cantrips and 1st level spells are ignored by the tool for now.*
+> \* *Please remember that the tool at the moment only assists in making 1st level characters, so things like class features higher-than-first-level or spells other than cantrips and 1st level spells are ignored by the tool for now.*
 
 ## Defining what compendia to use for each item category
 
-The tool will use DnD5e SRD compendia by default, but you can also include your own compendia in the module settings. There you will find an entry for each type of compendium supported *-for easier and smarter parsing, the module requires you to set different compendia for each item category, please follow that rule and don't repeat compendia between categories-*.
+The tool will use DnD5e SRD compendia by default, but you can also include your own compendia in the module settings. There you will find a button to select entries for each type of compendium supported *-for easier and smarter parsing, the module requires you to set different compendia for each item category, please follow that rule and don't repeat compendia between categories with the sole exception of races/racial features, that are adequately parsed so long as the rules detailed on the previous point are followed-*.
 
-As explained on the "Creating Custom ..." section above, on each entry you can type one or more compendium names, separated by semi-colons. The module will pull those compendia whenever anyone opens a new Hero Creation Tool window, so you don't need to refresh or anything.
-
-**Compendium names need to be the internal foundry names, not the ones you see on screen on the compendia tab.** Usually it is the module name (if coming from a module) dot (.) the same name in lowercase, with all spaces replaced by dashes (-). Compendia created on a given world will be prefixed by "world." instead of a module name. 
-
-> You can type the following on the console to see all loaded packs, just to make sure you got the names right.
->```
->game.packs
->```
+![Selecting Compendia](examples/selecting_compendia.webp)
 
 ## Setting default token attributes (name and hp bar)
 
@@ -45,4 +44,4 @@ In the module settings you can set up a default gold roll for the Equipment tab.
 
 ## Using Tokenizer for avatars and tokens inside the tool
 
-If you have Tokenizer installed and active (v3.3.1 or newer), the tool allows you to use it instead of the vanilla File Picker. **There is no setup required, just having the module installed, active and the right version.** By default, the module will **NOT** use Tokenizer as primary option, you as DM needs to set it on the module settings. Players can still opt-out by shift-clicking the Select buttons or the avatar/token images, just like in a character sheet. You can also disable the integration all together from the Settings.
+If you have Tokenizer installed and active (v3.3.1 or newer), the tool allows you to use it instead of the vanilla File Picker. **There is no setup required, just having the module installed, active and the right version and selecting the option to use it on the module settings.** By default, the module will **NOT** use Tokenizer as primary option, the DM needs to set it on the module settings. If the integration is enabled, players can still opt-out by shift-clicking the Select buttons or the avatar/token images, just like in a character sheet.
