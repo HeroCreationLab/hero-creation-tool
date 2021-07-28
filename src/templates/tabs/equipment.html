@@ -7,22 +7,28 @@
                         'HCT.Equipment.StartingGoldTitle' }}</h2>
                     <div class="hct-flex hct-flex-justify-sb hct-baseline">
                         <span class="hct-padding-tiny">{{localize 'HCT.Equipment.Roll' }}</span>
-                        <input type="text" data-hct_equipment_roll_expression>
-                        <button class="step-button hct-option hct-roll-btn" data-hct_equipment_roll>
-                            <i class="fas fa-dice-d20" style="padding: 5px; margin: 0;"></i>
-                        </button>
+                        <div class="hct-flex hct-width-60per">
+                            <input type="text" data-hct_equipment_roll_expression>
+                            <button class="step-button hct-option hct-roll-btn" data-hct_equipment_roll>
+                                <i class="fas fa-dice-d20" style="padding: 5px; margin: 0;"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="hct-flex hct-flex-justify-sb hct-baseline">
                         <span class="hct-padding-tiny">{{localize 'HCT.Equipment.ManualInput' }}</span>
-                        <input style="text-align: center; font-size: large;" type="number" value="0"
-                            data-hct_equipment_manual_gold disabled>
-                        <button class="step-button hct-option hct-roll-btn" data-hct_equipment_input>
-                            <i class="fas fa-pencil-alt" style="padding: 5px; margin: 0;"></i>
-                        </button>
+                        <div class="hct-flex hct-width-60per">
+                            <input style="text-align: center; font-size: large;" type="number" value="0"
+                                data-hct_equipment_manual_gold disabled>
+                            <button class="step-button hct-option hct-roll-btn" data-hct_equipment_input>
+                                <i class="fas fa-pencil-alt" style="padding: 5px; margin: 0;"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="hct-flex hct-flex-justify-sb hct-baseline">
                         <span class="hct-padding-tiny">{{localize 'HCT.Equipment.Additional' }}</span>
-                        <input data-hct_equipment_extra type="number" value="0">
+                        <div class="hct-flex hct-width-60per">
+                            <input data-hct_equipment_extra type="number" value="0">
+                        </div>
                     </div>
                     <hr class="hct-margin-small">
                     <p class="centered-text hct-large-font">

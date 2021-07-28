@@ -66,6 +66,9 @@ class _Equipment extends Step {
     $('[data-hct_equipment_roll]', this.section()).on('click', async (e) => {
       const rollExpression = this.$rollInput.val() as string;
       const roll = await new Roll(rollExpression).evaluate({ async: true } as any);
+      if (Utils.getModuleSetting(SettingKeys.SHOW_ROLLS_AS_MESSAGES)) {
+        roll.toMessage({ flavor: game.i18n.localize('HCT.Equipment.RollChatFlavor') });
+      }
       this.available = roll.total ?? 0;
 
       this.$manualGold.prop('disabled', true).val('');

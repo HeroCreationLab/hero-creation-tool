@@ -1,6 +1,10 @@
 import * as Constants from './constants';
 import SettingKeys, { Source } from './settings';
 
+export function getModuleSetting(key: SettingKeys) {
+  return game.settings.get(Constants.MODULE_NAME, key);
+}
+
 /**
  * @param baseSource pack name of the base source
  * @param customSources property that holds the array of pack names of custom sources

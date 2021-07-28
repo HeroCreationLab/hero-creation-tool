@@ -7,6 +7,10 @@
         "Name": "Default starting gold roll",
         "Hint": "Here you can customize the starting gold dice rolled on the tool"
       },
+      "ShowRolls": {
+        "Name": "Show rolls on chat",
+        "Hint": "Show ability score and starting gold rolls as chat messages"
+      },
       "UseTokenizer": {
         "Name": "Use Tokenizer if available",
         "Hint": "The tool will try to use the Tokenizer module, if found, as default to generate avatar and token pictures"
@@ -125,6 +129,7 @@
         "PointBuy": "Point Buy",
         "ManualEntry": "Manual Entry"
       },
+      "RollChatFlavor": "Rolled ability scores",
       "PointBuy": {
         "Score": " Point Buy Score: ",
         "OverLimit": "You have gone over the maximum points allowed for Point Buy"
@@ -138,6 +143,7 @@
     "Equipment": {
       "StartingGoldTitle": "Starting Gold",
       "Roll": "Roll",
+      "RollChatFlavor": "Rolled starting gold",
       "ManualInput": "Manual",
       "Additional": "Additional",
       "TotalGoldLabel": "Total: ",

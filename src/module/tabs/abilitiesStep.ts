@@ -7,6 +7,7 @@ import { Step, StepEnum } from '../Step';
 import HeroOption from '../options/HeroOption';
 import FixedOption, { OptionType } from '../options/FixedOption';
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
+import SettingKeys from '../settings';
 
 class _Abilities extends Step {
   constructor() {
@@ -138,11 +139,11 @@ function statsDuplicatedOrMissing() {
 }
 
 async function rollAbilities() {
-  const values = [];
-  for (let i = 0; i < 6; i++) {
-    const roll = await new Roll('4d6kh3').evaluate({ async: true } as any);
-    values.push(roll.total);
+  const roll = await new Roll('4d6kh3 + 4d6kh3 + 4d6kh3 + 4d6kh3 + 4d6kh3 + 4d6kh3').evaluate({ async: true });
+  if (Utils.getModuleSetting(SettingKeys.SHOW_ROLLS_AS_MESSAGES)) {
+    roll.toMessage({ flavor: game.i18n.localize('HCT.Abilities.RollChatFlavor') });
   }
+  const values: number[] = roll.result.split('+').map((r) => Number.parseInt(r.trim()));
 
   toggleAbilitySelects(true, false);
   toggleAbilityInputs(false);
