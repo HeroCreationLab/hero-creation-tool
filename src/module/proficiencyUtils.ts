@@ -40,14 +40,19 @@ export function prepareLanguageOptions(optionSettings: OptionSettings): MultiOpt
   );
 }
 
-export function prepareToolOptions(optionSettings: OptionSettings): MultiOption {
+export async function prepareToolOptions(optionSettings: OptionSettings) {
   const foundryToolTypes = (game as any).dnd5e.config.toolProficiencies;
   const foundryTools = (game as any).dnd5e.config.toolIds;
   const toolTypeChoices: KeyValue[] = Object.keys(foundryToolTypes).map((k) => ({
     key: k,
     value: `All ${foundryToolTypes[k]}`,
   }));
-  const toolChoices: KeyValue[] = Object.keys(foundryTools).map((k) => ({ key: k, value: k.capitalize() }));
+  const items = await game.packs.get('dnd5e.items')?.getDocuments();
+  const toolChoices: KeyValue[] = Object.keys(foundryTools).map((k) => {
+    const id = foundryTools[k];
+    const item = items?.find((i) => i.id === id);
+    return { key: k, value: item!.name! };
+  });
   return prepareOptions(
     optionSettings,
     'toolProf',

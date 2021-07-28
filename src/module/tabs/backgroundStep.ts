@@ -37,7 +37,7 @@ class _BackgroundTab extends Step {
     this.setBackgroundFeatureUi();
   }
 
-  private setProficienciesUi() {
+  private async setProficienciesUi() {
     const $proficienciesArea = $('[data-hct_area=proficiences]', this.section());
     const options = [];
     options.push(
@@ -52,7 +52,7 @@ class _BackgroundTab extends Step {
       }),
     );
     options.push(
-      ProficiencyUtils.prepareToolOptions({
+      await ProficiencyUtils.prepareToolOptions({
         step: this.step,
         $parent: $proficienciesArea,
         pushTo: this.stepOptions,

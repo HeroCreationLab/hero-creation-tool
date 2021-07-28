@@ -112,6 +112,9 @@ $color-accent-alt: darkgreen;
     }
 
     &-r {
+      &-tiny {
+        padding-right: $tiny;
+      }
       &-small {
         padding-right: $small;
       }

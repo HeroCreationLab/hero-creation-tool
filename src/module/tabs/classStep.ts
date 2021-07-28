@@ -2,6 +2,7 @@
   Functions used exclusively on the Class tab
 */
 import { Step, StepEnum } from '../Step';
+import * as Constants from '../constants';
 import * as Utils from '../utils';
 import * as ProficiencyUtils from '../proficiencyUtils';
 import HiddenOption from '../options/HiddenOption';
@@ -64,7 +65,7 @@ class _Class extends Step {
     this.clearOptions();
 
     // icon, description and class item
-    $('[data-hct_class_icon]', $section).attr('src', this._class.img);
+    $('[data-hct_class_icon]', $section).attr('src', this._class.img || Constants.MYSTERY_MAN);
     $('[data-hct_class_description]', $section).html(
       TextEditor.enrichHTML((this._class.data as any).description.value),
     );
@@ -93,7 +94,7 @@ class _Class extends Step {
     }
   }
 
-  private setProficienciesUi($context: JQuery<HTMLElement>) {
+  private async setProficienciesUi($context: JQuery<HTMLElement>) {
     const $proficiencySection: JQuery = $('section', $('[data-hct_class_area=proficiencies]', $context)).empty();
     const foundrySkills = (game as any).dnd5e.config.skills;
     const options = [];
@@ -139,7 +140,7 @@ class _Class extends Step {
     );
 
     options.push(
-      ProficiencyUtils.prepareToolOptions({
+      await ProficiencyUtils.prepareToolOptions({
         step: this.step,
         $parent: $proficiencySection,
         pushTo: this.stepOptions,
