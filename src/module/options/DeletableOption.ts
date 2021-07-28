@@ -23,7 +23,7 @@ export default class DeletableOption implements HeroOption {
     );
     const $deleteButton = $(
       `<button class="hct-no-border hct-no-background hct-width-fit hct-hover-no-shadow hct-hover-accent ${
-        this.settings.rightPadding ? 'hct-padding-r-medium' : ''
+        this.settings.rightPadding ? 'hct-padding-r-tiny' : ''
       }"><i class="fas fa-trash"></i></button>`,
     );
     $deleteButton.on('click', () => {

@@ -3,6 +3,7 @@
 */
 import { Step, StepEnum } from '../Step';
 import * as Utils from '../utils';
+import * as Constants from '../constants';
 import * as ProficiencyUtils from '../proficiencyUtils';
 import HeroOption from '../options/HeroOption';
 import HiddenOption from '../options/HiddenOption';
@@ -58,7 +59,7 @@ class _Race extends Step {
 
         // update icon and description
         const racetoShow = raceItems[raceItems.length - 1];
-        $('[data-hct_race_icon]').attr('src', racetoShow.img);
+        $('[data-hct_race_icon]').attr('src', racetoShow.img || Constants.MYSTERY_MAN);
         const hasSubclass = raceItems.length == 2;
         if (hasSubclass) {
           $('[data-hct_race_description]').html(TextEditor.enrichHTML((raceItems[0].data as any).description.value));
@@ -125,7 +126,7 @@ class _Race extends Step {
     this.stepOptions.push(new HiddenOption(StepEnum.Race, 'data.details.race', raceName));
   }
 
-  setProficienciesUi(): void {
+  async setProficienciesUi() {
     const $proficienciesSection = $('section', $('[data-hct_race_area=proficiencies]', this.$context)).empty();
     const options = [];
     options.push(
@@ -141,7 +142,7 @@ class _Race extends Step {
     );
 
     options.push(
-      ProficiencyUtils.prepareWeaponOptions({
+      await ProficiencyUtils.prepareWeaponOptions({
         step: this.step,
         $parent: $proficienciesSection,
         pushTo: this.stepOptions,
@@ -153,7 +154,7 @@ class _Race extends Step {
     );
 
     options.push(
-      ProficiencyUtils.prepareArmorOptions({
+      await ProficiencyUtils.prepareArmorOptions({
         step: this.step,
         $parent: $proficienciesSection,
         pushTo: this.stepOptions,
@@ -165,7 +166,7 @@ class _Race extends Step {
     );
 
     options.push(
-      ProficiencyUtils.prepareToolOptions({
+      await ProficiencyUtils.prepareToolOptions({
         step: this.step,
         $parent: $proficienciesSection,
         pushTo: this.stepOptions,

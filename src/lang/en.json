@@ -107,13 +107,13 @@
     },
     "Race": {
       "DescriptionPlaceholder": "Please select a race to see its description (subrace would show at the end)",
-      "Select.Default": "Please select your race",
+      "Select.Default": "Select your race..",
       "ASI": "Ability Score Increase",
       "InvalidProfKeys": "Invalid proficiency values for modeKey[{modeKey}], proficiencyKey[{proficiencyKey}] and proficiency[{proficiency}]"
     },
     "Class": {
       "DescriptionPlaceholder": "Please select a class to see its description",
-      "Select.Default": "Please select your class",
+      "Select.Default": "Select your class..",
       "SavingThrows": "Saving Throws",
       "HitPoints": "Starting Hit Points",
       "HitPointsBlob": "{max} + your Constitution modifier"
