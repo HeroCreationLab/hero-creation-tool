@@ -58,6 +58,13 @@ $color-accent-alt: darkgreen;
     }
   }
 
+  &-height {
+    &-46 {
+      min-height: 46px;
+      max-height: 46px;
+    }
+  }
+
   &-no-border {
     border: none;
   }
