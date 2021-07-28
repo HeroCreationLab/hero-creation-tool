@@ -33,6 +33,18 @@ $color-accent-alt: darkgreen;
     &-full {
       width: 100%;
     }
+    &-half {
+      &,
+      &[type='number'] {
+        width: 50%;
+      }
+    }
+    &-60per {
+      &,
+      &[type='number'] {
+        width: 60%;
+      }
+    }
     &-fit {
       width: fit-content;
     }

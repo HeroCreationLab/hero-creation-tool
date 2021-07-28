@@ -21,6 +21,7 @@ export default class InputOption implements HeroOption {
       max?: number;
       preLabel?: string;
       postLabel?: string;
+      class?: string;
     } = { addValues: false, type: 'text' },
   ) {}
 
@@ -30,22 +31,29 @@ export default class InputOption implements HeroOption {
     const $container = $('<div class="hct-option">');
     const min = this.settings.min ? `min="${this.settings.min}"` : '';
     const max = this.settings.max ? `max="${this.settings.max}"` : '';
+    const wrapped = !!this.settings.postLabel;
 
     if (this.settings.preLabel) {
       const $preLabel = $(`<span class="hct-option-label">${this.settings.preLabel}</span>`);
       $container.append($preLabel);
     }
 
-    this.$elem = $(`<input type="${this.settings.type}" 
-    placeholder="${this.placeholder}" 
-    value=${this.val} 
-    ${this.settings.type == 'number' ? `${min} ${max}` : ''}
-    >`);
-    $container.append(this.$elem);
+    if (wrapped) {
+      const $wrapper = $(`<div class="hct-flex ${this.settings.class ?? ''}">`);
+      this.$elem = $(`<input type="${this.settings.type}" placeholder="${this.placeholder}" 
+        value=${this.val} ${this.settings.type == 'number' ? `${min} ${max}` : ''}>`);
+      $wrapper.append(this.$elem);
 
-    if (this.settings.postLabel) {
-      const $postLabel = $(`<p class='hct-postlabel'>${this.settings.postLabel}</p>`);
-      $container.append($postLabel);
+      if (this.settings.postLabel) {
+        const $postLabel = $(`<p class='hct-postlabel'>${this.settings.postLabel}</p>`);
+        $wrapper.append($postLabel);
+      }
+      $container.append($wrapper);
+    } else {
+      this.$elem = $(`<input class="${this.settings.class ?? ''}"
+        type="${this.settings.type}" placeholder="${this.placeholder}" 
+        value=${this.val} ${this.settings.type == 'number' ? `${min} ${max}` : ''}>`);
+      $container.append(this.$elem);
     }
 
     if (settings?.beforeParent) {

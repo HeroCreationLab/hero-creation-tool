@@ -4,6 +4,7 @@ const enum SettingKeys {
   USE_TOKENIZER = 'useTokenizer',
   TOKEN_BAR = 'displayBarsMode',
   TOKEN_NAME = 'displayNameMode',
+  SHOW_ROLLS_AS_MESSAGES = 'showRolls',
   DEFAULT_GOLD_DICE = 'defaultGoldDice',
   SOURCES = 'compendiumSources',
 }
@@ -26,6 +27,7 @@ export function registerSettings(): void {
   });
 
   defaultStartingGoldDice();
+  showRollsAsChatMessages();
   tokenDisplayNameMode();
   tokenDisplayBarsMode();
   // custom packs
@@ -256,4 +258,15 @@ function pruneUnselectedPacks(val: any): any {
     map[acc] = Object.keys(val[acc]).filter((pack) => val[acc][pack]);
     return map;
   }, {});
+}
+
+function showRollsAsChatMessages() {
+  game.settings.register(Constants.MODULE_NAME, SettingKeys.SHOW_ROLLS_AS_MESSAGES, {
+    name: game.i18n.localize('HCT.Setting.ShowRolls.Name'),
+    hint: game.i18n.localize('HCT.Setting.ShowRolls.Hint'),
+    scope: 'world',
+    config: true,
+    type: Boolean,
+    default: true,
+  });
 }
