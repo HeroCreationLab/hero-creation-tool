@@ -3,7 +3,7 @@
 ## 1.0.1 (2021-07-28)
 - Fixed compendium selection window resizing incorrectly and rendering some options hidden (#13).
 - Corrected styling on Race/Class selector, and properly defaulting to Mystery Man icons when no other image found, as very infant preparation for DDB Importer integration.
-- Fixed incorrect naming of tools on the select (#12).
+- Fixed incorrect naming of tools/weapons/armor on the select (#12).
 
 ## Release 1.0.0 (2021-07-28)
 - First release

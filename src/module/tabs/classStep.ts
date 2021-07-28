@@ -116,7 +116,7 @@ class _Class extends Step {
     );
 
     options.push(
-      ProficiencyUtils.prepareWeaponOptions({
+      await ProficiencyUtils.prepareWeaponOptions({
         step: this.step,
         $parent: $proficiencySection,
         pushTo: this.stepOptions,
@@ -128,7 +128,7 @@ class _Class extends Step {
     );
 
     options.push(
-      ProficiencyUtils.prepareArmorOptions({
+      await ProficiencyUtils.prepareArmorOptions({
         step: this.step,
         $parent: $proficiencySection,
         pushTo: this.stepOptions,

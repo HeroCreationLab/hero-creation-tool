@@ -61,20 +61,19 @@ export async function prepareToolOptions(optionSettings: OptionSettings) {
   );
 }
 
-export function prepareWeaponOptions(optionSettings: OptionSettings): MultiOption {
+export async function prepareWeaponOptions(optionSettings: OptionSettings) {
   const foundryWeaponTypes = (game as any).dnd5e.config.weaponProficiencies;
   const foundryWeapons = (game as any).dnd5e.config.weaponIds;
-  // const pack = getItemsPack();
-  // for (let weaponId in foundryWeapons) {
-  //   const item = await pack.getDocument(foundryWeapons[weaponId]);
-  //   let weaponType = item?.data.data.weaponType;
-
-  //  }
   const weaponTypeChoices: KeyValue[] = Object.keys(foundryWeaponTypes).map((k) => ({
     key: k,
     value: `All ${foundryWeaponTypes[k]}`,
   }));
-  const weaponChoices: KeyValue[] = Object.keys(foundryWeapons).map((k) => ({ key: k, value: k.capitalize() }));
+  const items = await game.packs.get('dnd5e.items')?.getDocuments();
+  const weaponChoices: KeyValue[] = Object.keys(foundryWeapons).map((k) => {
+    const id = foundryWeapons[k];
+    const item = items?.find((i) => i.id === id);
+    return { key: k, value: item!.name! };
+  });
   return prepareOptions(
     optionSettings,
     'weaponProf',
@@ -83,14 +82,19 @@ export function prepareWeaponOptions(optionSettings: OptionSettings): MultiOptio
   );
 }
 
-export function prepareArmorOptions(optionSettings: OptionSettings): MultiOption {
+export async function prepareArmorOptions(optionSettings: OptionSettings) {
   const foundryArmorTypes = (game as any).dnd5e.config.armorProficiencies;
   const foundryArmor = (game as any).dnd5e.config.armorIds;
   const armorTypeChoices: KeyValue[] = Object.keys(foundryArmorTypes).map((k) => ({
     key: k,
     value: `All ${foundryArmorTypes[k]}`,
   }));
-  const foundryArmorChoices: KeyValue[] = Object.keys(foundryArmor).map((k) => ({ key: k, value: k.capitalize() }));
+  const items = await game.packs.get('dnd5e.items')?.getDocuments();
+  const foundryArmorChoices: KeyValue[] = Object.keys(foundryArmor).map((k) => {
+    const id = foundryArmor[k];
+    const item = items?.find((i) => i.id === id);
+    return { key: k, value: item!.name! };
+  });
   return prepareOptions(
     optionSettings,
     'armorProf',
@@ -110,14 +114,5 @@ export function prepareOptions(
     expandable: optionSettings.expandable,
     customizable: optionSettings.customizable,
   });
-  //container.render(optionSettings.$parent);
   return container;
 }
-
-// function getItemsPack() {
-//   const pack = game.packs.get("dnd5e.items");
-//   if(!pack) {
-//     throw new Error("Couldn't find items pack on dnd5e.items");
-//   }
-//   return pack;
-// }
