@@ -197,7 +197,7 @@ class _Race extends Step {
     const movementOption = new InputOption(StepEnum.Race, 'data.attributes.movement.walk', '', 30, {
       addValues: false,
       type: 'number',
-      preLabel: game.i18n.localize(`DND5E.MovementWalk`),
+      preLabel: game.i18n.localize(`HCT.Common.Movement.walk`),
       postLabel: 'ft',
       class: 'hct-width-half',
     });
@@ -210,7 +210,7 @@ class _Race extends Step {
     const sensesOption = new InputOption(StepEnum.Race, 'data.attributes.senses.darkvision', '', 0, {
       addValues: false,
       type: 'number',
-      preLabel: game.i18n.localize(`DND5E.SenseDarkvision`),
+      preLabel: game.i18n.localize(`HCT.Common.Senses.darkvision`),
       postLabel: 'ft',
       class: 'hct-width-half',
     });

@@ -141,7 +141,10 @@ class _Spells extends Step {
 
   async renderData() {
     // Show rules on the side panel
-    const spellsRulesItem = await Utils.getJournalFromPackByName(Constants.DEFAULT_PACKS.RULES, Constants.RULES.SPELLS);
+    const spellsRulesItem = await Utils.getJournalFromPackByName(
+      Constants.DEFAULT_PACKS.RULES,
+      game.i18n.localize('HCT.Spells.RulesJournalName'),
+    );
     this.rules = TextEditor.enrichHTML((spellsRulesItem as any).content);
     $('[data-hct_spells_description]', this.section()).html(this.rules);
 

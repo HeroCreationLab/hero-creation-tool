@@ -25,7 +25,7 @@ class _BackgroundTab extends Step {
     // Show rules on the side panel
     const backgroundRulesItem = await Utils.getJournalFromPackByName(
       Constants.DEFAULT_PACKS.RULES,
-      Constants.RULES.BACKGROUND,
+      game.i18n.localize('HCT.Background.RulesJournalName'),
     );
     $('[data-hct_background_description]', this.section()).html(
       TextEditor.enrichHTML((backgroundRulesItem as any).content),

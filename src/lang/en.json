@@ -34,6 +34,12 @@
         "SpellCompendia": "Spell Compendia"
       }
     },
+    "Permissions": {
+      "NeedCreateActorError": "User requires the 'Create New Actors' permission. Ask your DM to add it to your role",
+      "NeedCreateItemWarn": "User without 'Create New Items' permission. You will not be able to create custom Features",
+      "NeedFileUploadWarn": "User without 'Use File Browser' permission. You might experience issues selecting images",
+      "NeedFileBrowseWarn": "User without 'Upload New Files' permission. You might experience issues selecting images"
+    },
     "Integration": {
       "Tokenizer": {
         "WarningOn": "Tokenizer module is set as preferred, you can shift-click to use the default File Picker",
@@ -48,6 +54,7 @@
     },
     "Common": {
       "RequiredName": "Name (required)",
+      "Desc": "Description",
       "ProfDialogTitle": "Add proficiency",
       "ProfDialogContent": "Select existing proficiency or define a custom one?",
       "Proficiencies": "Proficiencies",
@@ -56,15 +63,18 @@
       "SelectCreateOne": "Create a new one",
       "SkillProficiencies": "Skill Proficiencies",
       "LanguageProficiencies": "Language Proficiencies",
+      "ToolProficiencies": "Tool Proficiencies",
+      "WeaponProficiencies": "Tool Proficiencies",
+      "ArmorProficiencies": "Tool Proficiencies",
       "AddCustom": "Custom",
       "AddStandard": "Select",
+      "Feature": "Feature",
+      "Features": "Features",
       "Movement": {
-        "walk": "Walking",
-        "burrow": "Burrowing",
-        "climb": "Climbing",
-        "fly": "Flying",
-        "swim": "Swimming",
-        "hover": "Hover"
+        "walk": "Walk"
+      },
+      "Senses": {
+        "darkvision": "Darkvision"
       },
       "Searchbar": {
         "Placeholder": "Type to search..",
@@ -106,12 +116,17 @@
       "NoName": "Hero has no name"
     },
     "Race": {
+      "Title": "Race",
       "DescriptionPlaceholder": "Please select a race to see its description (subrace would show at the end)",
       "Select.Default": "Select your race..",
       "ASI": "Ability Score Increase",
+      "Size": "Size",
+      "Senses": "Senses",
+      "Movement": "Movement",
       "InvalidProfKeys": "Invalid proficiency values for modeKey[{modeKey}], proficiencyKey[{proficiencyKey}] and proficiency[{proficiency}]"
     },
     "Class": {
+      "Title": "Class",
       "DescriptionPlaceholder": "Please select a class to see its description",
       "Select.Default": "Select your class..",
       "SavingThrows": "Saving Throws",
@@ -120,8 +135,15 @@
     },
     "Abilities": {
       "Title": "Abilities",
+      "RulesJournalName": "Ability Scores and Modifiers",
       "Method": "How are abilities calculated?",
       "Values": "Ability Values",
+      "Str": "Strength",
+      "Dex": "Dexterity",
+      "Con": "Constitution",
+      "Int": "Intelligence",
+      "Wis": "Wisdom",
+      "Cha": "Charisma",
       "Buttons": {
         "Info": "Info",
         "Roll": "Roll 4d6 keep 3",
@@ -138,9 +160,14 @@
       "NotAllSixAbilities": "Hero doesn't have all six abilities scores or has some repeated one"
     },
     "Background": {
-      "Name": "Background Name"
+      "Title": "Background",
+      "RulesJournalName": "Backgrounds",
+      "Name": "Background Name",
+      "Alignment": "Alignment"
     },
     "Equipment": {
+      "Title": "Equipment",
+      "RulesJournalName": "05. Equipment",
       "StartingGoldTitle": "Starting Gold",
       "Roll": "Roll",
       "RollChatFlavor": "Rolled starting gold",
@@ -152,14 +179,18 @@
       "StartingItemsTitle": "Starting Items"
     },
     "Spells": {
+      "Title": "Spells",
+      "RulesJournalName": "10. Spellcasting",
       "SpellcastingAbilityBlob": "<p>You selected {class} - your Spellcasting Ability is <b>{spa}</b></p>",
       "NoSpellcastingClass": "No spellcasting class selected",
       "ShowFeatureOnSide": "Show the class Spellcasting Feature on the side panel",
       "SpellCount": "Number of Spells",
       "SpellList": "Starting Spells",
+      "Spellcasting": "Spellcasting",
       "SelectItemError": "Incorrect itemName on Spells tab search entry"
     },
     "Bio": {
+      "Title": "Biography",
       "AppearanceTitle": "Appearance",
       "PersonalityTraitsTitle": "Personality Traits",
       "IdealsTitle": "Ideals",

@@ -29,7 +29,7 @@ enum StepIndex {
   Bio,
 }
 
-export default class App extends Application {
+export default class HeroCreationTool extends Application {
   actorId?: string;
   readonly steps: Array<Step>;
   currentTab: StepIndex = StepIndex.Basics;

@@ -16,13 +16,6 @@ export const enum DEFAULT_PACKS {
   RULES = 'dnd5e.rules',
 }
 
-export const enum RULES {
-  ABILITIES = 'Ability Scores and Modifiers',
-  BACKGROUND = 'Backgrounds',
-  EQUIPMENT = '05. Equipment',
-  SPELLS = '10. Spellcasting',
-}
-
 export const INTEGRATION = {
   TOKENIZER: {
     VERSION: '3.3.0',

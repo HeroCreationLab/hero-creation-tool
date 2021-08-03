@@ -57,7 +57,7 @@ export async function prepareToolOptions(optionSettings: OptionSettings) {
     optionSettings,
     'toolProf',
     optionSettings.filteredOptions ?? [...toolTypeChoices, ...toolChoices],
-    game.i18n.localize('DND5E.TraitToolProf'),
+    game.i18n.localize('HCT.Common.ToolProficiencies'),
   );
 }
 
@@ -78,7 +78,7 @@ export async function prepareWeaponOptions(optionSettings: OptionSettings) {
     optionSettings,
     'weaponProf',
     optionSettings.filteredOptions ?? [...weaponTypeChoices, ...weaponChoices],
-    game.i18n.localize('DND5E.TraitWeaponProf'),
+    game.i18n.localize('HCT.Common.WeaponProficiencies'),
   );
 }
 
@@ -99,7 +99,7 @@ export async function prepareArmorOptions(optionSettings: OptionSettings) {
     optionSettings,
     'armorProf',
     optionSettings.filteredOptions ?? [...armorTypeChoices, ...foundryArmorChoices],
-    game.i18n.localize('DND5E.TraitArmorProf'),
+    game.i18n.localize('HCT.Common.ArmorProficiencies'),
   );
 }
 
