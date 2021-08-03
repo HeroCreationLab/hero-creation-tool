@@ -422,7 +422,7 @@ class _Equipment extends Step {
     // Show rules on the side panel
     const equipmentRulesItem = await Utils.getJournalFromPackByName(
       Constants.DEFAULT_PACKS.RULES,
-      Constants.RULES.EQUIPMENT,
+      game.i18n.localize('HCT.Equipment.RulesJournalName'),
     );
     $('[data-hct_equipment_description]', this.section()).html(
       TextEditor.enrichHTML((equipmentRulesItem as any).content),

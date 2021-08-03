@@ -94,7 +94,7 @@ export default class SelectOrCustomItemOption implements HeroOption {
     const $nameDiv = $("<div class='hct-margin-b-tiny'>");
     this.$customName = $(`<input type="text" placeholder="${game.i18n.localize('HCT.Common.RequiredName')}">`);
     $nameDiv.append(this.$customName);
-    this.$customDescription = $(`<textarea type="text" placeholder="${game.i18n.localize('DND5E.Description')}">`);
+    this.$customDescription = $(`<textarea type="text" placeholder="${game.i18n.localize('HCT.Common.Desc')}">`);
     this.$customInputs.append($nameDiv);
     this.$customInputs.append(this.$customDescription);
     this.$customInputs.hide(); // hide by default
