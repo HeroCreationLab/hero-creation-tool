@@ -29,9 +29,35 @@ Hooks.on('renderActorDirectory', () => {
       )}</button>`,
     );
   $('[data-hct_start]').on('click', function () {
-    heroCreationTool.openForActor();
+    if (userHasRightPermissions()) heroCreationTool.openForActor();
   });
 });
+
+function userHasRightPermissions(): boolean {
+  const userRole = (game as any).user.role;
+
+  // create actor (REQUIRED)
+  if (!((game as any).permissions.ACTOR_CREATE as Array<number>).includes(userRole)) {
+    ui.notifications?.error(game.i18n.localize('HCT.Permissions.NeedCreateActorError'));
+    return false;
+  }
+
+  // create item (optional)
+  if (!((game as any).permissions.ITEM_CREATE as Array<number>).includes(userRole)) {
+    ui.notifications?.warn(game.i18n.localize('HCT.Permissions.NeedCreateItemWarn'));
+  }
+
+  // upload files (optional)
+  if (!((game as any).permissions.FILES_UPLOAD as Array<number>).includes(userRole)) {
+    ui.notifications?.warn(game.i18n.localize('HCT.Permissions.NeedFileUploadWarn'));
+  }
+
+  // browse files (optional)
+  if (!((game as any).permissions.FILES_BROWSE as Array<number>).includes(userRole)) {
+    ui.notifications?.warn(game.i18n.localize('HCT.Permissions.NeedFileBrowseWarn'));
+  }
+  return true;
+}
 
 // This hooks onto the rendering actor sheet to show the button
 /*

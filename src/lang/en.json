@@ -34,6 +34,12 @@
         "SpellCompendia": "Spell Compendia"
       }
     },
+    "Permissions": {
+      "NeedCreateActorError": "User requires the 'Create New Actors' permission. Ask your DM to add it to your role",
+      "NeedCreateItemWarn": "User without 'Create New Items' permission. You will not be able to create custom Features",
+      "NeedFileUploadWarn": "User without 'Use File Browser' permission. You might experience issues selecting images",
+      "NeedFileBrowseWarn": "User without 'Upload New Files' permission. You might experience issues selecting images"
+    },
     "Integration": {
       "Tokenizer": {
         "WarningOn": "Tokenizer module is set as preferred, you can shift-click to use the default File Picker",
