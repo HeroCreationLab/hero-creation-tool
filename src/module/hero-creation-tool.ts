@@ -1,9 +1,9 @@
 import { registerSettings } from './settings';
 import { preloadTemplates } from './preloadTemplates';
 import * as Constants from './constants';
-import App from './app';
+import HeroCreationTool from './HeroCreationToolApp';
 
-const moduleApp = new App();
+const heroCreationTool = new HeroCreationTool();
 
 // Initialize module
 Hooks.once('init', async () => {
@@ -12,15 +12,10 @@ Hooks.once('init', async () => {
   await preloadTemplates();
 });
 
-Hooks.on('renderApp', async function (app: any, html: any, data: any) {
-  if (app.options.title == 'Hero Creation') {
-    // if (app._priorState == 0) {
-    //   // first start, if we need to calculate something ?
-    // }
-    console.log(`${Constants.LOG_PREFIX} | Setting up data-derived elements`);
-    await moduleApp.setupData();
-    moduleApp.renderChildrenData();
-  }
+Hooks.on('renderHeroCreationTool', async function (app: any, html: any, data: any) {
+  console.log(`${Constants.LOG_PREFIX} | Setting up data-derived elements`);
+  await heroCreationTool.setupData();
+  heroCreationTool.renderChildrenData();
 });
 
 // This hooks onto the rendering of the Actor Directory to show the button
@@ -34,7 +29,7 @@ Hooks.on('renderActorDirectory', () => {
       )}</button>`,
     );
   $('[data-hct_start]').on('click', function () {
-    moduleApp.openForActor();
+    heroCreationTool.openForActor();
   });
 });
 
