@@ -18,6 +18,8 @@
 
 * **[Setup for collaborators](https://github.com/HeroCreationLab/hero-creation-tool/blob/main/docs/DEV-SETUP.md)**
 
+* **[Collaborations](#collaborations)**
+
 * **[License](https://github.com/HeroCreationLab/hero-creation-tool/blob/main/docs/LICENSE)**
 
 ## Setup
@@ -82,3 +84,11 @@ If you are a DM / Helping hand -> Please, refer to the [HOW-TO](https://github.c
 The module integrates [Bug Reporter](https://foundryvtt.com/packages/bug-reporter) and is the preferred way of submitting bugs directly from inside your game, as it can easily include module settings and active modules.
 
 For any other issues, requests and bug reporting, you can visit the project's [Github](https://github.com/HeroCreationLab/hero-creation-tool/issues).
+
+## Collaborations
+
+I wanted to make special mentions to:
+
+* MrPrimate for his assistance with the Tokenizer integration and his help aligning some details from DDBImporter to fit the module expectations.
+* Ghost for his unending help with.. absolutely everything!
+* @Padhiver for providing the french translation!
