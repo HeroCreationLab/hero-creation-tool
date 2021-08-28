@@ -1,0 +1,202 @@
+{
+  "HCT": {
+    "ActorsDirectoryButton": "Hero Creation Tool",
+    "WindowTitle": "Hero Creation",
+    "Setting": {
+      "DefaultGoldDice": {
+        "Name": "Jet d'or de départ par défaut",
+        "Hint": "Ici, vous pouvez personnaliser les dés d'or de départ lancés"
+      },
+      "ShowRolls": {
+        "Name": "Afficher les jets sur le chat",
+        "Hint": "Afficher les scores des capacités et les jets d'or de départ sous forme de messages de chat"
+      },
+      "UseTokenizer": {
+        "Name": "Utiliser Tokenizer si disponible",
+        "Hint": "L'outil essaiera d'utiliser le module Tokenizer, s'il est trouvé, par défaut pour générer les images de l'avatar et du jeton."
+      },
+      "TokenNameMode": {
+        "Name": "Mode d'affichage du nom du jeton"
+      },
+      "TokenBarMode": {
+        "Name": "Mode d'affichage de la barre de jeton 1"
+      },
+      "Sources": {
+        "Name": "Compendium Sources",
+        "Hint": "Sélectionnez les compendiums qui serviront de source de données pour les différentes étapes de création.",
+        "Label": "Sélectionner les sources",
+        "Save": "Sauvegarder",
+        "RaceCompendia": "Races Compendiums",
+        "RacialFeatureCompendia": "Traits raciaux Compendiums",
+        "ClassCompendia": "Classes Compendiums",
+        "ClassFeatureCompendia": "Capacités des Classes Compendiums",
+        "BackgroundFeatureCompendia": "Capacités d'Historique Compendiums",
+        "SpellCompendia": "Sorts Compendiums"
+      }
+    },
+    "Permissions": {
+      "NeedCreateActorError": "L'utilisateur a besoin de la permission 'Créer de nouveaux acteurs'. Demandez à votre DM de l'ajouter à votre rôle",
+      "NeedCreateItemWarn": "Utilisateur sans l'autorisation de 'Créer de nouveaux éléments'. Vous ne serez pas en mesure de créer des fonctionnalités personnalisées",
+      "NeedFileUploadWarn": "Utilisateur sans l'autorisation d'utiliser le navigateur de fichiers. Vous pouvez rencontrer des problèmes lors de la sélection des images",
+      "NeedFileBrowseWarn": "Utilisateur n'ayant pas l'autorisation de 'télécharger de nouveaux fichiers'. Vous pouvez rencontrer des problèmes lors de la sélection des images"
+    },
+    "Integration": {
+      "Tokenizer": {
+        "WarningOn": "Le module Tokenizer est défini comme préféré, vous pouvez cliquer sur le bouton shift pour utiliser le sélecteur de fichiers par défaut.",
+        "NeedActorName": "Tokenizer a besoin d'un nom de personnage ; veuillez le compléter d'abord.",
+        "Error": {
+          "ModuleNotFound": "Tokenizer non trouvé, utilisation du sélecteur de fichiers par défaut",
+          "ModuleInactive": "Tokenizer trouvé mais non actif, utilisation du sélecteur de fichier par défaut",
+          "VersionUnobtainable": "Erreur dans l'obtention de la version de Tokenizer, utilisation du sélecteur de fichiers par défaut",
+          "VersionIncompatible": "La version de Tokenizer doit être plus récente que {version}."
+        }
+      }
+    },
+    "Common": {
+      "RequiredName": "Nom (obligatoire)",
+      "Desc": "Description",
+      "ProfDialogTitle": "Add Ajouter la maîtrise",
+      "ProfDialogContent": "Sélectionner une maîtrise existante ou définir une maîtrise personnalisée ?",
+      "Proficiencies": "Maîtrise",
+      "ProficiencyMulti": "Maîtrise de ",
+      "SelectPlaceholder": "Choisissez...",
+      "SelectCreateOne": "Créez-en un nouveau",
+      "SkillProficiencies": "Compétences maîtrisées",
+      "LanguageProficiencies": "Langues maîtrisées",
+      "ToolProficiencies": "Outils maîtrisés",
+      "WeaponProficiencies": "Armes maîtrisées",
+      "ArmorProficiencies": "Armures maîtrisées",
+      "AddCustom": "Personnalisé",
+      "AddStandard": "Sélectionnez",
+      "Feature": "Trait",
+      "Features": "Traits",
+      "Movement": {
+        "walk": "Marche"
+      },
+      "Senses": {
+        "darkvision": "Vision dans le noir"
+      },
+      "Searchbar": {
+        "Placeholder": "Type to Type recherché....",
+        "ClearList": "Effacer la liste"
+      }
+    },
+    "Error": {
+      "UpdateValueLoad": "{valeur} non chargée pour la mise à jour des valeurs",
+      "RenderLoad": "{valeur} non chargée pour les données de rendu",
+      "CustomItemWithoutName": "Impossible de créer une fonction personnalisée sur {origin} - Le nom de l'élément est obligatoire (l'élément sera ignoré).",
+      "RequiredOptionNotFulfilled": "L'option {opt} est requise mais non remplie."
+    },
+    "List": {
+      "DefaultOption": "Choisissez votre {listType}",
+      "SpellDefaultOption": "Choisissez vos sorts",
+      "NoItemWithName": "Aucun élément avec le nom : {nomdel'élément}",
+      "CantFindItem": "Impossible de trouver l'élément avec les paramètres donnés.",
+      "ChooseItem": "Choisissez vos articles"
+    },
+    "Custom": "Personnalisé",
+    "Next": "Suivant",
+    "Back": "Retour",
+    "Submit": "Soumettre",
+    "Start": {
+      "Title": "Start",
+      "Welcome": "Bienvenue sur Hero Creation Tool pour DnD 5e",
+      "p1": "Hero Creation Tool est un processus étape par étape pour créer un tout nouveau personnage pour vos jeux. Les modifications sont enregistrées au fur et à mesure de votre progression, mais le personnage n'est créé qu'une fois terminé.",
+      "p2": "L'outil prend en charge le matériel SRD disponible dans FoundryVTT par défaut. Vous pouvez ajouter du contenu supplémentaire en définissant des compendiums dans les paramètres avec vos propres races, classes, caractéristiques et autres.",
+      "Remark": "Votre aventure vous attend ! Commencez en cliquant sur Suivant.",
+      "Faq": "Si vous avez des doutes, consultez notre FAQ",
+      "HowTo": "Si vous êtes un MJ et que vous souhaitez ajouter des races, des classes, etc. personnalisées, vous pouvez lire notre How-To."
+    },
+    "Basics": {
+      "Title": "Bases",
+      "Avatar": "Avatar",
+      "Token": "Token",
+      "Preview": "Preview",
+      "PickButton": "Select",
+      "NoName": "Le héros n'a pas de nom"
+    },
+    "Race": {
+      "Title": "Race",
+      "DescriptionPlaceholder": "Veuillez sélectionner une race pour voir sa description (la sous-race apparaît à la fin).",
+      "Select.Default": "Race..",
+      "ASI": "Amélioration de caractéristiques",
+      "Size": "Taille",
+      "Senses": "Senses",
+      "Movement": "Mouvement",
+      "InvalidProfKeys": "Valeurs de compétence non valides pour modeKey [{modeKey}], proficiencyKey [{proficiencyKey}] et proficiency [{proficiency}]."
+    },
+    "Class": {
+      "Title": "Classe",
+      "DescriptionPlaceholder": "Veuillez sélectionner une classe pour voir sa description",
+      "Select.Default": "Classe..",
+      "SavingThrows": "Jets de sauvegarde",
+      "HitPoints": "Point de vie de départ",
+      "HitPointsBlob": "{max} + votre modificateur de Constitution"
+    },
+    "Abilities": {
+      "Title": "Caractéristique",
+      "RulesJournalName": "Scores de caractéristiques et modificateurs",
+      "Method": "Comment les caractéristiques sont-elles calculées ?",
+      "Values": "Valeurs de caractéristique",
+      "Str": "Force",
+      "Dex": "Dextérité",
+      "Con": "Constitution",
+      "Int": "Intelligence",
+      "Wis": "Sagesse",
+      "Cha": "Charisme",
+      "Buttons": {
+        "Info": "Info",
+        "Roll": "Lancer 4d6 garder 3",
+        "StandardArray": "Standard Array",
+        "PointBuy": "Point Buy",
+        "ManualEntry": "Manual Entry"
+      },
+      "RollChatFlavor": "Score de caractéristique obtenu",
+      "PointBuy": {
+        "Score": " Point Buy Score: ",
+        "OverLimit": "Vous avez dépassé le nombre maximum de points autorisés pour Point Buy."
+      },
+      "Select.Placeholder": "Caractéristique...",
+      "NotAllSixAbilities": "Le héros n'a pas tous les six scores de caractéristique ou en a une répété."
+    },
+    "Background": {
+      "Title": "Historique",
+      "RulesJournalName": "Backgrounds",
+      "Name": "Nom d'Historique",
+      "Alignment": "Alignement"
+    },
+    "Equipment": {
+      "Title": "Equipement",
+      "RulesJournalName": "05. Equipment",
+      "StartingGoldTitle": "Or de départ",
+      "Roll": "Jets",
+      "RollChatFlavor": "Or de départ jeté",
+      "ManualInput": "Manuel",
+      "Additional": "Supplémentaire",
+      "TotalGoldLabel": "Total: ",
+      "RemainingGoldLabel": "Restant: ",
+      "RemainingGoldCheckboxLabel": "Ajouter l'or restant à l'acteur",
+      "StartingItemsTitle": "Articles de départ"
+    },
+    "Spells": {
+      "Title": "Sorts",
+      "RulesJournalName": "10. Spellcasting",
+      "SpellcastingAbilityBlob": "<p>Vous avez choisi {classe} - votre capacité de lanceur de sorts est <b>{spa}</b></p>",
+      "NoSpellcastingClass": "Aucune classe de lanceur de sorts sélectionnée",
+      "ShowFeatureOnSide": "Affichez les 'capacité de lanceur de sorts' sur le panneau latéral.",
+      "SpellCount": "Nombre de sorts",
+      "SpellList": "Sorts de départ",
+      "Spellcasting": "Lancer des sorts",
+      "SelectItemError": "Nom d'élément incorrect dans l'entrée de recherche de l'onglet Sorts."
+    },
+    "Bio": {
+      "Title": "Biographie",
+      "AppearanceTitle": "Apparence",
+      "PersonalityTraitsTitle": "Traits de personnalité",
+      "IdealsTitle": "Idéaux",
+      "BondsTitle": "Obligations",
+      "FlawsTitle": "Défauts",
+      "BiographyPlaceholder": "Biographie.."
+    }
+  }
+}
