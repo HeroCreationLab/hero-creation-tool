@@ -1,5 +1,10 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.1.1 (2021-08-28)
+- Added French translation, courtesy of @Padhiver.
+- Fix for race and class names containing the character '.
+- Fix to Armor/Weapon profiencies label on English i18n.
+
 ## 1.1.0 (2021-08-03)
 - Added a check on user permissions when opening the tool, to prevent players creating their PCs and then been unable to save them. [(#17)](https://github.com/HeroCreationLab/hero-creation-tool/issues/17)
 - Fixed an issue that caused the module to stop working if the application name was changed on any i18n file.
