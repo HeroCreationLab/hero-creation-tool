@@ -273,17 +273,17 @@ function setRaceOptions(races: Race[]) {
   for (const race of races) {
     if (race.subraces?.length) {
       const $group = $(
-        `<optgroup class='hct_picker_primary hct_picker_primary_group' label='${race.name}'></optgroup>`,
+        `<optgroup class='hct_picker_primary hct_picker_primary_group' label="${race.name}"></optgroup>`,
       );
       race.subraces.forEach((subrace) => {
         $group.append(
-          $(`<option class='hct_picker_secondary' value='${race.name}.${subrace.name}'>${subrace.name}</option>`),
+          $(`<option class='hct_picker_secondary' value="${race.name}.${subrace.name}">${subrace.name}</option>`),
         );
         picker.append($group);
       });
     } else {
       // race is standalone - make an option
-      picker.append($(`<option class='hct_picker_primary' value='${race.name}'>${race.name}</option>`));
+      picker.append($(`<option class='hct_picker_primary' value="${race.name}">${race.name}</option>`));
     }
   }
 }

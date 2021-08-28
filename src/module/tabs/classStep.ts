@@ -240,7 +240,7 @@ export default ClassTab;
 function setClassPickerOptions(classes: Item[]) {
   const picker = $('[data-hct_class_picker]');
   for (const clazz of classes) {
-    picker.append($(`<option value='${clazz.name}'>${clazz.name}</option>`));
+    picker.append($(`<option value="${clazz.name}">${clazz.name}</option>`));
   }
 }
 
