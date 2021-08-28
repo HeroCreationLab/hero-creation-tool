@@ -1,5 +1,8 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.1.2 (2021-08-28)
+- Added missing entry on the manifest for FR localization.
+
 ## 1.1.1 (2021-08-28)
 - Added French translation, courtesy of @Padhiver.
 - Fix for race and class names containing the character '.
