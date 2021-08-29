@@ -82,14 +82,15 @@ class _Race extends Step {
       .sort((a, b) => a.name.localeCompare(b.name)) as any;
     const raceNames = races.map((race) => race.name);
 
+    const notParentItems = raceItems?.filter((item) => (item as any).data.requirements !== '');
+
     this.races = races.map((parent) => {
-      const children = raceItems
+      const children = notParentItems
         ?.filter((subrace) => {
           const isChildren =
-            parent.name !== subrace.name &&
-            !raceNames.includes(subrace.name) &&
-            subrace.name.includes(parent.name) &&
-            !excludedSubraceName(subrace.name);
+            !excludedSubraceName(subrace.name) &&
+            parentListedAsRequirement(subrace, parent.name) &&
+            subraceNameIsPartOfRaceName(subrace.name, parent.name);
           return isChildren;
         })
         .sort((a, b) => a.name.localeCompare(b.name));
@@ -297,4 +298,16 @@ function getSizeOptions(): KeyValue[] {
 const misleadingFeatureNames: string[] = ['Gnome Cunning', 'Halfling Nimbleness'];
 function excludedSubraceName(name: string): boolean {
   return misleadingFeatureNames.includes(name);
+}
+
+function subraceNameIsPartOfRaceName(subraceName: string, parentName: string): boolean {
+  if (parentName.includes(' ')) {
+    return subraceName.includes(parentName);
+  } else {
+    return subraceName.split(' ').includes(parentName);
+  }
+}
+
+function parentListedAsRequirement(subrace: any, parentName: string): boolean {
+  return subrace.data.requirements.includes(parentName);
 }
