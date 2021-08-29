@@ -1,5 +1,8 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.1.3 (2021-08-29)
+- Fix for subraces of compounded names (like Aquatic Half-Elf) [(#35)](https://github.com/HeroCreationLab/hero-creation-tool/issues/35)
+
 ## 1.1.2 (2021-08-28)
 - Added missing entry on the manifest for FR localization.
 
