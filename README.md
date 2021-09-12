@@ -91,4 +91,5 @@ I wanted to make special mentions to:
 
 * MrPrimate for his assistance with the Tokenizer integration and his help aligning some details from DDBImporter to fit the module expectations.
 * Ghost for his unending help with.. absolutely everything!
-* @Padhiver for providing the french translation!
+* @Padhiver for providing the french translation.
+* touge and BrotherSharper for providing the japanese translation.
