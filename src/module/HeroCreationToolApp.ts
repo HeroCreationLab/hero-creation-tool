@@ -99,7 +99,7 @@ export default class HeroCreationTool extends Application {
 
   private async buildActor() {
     console.log(`${Constants.LOG_PREFIX} | Building actor - data used:`);
-    const newActor: ActorDataConstructorData = this.initializeActorData();
+    const newActorData: ActorDataConstructorData = this.initializeActorData();
     let errors = false;
     // yeah, a loop label, sue me.
     mainloop: for (const step of this.steps) {
@@ -108,16 +108,21 @@ export default class HeroCreationTool extends Application {
           errors = true;
           break mainloop;
         }
-        await opt.applyToHero(newActor);
+        await opt.applyToHero(newActorData);
       }
     }
     if (!errors) {
       // calculate whatever needs inter-tab values like HP
-      cleanUpErroneousItems(newActor);
-      calculateStartingHp(newActor);
-      setTokenDisplaySettings(newActor);
-      console.log(newActor);
-      Actor.create(newActor);
+      cleanUpErroneousItems(newActorData);
+      calculateStartingHp(newActorData);
+      setTokenDisplaySettings(newActorData);
+      const itemsFromActor = newActorData.items; // moving items to a different object to process active effects
+      newActorData.items = [];
+      const cls = getDocumentClass('Actor');
+      const actor = new cls(newActorData);
+
+      const newActor = await Actor.create(actor.toObject());
+      await newActor!.createEmbeddedDocuments('Item', itemsFromActor as any);
       this.close();
     }
   }
