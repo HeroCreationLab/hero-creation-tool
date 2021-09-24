@@ -1,5 +1,9 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.1.5 (2021-09-25)
+- Fix for items with active effects not been transferred to the created actor. [(#29)](https://github.com/HeroCreationLab/hero-creation-tool/issues/29)
+- Replaced item whitelist for Equipment tab (used to select only "sane" items to buy, avoiding all the magical gear and etc) for a filter on "Common" items and a much, much smaller blacklist of items to actively avoid (namely just spell scrolls, 2 potions and Unarmed Strikes)
+
 ## 1.1.4 (2021-09-12)
 - Added Japanese translation, courtesy of touge and BrotherSharper.
 
