@@ -122,7 +122,11 @@ export default class HeroCreationTool extends Application {
       const actor = new cls(newActorData);
 
       const newActor = await Actor.create(actor.toObject());
-      await newActor!.createEmbeddedDocuments('Item', itemsFromActor as any);
+      if (!newActor) {
+        ui.notifications?.error(game.i18n.format('HCT.Error.ActorCreationError', { name: newActorData?.name }));
+        return;
+      }
+      await newActor.createEmbeddedDocuments('Item', itemsFromActor as any);
       this.close();
     }
   }

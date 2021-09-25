@@ -31,7 +31,22 @@ export async function getItemListFromPackListByNames(packNames: string[]) {
       itemsPromises.push(item);
     }
     const items = await Promise.all(itemsPromises);
-    allItems.push(...items.filter((item): item is Item => !!item).map((item) => worldItems.fromCompendium(item)));
+    allItems.push(
+      ...items
+        .filter((item): item is Item => !!item)
+        .map((item) => {
+          const itemFromCompendium = worldItems.fromCompendium(item);
+          // intentionally adding the flag without using the API as I don't want to persist this flag
+          // this should be enough and more lightweight
+          itemFromCompendium.flags.hct = {
+            link: {
+              id: item.id,
+              pack: item.pack,
+            },
+          };
+          return itemFromCompendium;
+        }),
+    );
   }
   return allItems;
 }

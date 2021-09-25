@@ -82,6 +82,7 @@
       }
     },
     "Error": {
+      "ActorCreationError": "Une erreur s'est produite lors de la création du personnage avec le nom {name}; abandon...",
       "UpdateValueLoad": "{valeur} non chargée pour la mise à jour des valeurs",
       "RenderLoad": "{valeur} non chargée pour les données de rendu",
       "CustomItemWithoutName": "Impossible de créer une fonction personnalisée sur {origin} - Le nom de l'élément est obligatoire (l'élément sera ignoré).",

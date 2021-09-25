@@ -82,6 +82,7 @@
       }
     },
     "Error": {
+      "ActorCreationError": "An error occurred when creating the actor with name {name}, aborting..",
       "UpdateValueLoad": "{value} not loaded for updating values",
       "RenderLoad": "{value} not loaded for render data",
       "CustomItemWithoutName": "Can't create custom feature on {origin} - Item name is mandatory (Item will be skipped)",
