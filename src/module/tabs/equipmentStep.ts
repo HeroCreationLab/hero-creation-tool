@@ -421,6 +421,7 @@ class _Equipment extends Step {
   }
 
   async renderData() {
+    Utils.setPanelScrolls(this.section());
     // Show rules on the side panel
     const equipmentRulesItem = await Utils.getJournalFromPackByName(
       Constants.DEFAULT_PACKS.RULES,

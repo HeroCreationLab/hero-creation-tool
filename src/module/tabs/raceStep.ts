@@ -106,6 +106,7 @@ class _Race extends Step {
   }
 
   renderData(): void {
+    Utils.setPanelScrolls(this.section());
     $('[data-hct_race_data]').hide();
     if (this.races) setRaceOptions(this.races);
     else ui.notifications!.error(game.i18n.format('HCT.Error.RenderLoad', { value: 'Races' }));

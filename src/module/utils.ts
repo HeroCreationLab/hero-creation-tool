@@ -1,6 +1,28 @@
 import * as Constants from './constants';
 import SettingKeys, { Source } from './settings';
 
+export function setPanelScrolls($section: JQuery) {
+  const individualScrolls = getModuleSetting(SettingKeys.INDIVIDUAL_PANEL_SCROLLS);
+  const scroll = 'hct-y-scroll';
+  const height = 'hct-height-100p';
+
+  const $leftPanel = $('.hct-panel-left', $section);
+  const $rightPanel = $('.hct-panel-right', $section);
+  const $panelContainer = $('.hct-panel-container', $section);
+
+  if (individualScrolls) {
+    $leftPanel.addClass(scroll);
+    $rightPanel.addClass(scroll);
+    $panelContainer.addClass(height);
+    $section.removeClass(scroll);
+  } else {
+    $leftPanel.removeClass(scroll);
+    $rightPanel.removeClass(scroll);
+    $panelContainer.removeClass(height);
+    $section.addClass(scroll);
+  }
+}
+
 export function getModuleSetting(key: SettingKeys) {
   return game.settings.get(Constants.MODULE_NAME, key);
 }
@@ -31,7 +53,22 @@ export async function getItemListFromPackListByNames(packNames: string[]) {
       itemsPromises.push(item);
     }
     const items = await Promise.all(itemsPromises);
-    allItems.push(...items.filter((item): item is Item => !!item).map((item) => worldItems.fromCompendium(item)));
+    allItems.push(
+      ...items
+        .filter((item): item is Item => !!item)
+        .map((item) => {
+          const itemFromCompendium = worldItems.fromCompendium(item);
+          // intentionally adding the flag without using the API as I don't want to persist this flag
+          // this should be enough and more lightweight
+          itemFromCompendium.flags.hct = {
+            link: {
+              id: item.id,
+              pack: item.pack,
+            },
+          };
+          return itemFromCompendium;
+        }),
+    );
   }
   return allItems;
 }

@@ -1,203 +1,207 @@
 {
-    "HCT": {
-      "ActorsDirectoryButton": "冒険者作成ツール",
-      "WindowTitle": "冒険者作成",
-      "Setting": {
-        "DefaultGoldDice": {
-          "Name": "デフォルトの初期所持金ロール",
-          "Hint": "ツールで振られる初期所持金ダイスをカスタマイズします。"
-        },
-        "ShowRolls": {
-          "Name": "ロールをチャットに表示する",
-          "Hint": "能力値や初期所持金ロールをチャットメッセージとして出力します。"
-        },
-        "UseTokenizer": {
-          "Name": "可能ならTokenizerを使用する",
-          "Hint": "モジュール「Tokenizer」が有効であれば、アバターとコマ画像の生成にこれを使用します。"
-        },
-        "TokenNameMode": {
-          "Name": "コマ名表示モード"
-        },
-        "TokenBarMode": {
-          "Name": "バー1表示モード"
-        },
-        "Sources": {
-          "Name": "辞典の参照元",
-          "Hint": "キャラクター作成の各ステップにおける、データの参照元となる辞典を選択します。",
-          "Label": "参照元の選択",
-          "Save": "保存",
-          "RaceCompendia": "種族辞典",
-          "RacialFeatureCompendia": "種族特徴辞典",
-          "ClassCompendia": "クラス辞典",
-          "ClassFeatureCompendia": "クラス特徴辞典",
-          "BackgroundFeatureCompendia": "背景特徴辞典",
-          "SpellCompendia": "呪文辞典"
-        }
+  "HCT": {
+    "ActorsDirectoryButton": "冒険者作成ツール",
+    "WindowTitle": "冒険者作成",
+    "Setting": {
+      "DefaultGoldDice": {
+        "Name": "デフォルトの初期所持金ロール",
+        "Hint": "ツールで振られる初期所持金ダイスをカスタマイズします。"
       },
-      "Permissions": {
-        "NeedCreateActorError": "「新規アクター作成」の権限がありません。あなたの“役割”に権限を付与するよう、DMに依頼してください。",
-        "NeedCreateItemWarn": "「新規アイテムの作成」の権限がありません。カスタム特徴を作成できません。",
-        "NeedFileUploadWarn": "「ファイル・ブラウザの使用」権限がありません。画像選択に問題が発生する場合があります。",
-        "NeedFileBrowseWarn": "「新規ファイルのアップロード」の権限がありません。画像選択に問題が発生する場合があります。"
+      "ShowRolls": {
+        "Name": "ロールをチャットに表示する",
+        "Hint": "能力値や初期所持金ロールをチャットメッセージとして出力します。"
       },
-      "Integration": {
-        "Tokenizer": {
-          "WarningOn": "Tokenizer優先設定の場合、［Shift］＋クリックで標準のファイル選択ダイアログが開けます。",
-          "NeedActorName": "Tokenizerにはキャラクター名が必要です。先に入力してください。",
-          "Error": {
-            "ModuleNotFound": "Tokenizerが見つかりません。標準のファイル選択ダイアログを使用します。",
-            "ModuleInactive": "Tokenizerがアクティブではありません。標準のファイル選択ダイアログを使用します。",
-            "VersionUnobtainable": "Tokenizerのバージョン取得エラーが発生しました。標準のファイル選択ダイアログを使用します。",
-            "VersionIncompatible": "{version}以降のバージョンのTokenizerが必要です。"
-          }
-        }
+      "IndividualPanelScroll": {
+        "Name": "Individual panel scrolls",
+        "Hint": "In tabs with left and right panels, make each side have independent scrolls"
       },
-      "Common": {
-        "RequiredName": "名前（必須）",
-        "Desc": "Description",
-        "ProfDialogTitle": "習熟の追加",
-        "ProfDialogContent": "既存の習熟を選択するか、独自の習熟を設定します。",
-        "Proficiencies": "習熟",
-        "ProficiencyMulti": "習熟 in",
-        "SelectPlaceholder": "選択...",
-        "SelectCreateOne": "新規作成",
-        "SkillProficiencies": "スキル習熟",
-        "LanguageProficiencies": "言語習熟",
-        "ToolProficiencies": "道具習熟",
-        "WeaponProficiencies": "武器習熟",
-        "ArmorProficiencies": "鎧習熟",
-        "AddCustom": "カスタム",
-        "AddStandard": "選択",
-        "Feature": "特徴",
-        "Features": "特徴",
-        "Movement": {
-          "walk": "歩行"
-        },
-        "Senses": {
-          "darkvision": "暗視"
-        },
-        "Searchbar": {
-          "Placeholder": "入力して検索...",
-          "ClearList": "リストをクリア"
-        }
+      "UseTokenizer": {
+        "Name": "可能ならTokenizerを使用する",
+        "Hint": "モジュール「Tokenizer」が有効であれば、アバターとコマ画像の生成にこれを使用します。"
       },
-      "Error": {
-        "UpdateValueLoad": "{value}の値の更新が読み込めません。",
-        "RenderLoad": "{value}のレンダリングデータが読み込めません。",
-        "CustomItemWithoutName": "{origin}のカスタム特徴が作成できません。アイテム名は必須です (作成はスキップされます)。",
-        "RequiredOptionNotFulfilled": "必須のオプション{opt}が満たされていません。"
+      "TokenNameMode": {
+        "Name": "コマ名表示モード"
       },
-      "List": {
-        "DefaultOption": "{listType}を選択してください",
-        "SpellDefaultOption": "呪文を選択してください",
-        "NoItemWithName": "次のアイテムがありません：{itemName}",
-        "CantFindItem": "指定されたパラメータのアイテムが見つかりませんでした。",
-        "ChooseItem": "アイテムを選択してください。"
+      "TokenBarMode": {
+        "Name": "バー1表示モード"
       },
-      "Custom": "カスタム",
-      "Next": "次へ",
-      "Back": "戻る",
-      "Submit": "完成",
-      "Start": {
-        "Title": "開始",
-        "Welcome": "冒険者作成ツール for DnD 5eへようこそ",
-        "p1": "冒険者作成ツールは、ゲームに登場する新しいキャラクターを段階的に作成するツールです。変更は進行に応じて保存されますが、キャラクターは完了した時点でのみ作成されます。",
-        "p2": "デフォルトではFoundry VTT内で利用できるSRD辞典をサポートします。設定で辞典を定義することで、独自のカスタム種族、クラス、特徴などのコンテンツを追加できます。",
-        "Remark": "冒険があなたを待っています。まずは「次へ」をクリックしてください。",
-        "Faq": "不明な点があればFAQをご確認ください。",
-        "HowTo": "カスタム種族やクラスなどを追加したいDMは、How-Toをお読みください。"
-      },
-      "Basics": {
-        "Title": "基本",
-        "Avatar": "ポートレート",
-        "Token": "コマ",
-        "Preview": "プレビュー",
-        "PickButton": "選択",
-        "NoName": "冒険者に名前がありません"
-      },
-      "Race": {
-        "Title": "種族",
-        "DescriptionPlaceholder": "クラスを選択すると説明が表示されます（副種族は最後に表示されます）",
-        "Select.Default": "種族を選択してください",
-        "ASI": "能力値上昇",
-        "Size": "サイズ分類",
-        "Senses": "感覚",
-        "Movement": "移動速度",
-        "InvalidProfKeys": "modeKey[{modeKey}]とproficiencyKey[{proficiencyKey}]，proficiency[{proficiency}]の習熟値は無効です。"
-      },
-      "Class": {
-        "Title": "クラス",
-        "DescriptionPlaceholder": "クラスを選択すると説明が表示されます。",
-        "Select.Default": "クラスを選択してください",
-        "SavingThrows": "セーヴィング・スロー",
-        "HitPoints": "初期ヒット・ポイント",
-        "HitPointsBlob": "{max}＋【耐久力】修正値"
-      },
-      "Abilities": {
-        "Title": "能力値",
-        "RulesJournalName": "Ability Scores and Modifiers",
-        "Method": "どのように能力値を決定しますか？",
-        "Values": "能力値",
-        "Str": "筋力",
-        "Dex": "敏捷力",
-        "Con": "耐久力",
-        "Int": "知力",
-        "Wis": "判断力",
-        "Cha": "魅力",
-        "Buttons": {
-          "Info": "情報",
-          "Roll": "4d6の3つ残し",
-          "StandardArray": "標準値セット",
-          "PointBuy": "ポイント購入",
-          "ManualEntry": "マニュアル入力"
-        },
-        "RollChatFlavor": "能力値決定ロール",
-        "PointBuy": {
-          "Score": " ポイント購入スコア：",
-          "OverLimit": "ポイント購入の上限値を超えました。"
-        },
-        "Select.Placeholder": "能力値選択...",
-        "NotAllSixAbilities": "能力値が6つ揃っていないか、重複しています。"
-      },
-      "Background": {
-        "Title": "背景",
-        "RulesJournalName": "Backgrounds",
-        "Name": "背景名",
-        "Alignment": "属性"
-      },
-      "Equipment": {
-        "Title": "装備",
-        "RulesJournalName": "05. Equipment",
-        "StartingGoldTitle": "初期所持金",
-        "Roll": "ロール",
-        "RollChatFlavor": "初期所持金ロール",
-        "ManualInput": "マニュアル",
-        "Additional": "追加額",
-        "TotalGoldLabel": "総額：",
-        "RemainingGoldLabel": "残り：",
-        "RemainingGoldCheckboxLabel": "残額をアクターに追加",
-        "StartingItemsTitle": "初期アイテム"
-      },
-      "Spells": {
-        "Title": "呪文",
-        "RulesJournalName": "10. Spellcasting",
-        "SpellcastingAbilityBlob": "<p>{class}が選択されました。あなたの呪文発動能力値は<b>{spa}</b>です。</p>",
-        "NoSpellcastingClass": "非呪文発動クラスが選択されました。",
-        "ShowFeatureOnSide": "サイドパネルにクラスの呪文発動能力を表示する",
-        "SpellCount": "呪文の数",
-        "SpellList": "初期修得呪文",
-        "Spellcasting": "呪文発動",
-        "SelectItemError": "呪文タブの検索欄に入力されたアイテム名が正しくありません。"
-      },
-      "Bio": {
-        "Title": "経歴",
-        "AppearanceTitle": "外見",
-        "PersonalityTraitsTitle": "人格的特徴",
-        "IdealsTitle": "尊ぶもの",
-        "BondsTitle": "関わり深いもの",
-        "FlawsTitle": "弱味",
-        "BiographyPlaceholder": "背景/経歴..."
+      "Sources": {
+        "Name": "辞典の参照元",
+        "Hint": "キャラクター作成の各ステップにおける、データの参照元となる辞典を選択します。",
+        "Label": "参照元の選択",
+        "Save": "保存",
+        "RaceCompendia": "種族辞典",
+        "RacialFeatureCompendia": "種族特徴辞典",
+        "ClassCompendia": "クラス辞典",
+        "ClassFeatureCompendia": "クラス特徴辞典",
+        "BackgroundFeatureCompendia": "背景特徴辞典",
+        "SpellCompendia": "呪文辞典"
       }
+    },
+    "Permissions": {
+      "NeedCreateActorError": "「新規アクター作成」の権限がありません。あなたの“役割”に権限を付与するよう、DMに依頼してください。",
+      "NeedCreateItemWarn": "「新規アイテムの作成」の権限がありません。カスタム特徴を作成できません。",
+      "NeedFileUploadWarn": "「ファイル・ブラウザの使用」権限がありません。画像選択に問題が発生する場合があります。",
+      "NeedFileBrowseWarn": "「新規ファイルのアップロード」の権限がありません。画像選択に問題が発生する場合があります。"
+    },
+    "Integration": {
+      "Tokenizer": {
+        "WarningOn": "Tokenizer優先設定の場合、［Shift］＋クリックで標準のファイル選択ダイアログが開けます。",
+        "NeedActorName": "Tokenizerにはキャラクター名が必要です。先に入力してください。",
+        "Error": {
+          "ModuleNotFound": "Tokenizerが見つかりません。標準のファイル選択ダイアログを使用します。",
+          "ModuleInactive": "Tokenizerがアクティブではありません。標準のファイル選択ダイアログを使用します。",
+          "VersionUnobtainable": "Tokenizerのバージョン取得エラーが発生しました。標準のファイル選択ダイアログを使用します。",
+          "VersionIncompatible": "{version}以降のバージョンのTokenizerが必要です。"
+        }
+      }
+    },
+    "Common": {
+      "RequiredName": "名前（必須）",
+      "Desc": "Description",
+      "ProfDialogTitle": "習熟の追加",
+      "ProfDialogContent": "既存の習熟を選択するか、独自の習熟を設定します。",
+      "Proficiencies": "習熟",
+      "ProficiencyMulti": "習熟 in",
+      "SelectPlaceholder": "選択...",
+      "SelectCreateOne": "新規作成",
+      "SkillProficiencies": "スキル習熟",
+      "LanguageProficiencies": "言語習熟",
+      "ToolProficiencies": "道具習熟",
+      "WeaponProficiencies": "武器習熟",
+      "ArmorProficiencies": "鎧習熟",
+      "AddCustom": "カスタム",
+      "AddStandard": "選択",
+      "Feature": "特徴",
+      "Features": "特徴",
+      "Movement": {
+        "walk": "歩行"
+      },
+      "Senses": {
+        "darkvision": "暗視"
+      },
+      "Searchbar": {
+        "Placeholder": "入力して検索...",
+        "ClearList": "リストをクリア"
+      }
+    },
+    "Error": {
+      "ActorCreationError": "AN ERROR OCCURRED WHEN CREATING THE ACTOR WITH NAME {name}, ABORTING..",
+      "UpdateValueLoad": "{value}の値の更新が読み込めません。",
+      "RenderLoad": "{value}のレンダリングデータが読み込めません。",
+      "CustomItemWithoutName": "{origin}のカスタム特徴が作成できません。アイテム名は必須です (作成はスキップされます)。",
+      "RequiredOptionNotFulfilled": "必須のオプション{opt}が満たされていません。"
+    },
+    "List": {
+      "DefaultOption": "{listType}を選択してください",
+      "SpellDefaultOption": "呪文を選択してください",
+      "NoItemWithName": "次のアイテムがありません：{itemName}",
+      "CantFindItem": "指定されたパラメータのアイテムが見つかりませんでした。",
+      "ChooseItem": "アイテムを選択してください。"
+    },
+    "Custom": "カスタム",
+    "Next": "次へ",
+    "Back": "戻る",
+    "Submit": "完成",
+    "Start": {
+      "Title": "開始",
+      "Welcome": "冒険者作成ツール for DnD 5eへようこそ",
+      "p1": "冒険者作成ツールは、ゲームに登場する新しいキャラクターを段階的に作成するツールです。変更は進行に応じて保存されますが、キャラクターは完了した時点でのみ作成されます。",
+      "p2": "デフォルトではFoundry VTT内で利用できるSRD辞典をサポートします。設定で辞典を定義することで、独自のカスタム種族、クラス、特徴などのコンテンツを追加できます。",
+      "Remark": "冒険があなたを待っています。まずは「次へ」をクリックしてください。",
+      "Faq": "不明な点があればFAQをご確認ください。",
+      "HowTo": "カスタム種族やクラスなどを追加したいDMは、How-Toをお読みください。"
+    },
+    "Basics": {
+      "Title": "基本",
+      "Avatar": "ポートレート",
+      "Token": "コマ",
+      "Preview": "プレビュー",
+      "PickButton": "選択",
+      "NoName": "冒険者に名前がありません"
+    },
+    "Race": {
+      "Title": "種族",
+      "DescriptionPlaceholder": "クラスを選択すると説明が表示されます（副種族は最後に表示されます）",
+      "Select.Default": "種族を選択してください",
+      "ASI": "能力値上昇",
+      "Size": "サイズ分類",
+      "Senses": "感覚",
+      "Movement": "移動速度",
+      "InvalidProfKeys": "modeKey[{modeKey}]とproficiencyKey[{proficiencyKey}]，proficiency[{proficiency}]の習熟値は無効です。"
+    },
+    "Class": {
+      "Title": "クラス",
+      "DescriptionPlaceholder": "クラスを選択すると説明が表示されます。",
+      "Select.Default": "クラスを選択してください",
+      "SavingThrows": "セーヴィング・スロー",
+      "HitPoints": "初期ヒット・ポイント",
+      "HitPointsBlob": "{max}＋【耐久力】修正値"
+    },
+    "Abilities": {
+      "Title": "能力値",
+      "RulesJournalName": "Ability Scores and Modifiers",
+      "Method": "どのように能力値を決定しますか？",
+      "Values": "能力値",
+      "Str": "筋力",
+      "Dex": "敏捷力",
+      "Con": "耐久力",
+      "Int": "知力",
+      "Wis": "判断力",
+      "Cha": "魅力",
+      "Buttons": {
+        "Info": "情報",
+        "Roll": "4d6の3つ残し",
+        "StandardArray": "標準値セット",
+        "PointBuy": "ポイント購入",
+        "ManualEntry": "マニュアル入力"
+      },
+      "RollChatFlavor": "能力値決定ロール",
+      "PointBuy": {
+        "Score": " ポイント購入スコア：",
+        "OverLimit": "ポイント購入の上限値を超えました。"
+      },
+      "Select.Placeholder": "能力値選択...",
+      "NotAllSixAbilities": "能力値が6つ揃っていないか、重複しています。"
+    },
+    "Background": {
+      "Title": "背景",
+      "RulesJournalName": "Backgrounds",
+      "Name": "背景名",
+      "Alignment": "属性"
+    },
+    "Equipment": {
+      "Title": "装備",
+      "RulesJournalName": "05. Equipment",
+      "StartingGoldTitle": "初期所持金",
+      "Roll": "ロール",
+      "RollChatFlavor": "初期所持金ロール",
+      "ManualInput": "マニュアル",
+      "Additional": "追加額",
+      "TotalGoldLabel": "総額：",
+      "RemainingGoldLabel": "残り：",
+      "RemainingGoldCheckboxLabel": "残額をアクターに追加",
+      "StartingItemsTitle": "初期アイテム"
+    },
+    "Spells": {
+      "Title": "呪文",
+      "RulesJournalName": "10. Spellcasting",
+      "SpellcastingAbilityBlob": "<p>{class}が選択されました。あなたの呪文発動能力値は<b>{spa}</b>です。</p>",
+      "NoSpellcastingClass": "非呪文発動クラスが選択されました。",
+      "ShowFeatureOnSide": "サイドパネルにクラスの呪文発動能力を表示する",
+      "SpellCount": "呪文の数",
+      "SpellList": "初期修得呪文",
+      "Spellcasting": "呪文発動",
+      "SelectItemError": "呪文タブの検索欄に入力されたアイテム名が正しくありません。"
+    },
+    "Bio": {
+      "Title": "経歴",
+      "AppearanceTitle": "外見",
+      "PersonalityTraitsTitle": "人格的特徴",
+      "IdealsTitle": "尊ぶもの",
+      "BondsTitle": "関わり深いもの",
+      "FlawsTitle": "弱味",
+      "BiographyPlaceholder": "背景/経歴..."
     }
   }
-  
+}

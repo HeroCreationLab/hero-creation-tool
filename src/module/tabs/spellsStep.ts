@@ -140,6 +140,7 @@ class _Spells extends Step {
   }
 
   async renderData() {
+    Utils.setPanelScrolls(this.section());
     // Show rules on the side panel
     const spellsRulesItem = await Utils.getJournalFromPackByName(
       Constants.DEFAULT_PACKS.RULES,

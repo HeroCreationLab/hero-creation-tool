@@ -45,6 +45,7 @@ export default class HeroCreationTool extends Application {
     options.template = Constants.MODULE_PATH + '/templates/app.html';
     options.width = 720;
     options.height = 680;
+    options.resizable = true;
     return options;
   }
 
@@ -122,7 +123,11 @@ export default class HeroCreationTool extends Application {
       const actor = new cls(newActorData);
 
       const newActor = await Actor.create(actor.toObject());
-      await newActor!.createEmbeddedDocuments('Item', itemsFromActor as any);
+      if (!newActor) {
+        ui.notifications?.error(game.i18n.format('HCT.Error.ActorCreationError', { name: newActorData?.name }));
+        return;
+      }
+      await newActor.createEmbeddedDocuments('Item', itemsFromActor as any);
       this.close();
     }
   }

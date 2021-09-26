@@ -11,6 +11,10 @@
         "Name": "Afficher les jets sur le chat",
         "Hint": "Afficher les scores des capacités et les jets d'or de départ sous forme de messages de chat"
       },
+      "IndividualPanelScroll": {
+        "Name": "Individual panel scrolls",
+        "Hint": "In tabs with left and right panels, make each side have independent scrolls"
+      },
       "UseTokenizer": {
         "Name": "Utiliser Tokenizer si disponible",
         "Hint": "L'outil essaiera d'utiliser le module Tokenizer, s'il est trouvé, par défaut pour générer les images de l'avatar et du jeton."
@@ -82,6 +86,7 @@
       }
     },
     "Error": {
+      "ActorCreationError": "Une erreur s'est produite lors de la création du personnage avec le nom {name}; abandon...",
       "UpdateValueLoad": "{valeur} non chargée pour la mise à jour des valeurs",
       "RenderLoad": "{valeur} non chargée pour les données de rendu",
       "CustomItemWithoutName": "Impossible de créer une fonction personnalisée sur {origin} - Le nom de l'élément est obligatoire (l'élément sera ignoré).",

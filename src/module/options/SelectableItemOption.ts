@@ -36,9 +36,7 @@ export default class SelectableItemOption implements HeroOption {
 
   render($parent: JQuery): void {
     const $container = $('<div class="hct-icon-with-context">');
-    this.$link = $(
-      `<a class="entity-link hct-icon-link" draggable="false" data-pack="dnd5e.classfeatures" data-id="">`,
-    );
+    this.$link = $(`<a class="entity-link hct-icon-link" draggable="false" data-pack="" data-id="">`);
     this.$itemImg = $('<img class="hct-icon">');
     this.$select = $(`<select class="hct-width-full">`);
 
@@ -52,9 +50,9 @@ export default class SelectableItemOption implements HeroOption {
       const val = this.$select.val();
       const item = this.optionsMap.get(val as string) as Item;
       this.$itemImg.attr('src', item.img || Constants.MYSTERY_MAN);
-      const source = (item as any).flags.core.sourceId.split('.');
-      const id = source[source.length - 1];
-      this.$link.attr('data-id', id);
+      const linkData = (item as any).flags?.hct?.link;
+      this.$link.attr('data-pack', linkData?.pack);
+      this.$link.attr('data-id', linkData?.id);
     });
     $container.append(this.$select);
     $parent.append($container);

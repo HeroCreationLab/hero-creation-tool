@@ -23,6 +23,7 @@ export default class SelectOrCustomItemOption implements HeroOption {
   readonly CUSTOM = 'custom';
 
   private $select!: JQuery;
+  private $link!: JQuery;
   private $icon!: JQuery;
   private $customInputs!: JQuery;
   private $customName!: JQuery;
@@ -50,11 +51,13 @@ export default class SelectOrCustomItemOption implements HeroOption {
     const $container = $('<div>');
     const $iconAndSelect = $(`<div class="hct-icon-with-context hct-margin-b-tiny">`);
 
+    this.$link = $(`<a class="hct-icon-link" draggable="false" data-pack="" data-id="">`);
     this.$icon = $(`<img class="hct-icon hct-icon-clickable" src="${Constants.MYSTERY_MAN}">`);
     this.$icon.on('click', () => {
       if (this.isCustom) this.openFilePicker();
     });
-    $iconAndSelect.append(this.$icon);
+    this.$link.append(this.$icon);
+    $iconAndSelect.append(this.$link);
 
     this.$select = $(`<select class="hct-option-select">`)
       .append(
@@ -75,6 +78,7 @@ export default class SelectOrCustomItemOption implements HeroOption {
     this.$select.on('change', () => {
       this.isCustom = this.CUSTOM === this.$select.val();
       if (this.isCustom) {
+        this.$link.removeClass('entity-link');
         this.$customDescription.text('');
         this.$customName.text('');
         this.item = undefined;
@@ -85,6 +89,10 @@ export default class SelectOrCustomItemOption implements HeroOption {
         const index = parseInt(this.$select.val() as string);
         this.item = this.selectOptions![index];
         this.$icon.attr('src', this.item?.img || Constants.MYSTERY_MAN);
+        const linkData = (this.item as any).flags?.hct?.link;
+        this.$link.attr('data-pack', linkData?.pack);
+        this.$link.attr('data-id', linkData?.id);
+        this.$link.addClass('entity-link');
       }
     });
     $iconAndSelect.append(this.$select);
