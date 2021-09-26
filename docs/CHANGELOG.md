@@ -1,5 +1,10 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.1.6 (2021-09-26)
+- Made window resizable. [(#21)](https://github.com/HeroCreationLab/hero-creation-tool/issues/21)
+- Allowed for tabs to scroll as a whole, or split between left/right panels. [(#37)](https://github.com/HeroCreationLab/hero-creation-tool/issues/37)
+- Fixed a bug where some items would not open the item popup. [(#22)](https://github.com/HeroCreationLab/hero-creation-tool/issues/22)
+
 ## 1.1.5 (2021-09-25)
 - Fix for items with active effects not been transferred to the created actor. [(#29)](https://github.com/HeroCreationLab/hero-creation-tool/issues/29)
 - Replaced item whitelist for Equipment tab (used to select only "sane" items to buy, avoiding all the magical gear and etc) for a filter on "Common" items and a much, much smaller blacklist of items to actively avoid (namely just spell scrolls, 2 potions and Unarmed Strikes)
