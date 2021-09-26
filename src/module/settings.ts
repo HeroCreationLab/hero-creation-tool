@@ -5,6 +5,7 @@ const enum SettingKeys {
   TOKEN_BAR = 'displayBarsMode',
   TOKEN_NAME = 'displayNameMode',
   SHOW_ROLLS_AS_MESSAGES = 'showRolls',
+  INDIVIDUAL_PANEL_SCROLLS = 'individualScrolls',
   DEFAULT_GOLD_DICE = 'defaultGoldDice',
   SOURCES = 'compendiumSources',
 }
@@ -28,6 +29,7 @@ export function registerSettings(): void {
 
   defaultStartingGoldDice();
   showRollsAsChatMessages();
+  individualPanelScrolls();
   tokenDisplayNameMode();
   tokenDisplayBarsMode();
   // custom packs
@@ -268,5 +270,16 @@ function showRollsAsChatMessages() {
     config: true,
     type: Boolean,
     default: true,
+  });
+}
+
+function individualPanelScrolls() {
+  game.settings.register(Constants.MODULE_NAME, SettingKeys.INDIVIDUAL_PANEL_SCROLLS, {
+    name: game.i18n.localize('HCT.Setting.IndividualPanelScroll.Name'),
+    hint: game.i18n.localize('HCT.Setting.IndividualPanelScroll.Hint'),
+    scope: 'client',
+    config: true,
+    type: Boolean,
+    default: false,
   });
 }

@@ -11,6 +11,10 @@
         "Name": "ロールをチャットに表示する",
         "Hint": "能力値や初期所持金ロールをチャットメッセージとして出力します。"
       },
+      "IndividualPanelScroll": {
+        "Name": "Individual panel scrolls",
+        "Hint": "In tabs with left and right panels, make each side have independent scrolls"
+      },
       "UseTokenizer": {
         "Name": "可能ならTokenizerを使用する",
         "Hint": "モジュール「Tokenizer」が有効であれば、アバターとコマ画像の生成にこれを使用します。"

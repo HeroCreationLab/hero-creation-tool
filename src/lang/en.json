@@ -11,6 +11,10 @@
         "Name": "Show rolls on chat",
         "Hint": "Show ability score and starting gold rolls as chat messages"
       },
+      "IndividualPanelScroll": {
+        "Name": "Individual panel scrolls",
+        "Hint": "In tabs with left and right panels, make each side have independent scrolls"
+      },
       "UseTokenizer": {
         "Name": "Use Tokenizer if available",
         "Hint": "The tool will try to use the Tokenizer module, if found, as default to generate avatar and token pictures"

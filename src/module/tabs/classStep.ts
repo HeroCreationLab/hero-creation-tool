@@ -57,6 +57,7 @@ class _Class extends Step {
   }
 
   renderData(): void {
+    Utils.setPanelScrolls(this.section());
     $('[data-hct_class_data]', this.section()).hide();
   }
 

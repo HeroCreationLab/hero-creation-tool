@@ -1,6 +1,28 @@
 import * as Constants from './constants';
 import SettingKeys, { Source } from './settings';
 
+export function setPanelScrolls($section: JQuery) {
+  const individualScrolls = getModuleSetting(SettingKeys.INDIVIDUAL_PANEL_SCROLLS);
+  const scroll = 'hct-y-scroll';
+  const height = 'hct-height-100p';
+
+  const $leftPanel = $('.hct-panel-left', $section);
+  const $rightPanel = $('.hct-panel-right', $section);
+  const $panelContainer = $('.hct-panel-container', $section);
+
+  if (individualScrolls) {
+    $leftPanel.addClass(scroll);
+    $rightPanel.addClass(scroll);
+    $panelContainer.addClass(height);
+    $section.removeClass(scroll);
+  } else {
+    $leftPanel.removeClass(scroll);
+    $rightPanel.removeClass(scroll);
+    $panelContainer.removeClass(height);
+    $section.addClass(scroll);
+  }
+}
+
 export function getModuleSetting(key: SettingKeys) {
   return game.settings.get(Constants.MODULE_NAME, key);
 }

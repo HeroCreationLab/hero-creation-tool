@@ -45,6 +45,7 @@ class _Abilities extends Step {
   }
 
   async renderData() {
+    Utils.setPanelScrolls(this.section());
     // Show rules on the side panel
     const abilitiesRulesItem = await Utils.getJournalFromPackByName(
       Constants.DEFAULT_PACKS.RULES,

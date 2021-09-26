@@ -45,6 +45,7 @@ export default class HeroCreationTool extends Application {
     options.template = Constants.MODULE_PATH + '/templates/app.html';
     options.width = 720;
     options.height = 680;
+    options.resizable = true;
     return options;
   }
 

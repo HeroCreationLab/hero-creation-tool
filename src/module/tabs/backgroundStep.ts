@@ -22,6 +22,7 @@ class _BackgroundTab extends Step {
   }
 
   async renderData() {
+    Utils.setPanelScrolls(this.section());
     // Show rules on the side panel
     const backgroundRulesItem = await Utils.getJournalFromPackByName(
       Constants.DEFAULT_PACKS.RULES,
