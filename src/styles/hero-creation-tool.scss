@@ -157,6 +157,12 @@ $color-accent-alt: darkgreen;
     align-items: baseline;
   }
 
+  &-background {
+    &-black {
+      background-color: black;
+    }
+  }
+
   &-search {
     &-area {
       display: flex;
@@ -231,7 +237,6 @@ $color-accent-alt: darkgreen;
     min-width: 48px;
     max-height: 48px;
     min-height: 48px;
-    margin-right: $small;
 
     &-square-med {
       width: $large;

@@ -10,6 +10,7 @@ import HiddenOption from '../options/HiddenOption';
 import SelectableOption from '../options/SelectableOption';
 import FixedOption, { OptionType } from '../options/FixedOption';
 import InputOption from '../options/InputOption';
+import SearchableItemOption from '../options/SearchableOption';
 
 type KeyValue = {
   key: string;
@@ -36,41 +37,6 @@ class _Race extends Step {
 
   setListeners(): void {
     this.$context = $('[data-hct_race_data]', this.section());
-    $('[data-hct_race_picker]').on('change', async (event) => {
-      const raceName = $(event.currentTarget).val();
-      if (this.races) {
-        const raceParts = raceName?.toString().split('.');
-        if (!raceParts) throw new Error('invalid race splitting on select');
-
-        const raceGroup = this.races.find((race) => race.name == raceParts[0]);
-        if (!raceGroup) {
-          throw new Error(`No parent race found for ${raceParts}`);
-        }
-        const raceItems = [raceGroup.item];
-        if (raceParts!.length > 1) {
-          // has subclass
-          const subraceItem = raceGroup.subraces?.find((subrace) => subrace.name == raceParts[1]);
-          if (!raceGroup) {
-            throw new Error(`No subrace found for ${raceParts}`);
-          }
-          raceItems.push(subraceItem!);
-        }
-        this.updateRace(raceParts[raceParts.length - 1] as string, raceItems);
-
-        // update icon and description
-        const racetoShow = raceItems[raceItems.length - 1];
-        $('[data-hct_race_icon]').attr('src', racetoShow.img || Constants.MYSTERY_MAN);
-        const hasSubclass = raceItems.length == 2;
-        if (hasSubclass) {
-          $('[data-hct_race_description]').html(TextEditor.enrichHTML((raceItems[0].data as any).description.value));
-          $('[data-hct_subrace_description]').html(TextEditor.enrichHTML((raceItems[1].data as any).description.value));
-        } else {
-          $('[data-hct_race_description]').html(TextEditor.enrichHTML((racetoShow.data as any).description.value));
-          $('[data-hct_subrace_description]').empty();
-        }
-        $('[data-hct_subrace_separator]').toggle(hasSubclass);
-      } else ui.notifications!.error(game.i18n.format('HCT.Error.UpdateValueLoad', { value: 'Races' }));
-    });
   }
 
   async setSourceData() {
@@ -110,6 +76,56 @@ class _Race extends Step {
     $('[data-hct_race_data]').hide();
     if (this.races) setRaceOptions(this.races);
     else ui.notifications!.error(game.i18n.format('HCT.Error.RenderLoad', { value: 'Races' }));
+
+    const searchableOption = new SearchableItemOption(
+      this.step,
+      'item',
+      this.races!.flatMap((r) => {
+        if (r.subraces && r.subraces.length > 0) {
+          return r.subraces.map((sr) => {
+            return { key: `${r.name}.${sr.name}`, name: sr.name!, img: sr.img! };
+          });
+        } else return [{ key: r.name, name: r.item.name!, img: r.item.img! }];
+      }),
+      (raceKey) => {
+        // callback on selected
+        if (this.races) {
+          const raceParts = raceKey?.toString().split('.');
+          if (!raceParts) throw new Error('invalid race splitting on select');
+
+          const raceGroup = this.races.find((race) => race.name == raceParts[0]);
+          if (!raceGroup) {
+            throw new Error(`No parent race found for ${raceParts}`);
+          }
+          const raceItems = [raceGroup.item];
+          if (raceParts!.length > 1) {
+            // has subclass
+            const subraceItem = raceGroup.subraces?.find((subrace) => subrace.name == raceParts[1]);
+            if (!raceGroup) {
+              throw new Error(`No subrace found for ${raceParts}`);
+            }
+            raceItems.push(subraceItem!);
+          }
+          this.updateRace(raceParts[raceParts.length - 1] as string, raceItems);
+
+          // update icon and description
+          const racetoShow = raceItems[raceItems.length - 1];
+          $('[data-hct_race_icon]').attr('src', racetoShow.img || Constants.MYSTERY_MAN);
+          const hasSubclass = raceItems.length == 2;
+          if (hasSubclass) {
+            $('[data-hct_race_description]').html(TextEditor.enrichHTML((raceItems[0].data as any).description.value));
+            $('[data-hct_subrace_description]').html(
+              TextEditor.enrichHTML((raceItems[1].data as any).description.value),
+            );
+          } else {
+            $('[data-hct_race_description]').html(TextEditor.enrichHTML((racetoShow.data as any).description.value));
+            $('[data-hct_subrace_description]').empty();
+          }
+          $('[data-hct_subrace_separator]').toggle(hasSubclass);
+        } else ui.notifications!.error(game.i18n.format('HCT.Error.UpdateValueLoad', { value: 'Races' }));
+      },
+    );
+    searchableOption.render($('[data-hct-race-search]'));
   }
 
   updateRace(raceName: string, raceItems: Item[]) {
