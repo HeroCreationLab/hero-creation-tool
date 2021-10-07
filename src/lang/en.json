@@ -35,7 +35,8 @@
         "ClassCompendia": "Class Compendia",
         "ClassFeatureCompendia": "Class Features Compendia",
         "BackgroundFeatureCompendia": "Background Features Compendia",
-        "SpellCompendia": "Spell Compendia"
+        "SpellCompendia": "Spell Compendia",
+        "FeatCompendia": "Feat Compendia"
       }
     },
     "Permissions": {
@@ -72,6 +73,7 @@
       "ArmorProficiencies": "Armor Proficiencies",
       "AddCustom": "Custom",
       "AddStandard": "Select",
+      "Feat": "Feat",
       "Feature": "Feature",
       "Features": "Features",
       "Movement": {

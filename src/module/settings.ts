@@ -18,6 +18,7 @@ export interface Source {
   classFeatures: any;
   backgroundFeatures: any;
   spells: any;
+  feats: any;
 }
 
 export function registerSettings(): void {
@@ -50,6 +51,7 @@ function sourcesConfiguration() {
       classFeatures: { [Constants.DEFAULT_PACKS.CLASS_FEATURES]: true },
       backgroundFeatures: {},
       spells: { [Constants.DEFAULT_PACKS.SPELLS]: true },
+      feats: {},
     },
   });
   // Define a settings submenu which handles advanced configuration needs
@@ -172,6 +174,7 @@ class CompendiumSourcesSubmenu extends FormApplication {
         classFeatures: [Constants.DEFAULT_PACKS.CLASS_FEATURES],
         backgroundFeatures: [],
         spells: [Constants.DEFAULT_PACKS.SPELLS],
+        feats: [],
       };
     } else {
       selected = pruneUnselectedPacks(val);
@@ -222,6 +225,7 @@ type BuildData = {
     classFeatures: string[];
     backgroundFeatures: string[];
     spells: string[];
+    feats: string[];
   };
 };
 function buildTemplateData({ compendiaList, selectedCompendia }: BuildData) {
@@ -250,6 +254,10 @@ function buildTemplateData({ compendiaList, selectedCompendia }: BuildData) {
       spells: {
         label: game.i18n.localize('HCT.Setting.Sources.SpellCompendia'),
         compendia: buildCompendiaList(compendiaList, selectedCompendia.spells),
+      },
+      feats: {
+        label: game.i18n.localize('HCT.Setting.Sources.FeatCompendia'),
+        compendia: buildCompendiaList(compendiaList, selectedCompendia.feats),
       },
     },
   };

@@ -10,7 +10,7 @@ import HiddenOption from '../options/HiddenOption';
 import SelectableOption from '../options/SelectableOption';
 import FixedOption, { OptionType } from '../options/FixedOption';
 import InputOption from '../options/InputOption';
-import SearchableItemOption from '../options/SearchableOption';
+import SearchableItemOption from '../options/SearchableItemOption';
 
 type KeyValue = {
   key: string;
@@ -26,6 +26,8 @@ type Race = {
 class _Race extends Step {
   races?: Race[];
   raceFeatures?: Item[];
+
+  feats?: Item[];
 
   $context!: JQuery;
 
@@ -69,6 +71,9 @@ class _Race extends Step {
     this.raceFeatures = raceFeatureItems
       ?.filter((item) => !raceNames.includes(item.name))
       .sort((a, b) => a.name.localeCompare(b.name)) as any;
+
+    const feats = await Utils.getSources('feats');
+    this.feats = feats.sort((a, b) => a.name.localeCompare(b.name)) as any;
   }
 
   renderData(): void {
@@ -83,9 +88,9 @@ class _Race extends Step {
       this.races!.flatMap((r) => {
         if (r.subraces && r.subraces.length > 0) {
           return r.subraces.map((sr) => {
-            return { key: `${r.name}.${sr.name}`, name: sr.name!, img: sr.img! };
+            return { id: `${r.name}.${sr.name}`, name: sr.name!, img: sr.img! };
           });
-        } else return [{ key: r.name, name: r.item.name!, img: r.item.img! }];
+        } else return [{ id: r.name, name: r.item.name!, img: r.item.img! }];
       }),
       (raceKey) => {
         // callback on selected
@@ -124,6 +129,7 @@ class _Race extends Step {
           $('[data-hct_subrace_separator]').toggle(hasSubclass);
         } else ui.notifications!.error(game.i18n.format('HCT.Error.UpdateValueLoad', { value: 'Races' }));
       },
+      game.i18n.localize('HCT.Race.Select.Default'),
     );
     searchableOption.render($('[data-hct-race-search]'));
   }
@@ -137,6 +143,7 @@ class _Race extends Step {
     this.setMovementUi();
     this.setProficienciesUi();
     this.setRaceFeaturesUi(raceItems);
+    this.setFeatsUi();
 
     this.$context.show();
 
@@ -281,6 +288,19 @@ class _Race extends Step {
     const $raceFeaturesSection = $('section', $('[data-hct_race_area=features]', this.$context)).empty();
     options.forEach((o) => o.render($raceFeaturesSection));
     this.stepOptions.push(...options);
+  }
+
+  setFeatsUi(): void {
+    const featOption: HeroOption = new SearchableItemOption(this.step, 'items', this.feats ?? [], (featName) => {
+      const featItem = this.feats?.find((f: any) => f.name == featName);
+      const $imgLink = $('[data-hct_feat_icon]', this.$context);
+      $imgLink.attr('data-pack', (featItem as any).flags.hct.link.pack);
+      $imgLink.attr('data-id', (featItem as any).flags.hct.link.id);
+      $('img', $imgLink).attr('src', featItem?.img ?? Constants.MYSTERY_MAN);
+    });
+    const $raceFeaturesSection = $('section', $('[data-hct_race_area=feat]', this.$context)).empty();
+    featOption.render($raceFeaturesSection);
+    this.stepOptions.push(featOption);
   }
 }
 const RaceTab: Step = new _Race();

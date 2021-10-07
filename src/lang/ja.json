@@ -35,7 +35,8 @@
         "ClassCompendia": "クラス辞典",
         "ClassFeatureCompendia": "クラス特徴辞典",
         "BackgroundFeatureCompendia": "背景特徴辞典",
-        "SpellCompendia": "呪文辞典"
+        "SpellCompendia": "呪文辞典",
+        "FeatCompendia": "FEAT COMPENDIA"
       }
     },
     "Permissions": {
@@ -72,6 +73,7 @@
       "ArmorProficiencies": "鎧習熟",
       "AddCustom": "カスタム",
       "AddStandard": "選択",
+      "Feat": "FEAT",
       "Feature": "特徴",
       "Features": "特徴",
       "Movement": {

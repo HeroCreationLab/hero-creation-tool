@@ -3,7 +3,7 @@ import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-
 import * as Constants from '../constants';
 import HeroOption, { apply } from './HeroOption';
 
-type Result = { key: string; name: string; img: string };
+type Result = { id: string; name: string; img: string };
 
 /**
  * Represents a value needs to be selected by the player with a single output onto the created actor.
@@ -15,13 +15,14 @@ export default class SearchableItemOption implements HeroOption {
     addValues: boolean;
     default?: string;
     customizable: boolean;
-  } = { addValues: false, customizable: false };
+  } = { addValues: true, customizable: false };
 
   constructor(
     readonly origin: StepEnum,
     readonly key: string,
-    private options: Array<Result>,
-    private selectCallback: (key: string) => any,
+    private options: Array<Result | Item>,
+    private selectCallback?: (id: string) => any,
+    private placeholder?: string,
   ) {
     this.searchArray = [];
   }
@@ -31,17 +32,20 @@ export default class SearchableItemOption implements HeroOption {
   }
 
   applyToHero(actor: ActorDataConstructorData) {
-    apply(actor, this.key, this.value(), this.settings.addValues);
+    apply(actor, this.key, [this.value()], this.settings.addValues);
   }
 
   $input!: JQuery;
   $resultBox!: JQuery;
-  searchArray: Result[];
+  searchArray: Array<Result | Item>;
+  selected?: Result | Item;
 
   render($parent: JQuery, options?: { beforeParent: boolean }): void {
     const $form = $(`<form data-hct-searchbar autocomplete="off">`);
     const $searchWrapper = $(`<div class="hct-search-wrapper">`);
-    this.$input = $(`<input type="text" placeholder="${game.i18n.localize('HCT.Common.Searchbar.Placeholder')}">`);
+    this.$input = $(
+      `<input type="text" placeholder="${this.placeholder ?? game.i18n.localize('HCT.Common.Searchbar.Placeholder')}">`,
+    );
     this.$input.on('click', (e: any) => {
       if (this.$input.val() == '') {
         this.searchArray = this.options;
@@ -79,18 +83,19 @@ export default class SearchableItemOption implements HeroOption {
 
   private setSuggestionsInteraction($searchWrapper: JQuery<HTMLElement>) {
     $('div', this.$resultBox).on('click', (event) => {
-      const key = $(event.currentTarget).data('key');
+      const id = $(event.currentTarget).data('key');
       $searchWrapper.removeClass('active');
-      this.$input.val(this.options.find((o) => o.key == key)?.name ?? 'INVALID_KEY');
-      this.selectCallback(key);
+      this.$input.val(this.options.find((o) => o.id == id)?.name ?? id);
+      if (this.selectCallback) this.selectCallback(id);
+      this.selected = this.options.find((o) => o.id === id || o.name === id); // Results use id, Items use name
     });
   }
 
   value(): any {
-    return null;
+    return this.selected;
   }
 
-  showSuggestions(searchArray: Result[]) {
+  showSuggestions(searchArray: Array<Result | Item>) {
     let listData;
     if (!searchArray.length) {
       listData = `<li>${'No matches'}</li>`;
@@ -98,11 +103,14 @@ export default class SearchableItemOption implements HeroOption {
       listData = searchArray
         .map(
           (result) =>
-            `<li><div class="hct-icon-with-context" data-key=\"${
-              result.key
-            }\"><img class="hct-icon-square-med hct-background-black hct-no-border" src="${
-              result.img ?? Constants.MYSTERY_MAN
-            }"><span>${result.name}</span></div></li>`,
+            `<li>
+              <div class="hct-icon-with-context" data-key=\"${result.id ?? result.name}\">
+                <img class="hct-icon-square-med hct-background-black hct-no-border" src="${
+                  result.img ?? Constants.MYSTERY_MAN
+                }">
+                <span>${result.name}</span>
+              </div>
+            </li>`,
         )
         .join('');
     }
