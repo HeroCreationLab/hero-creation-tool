@@ -1,5 +1,9 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.2.0 (2021-10-07)
+- Replaced Race and Class selection dropdowns for a search widget (Interaction is still a little rough, but I think its totally usable). [(#46)](https://github.com/HeroCreationLab/hero-creation-tool/issues/46)
+- Added support for Feats. [(#38)](https://github.com/HeroCreationLab/hero-creation-tool/issues/38)
+
 ## 1.1.6 (2021-09-26)
 - Made window resizable. [(#21)](https://github.com/HeroCreationLab/hero-creation-tool/issues/21)
 - Allowed for tabs to scroll as a whole, or split between left/right panels. [(#37)](https://github.com/HeroCreationLab/hero-creation-tool/issues/37)
