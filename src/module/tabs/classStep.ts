@@ -8,6 +8,7 @@ import * as ProficiencyUtils from '../proficiencyUtils';
 import HiddenOption from '../options/HiddenOption';
 import FixedOption, { OptionType } from '../options/FixedOption';
 import SelectableItemOption from '../options/SelectableItemOption';
+import SearchableItemOption from '../options/SearchableItemOption';
 
 class _Class extends Step {
   private classes?: Item[] = [];
@@ -31,17 +32,7 @@ class _Class extends Step {
   section = () => $('#classDiv');
 
   setListeners(): void {
-    $('[data-hct_class_picker]', this.section()).on('change', async (event) => {
-      this.clearOptions();
-      const className: string = $(event.currentTarget).val() as string;
-      this._class = this.classes!.find((c) => c.name === className) as Item;
-      if (!this._class) {
-        throw new Error(`Error finding class with name ${className}`);
-      }
-      if (this.classes) {
-        this.updateClass(this.section());
-      } else ui.notifications!.error(game.i18n.format('HCT.Error.UpdateValueLoad', { value: 'Classes' }));
-    });
+    // do nothing
   }
 
   async setSourceData() {
@@ -59,6 +50,25 @@ class _Class extends Step {
   renderData(): void {
     Utils.setPanelScrolls(this.section());
     $('[data-hct_class_data]', this.section()).hide();
+
+    const searchableOption = new SearchableItemOption(
+      this.step,
+      'item',
+      this.classes!.map((c) => ({ id: c.name!, name: c.name!, img: c.img! })),
+      (classKey) => {
+        // callback on selected
+        this.clearOptions();
+        this._class = this.classes!.find((c) => c.name === classKey) as Item;
+        if (!this._class) {
+          throw new Error(`Error finding class with name ${classKey}`);
+        }
+        if (this.classes) {
+          this.updateClass(this.section());
+        } else ui.notifications!.error(game.i18n.format('HCT.Error.UpdateValueLoad', { value: 'Classes' }));
+      },
+      game.i18n.localize('HCT.Class.Select.Default'),
+    );
+    searchableOption.render($('[data-hct-class-search]'));
   }
 
   updateClass($section: JQuery) {

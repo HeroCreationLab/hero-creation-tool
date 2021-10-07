@@ -35,7 +35,8 @@
         "ClassCompendia": "Classes Compendiums",
         "ClassFeatureCompendia": "Capacités des Classes Compendiums",
         "BackgroundFeatureCompendia": "Capacités d'Historique Compendiums",
-        "SpellCompendia": "Sorts Compendiums"
+        "SpellCompendia": "Sorts Compendiums",
+        "FeatCompendia": "Dons Compendiums"
       }
     },
     "Permissions": {
@@ -72,6 +73,7 @@
       "ArmorProficiencies": "Armures maîtrisées",
       "AddCustom": "Personnalisé",
       "AddStandard": "Sélectionnez",
+      "Feat": "Don",
       "Feature": "Trait",
       "Features": "Traits",
       "Movement": {

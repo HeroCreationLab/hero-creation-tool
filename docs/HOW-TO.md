@@ -1,6 +1,6 @@
 # How-To for DMs
 
-## Creating a custom race/subrace/racial feature/class/class feature/background feature/spell
+## Creating a custom race/subrace/racial feature/class/class feature/background feature/spell/feat
 
 Custom content is added simply by creating compendia for each type of items handled, filling them with vanilla Foundry VTT items you create *-items in the foundry meaning - been "entities you link to an actor", not items like a sword of a torch-*, and linking to those compendia in the module settings. If you already have compendia with appropriate items, you can just link to them.
 
@@ -23,6 +23,8 @@ The module makes some assumptions to understand how to link and differentiate it
 - Background Features are *Feature*-type items that have the "Background" source and a background name as Requirement. All found Background Names will be added to the background selector.
 
 - Spells are *Spell*-type items.*
+
+- Feats are *Feature*-type items.
 
 > \* *Please remember that the tool at the moment only assists in making 1st level characters, so things like class features higher-than-first-level or spells other than cantrips and 1st level spells are ignored by the tool for now.*
 

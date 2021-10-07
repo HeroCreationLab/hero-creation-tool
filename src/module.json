@@ -2,7 +2,7 @@
   "name": "hero-creation-tool",
   "title": "Hero Creation Tool for DnD5E",
   "description": "A step-by-step tool for creating player characters with race, class, etc.",
-  "version": "1.1.6",
+  "version": "1.2.0",
   "minimumCoreVersion": "0.8.8",
   "compatibleCoreVersion": "0.8.9",
   "esmodules": ["module/hero-creation-tool.js"],
