@@ -46,6 +46,20 @@ class _Abilities extends Step {
 
   async renderData() {
     Utils.setPanelScrolls(this.section());
+
+    // Enable only DM-allowed methods
+    const $methodsContext = $('[data-hct-ability-methods]', this.section);
+    $('[data-mode="roll"]', $methodsContext).prop('disabled', !Utils.getModuleSetting(SettingKeys.ENABLE_ASI_ROLL));
+    $('[data-mode="standard"]', $methodsContext).prop(
+      'disabled',
+      !Utils.getModuleSetting(SettingKeys.ENABLE_ASI_STANDARD),
+    );
+    $('[data-mode="point-buy"]', $methodsContext).prop(
+      'disabled',
+      !Utils.getModuleSetting(SettingKeys.ENABLE_ASI_POINTBUY),
+    );
+    $('[data-mode="manual"]', $methodsContext).prop('disabled', !Utils.getModuleSetting(SettingKeys.ENABLE_ASI_MANUAL));
+
     // Show rules on the side panel
     const abilitiesRulesItem = await Utils.getJournalFromPackByName(
       Constants.DEFAULT_PACKS.RULES,

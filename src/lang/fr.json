@@ -15,6 +15,18 @@
         "Name": "Individual panel scrolls",
         "Hint": "In tabs with left and right panels, make each side have independent scrolls"
       },
+      "AllowAbilityRolling": {
+        "Name": "Allow ability score rolling"
+      },
+      "AllowAbilityStandardArray": {
+        "Name": "Allow ability score Standard Array"
+      },
+      "AllowAbilityPointBuy": {
+        "Name": "Allow ability score Point-Buy"
+      },
+      "AllowAbilityInput": {
+        "Name": "Allow ability score manual entry"
+      },
       "UseTokenizer": {
         "Name": "Utiliser Tokenizer si disponible",
         "Hint": "L'outil essaiera d'utiliser le module Tokenizer, s'il est trouvé, par défaut pour générer les images de l'avatar et du jeton."

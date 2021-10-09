@@ -5,6 +5,10 @@ const enum SettingKeys {
   TOKEN_BAR = 'displayBarsMode',
   TOKEN_NAME = 'displayNameMode',
   SHOW_ROLLS_AS_MESSAGES = 'showRolls',
+  ENABLE_ASI_ROLL = 'enableAbilityScoreRolls',
+  ENABLE_ASI_POINTBUY = 'enableAbilityScorePointBuy',
+  ENABLE_ASI_STANDARD = 'enableAbilityScoreStandardArray',
+  ENABLE_ASI_MANUAL = 'enableAbilityScoreManualInput',
   INDIVIDUAL_PANEL_SCROLLS = 'individualScrolls',
   DEFAULT_GOLD_DICE = 'defaultGoldDice',
   SOURCES = 'compendiumSources',
@@ -31,6 +35,7 @@ export function registerSettings(): void {
   defaultStartingGoldDice();
   showRollsAsChatMessages();
   individualPanelScrolls();
+  abilityScoreMethods();
   tokenDisplayNameMode();
   tokenDisplayBarsMode();
   // custom packs
@@ -289,5 +294,39 @@ function individualPanelScrolls() {
     config: true,
     type: Boolean,
     default: false,
+  });
+}
+
+function abilityScoreMethods() {
+  game.settings.register(Constants.MODULE_NAME, SettingKeys.ENABLE_ASI_ROLL, {
+    name: game.i18n.localize('HCT.Setting.AllowAbilityRolling.Name'),
+    scope: 'world',
+    config: true,
+    type: Boolean,
+    default: true,
+  });
+
+  game.settings.register(Constants.MODULE_NAME, SettingKeys.ENABLE_ASI_STANDARD, {
+    name: game.i18n.localize('HCT.Setting.AllowAbilityStandardArray.Name'),
+    scope: 'world',
+    config: true,
+    type: Boolean,
+    default: true,
+  });
+
+  game.settings.register(Constants.MODULE_NAME, SettingKeys.ENABLE_ASI_POINTBUY, {
+    name: game.i18n.localize('HCT.Setting.AllowAbilityPointBuy.Name'),
+    scope: 'world',
+    config: true,
+    type: Boolean,
+    default: true,
+  });
+
+  game.settings.register(Constants.MODULE_NAME, SettingKeys.ENABLE_ASI_MANUAL, {
+    name: game.i18n.localize('HCT.Setting.AllowAbilityInput.Name'),
+    scope: 'world',
+    config: true,
+    type: Boolean,
+    default: true,
   });
 }

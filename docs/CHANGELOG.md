@@ -1,5 +1,8 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.3.0 (yyyy-mm-dd)
+- Locked ability score methods behind a DM setting; now the DM can set that all players need to roll, or use Point But, etc, or give them whatever choices considered appropriate.
+
 ## 1.2.0 (2021-10-07)
 - Replaced Race and Class selection dropdowns for a search widget (Interaction is still a little rough, but I think its totally usable). [(#38)](https://github.com/HeroCreationLab/hero-creation-tool/issues/38)
 - Added support for Feats. [(#46)](https://github.com/HeroCreationLab/hero-creation-tool/issues/46)
