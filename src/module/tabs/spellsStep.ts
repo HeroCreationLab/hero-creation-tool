@@ -129,7 +129,7 @@ class _Spells extends Step {
 
   async setSourceData() {
     const filteredSpells = (await Utils.getSources('spells')) as any;
-    const maxLevel = 1;
+    const maxLevel = 9;
     this.spells = filteredSpells.filter((item: Item) => (item.data as any).level <= maxLevel);
   }
 
@@ -149,8 +149,9 @@ class _Spells extends Step {
     this.rules = TextEditor.enrichHTML((spellsRulesItem as any).content);
     $('[data-hct_spells_description]', this.section()).html(this.rules);
 
-    $('[data-hct_lv0_label]', this.section()).html(`${(game as any).dnd5e.config.spellLevels[0]}: `);
-    $('[data-hct_lv1_label]', this.section()).html(`${(game as any).dnd5e.config.spellLevels[1]}: `);
+    for (let i = 0; i < 10; i++) {
+      $(`[data-hct_lv${i}_label]`, this.section()).html(`${(game as any).dnd5e.config.spellLevels[i]}: `);
+    }
   }
 
   update(data: any) {
@@ -170,6 +171,8 @@ class _Spells extends Step {
           $('[data-hct_spells_description]', this.section()).html(this.rules);
         }
       });
+
+      //const maxSpellLevel = calculateMaxSpellLevel(data.class.level, data.class.spellcasting.progression);
     } else {
       $spellCastingAbilityElem.html(game.i18n.localize('HCT.Spells.NoSpellcastingClass'));
     }
@@ -182,3 +185,18 @@ const enum CountChange {
   UP,
   DOWN,
 }
+
+// function calculateMaxSpellLevel(level: number, progression: string): number | null {
+//   switch (progression) {
+//     case 'none':
+//       return null;
+//     case 'half':
+//       if (level > 1) return Math.floor(level / 2);
+//     case 'third':
+//       return (game as any).dnd5e.config.SPELL_SLOT_TABLE[level];
+//     case 'full':
+//       return (game as any).dnd5e.config.SPELL_SLOT_TABLE[level];
+//     default:
+//       return null;
+//   }
+// }

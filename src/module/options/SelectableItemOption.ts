@@ -15,9 +15,12 @@ export default class SelectableItemOption implements HeroOption {
     readonly options: Item[],
     readonly settings: {
       addValues: boolean;
+      placeholderName?: string;
     } = { addValues: false },
   ) {
-    this.optionsMap = new Map(options.map((i) => [foundry.utils.randomID(), i]));
+    this.optionsMap = new Map(
+      options.map((i) => [i.name === this.settings.placeholderName ? '' : foundry.utils.randomID(), i]),
+    );
   }
 
   optionsMap: Map<string, Item>;
@@ -43,12 +46,13 @@ export default class SelectableItemOption implements HeroOption {
     this.$link.append(this.$itemImg);
     $container.append(this.$link);
     this.optionsMap.forEach((item, key) => {
-      const $opt = $(`<option value="${key}">${item.name}</option>`);
+      const placeholder = item.name === this.settings.placeholderName ? 'selected disabled' : '';
+      const $opt = $(`<option value="${key}" ${placeholder}>${item.name}</option>`);
       this.$select.append($opt);
     });
     this.$select.on('change', () => {
       const val = this.$select.val();
-      const item = this.optionsMap.get(val as string) as Item;
+      const item = this.optionsMap.get((val as string) ?? '') as Item;
       this.$itemImg.attr('src', item.img || Constants.MYSTERY_MAN);
       const linkData = (item as any).flags?.hct?.link;
       this.$link.attr('data-pack', linkData?.pack);
@@ -60,9 +64,7 @@ export default class SelectableItemOption implements HeroOption {
   }
 
   value(): any {
-    const val = this.$select.val();
-    if (val) {
-      return this.optionsMap.get(val as string);
-    }
+    const val = this.$select.val() ?? '';
+    return this.optionsMap.get(val as string);
   }
 }

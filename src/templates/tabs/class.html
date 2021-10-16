@@ -1,16 +1,28 @@
 <section id="classDiv" class="tab-body apply-header-font" data-hct_tab_section="2">
     <main class='tab-content hct-panel-container'>
         <div class="hct-panel-left">
-            <div class="hct-icon-with-context hct-small-margin-b" data-hct-class-search>
-                <img class="hct-icon" title="classIcon" src="icons/svg/mystery-man.svg" data-hct_class_icon>
-                <select class="hct-width-full" data-hct_class_picker style="display: none;">
-                    <option value="" disabled selected hidden> {{localize 'HCT.Class.Select.Default'}} </option>
-                </select>
+            <div class="hct-icon-with-context hct-small-margin-b">
+                <img class="hct-icon hct-width-60" title="classIcon" src="icons/svg/mystery-man.svg"
+                    data-hct_class_icon>
+                <div class="flexcol" data-hct-class-search>
+                </div>
             </div>
             <div data-hct_class_data>
                 <div data-hct_class_area="hit-points">
                     <h2 class="hct-area-title">{{localize 'HCT.Class.HitPoints'}}</h2>
-                    <section class='hct_data_elem'></section>
+                    <section class='hct_data_elem'>
+                        <h3 class="hct-area-title">{{localize 'HCT.Class.FirstLevelHp'}}</h3>
+                        <span data-hct-class-hp-lv1></span><span>{{localize 'HCT.Class.HitPointsBlob'}}</span>
+                        <div data-hct-higher-level-hp>
+                            <h3 class="hct-area-title">{{localize 'HCT.Class.HigherLevelsHp'}}</h3>
+                            <input type="radio" id="avg" name="higher-lv-hp" value="avg" checked="">
+                            <label for="avg" title="">{{localize 'HCT.Class.HpCalcAvg'}}</label>
+                            <input type="radio" id="roll" name="higher-lv-hp" value="roll">
+                            <label for="roll" title="">{{localize 'HCT.Class.HpCalcRoll'}}</label>
+                            <br>
+                            <span data-hct-class-hp-higher-lv></span><span>{{localize 'HCT.Class.HitPointsBlob'}}</span>
+                        </div>
+                    </section>
                 </div>
                 <div data-hct_class_area="saving-throws">
                     <h2 class="hct-area-title">{{localize 'HCT.Class.SavingThrows'}}</h2>

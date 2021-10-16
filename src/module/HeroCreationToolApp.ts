@@ -2,7 +2,7 @@
  version 0.1
  This object is a pop-up window to edit the actor's inital levels and stuffs
  */
-import * as Constants from './constants';
+import * as CONSTANTS from './constants';
 import * as Utils from './utils';
 import SettingKeys from './settings';
 
@@ -17,6 +17,8 @@ import BioTab from './tabs/bioStep';
 import { Step } from './Step';
 import HeroOption from './options/HeroOption';
 import type { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
+import { HitDie } from './HitDie';
+import { ClassLevel } from './ClassLevel';
 
 enum StepIndex {
   Basics,
@@ -30,29 +32,30 @@ enum StepIndex {
 }
 
 export default class HeroCreationTool extends Application {
-  actorId?: string;
+  actor?: Actor;
   readonly steps: Array<Step>;
   currentTab: StepIndex = StepIndex.Basics;
 
   constructor() {
     super();
-    this.actorId = undefined;
+    this.actor = undefined;
     this.steps = [BasicsTab, RaceTab, ClassTab, AbilitiesTab, BackgroundTab, EquipmentTab, SpellsTab, BioTab];
   }
 
   static get defaultOptions() {
     const options = super.defaultOptions;
-    options.template = Constants.MODULE_PATH + '/templates/app.html';
+    options.template = CONSTANTS.MODULE_PATH + '/templates/app.html';
     options.width = 720;
     options.height = 680;
     options.resizable = true;
     return options;
   }
 
-  async openForActor(actorId?: string) {
+  async openForActor(actor?: Actor) {
+    this.actor = actor;
     this.options.title = game.i18n.localize('HCT.WindowTitle');
-    console.log(`${Constants.LOG_PREFIX} | Opening for ${actorId ? 'actor id: ' + actorId : 'new actor'}`);
-    if (actorId) this.actorId = actorId;
+    const openMessage = actor ? `${actor.name} (id ${actor.id})` : `new actor`;
+    console.log(`${CONSTANTS.LOG_PREFIX} | Opening for ${openMessage}`);
     for (const step of this.steps) {
       step.clearOptions();
     }
@@ -61,7 +64,7 @@ export default class HeroCreationTool extends Application {
   }
 
   activateListeners() {
-    console.log(`${Constants.LOG_PREFIX} | Binding listeners`);
+    console.log(`${CONSTANTS.LOG_PREFIX} | Binding listeners`);
 
     // listeners specific for each tab
     for (const step of this.steps) {
@@ -99,7 +102,7 @@ export default class HeroCreationTool extends Application {
   }
 
   private async buildActor() {
-    console.log(`${Constants.LOG_PREFIX} | Building actor - data used:`);
+    console.log(`${CONSTANTS.LOG_PREFIX} | Building actor - data used:`);
     const newActorData: ActorDataConstructorData = this.initializeActorData();
     let errors = false;
     // yeah, a loop label, sue me.
@@ -115,7 +118,7 @@ export default class HeroCreationTool extends Application {
     if (!errors) {
       // calculate whatever needs inter-tab values like HP
       cleanUpErroneousItems(newActorData);
-      calculateStartingHp(newActorData);
+      await calculateStartingHp(newActorData, this.steps[StepIndex.Class].getUpdateData());
       setTokenDisplaySettings(newActorData);
       const itemsFromActor = newActorData.items; // moving items to a different object to process active effects
       newActorData.items = [];
@@ -137,11 +140,11 @@ export default class HeroCreationTool extends Application {
       name: '',
       type: 'character',
       sort: 12000,
-      img: Constants.MYSTERY_MAN,
+      img: CONSTANTS.MYSTERY_MAN,
       token: {
         actorLink: true,
         disposition: 1,
-        img: Constants.MYSTERY_MAN,
+        img: CONSTANTS.MYSTERY_MAN,
         vision: true,
         dimSight: 0,
         bar1: { attribute: 'attributes.hp' },
@@ -177,20 +180,24 @@ export default class HeroCreationTool extends Application {
     }
   }
 }
-function calculateStartingHp(newActor: ActorDataConstructorData) {
-  const totalCon = getProperty(newActor, 'data.abilities.con.value');
-  const raceAndConHp: number = totalCon ? Utils.getAbilityModifierValue(totalCon) : 0;
-  const maxHp = getProperty(newActor, 'data.attributes.hp.max');
-  const classHp: number = maxHp ? Number.parseInt(maxHp) : 10;
 
-  const startingHp = raceAndConHp + classHp;
+async function calculateStartingHp(newActor: ActorDataConstructorData, classUpdateData: any) {
+  const totalCon = getProperty(newActor, 'data.abilities.con.value');
+  const conModifier: number = totalCon ? Utils.getAbilityModifierValue(totalCon) : 0;
+  if (!classUpdateData) return 10 + conModifier; // release valve in case there's no class selected
+
+  const hitDie: HitDie = classUpdateData?.hitDie;
+  const startingLevel: ClassLevel = classUpdateData?.level;
+  const method: CONSTANTS.HpCalculation = classUpdateData?.hpMethod;
+
+  const startingHp = await hitDie.calculateHpAtLevel(startingLevel, method, conModifier);
   setProperty(newActor, 'data.attributes.hp.max', startingHp);
   setProperty(newActor, 'data.attributes.hp.value', startingHp);
 }
 
 function setTokenDisplaySettings(newActor: ActorDataConstructorData) {
-  const displayBarsSetting = game.settings.get(Constants.MODULE_NAME, SettingKeys.TOKEN_BAR);
-  const displayNameSetting = game.settings.get(Constants.MODULE_NAME, SettingKeys.TOKEN_NAME);
+  const displayBarsSetting = game.settings.get(CONSTANTS.MODULE_NAME, SettingKeys.TOKEN_BAR);
+  const displayNameSetting = game.settings.get(CONSTANTS.MODULE_NAME, SettingKeys.TOKEN_NAME);
   setProperty(newActor, 'token.displayBars', displayBarsSetting);
   setProperty(newActor, 'token.displayName', displayNameSetting);
 }

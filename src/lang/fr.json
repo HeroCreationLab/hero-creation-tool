@@ -1,7 +1,9 @@
 {
   "HCT": {
     "ActorsDirectoryButton": "Hero Creation Tool",
-    "WindowTitle": "Hero Creation",
+    "ActorLevelUpButton": "Level Up",
+    "CreationWindowTitle": "Hero Creation",
+    "LevelUpWindowTitle": "Level Up - {actorName}",
     "Setting": {
       "DefaultGoldDice": {
         "Name": "Jet d'or de départ par défaut",
@@ -149,8 +151,13 @@
       "DescriptionPlaceholder": "Veuillez sélectionner une classe pour voir sa description",
       "Select.Default": "Classe..",
       "SavingThrows": "Jets de sauvegarde",
-      "HitPoints": "Point de vie de départ",
-      "HitPointsBlob": "{max} + votre modificateur de Constitution"
+      "HitPoints": "Point de vie",
+      "FirstLevelHp": "First level",
+      "HigherLevelsHp": "Higher levels",
+      "HpCalcAvg": "Average",
+      "HpCalcRoll": "Roll",
+      "HitPointsBlob": " + votre modificateur de Constitution",
+      "HpRollChatFlavor": "Rolled hp for level {lv}"
     },
     "Abilities": {
       "Title": "Caractéristique",

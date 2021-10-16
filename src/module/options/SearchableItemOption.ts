@@ -40,7 +40,7 @@ export default class SearchableItemOption implements HeroOption {
   searchArray: Array<Result | Item>;
   selected?: Result | Item;
 
-  render($parent: JQuery, options?: { beforeParent: boolean }): void {
+  render($parent: JQuery, options?: { prepend: boolean }): void {
     const $form = $(`<form data-hct-searchbar autocomplete="off">`);
     const $searchWrapper = $(`<div class="hct-search-wrapper">`);
     this.$input = $(
@@ -78,7 +78,11 @@ export default class SearchableItemOption implements HeroOption {
 
     $form.append($searchWrapper);
     $form.on('submit', (e) => false);
-    $parent.append($form);
+    if (options?.prepend) {
+      $parent.prepend($form);
+    } else {
+      $parent.append($form);
+    }
   }
 
   private setSuggestionsInteraction($searchWrapper: JQuery<HTMLElement>) {

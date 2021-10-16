@@ -2,29 +2,36 @@
   Functions used exclusively on the Class tab
 */
 import { Step, StepEnum } from '../Step';
-import * as Constants from '../constants';
+import * as CONSTANTS from '../constants';
 import * as Utils from '../utils';
 import * as ProficiencyUtils from '../proficiencyUtils';
 import HiddenOption from '../options/HiddenOption';
 import FixedOption, { OptionType } from '../options/FixedOption';
 import SelectableItemOption from '../options/SelectableItemOption';
 import SearchableItemOption from '../options/SearchableItemOption';
+import { HitDie } from '../HitDie';
+import { ClassLevel } from '../ClassLevel';
 
 class _Class extends Step {
   private classes?: Item[] = [];
   private classFeatures?: Item[] = [];
   private _class!: Item;
+  private primaryClassLevel: ClassLevel = 1;
+  private primaryClassHitDie: HitDie | null = null;
   constructor() {
     super(StepEnum.Class);
   }
 
-  spellcasting!: { item: Item; ability: string };
+  spellcasting!: { item: Item; ability: string; progression: string };
 
   getUpdateData() {
     return this._class
       ? {
           name: this._class.name,
           spellcasting: this.spellcasting,
+          level: this.primaryClassLevel,
+          hitDie: this.primaryClassHitDie,
+          hpMethod: (document.querySelector('input[name="higher-lv-hp"]:checked') as HTMLInputElement)?.value ?? 'avg',
         }
       : undefined;
   }
@@ -39,14 +46,14 @@ class _Class extends Step {
     // classes
     const classItems = await Utils.getSources('classes');
     this.classes = classItems?.sort((a, b) => a.name.localeCompare(b.name)) as any;
-    if (this.classes) setClassPickerOptions(this.classes);
-    else ui.notifications!.error(game.i18n.format('HCT.Error.RenderLoad', { value: 'Classes' }));
+    if (!this.classes) ui.notifications!.error(game.i18n.format('HCT.Error.RenderLoad', { value: 'Classes' }));
 
     // class features
     const classFeatureItems = await Utils.getSources('classFeatures');
     this.classFeatures = classFeatureItems?.sort((a, b) => a.name.localeCompare(b.name)) as any;
   }
 
+  private $primaryClassLevelSelect!: HTMLSelectElement;
   renderData(): void {
     Utils.setPanelScrolls(this.section());
     $('[data-hct_class_data]', this.section()).hide();
@@ -64,11 +71,21 @@ class _Class extends Step {
         }
         if (this.classes) {
           this.updateClass(this.section());
+          this.primaryClassLevel = 1;
+          this.$primaryClassLevelSelect.disabled = false;
+          this.$primaryClassLevelSelect.selectedIndex = 0;
         } else ui.notifications!.error(game.i18n.format('HCT.Error.UpdateValueLoad', { value: 'Classes' }));
       },
       game.i18n.localize('HCT.Class.Select.Default'),
     );
-    searchableOption.render($('[data-hct-class-search]'));
+    const $classSearch = $('[data-hct-class-search]');
+    searchableOption.render($classSearch, { prepend: true });
+    this.$primaryClassLevelSelect = addLevelSelect($classSearch, 'class');
+    this.$primaryClassLevelSelect.disabled = true;
+    this.$primaryClassLevelSelect.addEventListener('change', (event) => {
+      this.primaryClassLevel = parseInt((event.target as any)?.value) as ClassLevel;
+      this.updateClass(this.section());
+    });
   }
 
   updateClass($section: JQuery) {
@@ -76,10 +93,11 @@ class _Class extends Step {
     this.clearOptions();
 
     // icon, description and class item
-    $('[data-hct_class_icon]', $section).attr('src', this._class.img || Constants.MYSTERY_MAN);
+    $('[data-hct_class_icon]', $section).attr('src', this._class.img || CONSTANTS.MYSTERY_MAN);
     $('[data-hct_class_description]', $section).html(
       TextEditor.enrichHTML((this._class.data as any).description.value),
     );
+    (this._class.data as any).levels = this.primaryClassLevel;
     this.stepOptions.push(new HiddenOption(ClassTab.step, 'items', [this._class], { addValues: true }));
 
     this.setHitPointsUi($context);
@@ -181,7 +199,7 @@ class _Class extends Step {
   private setClassFeaturesUi($context: JQuery<HTMLElement>) {
     const $featuresSection = $('section', $('[data-hct_class_area=features]', $context)).empty();
     let classFeatures: Item[] = Utils.filterItemList({
-      filterValues: [`${this._class.name} ${1}`],
+      filterValues: [...Array(this.primaryClassLevel).keys()].map((k) => `${this._class.name} ${k + 1}`),
       filterField: 'data.requirements',
       itemList: this.classFeatures!,
     });
@@ -196,11 +214,15 @@ class _Class extends Step {
       this.spellcasting = {
         item: spellcastingItem,
         ability: (this._class.data as any).spellcasting.ability,
+        progression: (this._class.data as any).spellcasting.progression,
       };
     }
 
     if (fightingStyles && fightingStyles.length > 0) {
-      const fsOption = new SelectableItemOption(StepEnum.Class, 'items', fightingStyles, { addValues: true });
+      const fsOption = new SelectableItemOption(StepEnum.Class, 'items', fightingStyles, {
+        addValues: true,
+        placeholderName: 'Fighting Style',
+      });
       fsOption.render($featuresSection);
       this.stepOptions.push(fsOption);
     }
@@ -232,44 +254,25 @@ class _Class extends Step {
   }
 
   private setHitPointsUi($context: JQuery<HTMLElement>) {
-    const hitDice = new HitDice((this._class as any).data.hitDice);
-    const textBlob = game.i18n.format('HCT.Class.HitPointsBlob', {
-      max: hitDice.getMax(),
-    });
-    const hitPointsOption = new FixedOption(ClassTab.step, 'data.attributes.hp.max', hitDice.getMax(), textBlob, {
-      addValues: true,
-      type: OptionType.TEXT,
-    });
-    const $hitPointSection = $('section', $('[data-hct_class_area=hit-points]', $context)).empty();
-    hitPointsOption.render($hitPointSection);
-    this.stepOptions.push(hitPointsOption);
+    this.primaryClassHitDie = new HitDie((this._class as any).data.hitDice);
+    $('[data-hct-class-hp-lv1]', $context).text(this.primaryClassHitDie.getMax());
+    $('[data-hct-class-hp-higher-lv]', $context).text(this.primaryClassHitDie.getVal());
   }
 }
 const ClassTab: Step = new _Class();
 export default ClassTab;
 
-function setClassPickerOptions(classes: Item[]) {
-  const picker = $('[data-hct_class_picker]');
-  for (const clazz of classes) {
-    picker.append($(`<option value="${clazz.name}">${clazz.name}</option>`));
+function addLevelSelect($parent: JQuery, className: string) {
+  const $select = document.createElement('select');
+  $select.setAttribute(`data-hct-${className}-level`, '');
+  $select.classList.add('hct-margin-l-tiny');
+  for (let i = 1; i <= 20; i++) {
+    const $opt = document.createElement('option');
+    $opt.value = i + '';
+    $opt.text = `Level ${i}`;
+    $select.appendChild($opt);
   }
-}
+  $parent.append($select);
 
-//===============================================================
-
-class HitDice {
-  constructor(private hd: string) {}
-
-  getVal() {
-    return `1${this.hd}`;
-  }
-
-  getMax() {
-    return this.hd.substring(1);
-  }
-
-  getAvg() {
-    const half = Math.ceil(Number.parseInt(this.getMax()) / 2);
-    return half + 1;
-  }
+  return $select;
 }
