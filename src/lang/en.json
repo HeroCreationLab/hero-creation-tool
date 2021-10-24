@@ -1,7 +1,9 @@
 {
   "HCT": {
     "ActorsDirectoryButton": "Hero Creation Tool",
-    "WindowTitle": "Hero Creation",
+    "ActorLevelUpButton": "Level Up",
+    "CreationWindowTitle": "Hero Creation",
+    "LevelUpWindowTitle": "Level Up - {actorName}",
     "Setting": {
       "DefaultGoldDice": {
         "Name": "Default starting gold roll",
@@ -14,6 +16,18 @@
       "IndividualPanelScroll": {
         "Name": "Individual panel scrolls",
         "Hint": "In tabs with left and right panels, make each side have independent scrolls"
+      },
+      "AllowAbilityRolling": {
+        "Name": "Allow ability score rolling"
+      },
+      "AllowAbilityStandardArray": {
+        "Name": "Allow ability score Standard Array"
+      },
+      "AllowAbilityPointBuy": {
+        "Name": "Allow ability score Point-Buy"
+      },
+      "AllowAbilityInput": {
+        "Name": "Allow ability score manual entry"
       },
       "UseTokenizer": {
         "Name": "Use Tokenizer if available",
@@ -137,8 +151,13 @@
       "DescriptionPlaceholder": "Please select a class to see its description",
       "Select.Default": "Select your class..",
       "SavingThrows": "Saving Throws",
-      "HitPoints": "Starting Hit Points",
-      "HitPointsBlob": "{max} + your Constitution modifier"
+      "HitPoints": "Hit Points",
+      "FirstLevelHp": "First level",
+      "HigherLevelsHp": "Higher levels",
+      "HpCalcAvg": "Average",
+      "HpCalcRoll": "Roll",
+      "HitPointsBlob": " + your Constitution modifier",
+      "HpRollChatFlavor": "Rolled hp for level {lv}"
     },
     "Abilities": {
       "Title": "Abilities",

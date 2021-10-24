@@ -1,5 +1,10 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.3.0 (2021-10-24)
+- Locked ability score methods behind a DM setting; now the DM can set that all players need to roll, or use Point But, etc, or give them whatever choices considered appropriate.
+- Added a selector for creating characters beyond 1st level. For the time been, no multiclass is allowed, and some repeated items might be bugged (like Ability Score Improvements).
+- Alongside the higher-level start, the spell selector has been unlocked so now spells from any level (not just cantrips and first level spells) can be selected and tracked. No further automation provided yet (but a near goal is tying up the class level and spell progressions to inform of the maximum spell level based on available slots)
+
 ## 1.2.0 (2021-10-07)
 - Replaced Race and Class selection dropdowns for a search widget (Interaction is still a little rough, but I think its totally usable). [(#38)](https://github.com/HeroCreationLab/hero-creation-tool/issues/38)
 - Added support for Feats. [(#46)](https://github.com/HeroCreationLab/hero-creation-tool/issues/46)

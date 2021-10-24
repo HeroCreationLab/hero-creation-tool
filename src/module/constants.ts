@@ -29,3 +29,5 @@ export const MERGE_OPTIONS = {
   recursive: true,
   inplace: false,
 };
+
+export type HpCalculation = 'roll' | 'avg';

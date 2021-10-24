@@ -60,15 +60,25 @@ function userHasRightPermissions(): boolean {
 }
 
 // This hooks onto the rendering actor sheet to show the button
-/*
-  Commented until we start working on a level up feature
-*/
-// Hooks.on('renderActorSheet', (app, html, data) => {
-// 	if (app.actor.data.type === 'npc') return;
-// 	const moduleApp = new HeroCreationTool(app, html);
-// 	const button = $(`<a id='actor-sheet-btn'><i class="fas fa-dice-d20"></i>${game.i18n.localize("HCT.ActorSheetCreateButton")}</a>`);
-// 	button.insertBefore(html.closest('.app').find('.configure-sheet'));
-// 	$('#actor-sheet-btn').on('click', function () {
-// 		moduleApp.openForActor(data.actor._id);
-// 	});
-// });
+Hooks.on('renderActorSheet5eCharacter', (app: any, html: HTMLElement, data: any) => {
+  const $experienceDiv = document.getElementsByClassName('experience')[0];
+  const $currentExpInput = $experienceDiv.querySelector('[name="data.details.xp.value"]')!;
+  const maxExp = parseInt(($experienceDiv.querySelector('.max') as HTMLSpanElement).innerText ?? '0');
+  const currentExp = parseInt(($currentExpInput as HTMLInputElement).value) ?? 0;
+
+  if (currentExp >= maxExp) {
+    const $levelUpButton = document.createElement('button');
+    $levelUpButton.id = 'hct-level-up';
+    $levelUpButton.setAttribute('type', 'button');
+    $levelUpButton.style.display = 'block';
+    $levelUpButton.appendChild(document.createTextNode(game.i18n.localize('HCT.ActorLevelUpButton')));
+    $levelUpButton.addEventListener('click', async () => {
+      const actor = game.actors?.get(data.actor._id);
+      if (!actor) throw new Error(`Unable to find actor for id ${data.actor._id}`);
+      heroCreationTool.openForActor(actor);
+      app.close();
+    });
+
+    $currentExpInput.before($levelUpButton);
+  }
+});

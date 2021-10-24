@@ -1,7 +1,9 @@
 {
   "HCT": {
     "ActorsDirectoryButton": "冒険者作成ツール",
-    "WindowTitle": "冒険者作成",
+    "ActorLevelUpButton": "Level Up",
+    "CreationWindowTitle": "冒険者作成",
+    "LevelUpWindowTitle": "Level Up - {actorName}",
     "Setting": {
       "DefaultGoldDice": {
         "Name": "デフォルトの初期所持金ロール",
@@ -14,6 +16,18 @@
       "IndividualPanelScroll": {
         "Name": "Individual panel scrolls",
         "Hint": "In tabs with left and right panels, make each side have independent scrolls"
+      },
+      "AllowAbilityRolling": {
+        "Name": "Allow ability score rolling"
+      },
+      "AllowAbilityStandardArray": {
+        "Name": "Allow ability score Standard Array"
+      },
+      "AllowAbilityPointBuy": {
+        "Name": "Allow ability score Point-Buy"
+      },
+      "AllowAbilityInput": {
+        "Name": "Allow ability score manual entry"
       },
       "UseTokenizer": {
         "Name": "可能ならTokenizerを使用する",
@@ -137,8 +151,13 @@
       "DescriptionPlaceholder": "クラスを選択すると説明が表示されます。",
       "Select.Default": "クラスを選択してください",
       "SavingThrows": "セーヴィング・スロー",
-      "HitPoints": "初期ヒット・ポイント",
-      "HitPointsBlob": "{max}＋【耐久力】修正値"
+      "HitPoints": "Hit Points",
+      "FirstLevelHp": "First level",
+      "HigherLevelsHp": "Higher levels",
+      "HpCalcAvg": "Average",
+      "HpCalcRoll": "Roll",
+      "HitPointsBlob": " ＋【耐久力】修正値",
+      "HpRollChatFlavor": "Rolled hp for level {lv}"
     },
     "Abilities": {
       "Title": "能力値",

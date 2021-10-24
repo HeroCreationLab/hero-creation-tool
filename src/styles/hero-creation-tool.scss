@@ -17,6 +17,17 @@ $color-accent-alt: darkgreen;
   flex-grow: 1;
 }
 
+#hct {
+  &-level-up {
+    font-size: 14px;
+    line-height: normal;
+    height: 18px;
+    border: none;
+    margin-right: $tiny;
+    white-space: nowrap;
+  }
+}
+
 .hct {
   &-container {
     display: flex;
@@ -32,54 +43,6 @@ $color-accent-alt: darkgreen;
 
   &-accented[href] {
     color: $color-accent;
-  }
-
-  &-width {
-    &-full {
-      width: 100%;
-    }
-    &-half {
-      &,
-      &[type='number'] {
-        width: 50%;
-      }
-    }
-    &-60per {
-      &,
-      &[type='number'] {
-        width: 60%;
-      }
-    }
-    &-fit {
-      width: fit-content;
-    }
-    &-250 {
-      max-width: 250px;
-      min-width: 250px;
-    }
-    &-180 {
-      max-width: 180px;
-      min-width: 180px;
-    }
-  }
-
-  &-height {
-    &-46 {
-      min-height: 46px;
-      max-height: 46px;
-    }
-
-    &-100p {
-      height: 100%;
-    }
-  }
-
-  &-no-border {
-    border: none;
-  }
-
-  &-no-background {
-    background: none;
   }
 
   &-hover {
@@ -99,53 +62,6 @@ $color-accent-alt: darkgreen;
 
     &-justify-sb {
       justify-content: space-between;
-    }
-  }
-
-  &-margin {
-    &-b {
-      &-tiny {
-        margin-bottom: $tiny;
-      }
-    }
-    &-small {
-      margin: $small;
-    }
-  }
-
-  &-padding {
-    &-l {
-      &-small {
-        padding-right: $small;
-      }
-    }
-
-    &-r {
-      &-tiny {
-        padding-right: $tiny;
-      }
-      &-small {
-        padding-right: $small;
-      }
-      &-medium {
-        padding-left: $medium;
-      }
-    }
-
-    &-b {
-      &-tiny {
-        padding-bottom: $tiny;
-      }
-      &-small {
-        padding-bottom: $small;
-      }
-    }
-
-    &-small {
-      padding: $small;
-    }
-    &-tiny {
-      padding: $tiny;
     }
   }
 
@@ -173,22 +89,20 @@ $color-accent-alt: darkgreen;
     }
     &-wrapper {
       background: rgb(255 255 255 / 35%);
-      width: 100%;
       border-radius: $tiny;
       position: relative;
-      box-shadow: 0px 1px 5px 3px rgba(0, 0, 0, 0.12);
+      box-shadow: 0px 1px $tiny 3px rgba(0, 0, 0, 0.12);
       margin-bottom: $tiny;
       margin-left: $tiny;
 
       & input {
         height: 34px;
-        width: 100%;
         outline: none;
         border: none;
         border-radius: $tiny;
         padding: 0 30px 0 10px;
         font-size: 16px;
-        box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 1px $tiny rgba(0, 0, 0, 0.1);
       }
       &.active input {
         border-radius: $tiny $tiny 0 0;
@@ -203,7 +117,7 @@ $color-accent-alt: darkgreen;
       position: absolute;
       background: white;
       width: 100%;
-      border-radius: 5px;
+      border-radius: $tiny;
 
       & li {
         list-style: none;
@@ -213,7 +127,7 @@ $color-accent-alt: darkgreen;
         border-radius: 3px;
         margin-bottom: $tiny;
         &:hover {
-          box-shadow: 0 0 5px red;
+          box-shadow: 0 0 $tiny red;
         }
       }
     }
@@ -221,6 +135,7 @@ $color-accent-alt: darkgreen;
       padding: 10px 8px 3px 8px;
       opacity: 1;
       pointer-events: auto;
+      z-index: 1;
     }
     &-wrapper.active &-autocom-box li {
       display: block;
@@ -233,10 +148,7 @@ $color-accent-alt: darkgreen;
   &-icon {
     border: none;
     border-radius: $tiny;
-    max-width: 48px;
-    min-width: 48px;
-    max-height: 48px;
-    min-height: 48px;
+    width: 48px;
 
     &-square-med {
       width: $large;
@@ -428,6 +340,108 @@ $color-accent-alt: darkgreen;
     overflow-y: scroll;
     overflow-x: hidden;
   }
+
+  // utilitarian
+
+  &-width {
+    &-full {
+      width: 100%;
+    }
+    &-half {
+      &,
+      &[type='number'] {
+        width: 50%;
+      }
+    }
+    &-60per {
+      &,
+      &[type='number'] {
+        width: 60%;
+      }
+    }
+    &-fit {
+      width: fit-content;
+    }
+    &-250 {
+      width: 250px;
+    }
+    &-180 {
+      width: 180px;
+    }
+    &-60 {
+      width: 60px;
+    }
+  }
+
+  &-height {
+    &-46 {
+      height: 46px;
+    }
+
+    &-100p {
+      height: 100%;
+    }
+  }
+
+  &-no-border {
+    border: none;
+  }
+
+  &-no-background {
+    background: none;
+  }
+
+  &-margin {
+    &-b {
+      &-tiny {
+        margin-bottom: $tiny;
+      }
+    }
+    &-l {
+      &-tiny {
+        margin-left: $tiny;
+      }
+    }
+    &-small {
+      margin: $small;
+    }
+  }
+
+  &-padding {
+    &-l {
+      &-small {
+        padding-right: $small;
+      }
+    }
+
+    &-r {
+      &-tiny {
+        padding-right: $tiny;
+      }
+      &-small {
+        padding-right: $small;
+      }
+      &-medium {
+        padding-left: $medium;
+      }
+    }
+
+    &-b {
+      &-tiny {
+        padding-bottom: $tiny;
+      }
+      &-small {
+        padding-bottom: $small;
+      }
+    }
+
+    &-small {
+      padding: $small;
+    }
+    &-tiny {
+      padding: $tiny;
+    }
+  }
 }
 
 .tabs {
@@ -489,7 +503,7 @@ $color-accent-alt: darkgreen;
 .tabs button:hover {
   transform: scale(1.08); // translateY(-5px);
   box-shadow: none;
-  text-shadow: 0 0 5px red;
+  text-shadow: 0 0 $tiny red;
 }
 
 .tabs button:focus {
@@ -500,7 +514,7 @@ $color-accent-alt: darkgreen;
   background-color: rgba(255, 255, 255, 0.5);
   border-bottom: 4px solid $color-accent;
   transform: scale(1.08);
-  text-shadow: 0 0 5px red;
+  text-shadow: 0 0 $tiny red;
 }
 
 .step-button {
@@ -526,12 +540,12 @@ $color-accent-alt: darkgreen;
 #avatar_img {
   max-width: 160px;
   margin-right: 15px;
-  border-radius: 5px;
+  border-radius: $tiny;
 }
 
 #token_img {
   max-width: 100px;
-  border-radius: 5px;
+  border-radius: $tiny;
 }
 
 #avatar-token-display {
