@@ -1,5 +1,8 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.3.1 (2021-10-24)
+- Small style fix for the compendium selector.
+
 ## 1.3.0 (2021-10-24)
 - Locked ability score methods behind a DM setting; now the DM can set that all players need to roll, or use Point But, etc, or give them whatever choices considered appropriate.
 - Added a selector for creating characters beyond 1st level. For the time been, no multiclass is allowed, and some repeated items might be bugged (like Ability Score Improvements).
