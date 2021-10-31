@@ -1,5 +1,8 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.3.2 (2021-10-31)
+- Small fix removing the level-up button from character sheets - functionality is still under development and button-rendering code was accidentally left on release.
+
 ## 1.3.1 (2021-10-24)
 - Small style fix for the compendium selector.
 
