@@ -1,5 +1,9 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.3.3 (2021-11-24)
+- Refactored compendia processing so that it indexes sources and uses the indexes instead - big performance upgrade should be noticeable.
+- Some refactoring on how races/subraces are handled - usage should remain the same, but the code is a lot more straightforward now.
+
 ## 1.3.2 (2021-10-31)
 - Small fix removing the level-up button from character sheets - functionality is still under development and button-rendering code was accidentally left on release.
 

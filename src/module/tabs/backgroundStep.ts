@@ -7,6 +7,7 @@ import * as ProficiencyUtils from '../proficiencyUtils';
 import { Step, StepEnum } from '../Step';
 import SelectableOption from '../options/SelectableOption';
 import SelectOrCustomItemOption from '../options/SelectOrCustomItemOption';
+import { BackgroundFeatureEntry, getBackgroundFeatureEntries } from '../indexUtils';
 
 class _BackgroundTab extends Step {
   constructor() {
@@ -15,19 +16,16 @@ class _BackgroundTab extends Step {
 
   section = () => $('#backgroundDiv');
 
-  backgroundFeatures!: Item[];
+  backgroundFeatures!: BackgroundFeatureEntry[];
 
   async setSourceData() {
-    this.backgroundFeatures = (await Utils.getSources('backgroundFeatures')) as any;
+    this.backgroundFeatures = await getBackgroundFeatureEntries();
   }
 
   async renderData() {
     Utils.setPanelScrolls(this.section());
     // Show rules on the side panel
-    const backgroundRulesItem = await Utils.getJournalFromPackByName(
-      Constants.DEFAULT_PACKS.RULES,
-      game.i18n.localize('HCT.Background.RulesJournalName'),
-    );
+    const backgroundRulesItem = await Utils.getJournalFromDefaultRulesPack(game.i18n.localize('HCT.Background.RulesJournalName'));
     $('[data-hct_background_description]', this.section()).html(
       TextEditor.enrichHTML((backgroundRulesItem as any).content),
     );
@@ -115,8 +113,8 @@ class _BackgroundTab extends Step {
 
   private setBackgroundNameUi() {
     const nameChoices = this.backgroundFeatures
-      .filter((f) => (f.data as any).requirements)
-      .map((f) => ({ key: (f.data as any).requirements, value: (f.data as any).requirements }));
+      .filter(f => f.data.requirements)
+      .map(f => ({ key: f.data.requirements, value: f.data.requirements }));
     const nameOption = new SelectableOption(
       StepEnum.Background,
       'data.details.background',

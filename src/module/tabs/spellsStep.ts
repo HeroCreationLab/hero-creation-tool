@@ -1,8 +1,8 @@
 import * as Utils from '../utils';
-import * as Constants from '../constants';
 import { Step, StepEnum } from '../Step';
 import FixedOption, { OptionType } from '../options/FixedOption';
 import DeletableOption from '../options/DeletableOption';
+import { getSpellEntries, SpellEntry } from '../indexUtils';
 
 class _Spells extends Step {
   constructor() {
@@ -15,10 +15,10 @@ class _Spells extends Step {
   $inputBox!: JQuery;
   $suggBox!: JQuery;
   $itemList!: JQuery;
-  searchArray: Item[] = [];
+  searchArray: SpellEntry[] = [];
 
-  spells: Item[] = [];
-  archived: Item[] = [];
+  spells: SpellEntry[] = [];
+  archived: SpellEntry[] = [];
   rules: any;
 
   setListeners(): void {
@@ -77,7 +77,7 @@ class _Spells extends Step {
     this.$searchWrapper.removeClass('active');
   }
 
-  addItemToSelection(item: Item) {
+  addItemToSelection(item: SpellEntry) {
     const itemOption = new DeletableOption(
       StepEnum.Spells,
       new FixedOption(StepEnum.Spells, 'items', item, undefined, {
@@ -98,7 +98,7 @@ class _Spells extends Step {
     this.changeSpellCount((item.data as any).level, CountChange.UP);
   }
 
-  onDelete(item: Item) {
+  onDelete(item: SpellEntry) {
     const deletedItem = this.archived.splice(this.archived.indexOf(item), 1);
     this.spells.push(...deletedItem);
     $(`:contains(${item.name})`, this.$itemList).remove();
@@ -112,7 +112,7 @@ class _Spells extends Step {
     this.changeSpellCount((item.data as any).level, CountChange.DOWN);
   }
 
-  showSuggestions(list: Item[]) {
+  showSuggestions(list: SpellEntry[]) {
     let listData;
     if (!list.length) {
       listData = `<li>${'No matches'}</li>`;
@@ -128,9 +128,9 @@ class _Spells extends Step {
   }
 
   async setSourceData() {
-    const filteredSpells = (await Utils.getSources('spells')) as any;
+    const spellIndexEntries = await getSpellEntries();
     const maxLevel = 9;
-    this.spells = filteredSpells.filter((item: Item) => (item.data as any).level <= maxLevel);
+    this.spells = spellIndexEntries.filter((item) => item.data.level <= maxLevel);
   }
 
   changeSpellCount(spellLevel: number, change: CountChange) {
@@ -142,8 +142,7 @@ class _Spells extends Step {
   async renderData() {
     Utils.setPanelScrolls(this.section());
     // Show rules on the side panel
-    const spellsRulesItem = await Utils.getJournalFromPackByName(
-      Constants.DEFAULT_PACKS.RULES,
+    const spellsRulesItem = await Utils.getJournalFromDefaultRulesPack(
       game.i18n.localize('HCT.Spells.RulesJournalName'),
     );
     this.rules = TextEditor.enrichHTML((spellsRulesItem as any).content);

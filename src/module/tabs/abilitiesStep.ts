@@ -61,10 +61,7 @@ class _Abilities extends Step {
     $('[data-mode="manual"]', $methodsContext).prop('disabled', !Utils.getModuleSetting(SettingKeys.ENABLE_ASI_MANUAL));
 
     // Show rules on the side panel
-    const abilitiesRulesItem = await Utils.getJournalFromPackByName(
-      Constants.DEFAULT_PACKS.RULES,
-      game.i18n.localize('HCT.Abilities.RulesJournalName'),
-    );
+    const abilitiesRulesItem = await Utils.getJournalFromDefaultRulesPack(game.i18n.localize('HCT.Abilities.RulesJournalName'));
     $('[data-hct_abilities_description]', this.section()).html(
       TextEditor.enrichHTML((abilitiesRulesItem as any).content),
     );

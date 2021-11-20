@@ -16,14 +16,18 @@ const enum SettingKeys {
 }
 export default SettingKeys;
 
-export interface Source {
-  races: any;
-  racialFeatures: any;
-  classes: any;
-  classFeatures: any;
-  backgroundFeatures: any;
-  spells: any;
-  feats: any;
+export const enum SourceType {
+  RACES = 'races',
+  RACIAL_FEATURES = 'racialFeatures',
+  CLASSES = 'classes',
+  CLASS_FEATURES = 'classFeatures',
+  BACKGROUND_FEATURES = 'backgroundFeatures',
+  SPELLS = 'spells',
+  FEATS = 'feats',
+}
+
+export type Source = {
+  [key in SourceType]: any;
 }
 
 export function registerSettings(): void {

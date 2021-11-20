@@ -67,7 +67,6 @@ export default class MultiOption implements HeroOption {
               },
             },
             default: 'standard',
-            // close: html => console.log("This always is logged no matter which option is chosen") // might use this later
           });
           d.render(true);
         }

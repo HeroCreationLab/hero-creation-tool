@@ -2,17 +2,18 @@ import { StepEnum } from '../Step';
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 import HeroOption, { apply } from './HeroOption';
 import * as Constants from '../constants';
+import { IndexEntry } from '../indexUtils';
 
 /**
  * Represents a value needs to be selected by the player with a single output onto the created actor.
  * (e.g. Dwarven's Tool Proficiency is a single option between three defined ones)
  * @class
  */
-export default class SelectableItemOption implements HeroOption {
+export default class SelectableIndexEntryOption implements HeroOption {
   constructor(
     readonly origin: StepEnum,
     readonly key: string,
-    readonly options: Item[],
+    readonly options: IndexEntry[],
     readonly settings: {
       addValues: boolean;
       placeholderName?: string;
@@ -23,7 +24,7 @@ export default class SelectableItemOption implements HeroOption {
     );
   }
 
-  optionsMap: Map<string, Item>;
+  optionsMap: Map<string, IndexEntry>;
 
   isFulfilled() {
     return !!this.value();
@@ -52,11 +53,10 @@ export default class SelectableItemOption implements HeroOption {
     });
     this.$select.on('change', () => {
       const val = this.$select.val();
-      const item = this.optionsMap.get((val as string) ?? '') as Item;
+      const item = this.optionsMap.get((val as string) ?? '')!;
       this.$itemImg.attr('src', item.img || Constants.MYSTERY_MAN);
-      const linkData = (item as any).flags?.hct?.link;
-      this.$link.attr('data-pack', linkData?.pack);
-      this.$link.attr('data-id', linkData?.id);
+      this.$link.attr('data-pack', item._pack);
+      this.$link.attr('data-id', item._id);
     });
     $container.append(this.$select);
     $parent.append($container);
