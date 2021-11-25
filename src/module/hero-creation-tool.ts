@@ -1,7 +1,7 @@
 import { registerSettings } from './settings';
 import { preloadTemplates } from './preloadTemplates';
 import HeroCreationTool from './HeroCreationToolApp';
-import { buildEquipmentIndexes, buildSourceIndexes } from './indexUtils';
+import { buildEquipmentAndJournalIndexes, buildSourceIndexes } from './indexUtils';
 import { addActorDirectoryButton } from './utils';
 
 const heroCreationTool = new HeroCreationTool();
@@ -14,7 +14,7 @@ Hooks.once('init', async () => {
 
 // Build indexes on ready
 Hooks.once('ready', async () => {
-  await buildEquipmentIndexes();
+  await buildEquipmentAndJournalIndexes();
 });
 
 Hooks.on('renderHeroCreationTool', async function (app: any, html: any, data: any) {

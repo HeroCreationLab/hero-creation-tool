@@ -28,27 +28,19 @@ export function getModuleSetting(key: SettingKeys) {
   return game.settings.get(Constants.MODULE_NAME, key);
 }
 
-export async function getJournalFromDefaultRulesPack(itemName: string) {
-  const worldItems = game.items;
-  if (!worldItems) throw new Error('game.items not initialized yet');
-
-  const pack = game.packs.get(Constants.DEFAULT_PACKS.RULES);
-  if (!pack) throw new Error(`No pack for name [${Constants.DEFAULT_PACKS.RULES}]!`);
-  if (pack.documentName !== 'JournalEntry') throw new Error(`${Constants.DEFAULT_PACKS.RULES} is not an JournalEntry pack`);
-
-  const itemPack = pack as CompendiumCollection<CompendiumCollection.Metadata & { entity: 'Item' }>;
-  const index = itemPack.index.getName(itemName) as any;
-  if (!index) throw new Error(`No index for item name ${itemName}!`);
-  const item = await itemPack.getDocument(index._id);
-  if (!item) throw new Error(`No item for id ${index._id}!`);
-  return worldItems.fromCompendium(item);
-}
-
 export function getAbilityModifierValue(value: number) {
   return Math.floor((value - 10) / 2);
 }
 
-export function filterItemList<T>({ filterValues, filterField, itemList }: { filterValues: string[]; filterField: string; itemList: T[] }): T[] {
+export function filterItemList<T>({
+  filterValues,
+  filterField,
+  itemList,
+}: {
+  filterValues: string[];
+  filterField: string;
+  itemList: T[];
+}): T[] {
   if (!itemList) return [];
   const filtered = itemList.filter((item: any) => {
     const req: string = getProperty(item, filterField);

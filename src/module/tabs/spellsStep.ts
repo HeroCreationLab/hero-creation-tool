@@ -2,7 +2,7 @@ import * as Utils from '../utils';
 import { Step, StepEnum } from '../Step';
 import FixedOption, { OptionType } from '../options/FixedOption';
 import DeletableOption from '../options/DeletableOption';
-import { getSpellEntries, SpellEntry } from '../indexUtils';
+import { getRuleJournalEntryByName, getSpellEntries, SpellEntry } from '../indexUtils';
 
 class _Spells extends Step {
   constructor() {
@@ -142,11 +142,13 @@ class _Spells extends Step {
   async renderData() {
     Utils.setPanelScrolls(this.section());
     // Show rules on the side panel
-    const spellsRulesItem = await Utils.getJournalFromDefaultRulesPack(
-      game.i18n.localize('HCT.Spells.RulesJournalName'),
-    );
-    this.rules = TextEditor.enrichHTML((spellsRulesItem as any).content);
-    $('[data-hct_spells_description]', this.section()).html(this.rules);
+    const rulesCompendiumName = game.i18n.localize('HCT.Spells.RulesJournalName');
+    const spellsRules = await getRuleJournalEntryByName(rulesCompendiumName);
+    if (spellsRules) {
+      $('[data-hct_spells_description]', this.section()).html(TextEditor.enrichHTML(spellsRules.content));
+    } else {
+      console.error(`Unable to find spells' rule journal on compendium ${rulesCompendiumName}`);
+    }
 
     for (let i = 0; i < 10; i++) {
       $(`[data-hct_lv${i}_label]`, this.section()).html(`${(game as any).dnd5e.config.spellLevels[i]}: `);

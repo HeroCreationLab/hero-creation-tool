@@ -28,15 +28,23 @@ export async function buildSourceIndexes() {
   await Promise.all(itemsPromises);
 }
 
-export async function buildEquipmentIndexes() {
-  console.log(`${CONSTANTS.LOG_PREFIX} | Indexing items (equipment)`);
+export async function buildEquipmentAndJournalIndexes() {
+  console.log(`${CONSTANTS.LOG_PREFIX} | Indexing items (equipment) and journals (rules)`);
   const itemsPack = game.packs.get(CONSTANTS.DEFAULT_PACKS.ITEMS);
   if (!itemsPack) {
     throw new Error(
-      `Cannot find default DnD5e items compendium (for indexing equipment) under name ${CONSTANTS.DEFAULT_PACKS.ITEMS}`,
+      `${CONSTANTS.LOG_PREFIX} | Cannot find default DnD5e items compendium (for indexing equipment) under name ${CONSTANTS.DEFAULT_PACKS.ITEMS}`,
     );
   }
   await (itemsPack as any).getIndex({ fields: ['img', 'data.price', 'data.rarity'] });
+
+  const rulesPack = game.packs.get(CONSTANTS.DEFAULT_PACKS.RULES);
+  if (!rulesPack) {
+    throw new Error(
+      `${CONSTANTS.LOG_PREFIX} | Cannot find default DnD5e rules compendium (for indexing sidepanel rules) under name ${CONSTANTS.DEFAULT_PACKS.RULES}`,
+    );
+  }
+  await (rulesPack as any).getIndex({ fields: ['name', 'content'] });
 }
 
 export async function getRaceEntries() {
@@ -78,6 +86,11 @@ export async function getEquipmentEntries() {
   return entries.map((entry) => ({ ...entry, _pack: CONSTANTS.DEFAULT_PACKS.ITEMS }));
 }
 
+export async function getRuleJournalEntryByName(journalName: string) {
+  const entries = await ((game.packs.get(CONSTANTS.DEFAULT_PACKS.RULES)?.index as unknown) as Promise<RuleEntry[]>);
+  return entries.find((e) => e.name === journalName);
+}
+
 async function getIndexEntriesForSource(source: keyof Source) {
   const sources: Source = (await game.settings.get(CONSTANTS.MODULE_NAME, SettingKeys.SOURCES)) as Source;
   const selectedPacks = Object.keys(sources[source]).filter((p: string) => sources[source][p]);
@@ -104,6 +117,9 @@ export async function hydrateItems(indexEntries: Array<IndexEntry>): Promise<Ite
   if (!worldItems) throw new Error('game.items not initialized yet');
 
   const itemPromises = indexEntries.map(async (indexEntry) => {
+    if ((indexEntry as any).custom) {
+      return indexEntry; // return custom items as-is
+    }
     const item = await game.packs.get(indexEntry._pack)?.getDocument(indexEntry._id);
     if (!item) throw new Error(`No item for id ${indexEntry._id}!`);
     return worldItems.fromCompendium(item as Item);
@@ -215,4 +231,10 @@ export type EquipmentEntry = IndexEntry & {
     price: number;
     rarity: string;
   };
+};
+
+export type RuleEntry = {
+  _id: string;
+  name: string;
+  content: string;
 };

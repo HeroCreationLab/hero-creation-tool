@@ -63,6 +63,9 @@ $color-accent-alt: darkgreen;
     &-justify-sb {
       justify-content: space-between;
     }
+    &-grow {
+      flex-grow: 1;
+    }
   }
 
   &-large-font {
@@ -211,6 +214,9 @@ $color-accent-alt: darkgreen;
   &-icon-with-context {
     display: flex;
     align-items: center;
+    & > p {
+      margin-left: 5px;
+    }
   }
 
   &-small-margin-b {

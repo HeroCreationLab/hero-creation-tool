@@ -54,7 +54,7 @@ export default class HeroCreationTool extends Application {
 
   async openForActor(actor?: Actor) {
     this.actor = actor;
-    this.options.title = game.i18n.localize('HCT.WindowTitle');
+    this.options.title = game.i18n.localize('HCT.CreationWindowTitle');
     const openMessage = actor ? `${actor.name} (id ${actor.id})` : `new actor`;
     console.log(`${CONSTANTS.LOG_PREFIX} | Opening for ${openMessage}`);
     for (const step of this.steps) {

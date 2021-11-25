@@ -73,7 +73,9 @@ export default class SelectOrCustomItemOption implements HeroOption {
       );
     if (this.selectOptions) {
       this.$select.append(
-        this.selectOptions.map((option: IndexEntry, index: number) => $(`<option value="${index}">${option.name}</option>`)),
+        this.selectOptions.map((option: IndexEntry, index: number) =>
+          $(`<option value="${index}">${option.name}</option>`),
+        ),
       );
     }
     this.$select.on('change', () => {
@@ -150,7 +152,7 @@ export default class SelectOrCustomItemOption implements HeroOption {
         },
       };
       const item = await Item.create(itemDataConstructorData /*, { temporary: true }*/);
-      return item?.toObject();
+      return { ...item?.toObject(), custom: true };
     } catch (error) {
       console.warn('Error trying to create custom item');
       console.error(error);

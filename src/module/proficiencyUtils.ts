@@ -1,3 +1,4 @@
+import { getEquipmentEntries } from './indexUtils';
 import HeroOption from './options/HeroOption';
 import MultiOption from './options/MultiOption';
 import { StepEnum } from './Step';
@@ -47,10 +48,10 @@ export async function prepareToolOptions(optionSettings: OptionSettings) {
     key: k,
     value: `All ${foundryToolTypes[k]}`,
   }));
-  const items = await game.packs.get('dnd5e.items')?.getDocuments();
+  const indexEntries = await getEquipmentEntries();
   const toolChoices: KeyValue[] = Object.keys(foundryTools).map((k) => {
     const id = foundryTools[k];
-    const item = items?.find((i) => i.id === id);
+    const item = indexEntries?.find((i) => i._id === id);
     return { key: k, value: item!.name! };
   });
   return prepareOptions(
@@ -68,10 +69,10 @@ export async function prepareWeaponOptions(optionSettings: OptionSettings) {
     key: k,
     value: `All ${foundryWeaponTypes[k]}`,
   }));
-  const items = await game.packs.get('dnd5e.items')?.getDocuments();
+  const indexEntries = await getEquipmentEntries();
   const weaponChoices: KeyValue[] = Object.keys(foundryWeapons).map((k) => {
     const id = foundryWeapons[k];
-    const item = items?.find((i) => i.id === id);
+    const item = indexEntries?.find((i) => i._id === id);
     return { key: k, value: item!.name! };
   });
   return prepareOptions(
@@ -89,11 +90,11 @@ export async function prepareArmorOptions(optionSettings: OptionSettings) {
     key: k,
     value: `All ${foundryArmorTypes[k]}`,
   }));
-  const items = await game.packs.get('dnd5e.items')?.getDocuments();
+  const indexEntries = await getEquipmentEntries();
   const foundryArmorChoices: KeyValue[] = Object.keys(foundryArmor).map((k) => {
     const id = foundryArmor[k];
-    const item = items?.find((i) => i.id === id);
-    return { key: k, value: item!.name! };
+    const itemEntry = indexEntries?.find((i) => i._id === id);
+    return { key: k, value: itemEntry!.name! };
   });
   return prepareOptions(
     optionSettings,

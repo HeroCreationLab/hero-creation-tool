@@ -6,7 +6,7 @@ import SettingKeys from '../settings';
 import HeroOption from '../options/HeroOption';
 import OptionContainer from '../options/OptionContainer';
 import DeletableOption from '../options/DeletableOption';
-import { EquipmentEntry, getEquipmentEntries } from '../indexUtils';
+import { EquipmentEntry, getEquipmentEntries, getRuleJournalEntryByName } from '../indexUtils';
 
 type itemOrPack = {
   itemName?: string;
@@ -143,7 +143,7 @@ class _Equipment extends Step {
     } else {
       listData = list
         .map(
-          item =>
+          (item) =>
             `<li><div class="hct-icon-with-context" data-item_name=\"${item.name}\"><img class="hct-icon-square-med hct-background-black hct-no-border" src="${item.img}"><span>${item.name} (${item.data.price}gp)</span></div></li>`,
         )
         .join('');
@@ -172,10 +172,10 @@ class _Equipment extends Step {
             return itemsInPack.includes(item.name!);
           })
           .forEach((item) => options.push(this.makeItemOption('', item, 1, false)));
-        options.push(this.makeItemOption('', this.items.find(i => i.name == 'Candle')!, 5, false));
-        options.push(this.makeItemOption('', this.items.find(i => i.name == 'Piton')!, 10, false));
-        options.push(this.makeItemOption('', this.items.find(i => i.name == 'Oil Flask')!, 2, false));
-        options.push(this.makeItemOption('', this.items.find(i => i.name == 'Rations')!, 5, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Candle')!, 5, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Piton')!, 10, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Oil Flask')!, 2, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Rations')!, 5, false));
 
         this.addItemOptionToSelection(
           id,
@@ -209,9 +209,9 @@ class _Equipment extends Step {
             return itemsInPack.includes(item.name!);
           })
           .forEach((item) => options.push(this.makeItemOption('', item, 1, false)));
-        options.push(this.makeItemOption('', this.items.find(i => i.name == 'Map or Scroll Case')!, 2, false));
-        options.push(this.makeItemOption('', this.items.find(i => i.name == 'Oil Flask')!, 2, false));
-        options.push(this.makeItemOption('', this.items.find(i => i.name == 'Paper')!, 5, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Map or Scroll Case')!, 2, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Oil Flask')!, 2, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Paper')!, 5, false));
 
         this.addItemOptionToSelection(
           id,
@@ -236,9 +236,9 @@ class _Equipment extends Step {
             return itemsInPack.includes(item.name!);
           })
           .forEach((item) => options.push(this.makeItemOption('', item, 1, false)));
-        options.push(this.makeItemOption('', this.items.find(i => i.name == 'Piton')!, 10, false));
-        options.push(this.makeItemOption('', this.items.find(i => i.name == 'Torch')!, 10, false));
-        options.push(this.makeItemOption('', this.items.find(i => i.name == 'Rations')!, 10, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Piton')!, 10, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Torch')!, 10, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Rations')!, 10, false));
         this.addItemOptionToSelection(
           id,
           new OptionContainer(
@@ -262,9 +262,9 @@ class _Equipment extends Step {
             return itemsInPack.includes(item.name!);
           })
           .forEach((item) => options.push(this.makeItemOption('', item, 1, false)));
-        options.push(this.makeItemOption('', this.items.find(i => i.name == 'Costume Clothes')!, 2, false));
-        options.push(this.makeItemOption('', this.items.find(i => i.name == 'Candle')!, 5, false));
-        options.push(this.makeItemOption('', this.items.find(i => i.name == 'Rations')!, 5, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Costume Clothes')!, 2, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Candle')!, 5, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Rations')!, 5, false));
         this.addItemOptionToSelection(
           id,
           new OptionContainer(
@@ -288,8 +288,8 @@ class _Equipment extends Step {
             return itemsInPack.includes(item.name!);
           })
           .forEach((item) => options.push(this.makeItemOption('', item, 1, false)));
-        options.push(this.makeItemOption('', this.items.find(i => i.name == 'Torch')!, 10, false));
-        options.push(this.makeItemOption('', this.items.find(i => i.name == 'Rations')!, 10, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Torch')!, 10, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Rations')!, 10, false));
         this.addItemOptionToSelection(
           id,
           new OptionContainer(
@@ -313,9 +313,9 @@ class _Equipment extends Step {
             return itemsInPack.includes(item.name!);
           })
           .forEach((item) => options.push(this.makeItemOption('', item, 1, false)));
-        options.push(this.makeItemOption('', this.items.find(i => i.name == 'Candle')!, 10, false));
-        options.push(this.makeItemOption('', this.items.find(i => i.name == 'Block of Incense')!, 2, false));
-        options.push(this.makeItemOption('', this.items.find(i => i.name == 'Rations')!, 2, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Candle')!, 10, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Block of Incense')!, 2, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Rations')!, 2, false));
         this.addItemOptionToSelection(
           id,
           new OptionContainer(
@@ -339,7 +339,7 @@ class _Equipment extends Step {
             return itemsInPack.includes(item.name!);
           })
           .forEach((item) => options.push(this.makeItemOption('', item, 1, false)));
-        options.push(this.makeItemOption('', this.items.find(i => i.name == 'Parchment')!, 10, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Parchment')!, 10, false));
         this.addItemOptionToSelection(
           id,
           new OptionContainer(
@@ -415,8 +415,8 @@ class _Equipment extends Step {
   async setSourceData() {
     const filteredItems = await getEquipmentEntries();
     this.items = filteredItems
-      .filter(item => item?.data?.rarity == 'common') // get only common items
-      .filter(item => !itemBlackList.includes(item.name)); // remove some punctual "common" but magical/special items
+      .filter((item) => item?.data?.rarity == 'common') // get only common items
+      .filter((item) => !itemBlackList.includes(item.name)); // remove some punctual "common" but magical/special items
 
     this.defaultGoldDice = game.settings.get(Constants.MODULE_NAME, SettingKeys.DEFAULT_GOLD_DICE) as string;
   }
@@ -424,12 +424,15 @@ class _Equipment extends Step {
   async renderData() {
     Utils.setPanelScrolls(this.section());
     // Show rules on the side panel
-    const equipmentRulesItem = await Utils.getJournalFromDefaultRulesPack(game.i18n.localize('HCT.Equipment.RulesJournalName'));
-    $('[data-hct_equipment_description]', this.section()).html(
-      TextEditor.enrichHTML((equipmentRulesItem as any).content),
-    );
+    const rulesCompendiumName = game.i18n.localize('HCT.Equipment.RulesJournalName');
+    const equipmentRules = await getRuleJournalEntryByName(rulesCompendiumName);
+    if (equipmentRules) {
+      $('[data-hct_equipment_description]', this.section()).html(TextEditor.enrichHTML(equipmentRules.content));
+    } else {
+      console.error(`Unable to find equipment's rule journal on compendium ${rulesCompendiumName}`);
+    }
 
-    this.searchableList = [...packs, ...(this.items.filter(data => data.name))];
+    this.searchableList = [...packs, ...this.items.filter((data) => data.name)];
     this.$rollInput = $('[data-hct_equipment_roll_expression]', this.section()).val(this.defaultGoldDice);
     this.$totalGold = $('[data-hct_total_gold]', this.section());
     this.$remainingGold = $('[data-hct_remaining_gold]', this.section());
@@ -482,47 +485,54 @@ const PackPrices = {
   SCHOLAR: 40,
 };
 const packs: EquipmentEntry[] = [
-  { 
-    name: PackNames.BURGLAR, 
-    data: { price: PackPrices.BURGLAR, rarity: '' }, 
+  {
+    name: PackNames.BURGLAR,
+    data: { price: PackPrices.BURGLAR, rarity: '' },
     img: 'icons/tools/hand/lockpicks-steel-grey.webp',
-    _id: '', _pack: ''
+    _id: '',
+    _pack: '',
   },
   {
     name: PackNames.DIPLOMAT,
     data: { price: PackPrices.DIPLOMAT, rarity: '' },
     img: 'icons/commodities/treasure/medal-ribbon-gold-red.webp',
-    _id: '', _pack: ''
+    _id: '',
+    _pack: '',
   },
   {
     name: PackNames.DUNGEONEER,
     data: { price: PackPrices.DUNGEONEER, rarity: '' },
     img: 'icons/sundries/lights/torch-brown-lit.webp',
-    _id: '', _pack: ''
+    _id: '',
+    _pack: '',
   },
   {
     name: PackNames.ENTERNAINER,
     data: { price: PackPrices.ENTERNAINER, rarity: '' },
     img: 'icons/tools/instruments/lute-gold-brown.webp',
-    _id: '', _pack: ''
+    _id: '',
+    _pack: '',
   },
   {
     name: PackNames.EXPLORER,
     data: { price: PackPrices.EXPLORER, rarity: '' },
     img: 'icons/tools/navigation/map-marked-green.webp',
-    _id: '', _pack: ''
+    _id: '',
+    _pack: '',
   },
   {
     name: PackNames.PRIEST,
     data: { price: PackPrices.PRIEST, rarity: '' },
     img: 'icons/commodities/treasure/token-gold-cross.webp',
-    _id: '', _pack: ''
+    _id: '',
+    _pack: '',
   },
   {
     name: PackNames.SCHOLAR,
     data: { price: PackPrices.SCHOLAR, rarity: '' },
     img: 'icons/skills/trades/academics-merchant-scribe.webp',
-    _id: '', _pack: ''
+    _id: '',
+    _pack: '',
   },
 ];
 
