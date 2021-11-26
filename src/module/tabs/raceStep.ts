@@ -294,7 +294,7 @@ function subraceNameIsPartOfRaceName(subraceName: string, parentName: string): b
   if (parentName.includes(' ')) {
     return subraceName.includes(parentName);
   } else {
-    return subraceName.split(' ').includes(parentName);
+    return subraceName.includes(' ') ? subraceName.split(' ').includes(parentName) : subraceName.includes(parentName);
   }
 }
 
@@ -309,10 +309,11 @@ function getPickableRaces(raceEntries: RaceEntry[], misleadingFeatureNames: stri
   const parentsToRemove: Set<RaceEntry> = new Set(); // all classes with children are deleted at the end
   notParentEntries.forEach((e) => {
     if (validSubraceName(e.name, misleadingFeatureNames)) {
-      // find parent race
-      const parent = pickableRaces.find((p) => e.name.includes(p.name));
-
-      if (parent && parentListedAsRequirement(e, parent.name) && subraceNameIsPartOfRaceName(e.name, parent.name)) {
+      const parent = pickableRaces.find(
+        (p) => parentListedAsRequirement(e, p.name) && subraceNameIsPartOfRaceName(e.name, p.name),
+      );
+      if (parent) {
+        // if parent found, add it to the set so main races with children are later removed from the list
         parentsToRemove.add(parent);
         pickableRaces.push(e);
       }

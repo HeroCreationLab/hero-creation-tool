@@ -1,8 +1,12 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
-## 1.3.3 (2021-11-24)
+## 1.4.0 (2021-11-26)
 - Refactored compendia processing so that it indexes sources and uses the indexes instead - big performance upgrade should be noticeable.
 - Some refactoring on how races/subraces are handled - usage should remain the same, but the code is a lot more straightforward now.
+- Added module setting for what string to use to cherrypick Fighting Styles ('Fighting Style' by default)
+- Added module setting for what items to ignore in Equipment tab. Tab ignores any item with a rarity other than Common, but there's a few punctual magical items on that rarity, plus Unarmed Strikes. The setting allows to customize this.
+- Added module setting for what names to ignore as Subrace names.
+- Fixed some races inconsistencies [(#53)](https://github.com/HeroCreationLab/hero-creation-tool/issues/53)
 
 ## 1.3.2 (2021-10-31)
 - Small fix removing the level-up button from character sheets - functionality is still under development and button-rendering code was accidentally left on release.
