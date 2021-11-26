@@ -1,8 +1,9 @@
 import * as Utils from '../utils';
-import * as Constants from '../constants';
 import { Step, StepEnum } from '../Step';
 import FixedOption, { OptionType } from '../options/FixedOption';
 import DeletableOption from '../options/DeletableOption';
+import { getRuleJournalEntryByName, getSpellEntries, SpellEntry } from '../indexUtils';
+import { ClassSpellcastingData as ClassSpellcastingData } from './classStep';
 
 class _Spells extends Step {
   constructor() {
@@ -15,11 +16,11 @@ class _Spells extends Step {
   $inputBox!: JQuery;
   $suggBox!: JQuery;
   $itemList!: JQuery;
-  searchArray: Item[] = [];
+  searchArray: SpellEntry[] = [];
 
-  spells: Item[] = [];
-  archived: Item[] = [];
-  rules: any;
+  spells: SpellEntry[] = [];
+  archived: SpellEntry[] = [];
+  rules?: string;
 
   setListeners(): void {
     this.$searchWrapper = $('.hct-search-wrapper', this.section());
@@ -77,7 +78,7 @@ class _Spells extends Step {
     this.$searchWrapper.removeClass('active');
   }
 
-  addItemToSelection(item: Item) {
+  addItemToSelection(item: SpellEntry) {
     const itemOption = new DeletableOption(
       StepEnum.Spells,
       new FixedOption(StepEnum.Spells, 'items', item, undefined, {
@@ -98,7 +99,7 @@ class _Spells extends Step {
     this.changeSpellCount((item.data as any).level, CountChange.UP);
   }
 
-  onDelete(item: Item) {
+  onDelete(item: SpellEntry) {
     const deletedItem = this.archived.splice(this.archived.indexOf(item), 1);
     this.spells.push(...deletedItem);
     $(`:contains(${item.name})`, this.$itemList).remove();
@@ -112,7 +113,7 @@ class _Spells extends Step {
     this.changeSpellCount((item.data as any).level, CountChange.DOWN);
   }
 
-  showSuggestions(list: Item[]) {
+  showSuggestions(list: SpellEntry[]) {
     let listData;
     if (!list.length) {
       listData = `<li>${'No matches'}</li>`;
@@ -128,9 +129,9 @@ class _Spells extends Step {
   }
 
   async setSourceData() {
-    const filteredSpells = (await Utils.getSources('spells')) as any;
+    const spellIndexEntries = await getSpellEntries();
     const maxLevel = 9;
-    this.spells = filteredSpells.filter((item: Item) => (item.data as any).level <= maxLevel);
+    this.spells = spellIndexEntries.filter((item) => item.data.level <= maxLevel);
   }
 
   changeSpellCount(spellLevel: number, change: CountChange) {
@@ -142,12 +143,14 @@ class _Spells extends Step {
   async renderData() {
     Utils.setPanelScrolls(this.section());
     // Show rules on the side panel
-    const spellsRulesItem = await Utils.getJournalFromPackByName(
-      Constants.DEFAULT_PACKS.RULES,
-      game.i18n.localize('HCT.Spells.RulesJournalName'),
-    );
-    this.rules = TextEditor.enrichHTML((spellsRulesItem as any).content);
-    $('[data-hct_spells_description]', this.section()).html(this.rules);
+    const rulesCompendiumName = game.i18n.localize('HCT.Spells.RulesJournalName');
+    const spellsRules = await getRuleJournalEntryByName(rulesCompendiumName);
+    if (spellsRules) {
+      this.rules = TextEditor.enrichHTML(spellsRules.content);
+      $('[data-hct_spells_description]', this.section()).html(this.rules);
+    } else {
+      console.error(`Unable to find spells' rule journal on compendium ${rulesCompendiumName}`);
+    }
 
     for (let i = 0; i < 10; i++) {
       $(`[data-hct_lv${i}_label]`, this.section()).html(`${(game as any).dnd5e.config.spellLevels[i]}: `);
@@ -156,25 +159,33 @@ class _Spells extends Step {
 
   update(data: any) {
     const $spellCastingAbilityElem = $('[data-hct_spellcasting_ability]', this.section());
+    const $showFeatureDescCheckbox = $(`#hct-show-class-spellcasting-desc`, this.section());
+    const $sidePanel = $('[data-hct_spells_description]', this.section());
 
     if (data.class?.spellcasting) {
-      const spa = (game as any).dnd5e.config.abilities[data.class.spellcasting.ability];
+      const classSpellcasting = data.class.spellcasting as ClassSpellcastingData;
+      const spa = (game as any).dnd5e.config.abilities[classSpellcasting.ability];
+
       $spellCastingAbilityElem.html(
         game.i18n.format('HCT.Spells.SpellcastingAbilityBlob', { class: data.class.name, spa: spa }),
       );
-      const $showFeatureDescCheckbox: JQuery = $(`#hct-show-class-spellcasting-desc`, this.section());
-      const enrichedText = TextEditor.enrichHTML(data.class.spellcasting.item.data.description.value);
+      const enrichedText = TextEditor.enrichHTML((classSpellcasting.item.data as any).data.description.value);
+      $showFeatureDescCheckbox.prop('disabled', false);
+      $showFeatureDescCheckbox.prev().css('color', '#191813');
       $showFeatureDescCheckbox.on('change', (event) => {
-        if ((event.currentTarget as any).checked) {
-          $('[data-hct_spells_description]', this.section()).html(enrichedText);
-        } else {
-          $('[data-hct_spells_description]', this.section()).html(this.rules);
-        }
+        $sidePanel.html((event.currentTarget as any).checked ? enrichedText : this.rules ?? '');
       });
+      if ($showFeatureDescCheckbox.is(':checked')) {
+        $sidePanel.html(enrichedText);
+      }
 
       //const maxSpellLevel = calculateMaxSpellLevel(data.class.level, data.class.spellcasting.progression);
     } else {
       $spellCastingAbilityElem.html(game.i18n.localize('HCT.Spells.NoSpellcastingClass'));
+      $sidePanel.html(this.rules ?? '');
+      $showFeatureDescCheckbox.prop('disabled', true);
+      $showFeatureDescCheckbox.prop('checked', false);
+      $showFeatureDescCheckbox.prev().css('color', 'darkgrey');
     }
   }
 }

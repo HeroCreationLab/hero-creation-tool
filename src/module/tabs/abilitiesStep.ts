@@ -8,6 +8,7 @@ import HeroOption from '../options/HeroOption';
 import FixedOption, { OptionType } from '../options/FixedOption';
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 import SettingKeys from '../settings';
+import { getRuleJournalEntryByName } from '../indexUtils';
 
 class _Abilities extends Step {
   constructor() {
@@ -61,13 +62,13 @@ class _Abilities extends Step {
     $('[data-mode="manual"]', $methodsContext).prop('disabled', !Utils.getModuleSetting(SettingKeys.ENABLE_ASI_MANUAL));
 
     // Show rules on the side panel
-    const abilitiesRulesItem = await Utils.getJournalFromPackByName(
-      Constants.DEFAULT_PACKS.RULES,
-      game.i18n.localize('HCT.Abilities.RulesJournalName'),
-    );
-    $('[data-hct_abilities_description]', this.section()).html(
-      TextEditor.enrichHTML((abilitiesRulesItem as any).content),
-    );
+    const rulesCompendiumName = game.i18n.localize('HCT.Abilities.RulesJournalName');
+    const abilitiesRules = await getRuleJournalEntryByName(rulesCompendiumName);
+    if (abilitiesRules) {
+      $('[data-hct_abilities_description]', this.section()).html(TextEditor.enrichHTML(abilitiesRules.content));
+    } else {
+      console.error(`Unable to find abilities' rule journal on compendium ${rulesCompendiumName}`);
+    }
 
     this.touched = false;
   }

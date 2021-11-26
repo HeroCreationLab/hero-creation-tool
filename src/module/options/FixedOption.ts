@@ -1,6 +1,7 @@
 import { StepEnum } from '../Step';
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 import HeroOption, { apply } from './HeroOption';
+import { IndexEntry } from '../indexUtils';
 
 /**
  * Represents a fixed value that will be imprinted into the created actor
@@ -11,7 +12,7 @@ export default class FixedOption implements HeroOption {
   constructor(
     readonly origin: StepEnum,
     readonly key: string,
-    private option: string | number | Item | { cp: number; sp: number; gp: number },
+    private option: string | number | IndexEntry | { cp: number; sp: number; gp: number },
     private textToShow?: string,
     readonly settings: {
       addValues: boolean;
@@ -55,10 +56,9 @@ export default class FixedOption implements HeroOption {
       parent.append(this.$textElem);
     } else {
       const $container = $('<div class="hct-icon-with-context">');
-      const item: Item = this.option as Item;
-      const linkData = (item as any).flags?.hct?.link;
+      const item = this.option as IndexEntry;
       const $link = $(
-        `<a class="entity-link hct-icon-link" draggable="false" data-pack="${linkData?.pack}" data-id="${linkData?.id}">`,
+        `<a class="entity-link hct-icon-link" draggable="false" data-pack="${item._pack}" data-id="${item._id}">`,
       );
       this.$itemImg.attr('src', item.img);
       $link.append(this.$itemImg);

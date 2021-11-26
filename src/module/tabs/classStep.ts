@@ -7,22 +7,30 @@ import * as Utils from '../utils';
 import * as ProficiencyUtils from '../proficiencyUtils';
 import HiddenOption from '../options/HiddenOption';
 import FixedOption, { OptionType } from '../options/FixedOption';
-import SelectableItemOption from '../options/SelectableItemOption';
-import SearchableItemOption from '../options/SearchableItemOption';
+import SelectableIndexEntryOption from '../options/SelectableIndexEntryOption';
+import SearchableIndexEntryOption from '../options/SearchableIndexEntryOption';
 import { HitDie } from '../HitDie';
 import { ClassLevel } from '../ClassLevel';
+import { ClassEntry, ClassFeatureEntry, getClassEntries, getClassFeatureEntries } from '../indexUtils';
+import SettingKeys from '../settings';
+
+export type ClassSpellcastingData = {
+  item: Item;
+  ability: string;
+  progression: string;
+};
 
 class _Class extends Step {
-  private classes?: Item[] = [];
-  private classFeatures?: Item[] = [];
-  private _class!: Item;
+  private classes?: ClassEntry[] = [];
+  private classFeatures?: ClassFeatureEntry[] = [];
+  private _class?: ClassEntry;
   private primaryClassLevel: ClassLevel = 1;
   private primaryClassHitDie: HitDie | null = null;
   constructor() {
     super(StepEnum.Class);
   }
 
-  spellcasting!: { item: Item; ability: string; progression: string };
+  spellcasting?: ClassSpellcastingData;
 
   getUpdateData() {
     return this._class
@@ -44,12 +52,12 @@ class _Class extends Step {
 
   async setSourceData() {
     // classes
-    const classItems = await Utils.getSources('classes');
-    this.classes = classItems?.sort((a, b) => a.name.localeCompare(b.name)) as any;
+    const classItems = await getClassEntries();
+    this.classes = classItems?.sort((a, b) => a.name.localeCompare(b.name));
     if (!this.classes) ui.notifications!.error(game.i18n.format('HCT.Error.RenderLoad', { value: 'Classes' }));
 
     // class features
-    const classFeatureItems = await Utils.getSources('classFeatures');
+    const classFeatureItems = await getClassFeatureEntries();
     this.classFeatures = classFeatureItems?.sort((a, b) => a.name.localeCompare(b.name)) as any;
   }
 
@@ -58,16 +66,16 @@ class _Class extends Step {
     Utils.setPanelScrolls(this.section());
     $('[data-hct_class_data]', this.section()).hide();
 
-    const searchableOption = new SearchableItemOption(
+    const searchableOption = new SearchableIndexEntryOption(
       this.step,
       'item',
-      this.classes!.map((c) => ({ id: c.name!, name: c.name!, img: c.img! })),
-      (classKey) => {
+      this.classes!,
+      (classId) => {
         // callback on selected
         this.clearOptions();
-        this._class = this.classes!.find((c) => c.name === classKey) as Item;
+        this._class = this.classes!.find((c) => c._id === classId);
         if (!this._class) {
-          throw new Error(`Error finding class with name ${classKey}`);
+          throw new Error(`Error finding class with name ${classId}`);
         }
         if (this.classes) {
           this.updateClass(this.section());
@@ -93,11 +101,14 @@ class _Class extends Step {
     this.clearOptions();
 
     // icon, description and class item
-    $('[data-hct_class_icon]', $section).attr('src', this._class.img || CONSTANTS.MYSTERY_MAN);
+    $('[data-hct_class_icon]', $section).attr('src', this._class?.img || CONSTANTS.MYSTERY_MAN);
     $('[data-hct_class_description]', $section).html(
-      TextEditor.enrichHTML((this._class.data as any).description.value),
+      TextEditor.enrichHTML(this._class?.data?.description?.value ?? ''),
     );
-    (this._class.data as any).levels = this.primaryClassLevel;
+    if (!this._class) {
+      throw new Error(`Error finding current class`);
+    }
+    this._class.data.levels = this.primaryClassLevel;
     this.stepOptions.push(new HiddenOption(ClassTab.step, 'items', [this._class], { addValues: true }));
 
     this.setHitPointsUi($context);
@@ -133,11 +144,11 @@ class _Class extends Step {
         step: this.step,
         $parent: $proficiencySection,
         pushTo: this.stepOptions,
-        filteredOptions: (this._class.data as any).skills.choices.map((s: string) => ({
+        filteredOptions: this._class!.data.skills.choices.map((s: string) => ({
           key: s,
           value: foundrySkills[s],
         })),
-        quantity: (this._class.data as any).skills.number,
+        quantity: this._class!.data.skills.number,
         addValues: true,
         expandable: false,
         customizable: false,
@@ -196,32 +207,39 @@ class _Class extends Step {
     this.stepOptions.push(...options);
   }
 
-  private setClassFeaturesUi($context: JQuery<HTMLElement>) {
+  private async setClassFeaturesUi($context: JQuery<HTMLElement>) {
     const $featuresSection = $('section', $('[data-hct_class_area=features]', $context)).empty();
-    let classFeatures: Item[] = Utils.filterItemList({
-      filterValues: [...Array(this.primaryClassLevel).keys()].map((k) => `${this._class.name} ${k + 1}`),
+    let classFeatures = Utils.filterItemList({
+      filterValues: [...Array(this.primaryClassLevel).keys()].map((k) => `${this._class!.name} ${k + 1}`),
       filterField: 'data.requirements',
       itemList: this.classFeatures!,
+    }).sort((a, b) => {
+      const lvA = parseInt(a.data.requirements.substring(a.data.requirements.indexOf(' ')));
+      const lvB = parseInt(b.data.requirements.substring(b.data.requirements.indexOf(' ')));
+      return lvA - lvB;
     });
     // handle fighting style
-    const fightingStyles = classFeatures.filter((i) => (i as any).name.startsWith('Fighting Style'));
-    classFeatures = classFeatures.filter((i) => !(i as any).name.startsWith('Fighting Style'));
+    const fsString = Utils.getModuleSetting(SettingKeys.FIGHTING_STYLE_STRING) as string;
+    const fightingStyles = classFeatures.filter((i) => (i as any).name.startsWith(fsString));
+    classFeatures = classFeatures.filter((i) => !(i as any).name.startsWith(fsString));
 
     const spellcastingItem = classFeatures.find(
       (i) => (i as any).name.startsWith('Spellcasting') || (i as any).name.startsWith('Pact Magic'),
     );
     if (spellcastingItem) {
       this.spellcasting = {
-        item: spellcastingItem,
-        ability: (this._class.data as any).spellcasting.ability,
-        progression: (this._class.data as any).spellcasting.progression,
+        item: (await game.packs.get(spellcastingItem._pack)?.getDocument(spellcastingItem._id)) as Item,
+        ability: this._class!.data.spellcasting.ability,
+        progression: this._class!.data.spellcasting.progression,
       };
+    } else {
+      this.spellcasting = undefined;
     }
 
     if (fightingStyles && fightingStyles.length > 0) {
-      const fsOption = new SelectableItemOption(StepEnum.Class, 'items', fightingStyles, {
+      const fsOption = new SelectableIndexEntryOption(StepEnum.Class, 'items', fightingStyles, {
         addValues: true,
-        placeholderName: 'Fighting Style',
+        placeholderName: fsString,
       });
       fsOption.render($featuresSection);
       this.stepOptions.push(fsOption);

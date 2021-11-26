@@ -12,19 +12,26 @@ const enum SettingKeys {
   ENABLE_ASI_MANUAL = 'enableAbilityScoreManualInput',
   INDIVIDUAL_PANEL_SCROLLS = 'individualScrolls',
   DEFAULT_GOLD_DICE = 'defaultGoldDice',
+  FIGHTING_STYLE_STRING = 'fightingStyleLookupString',
+  EQUIPMENTS_BLACKLIST = 'equipmentsBlackList',
+  SUBRACES_BLACKLIST = 'subracesBlacklist',
   SOURCES = 'compendiumSources',
 }
 export default SettingKeys;
 
-export interface Source {
-  races: any;
-  racialFeatures: any;
-  classes: any;
-  classFeatures: any;
-  backgroundFeatures: any;
-  spells: any;
-  feats: any;
+export const enum SourceType {
+  RACES = 'races',
+  RACIAL_FEATURES = 'racialFeatures',
+  CLASSES = 'classes',
+  CLASS_FEATURES = 'classFeatures',
+  BACKGROUND_FEATURES = 'backgroundFeatures',
+  SPELLS = 'spells',
+  FEATS = 'feats',
 }
+
+export type Source = {
+  [key in SourceType]: any;
+};
 
 export function registerSettings(): void {
   console.log(`${Constants.LOG_PREFIX} | Building module settings`);
@@ -39,6 +46,9 @@ export function registerSettings(): void {
   abilityScoreMethods();
   tokenDisplayNameMode();
   tokenDisplayBarsMode();
+  fightingStyleLookupString();
+  equipmentBlacklist();
+  subraceNameBlacklist();
   // custom packs
   sourcesConfiguration();
   // integrations
@@ -68,6 +78,40 @@ function sourcesConfiguration() {
     icon: 'fas fa-atlas',
     type: CompendiumSourcesSubmenu,
     restricted: true,
+  });
+}
+
+function fightingStyleLookupString() {
+  game.settings.register(Constants.MODULE_NAME, SettingKeys.FIGHTING_STYLE_STRING, {
+    name: game.i18n.localize('HCT.Setting.FightingStyleString.Name'),
+    hint: game.i18n.localize('HCT.Setting.FightingStyleString.Hint'),
+    scope: 'world',
+    config: true,
+    default: 'Fighting Style',
+    type: String,
+  });
+}
+
+function equipmentBlacklist() {
+  game.settings.register(Constants.MODULE_NAME, SettingKeys.EQUIPMENTS_BLACKLIST, {
+    name: game.i18n.localize('HCT.Setting.EquipmentBlacklist.Name'),
+    hint: game.i18n.localize('HCT.Setting.EquipmentBlacklist.Hint'),
+    scope: 'world',
+    config: true,
+    default:
+      'Potion of Climbing; Potion of Healing; Spell Scroll 1st Level; Spell Scroll Cantrip Level; Unarmed Strike',
+    type: String,
+  });
+}
+
+function subraceNameBlacklist() {
+  game.settings.register(Constants.MODULE_NAME, SettingKeys.SUBRACES_BLACKLIST, {
+    name: game.i18n.localize('HCT.Setting.SubraceNameBlacklist.Name'),
+    hint: game.i18n.localize('HCT.Setting.SubraceNameBlacklist.Hint'),
+    scope: 'world',
+    config: true,
+    default: 'Gnome Cunning; Halfling Nimbleness',
+    type: String,
   });
 }
 

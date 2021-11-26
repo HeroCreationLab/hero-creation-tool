@@ -6,10 +6,11 @@ import SettingKeys from '../settings';
 import HeroOption from '../options/HeroOption';
 import OptionContainer from '../options/OptionContainer';
 import DeletableOption from '../options/DeletableOption';
+import { EquipmentEntry, getEquipmentEntries, getRuleJournalEntryByName } from '../indexUtils';
 
 type itemOrPack = {
   itemName?: string;
-  item?: Item;
+  item?: EquipmentEntry;
 };
 
 class _Equipment extends Step {
@@ -30,10 +31,10 @@ class _Equipment extends Step {
   $inputBox!: JQuery;
   $suggBox!: JQuery;
   $itemList!: JQuery;
-  searchArray: Item[] = [];
+  searchArray: EquipmentEntry[] = [];
 
-  items!: Item[];
-  searchableList!: Item[];
+  items!: EquipmentEntry[];
+  searchableList!: EquipmentEntry[];
 
   available = 0;
   total = 0;
@@ -65,7 +66,7 @@ class _Equipment extends Step {
 
     $('[data-hct_equipment_roll]', this.section()).on('click', async (e) => {
       const rollExpression = this.$rollInput.val() as string;
-      const roll = await new Roll(rollExpression).evaluate({ async: true } as any);
+      const roll = await new Roll(rollExpression).evaluate({ async: true });
       if (Utils.getModuleSetting(SettingKeys.SHOW_ROLLS_AS_MESSAGES)) {
         roll.toMessage({ flavor: game.i18n.localize('HCT.Equipment.RollChatFlavor') });
       }
@@ -102,7 +103,7 @@ class _Equipment extends Step {
       const userData = (e.target as any).value;
       if (userData) {
         this.searchArray = this.searchableList.filter((data) => {
-          return (data as any).name.toLocaleLowerCase().includes(userData.toLocaleLowerCase());
+          return data.name.toLocaleLowerCase().includes(userData.toLocaleLowerCase());
         });
         this.$searchWrapper.addClass('active');
         this.showSuggestions(this.searchArray);
@@ -131,18 +132,18 @@ class _Equipment extends Step {
       this.addPackToSelection(item.name as PackNames);
     } else {
       const id = foundry.utils.randomID();
-      this.addItemOptionToSelection(id, this.makeItemOption(id, item, 1), (item.data as any).price, 1);
+      this.addItemOptionToSelection(id, this.makeItemOption(id, item, 1), item.data.price, 1);
     }
   }
 
-  showSuggestions(list: Item[]) {
+  showSuggestions(list: EquipmentEntry[]) {
     let listData;
     if (!list.length) {
       listData = `<li>${'No matches'}</li>`;
     } else {
       listData = list
         .map(
-          (item: any) =>
+          (item) =>
             `<li><div class="hct-icon-with-context" data-item_name=\"${item.name}\"><img class="hct-icon-square-med hct-background-black hct-no-border" src="${item.img}"><span>${item.name} (${item.data.price}gp)</span></div></li>`,
         )
         .join('');
@@ -171,10 +172,10 @@ class _Equipment extends Step {
             return itemsInPack.includes(item.name!);
           })
           .forEach((item) => options.push(this.makeItemOption('', item, 1, false)));
-        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Candle')!, 5, false));
-        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Piton')!, 10, false));
-        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Oil Flask')!, 2, false));
-        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Rations')!, 5, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Candle')!, 5, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Piton')!, 10, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Oil Flask')!, 2, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Rations')!, 5, false));
 
         this.addItemOptionToSelection(
           id,
@@ -208,9 +209,9 @@ class _Equipment extends Step {
             return itemsInPack.includes(item.name!);
           })
           .forEach((item) => options.push(this.makeItemOption('', item, 1, false)));
-        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Map or Scroll Case')!, 2, false));
-        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Oil Flask')!, 2, false));
-        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Paper')!, 5, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Map or Scroll Case')!, 2, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Oil Flask')!, 2, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Paper')!, 5, false));
 
         this.addItemOptionToSelection(
           id,
@@ -235,9 +236,9 @@ class _Equipment extends Step {
             return itemsInPack.includes(item.name!);
           })
           .forEach((item) => options.push(this.makeItemOption('', item, 1, false)));
-        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Piton')!, 10, false));
-        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Torch')!, 10, false));
-        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Rations')!, 10, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Piton')!, 10, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Torch')!, 10, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Rations')!, 10, false));
         this.addItemOptionToSelection(
           id,
           new OptionContainer(
@@ -261,9 +262,9 @@ class _Equipment extends Step {
             return itemsInPack.includes(item.name!);
           })
           .forEach((item) => options.push(this.makeItemOption('', item, 1, false)));
-        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Costume Clothes')!, 2, false));
-        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Candle')!, 5, false));
-        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Rations')!, 5, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Costume Clothes')!, 2, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Candle')!, 5, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Rations')!, 5, false));
         this.addItemOptionToSelection(
           id,
           new OptionContainer(
@@ -287,8 +288,8 @@ class _Equipment extends Step {
             return itemsInPack.includes(item.name!);
           })
           .forEach((item) => options.push(this.makeItemOption('', item, 1, false)));
-        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Torch')!, 10, false));
-        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Rations')!, 10, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Torch')!, 10, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Rations')!, 10, false));
         this.addItemOptionToSelection(
           id,
           new OptionContainer(
@@ -312,9 +313,9 @@ class _Equipment extends Step {
             return itemsInPack.includes(item.name!);
           })
           .forEach((item) => options.push(this.makeItemOption('', item, 1, false)));
-        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Candle')!, 10, false));
-        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Block of Incense')!, 2, false));
-        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Rations')!, 2, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Candle')!, 10, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Block of Incense')!, 2, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Rations')!, 2, false));
         this.addItemOptionToSelection(
           id,
           new OptionContainer(
@@ -338,7 +339,7 @@ class _Equipment extends Step {
             return itemsInPack.includes(item.name!);
           })
           .forEach((item) => options.push(this.makeItemOption('', item, 1, false)));
-        options.push(this.makeItemOption('', this.items.find((i: any) => i.name == 'Parchment')!, 10, false));
+        options.push(this.makeItemOption('', this.items.find((i) => i.name == 'Parchment')!, 10, false));
         this.addItemOptionToSelection(
           id,
           new OptionContainer(
@@ -367,12 +368,12 @@ class _Equipment extends Step {
     this.updateGold(-price!);
   }
 
-  makeItemOption(id: string, item: Item, quantity = 1, deletable = true): HeroOption {
+  makeItemOption(id: string, item: EquipmentEntry, quantity = 1, deletable = true): HeroOption {
     const option = new FixedOption(
       StepEnum.Equipment,
       'items',
       item,
-      `${item.name} x${quantity} (${(item.data as any).price * quantity}gp)`,
+      `${item.name} x${quantity} (${item.data.price * quantity}gp)`,
       {
         addValues: true,
         type: OptionType.ITEM,
@@ -412,10 +413,13 @@ class _Equipment extends Step {
   }
 
   async setSourceData() {
-    const filteredItems = (await Utils.getItemListFromPackListByNames([Constants.DEFAULT_PACKS.ITEMS])) as any;
+    const filteredItems = await getEquipmentEntries();
+    const itemBlackList = (Utils.getModuleSetting(SettingKeys.EQUIPMENTS_BLACKLIST) as string)
+      .split(';')
+      .map((e) => e.trim());
     this.items = filteredItems
-      .filter((item: any) => item?.data?.rarity == 'common') // get only common items
-      .filter((item: Item) => !itemBlackList.includes((item as any).name)); // remove some punctual "common" but magical/special items
+      .filter((item) => item?.data?.rarity == 'common') // get only common items
+      .filter((item) => !itemBlackList.includes(item.name)); // remove some punctual "common" but magical/special items
 
     this.defaultGoldDice = game.settings.get(Constants.MODULE_NAME, SettingKeys.DEFAULT_GOLD_DICE) as string;
   }
@@ -423,15 +427,15 @@ class _Equipment extends Step {
   async renderData() {
     Utils.setPanelScrolls(this.section());
     // Show rules on the side panel
-    const equipmentRulesItem = await Utils.getJournalFromPackByName(
-      Constants.DEFAULT_PACKS.RULES,
-      game.i18n.localize('HCT.Equipment.RulesJournalName'),
-    );
-    $('[data-hct_equipment_description]', this.section()).html(
-      TextEditor.enrichHTML((equipmentRulesItem as any).content),
-    );
+    const rulesCompendiumName = game.i18n.localize('HCT.Equipment.RulesJournalName');
+    const equipmentRules = await getRuleJournalEntryByName(rulesCompendiumName);
+    if (equipmentRules) {
+      $('[data-hct_equipment_description]', this.section()).html(TextEditor.enrichHTML(equipmentRules.content));
+    } else {
+      console.error(`Unable to find equipment's rule journal on compendium ${rulesCompendiumName}`);
+    }
 
-    this.searchableList = [...packs, ...(this.items.filter((data) => (data as any).name) as any)];
+    this.searchableList = [...packs, ...this.items.filter((data) => data.name)];
     this.$rollInput = $('[data-hct_equipment_roll_expression]', this.section()).val(this.defaultGoldDice);
     this.$totalGold = $('[data-hct_total_gold]', this.section());
     this.$remainingGold = $('[data-hct_remaining_gold]', this.section());
@@ -460,7 +464,7 @@ class _Equipment extends Step {
 const EquipmentTab: Step = new _Equipment();
 export default EquipmentTab;
 
-function isPack(item: Item): boolean {
+function isPack(item: EquipmentEntry): boolean {
   return packs.includes(item);
 }
 
@@ -483,44 +487,61 @@ const PackPrices = {
   PRIEST: 19,
   SCHOLAR: 40,
 };
-const packs: Item[] = [
-  { name: PackNames.BURGLAR, data: { price: PackPrices.BURGLAR }, img: 'icons/tools/hand/lockpicks-steel-grey.webp' },
+const packs: EquipmentEntry[] = [
+  {
+    name: PackNames.BURGLAR,
+    data: { price: PackPrices.BURGLAR, rarity: '' },
+    img: 'icons/tools/hand/lockpicks-steel-grey.webp',
+    _id: '',
+    _pack: '',
+    type: '',
+  },
   {
     name: PackNames.DIPLOMAT,
-    data: { price: PackPrices.DIPLOMAT },
+    data: { price: PackPrices.DIPLOMAT, rarity: '' },
     img: 'icons/commodities/treasure/medal-ribbon-gold-red.webp',
+    _id: '',
+    _pack: '',
+    type: '',
   },
   {
     name: PackNames.DUNGEONEER,
-    data: { price: PackPrices.DUNGEONEER },
+    data: { price: PackPrices.DUNGEONEER, rarity: '' },
     img: 'icons/sundries/lights/torch-brown-lit.webp',
+    _id: '',
+    _pack: '',
+    type: '',
   },
   {
     name: PackNames.ENTERNAINER,
-    data: { price: PackPrices.ENTERNAINER },
+    data: { price: PackPrices.ENTERNAINER, rarity: '' },
     img: 'icons/tools/instruments/lute-gold-brown.webp',
+    _id: '',
+    _pack: '',
+    type: '',
   },
   {
     name: PackNames.EXPLORER,
-    data: { price: PackPrices.EXPLORER },
+    data: { price: PackPrices.EXPLORER, rarity: '' },
     img: 'icons/tools/navigation/map-marked-green.webp',
+    _id: '',
+    _pack: '',
+    type: '',
   },
   {
     name: PackNames.PRIEST,
-    data: { price: PackPrices.PRIEST },
+    data: { price: PackPrices.PRIEST, rarity: '' },
     img: 'icons/commodities/treasure/token-gold-cross.webp',
+    _id: '',
+    _pack: '',
+    type: '',
   },
   {
     name: PackNames.SCHOLAR,
-    data: { price: PackPrices.SCHOLAR },
+    data: { price: PackPrices.SCHOLAR, rarity: '' },
     img: 'icons/skills/trades/academics-merchant-scribe.webp',
+    _id: '',
+    _pack: '',
+    type: '',
   },
-] as any;
-
-const itemBlackList = [
-  'Potion of Climbing',
-  'Potion of Healing',
-  'Spell Scroll 1st Level',
-  'Spell Scroll Cantrip Level',
-  'Unarmed Strike',
 ];

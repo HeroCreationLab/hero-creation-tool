@@ -39,6 +39,18 @@
       "TokenBarMode": {
         "Name": "Token bar 1 display mode"
       },
+      "FightingStyleString": {
+        "Name": "Fighting Style feature name",
+        "Hint": "Name used to identify and handle Fighting Style features (in case you are using feature items in another language). Default - 'Fighting Style'"
+      },
+      "EquipmentBlacklist": {
+        "Name": "Equipment Blacklist",
+        "Hint": "Items (Equipment) not shown for purchase, by name (case-sensitive, separated by ';', spaces are ok). Only 'common' rarity items are shown, but this list excludes the few magical/unreasonable common items. Default - 'Potion of Climbing; Potion of Healing; Spell Scroll 1st Level; Spell Scroll Cantrip Level; Unarmed Strike'"
+      },
+      "SubraceNameBlacklist": {
+        "Name": "Subrace Names Blacklist",
+        "Hint": "Items excluded by name from been Subraces (case-sensitive, separated by ';', spaces are ok). Used by default to exclude things like Gnome Cunning from registering as Gnome subclasses. Default - 'Gnome Cunning; Halfling Nimbleness'"
+      },
       "Sources": {
         "Name": "Compendium Sources",
         "Hint": "Select the compendia that will serve as data source for the different creation steps",

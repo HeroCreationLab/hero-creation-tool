@@ -10,26 +10,33 @@ import HiddenOption from '../options/HiddenOption';
 import SelectableOption from '../options/SelectableOption';
 import FixedOption, { OptionType } from '../options/FixedOption';
 import InputOption from '../options/InputOption';
-import SearchableItemOption from '../options/SearchableItemOption';
+import SearchableIndexEntryOption from '../options/SearchableIndexEntryOption';
+import {
+  FeatEntry,
+  getFeatEntries,
+  getRaceEntries,
+  getRaceFeatureEntries,
+  IndexEntry,
+  RaceEntry,
+  RacialFeatureEntry,
+} from '../indexUtils';
+import SettingKeys from '../settings';
 
 type KeyValue = {
   key: string;
   value: string;
 };
 
-type Race = {
-  name: string;
-  item: Item;
-  subraces?: Item[];
-};
-
 class _Race extends Step {
-  races?: Race[];
-  raceFeatures?: Item[];
+  raceEntries?: RaceEntry[];
+  pickableRaces?: RaceEntry[];
+  raceFeatures?: RacialFeatureEntry[];
 
-  feats?: Item[];
+  feats?: FeatEntry[];
 
   $context!: JQuery;
+
+  subraceBlacklist?: string[];
 
   constructor() {
     super(StepEnum.Race);
@@ -42,99 +49,62 @@ class _Race extends Step {
   }
 
   async setSourceData() {
-    const raceItems = await Utils.getSources('races');
-    // get races
-    const races: Race[] = raceItems
-      ?.filter((race) => (race as any).data.requirements == '')
-      .map((race) => ({ name: race.name, item: race, subraces: [] }))
-      .sort((a, b) => a.name.localeCompare(b.name)) as any;
-    const raceNames = races.map((race) => race.name);
+    this.raceEntries = await getRaceEntries();
+    const raceNames = this.raceEntries.filter((entry) => entry.data?.requirements == '').map((race) => race.name);
 
-    const notParentItems = raceItems?.filter((item) => (item as any).data.requirements !== '');
+    const raceFeatureIndexEntries = await getRaceFeatureEntries();
+    this.raceFeatures = raceFeatureIndexEntries?.filter((entry) => !raceNames.includes(entry.name)); //filters out subraces from features
 
-    this.races = races.map((parent) => {
-      const children = notParentItems
-        ?.filter((subrace) => {
-          const isChildren =
-            !excludedSubraceName(subrace.name) &&
-            parentListedAsRequirement(subrace, parent.name) &&
-            subraceNameIsPartOfRaceName(subrace.name, parent.name);
-          return isChildren;
-        })
-        .sort((a, b) => a.name.localeCompare(b.name));
-      parent.subraces = children as any;
-      raceNames.push(...children.map((c) => c.name));
-      return parent;
-    });
+    const featIndexEntries = await getFeatEntries();
+    this.feats = featIndexEntries.sort((a, b) => a.name.localeCompare(b.name));
 
-    const raceFeatureItems = await Utils.getSources('racialFeatures');
-    this.raceFeatures = raceFeatureItems
-      ?.filter((item) => !raceNames.includes(item.name))
-      .sort((a, b) => a.name.localeCompare(b.name)) as any;
-
-    const feats = await Utils.getSources('feats');
-    this.feats = feats.sort((a, b) => a.name.localeCompare(b.name)) as any;
+    this.subraceBlacklist = (Utils.getModuleSetting(SettingKeys.SUBRACES_BLACKLIST) as string)
+      .split(';')
+      .map((e) => e.trim());
   }
 
   renderData(): void {
     Utils.setPanelScrolls(this.section());
     $('[data-hct_race_data]').hide();
-    if (this.races) setRaceOptions(this.races);
-    else ui.notifications!.error(game.i18n.format('HCT.Error.RenderLoad', { value: 'Races' }));
+    if (!this.raceEntries) {
+      ui.notifications!.error(game.i18n.format('HCT.Error.UpdateValueLoad', { value: 'Races' }));
+      return;
+    }
 
-    const searchableOption = new SearchableItemOption(
+    const searchableOption = new SearchableIndexEntryOption(
       this.step,
       'item',
-      this.races!.flatMap((r) => {
-        if (r.subraces && r.subraces.length > 0) {
-          return r.subraces.map((sr) => {
-            return { id: `${r.name}.${sr.name}`, name: sr.name!, img: sr.img! };
-          });
-        } else return [{ id: r.name, name: r.item.name!, img: r.item.img! }];
-      }),
-      (raceKey) => {
+      getPickableRaces(this.raceEntries, this.subraceBlacklist ?? []),
+      (raceId) => {
         // callback on selected
-        if (this.races) {
-          const raceParts = raceKey?.toString().split('.');
-          if (!raceParts) throw new Error('invalid race splitting on select');
+        if (!this.raceEntries) {
+          ui.notifications!.error(game.i18n.format('HCT.Error.UpdateValueLoad', { value: 'Races' }));
+          return;
+        }
+        const selectedRace = this.raceEntries.find((e) => e._id === raceId);
+        if (!selectedRace) {
+          throw new Error(`No race found for id ${raceId}`);
+        }
+        const parentRace = getParentRace(selectedRace, this.raceEntries);
+        this.updateRace(selectedRace.name, parentRace ? [parentRace, selectedRace] : [selectedRace]);
 
-          const raceGroup = this.races.find((race) => race.name == raceParts[0]);
-          if (!raceGroup) {
-            throw new Error(`No parent race found for ${raceParts}`);
-          }
-          const raceItems = [raceGroup.item];
-          if (raceParts!.length > 1) {
-            // has subclass
-            const subraceItem = raceGroup.subraces?.find((subrace) => subrace.name == raceParts[1]);
-            if (!raceGroup) {
-              throw new Error(`No subrace found for ${raceParts}`);
-            }
-            raceItems.push(subraceItem!);
-          }
-          this.updateRace(raceParts[raceParts.length - 1] as string, raceItems);
-
-          // update icon and description
-          const racetoShow = raceItems[raceItems.length - 1];
-          $('[data-hct_race_icon]').attr('src', racetoShow.img || Constants.MYSTERY_MAN);
-          const hasSubclass = raceItems.length == 2;
-          if (hasSubclass) {
-            $('[data-hct_race_description]').html(TextEditor.enrichHTML((raceItems[0].data as any).description.value));
-            $('[data-hct_subrace_description]').html(
-              TextEditor.enrichHTML((raceItems[1].data as any).description.value),
-            );
-          } else {
-            $('[data-hct_race_description]').html(TextEditor.enrichHTML((racetoShow.data as any).description.value));
-            $('[data-hct_subrace_description]').empty();
-          }
-          $('[data-hct_subrace_separator]').toggle(hasSubclass);
-        } else ui.notifications!.error(game.i18n.format('HCT.Error.UpdateValueLoad', { value: 'Races' }));
+        // update icon and description
+        $('[data-hct_race_icon]').attr('src', selectedRace.img || Constants.MYSTERY_MAN);
+        if (parentRace) {
+          $('[data-hct_race_description]').html(TextEditor.enrichHTML(parentRace.data.description.value));
+          $('[data-hct_subrace_description]').html(TextEditor.enrichHTML(selectedRace.data.description.value));
+        } else {
+          $('[data-hct_race_description]').html(TextEditor.enrichHTML(selectedRace.data.description.value));
+          $('[data-hct_subrace_description]').empty();
+        }
+        $('[data-hct_subrace_separator]').toggle(!!parentRace);
       },
       game.i18n.localize('HCT.Race.Select.Default'),
     );
     searchableOption.render($('[data-hct-race-search]'));
   }
 
-  updateRace(raceName: string, raceItems: Item[]) {
+  updateRace(raceName: string, raceItems: RaceEntry[]) {
     this.clearOptions();
 
     this.setAbilityScoresUi();
@@ -270,9 +240,9 @@ class _Race extends Step {
     this.stepOptions.push(...options);
   }
 
-  setRaceFeaturesUi(raceItems: Item[]): void {
+  setRaceFeaturesUi(raceItems: IndexEntry[]): void {
     const options: HeroOption[] = [];
-    const raceFeatures: Item[] = Utils.filterItemList({
+    const raceFeatures: IndexEntry[] = Utils.filterItemList({
       filterValues: raceItems.map((r) => r.name!),
       filterField: 'data.requirements',
       itemList: this.raceFeatures!,
@@ -291,12 +261,16 @@ class _Race extends Step {
   }
 
   setFeatsUi(): void {
-    const featOption: HeroOption = new SearchableItemOption(this.step, 'items', this.feats ?? [], (featName) => {
-      const featItem = this.feats?.find((f: any) => f.name == featName);
+    const featOption: HeroOption = new SearchableIndexEntryOption(this.step, 'items', this.feats ?? [], (featId) => {
+      const featEntry = this.feats?.find((f) => f._id == featId);
+      if (!featEntry) {
+        ui.notifications!.error(game.i18n.format('HCT.Error.UpdateValueLoad', { value: 'Feats' }));
+        return;
+      }
       const $imgLink = $('[data-hct_feat_icon]', this.$context);
-      $imgLink.attr('data-pack', (featItem as any).flags.hct.link.pack);
-      $imgLink.attr('data-id', (featItem as any).flags.hct.link.id);
-      $('img', $imgLink).attr('src', featItem?.img ?? Constants.MYSTERY_MAN);
+      $imgLink.attr('data-pack', featEntry._pack ?? '');
+      $imgLink.attr('data-id', featEntry._id ?? '');
+      $('img', $imgLink).attr('src', featEntry.img ?? Constants.MYSTERY_MAN);
     });
     const $raceFeaturesSection = $('section', $('[data-hct_race_area=feat]', this.$context)).empty();
     featOption.render($raceFeaturesSection);
@@ -306,45 +280,52 @@ class _Race extends Step {
 const RaceTab: Step = new _Race();
 export default RaceTab;
 
-function setRaceOptions(races: Race[]) {
-  const picker = $('[data-hct_race_picker]');
-  for (const race of races) {
-    if (race.subraces?.length) {
-      const $group = $(
-        `<optgroup class='hct_picker_primary hct_picker_primary_group' label="${race.name}"></optgroup>`,
-      );
-      race.subraces.forEach((subrace) => {
-        $group.append(
-          $(`<option class='hct_picker_secondary' value="${race.name}.${subrace.name}">${subrace.name}</option>`),
-        );
-        picker.append($group);
-      });
-    } else {
-      // race is standalone - make an option
-      picker.append($(`<option class='hct_picker_primary' value="${race.name}">${race.name}</option>`));
-    }
-  }
-}
-
 function getSizeOptions(): KeyValue[] {
   const foundrySizes = (game as any).dnd5e.config.actorSizes;
 
   return Object.keys(foundrySizes).map((k) => ({ key: k, value: foundrySizes[k] }));
 }
 
-const misleadingFeatureNames: string[] = ['Gnome Cunning', 'Halfling Nimbleness'];
-function excludedSubraceName(name: string): boolean {
-  return misleadingFeatureNames.includes(name);
+function validSubraceName(name: string, misleadingFeatureNames: string[]): boolean {
+  return !misleadingFeatureNames.includes(name);
 }
 
 function subraceNameIsPartOfRaceName(subraceName: string, parentName: string): boolean {
   if (parentName.includes(' ')) {
     return subraceName.includes(parentName);
   } else {
-    return subraceName.split(' ').includes(parentName);
+    return subraceName.includes(' ') ? subraceName.split(' ').includes(parentName) : subraceName.includes(parentName);
   }
 }
 
-function parentListedAsRequirement(subrace: any, parentName: string): boolean {
-  return subrace.data.requirements.includes(parentName);
+function parentListedAsRequirement(subrace: RaceEntry, parentName: string): boolean {
+  return parentName.includes(subrace.data.requirements);
+}
+
+function getPickableRaces(raceEntries: RaceEntry[], misleadingFeatureNames: string[]): IndexEntry[] {
+  const pickableRaces = raceEntries.filter((e) => e.data.requirements == ''); // start with parent races / races without subclasses
+
+  const notParentEntries = raceEntries.filter((e) => e.data.requirements !== '');
+  const parentsToRemove: Set<RaceEntry> = new Set(); // all classes with children are deleted at the end
+  notParentEntries.forEach((e) => {
+    if (validSubraceName(e.name, misleadingFeatureNames)) {
+      const parent = pickableRaces.find(
+        (p) => parentListedAsRequirement(e, p.name) && subraceNameIsPartOfRaceName(e.name, p.name),
+      );
+      if (parent) {
+        // if parent found, add it to the set so main races with children are later removed from the list
+        parentsToRemove.add(parent);
+        pickableRaces.push(e);
+      }
+    }
+  });
+  parentsToRemove.forEach((p) => pickableRaces.splice(pickableRaces.indexOf(p), 1));
+
+  return pickableRaces.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+function getParentRace(selectedRace: RaceEntry, raceEntries: RaceEntry[]) {
+  if (selectedRace.data.requirements == '') return null;
+
+  return raceEntries.find((e) => e.name === selectedRace.data.requirements);
 }
