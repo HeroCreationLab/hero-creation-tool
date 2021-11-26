@@ -306,20 +306,19 @@ function getPickableRaces(raceEntries: RaceEntry[], misleadingFeatureNames: stri
   const pickableRaces = raceEntries.filter((e) => e.data.requirements == ''); // start with parent races / races without subclasses
 
   const notParentEntries = raceEntries.filter((e) => e.data.requirements !== '');
+  const parentsToRemove: Set<RaceEntry> = new Set(); // all classes with children are deleted at the end
   notParentEntries.forEach((e) => {
     if (validSubraceName(e.name, misleadingFeatureNames)) {
       // find parent race
       const parent = pickableRaces.find((p) => e.name.includes(p.name));
 
       if (parent && parentListedAsRequirement(e, parent.name) && subraceNameIsPartOfRaceName(e.name, parent.name)) {
-        const index = pickableRaces.indexOf(parent);
-        if (index > -1) {
-          pickableRaces.splice(index, 1); // removing parent race from list.
-        }
+        parentsToRemove.add(parent);
         pickableRaces.push(e);
       }
     }
   });
+  parentsToRemove.forEach((p) => pickableRaces.splice(pickableRaces.indexOf(p), 1));
 
   return pickableRaces.sort((a, b) => a.name.localeCompare(b.name));
 }
