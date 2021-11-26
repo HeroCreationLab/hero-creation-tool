@@ -414,6 +414,9 @@ class _Equipment extends Step {
 
   async setSourceData() {
     const filteredItems = await getEquipmentEntries();
+    const itemBlackList = (Utils.getModuleSetting(SettingKeys.EQUIPMENTS_BLACKLIST) as string)
+      .split(';')
+      .map((e) => e.trim());
     this.items = filteredItems
       .filter((item) => item?.data?.rarity == 'common') // get only common items
       .filter((item) => !itemBlackList.includes(item.name)); // remove some punctual "common" but magical/special items
@@ -541,13 +544,4 @@ const packs: EquipmentEntry[] = [
     _pack: '',
     type: '',
   },
-];
-
-// TODO send this list to a module setting
-const itemBlackList = [
-  'Potion of Climbing',
-  'Potion of Healing',
-  'Spell Scroll 1st Level',
-  'Spell Scroll Cantrip Level',
-  'Unarmed Strike',
 ];

@@ -20,6 +20,7 @@ import {
   RaceEntry,
   RacialFeatureEntry,
 } from '../indexUtils';
+import SettingKeys from '../settings';
 
 type KeyValue = {
   key: string;
@@ -34,6 +35,8 @@ class _Race extends Step {
   feats?: FeatEntry[];
 
   $context!: JQuery;
+
+  subraceBlacklist?: string[];
 
   constructor() {
     super(StepEnum.Race);
@@ -54,6 +57,10 @@ class _Race extends Step {
 
     const featIndexEntries = await getFeatEntries();
     this.feats = featIndexEntries.sort((a, b) => a.name.localeCompare(b.name));
+
+    this.subraceBlacklist = (Utils.getModuleSetting(SettingKeys.SUBRACES_BLACKLIST) as string)
+      .split(';')
+      .map((e) => e.trim());
   }
 
   renderData(): void {
@@ -67,7 +74,7 @@ class _Race extends Step {
     const searchableOption = new SearchableIndexEntryOption(
       this.step,
       'item',
-      getPickableRaces(this.raceEntries),
+      getPickableRaces(this.raceEntries, this.subraceBlacklist ?? []),
       (raceId) => {
         // callback on selected
         if (!this.raceEntries) {
@@ -279,9 +286,7 @@ function getSizeOptions(): KeyValue[] {
   return Object.keys(foundrySizes).map((k) => ({ key: k, value: foundrySizes[k] }));
 }
 
-// TODO send this list to a module setting
-const misleadingFeatureNames: string[] = ['Gnome Cunning', 'Halfling Nimbleness'];
-function validSubraceName(name: string): boolean {
+function validSubraceName(name: string, misleadingFeatureNames: string[]): boolean {
   return !misleadingFeatureNames.includes(name);
 }
 
@@ -297,12 +302,12 @@ function parentListedAsRequirement(subrace: RaceEntry, parentName: string): bool
   return parentName.includes(subrace.data.requirements);
 }
 
-function getPickableRaces(raceEntries: RaceEntry[]): IndexEntry[] {
+function getPickableRaces(raceEntries: RaceEntry[], misleadingFeatureNames: string[]): IndexEntry[] {
   const pickableRaces = raceEntries.filter((e) => e.data.requirements == ''); // start with parent races / races without subclasses
 
   const notParentEntries = raceEntries.filter((e) => e.data.requirements !== '');
   notParentEntries.forEach((e) => {
-    if (validSubraceName(e.name)) {
+    if (validSubraceName(e.name, misleadingFeatureNames)) {
       // find parent race
       const parent = pickableRaces.find((p) => e.name.includes(p.name));
 

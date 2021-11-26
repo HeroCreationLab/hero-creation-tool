@@ -60,7 +60,7 @@ export default class SelectOrCustomItemOption implements HeroOption {
     this.$link.append(this.$icon);
     $iconAndSelect.append(this.$link);
 
-    this.$select = $(`<select class="hct-option-select">`)
+    this.$select = $(`<select class="hct-option-select hct-margin-l-tiny">`)
       .append(
         $(`<option value="" selected ${this.settings.allowNulls ? '' : 'hidden disabled'}>
       ${game.i18n.localize('HCT.Common.SelectPlaceholder')}

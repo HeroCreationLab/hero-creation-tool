@@ -12,6 +12,7 @@ import SearchableIndexEntryOption from '../options/SearchableIndexEntryOption';
 import { HitDie } from '../HitDie';
 import { ClassLevel } from '../ClassLevel';
 import { ClassEntry, ClassFeatureEntry, getClassEntries, getClassFeatureEntries } from '../indexUtils';
+import SettingKeys from '../settings';
 
 export type ClassSpellcastingData = {
   item: Item;
@@ -214,7 +215,7 @@ class _Class extends Step {
       itemList: this.classFeatures!,
     });
     // handle fighting style
-    const fsString = 'Fighting Style'; // TODO externalize to module setting
+    const fsString = Utils.getModuleSetting(SettingKeys.FIGHTING_STYLE_STRING) as string;
     const fightingStyles = classFeatures.filter((i) => (i as any).name.startsWith(fsString));
     classFeatures = classFeatures.filter((i) => !(i as any).name.startsWith(fsString));
 
