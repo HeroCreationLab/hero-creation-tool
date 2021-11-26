@@ -3,6 +3,7 @@ import { StepEnum } from '../Step';
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 import HeroOption, { apply } from './HeroOption';
 import { ItemDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/itemData';
+import { IndexEntry } from '../indexUtils';
 
 export default class SelectOrCustomItemOption implements HeroOption {
   constructor(
@@ -12,7 +13,7 @@ export default class SelectOrCustomItemOption implements HeroOption {
       source?: string;
     },
     readonly propertiesCallback: () => any,
-    readonly selectOptions?: Item[],
+    readonly selectOptions?: IndexEntry[],
     readonly settings: {
       allowNulls?: boolean;
       addValues: boolean;
@@ -30,7 +31,7 @@ export default class SelectOrCustomItemOption implements HeroOption {
   private $customDescription!: JQuery;
 
   private isCustom = false;
-  private item: Item | undefined;
+  private item: IndexEntry | undefined;
 
   isFulfilled() {
     return !!this.$customName.val() && !!this.$customDescription.val();
@@ -59,7 +60,7 @@ export default class SelectOrCustomItemOption implements HeroOption {
     this.$link.append(this.$icon);
     $iconAndSelect.append(this.$link);
 
-    this.$select = $(`<select class="hct-option-select">`)
+    this.$select = $(`<select class="hct-option-select hct-margin-l-tiny">`)
       .append(
         $(`<option value="" selected ${this.settings.allowNulls ? '' : 'hidden disabled'}>
       ${game.i18n.localize('HCT.Common.SelectPlaceholder')}
@@ -72,7 +73,9 @@ export default class SelectOrCustomItemOption implements HeroOption {
       );
     if (this.selectOptions) {
       this.$select.append(
-        this.selectOptions.map((option: Item, index: number) => $(`<option value="${index}">${option.name}</option>`)),
+        this.selectOptions.map((option: IndexEntry, index: number) =>
+          $(`<option value="${index}">${option.name}</option>`),
+        ),
       );
     }
     this.$select.on('change', () => {
@@ -88,10 +91,9 @@ export default class SelectOrCustomItemOption implements HeroOption {
         this.$customInputs.hide();
         const index = parseInt(this.$select.val() as string);
         this.item = this.selectOptions![index];
-        this.$icon.attr('src', this.item?.img || Constants.MYSTERY_MAN);
-        const linkData = (this.item as any).flags?.hct?.link;
-        this.$link.attr('data-pack', linkData?.pack);
-        this.$link.attr('data-id', linkData?.id);
+        this.$icon.attr('src', this.item.img || Constants.MYSTERY_MAN);
+        this.$link.attr('data-pack', this.item._pack);
+        this.$link.attr('data-id', this.item._id);
         this.$link.addClass('entity-link');
       }
     });
@@ -150,7 +152,7 @@ export default class SelectOrCustomItemOption implements HeroOption {
         },
       };
       const item = await Item.create(itemDataConstructorData /*, { temporary: true }*/);
-      return item?.toObject();
+      return { ...item?.toObject(), custom: true };
     } catch (error) {
       console.warn('Error trying to create custom item');
       console.error(error);

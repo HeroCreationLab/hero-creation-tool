@@ -7,6 +7,7 @@ import * as ProficiencyUtils from '../proficiencyUtils';
 import { Step, StepEnum } from '../Step';
 import SelectableOption from '../options/SelectableOption';
 import SelectOrCustomItemOption from '../options/SelectOrCustomItemOption';
+import { BackgroundFeatureEntry, getBackgroundFeatureEntries, getRuleJournalEntryByName } from '../indexUtils';
 
 class _BackgroundTab extends Step {
   constructor() {
@@ -15,22 +16,22 @@ class _BackgroundTab extends Step {
 
   section = () => $('#backgroundDiv');
 
-  backgroundFeatures!: Item[];
+  backgroundFeatures!: BackgroundFeatureEntry[];
 
   async setSourceData() {
-    this.backgroundFeatures = (await Utils.getSources('backgroundFeatures')) as any;
+    this.backgroundFeatures = await getBackgroundFeatureEntries();
   }
 
   async renderData() {
     Utils.setPanelScrolls(this.section());
     // Show rules on the side panel
-    const backgroundRulesItem = await Utils.getJournalFromPackByName(
-      Constants.DEFAULT_PACKS.RULES,
-      game.i18n.localize('HCT.Background.RulesJournalName'),
-    );
-    $('[data-hct_background_description]', this.section()).html(
-      TextEditor.enrichHTML((backgroundRulesItem as any).content),
-    );
+    const rulesCompendiumName = game.i18n.localize('HCT.Background.RulesJournalName');
+    const backgroundRules = await getRuleJournalEntryByName(rulesCompendiumName);
+    if (backgroundRules) {
+      $('[data-hct_background_description]', this.section()).html(TextEditor.enrichHTML(backgroundRules.content));
+    } else {
+      console.error(`Unable to find backgrounds' rule journal on compendium ${rulesCompendiumName}`);
+    }
 
     this.setBackgroundNameUi();
     this.setAlignmentUi();
@@ -115,8 +116,8 @@ class _BackgroundTab extends Step {
 
   private setBackgroundNameUi() {
     const nameChoices = this.backgroundFeatures
-      .filter((f) => (f.data as any).requirements)
-      .map((f) => ({ key: (f.data as any).requirements, value: (f.data as any).requirements }));
+      .filter((f) => f.data.requirements)
+      .map((f) => ({ key: f.data.requirements, value: f.data.requirements }));
     const nameOption = new SelectableOption(
       StepEnum.Background,
       'data.details.background',

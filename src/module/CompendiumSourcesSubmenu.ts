@@ -1,5 +1,5 @@
 import * as Constants from './constants';
-import SettingKeys, { Source } from './settings';
+import SettingKeys, { SourceType } from './settings';
 
 export default class CompendiumSourcesSubmenu extends FormApplication {
   constructor() {
@@ -71,7 +71,7 @@ export default class CompendiumSourcesSubmenu extends FormApplication {
     }
     const savedData: any = {};
     for (const k of Object.keys(data)) {
-      const key = k as keyof Source;
+      const key = k as SourceType;
       savedData[key] = data[k].reduce((map: any, obj: any, index: number) => {
         const c = this.baseCompendiumList[index];
         map[c.collection] = obj;

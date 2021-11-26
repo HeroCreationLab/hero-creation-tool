@@ -19,6 +19,7 @@ import HeroOption from './options/HeroOption';
 import type { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 import { HitDie } from './HitDie';
 import { ClassLevel } from './ClassLevel';
+import { hydrateItems, IndexEntry } from './indexUtils';
 
 enum StepIndex {
   Basics,
@@ -53,7 +54,7 @@ export default class HeroCreationTool extends Application {
 
   async openForActor(actor?: Actor) {
     this.actor = actor;
-    this.options.title = game.i18n.localize('HCT.WindowTitle');
+    this.options.title = game.i18n.localize('HCT.CreationWindowTitle');
     const openMessage = actor ? `${actor.name} (id ${actor.id})` : `new actor`;
     console.log(`${CONSTANTS.LOG_PREFIX} | Opening for ${openMessage}`);
     for (const step of this.steps) {
@@ -90,6 +91,7 @@ export default class HeroCreationTool extends Application {
   }
 
   async setupData() {
+    console.log(`${CONSTANTS.LOG_PREFIX} | Setting up data-derived elements`);
     for (const step of this.steps) {
       await step.setSourceData();
     }
@@ -103,7 +105,7 @@ export default class HeroCreationTool extends Application {
 
   private async buildActor() {
     console.log(`${CONSTANTS.LOG_PREFIX} | Building actor - data used:`);
-    const newActorData: ActorDataConstructorData = this.initializeActorData();
+    const newActorData = this.initializeActorData();
     let errors = false;
     // yeah, a loop label, sue me.
     mainloop: for (const step of this.steps) {
@@ -120,7 +122,7 @@ export default class HeroCreationTool extends Application {
       cleanUpErroneousItems(newActorData);
       await calculateStartingHp(newActorData, this.steps[StepIndex.Class].getUpdateData());
       setTokenDisplaySettings(newActorData);
-      const itemsFromActor = newActorData.items; // moving items to a different object to process active effects
+      const itemsFromActor = newActorData.items; // moving item index entries to a different variable
       newActorData.items = [];
       const cls = getDocumentClass('Actor');
       const actor = new cls(newActorData);
@@ -130,13 +132,14 @@ export default class HeroCreationTool extends Application {
         ui.notifications?.error(game.i18n.format('HCT.Error.ActorCreationError', { name: newActorData?.name }));
         return;
       }
-      await newActor.createEmbeddedDocuments('Item', itemsFromActor as any);
+      const itemsFromCompendia = await hydrateItems(itemsFromActor); // hydrating index entries for the actual items
+      await newActor.createEmbeddedDocuments('Item', itemsFromCompendia as any); // adding items after actor creation to process active effects
       this.close();
     }
   }
 
-  private initializeActorData(): ActorDataConstructorData {
-    const newActor: ActorDataConstructorData = {
+  private initializeActorData() {
+    const newActor: ActorDataConstructorData & { items: IndexEntry[] } = {
       name: '',
       type: 'character',
       sort: 12000,
@@ -151,6 +154,7 @@ export default class HeroCreationTool extends Application {
         displayBars: 0,
         displayName: 0,
       },
+      items: [],
     };
     return newActor;
   }
@@ -158,8 +162,6 @@ export default class HeroCreationTool extends Application {
   private requiredOptionNotFulfilled(opt: HeroOption): boolean {
     const key = opt.key;
     if (key === 'name' && !opt.isFulfilled()) {
-      // TODO consider if it would make sense to include a filter to make sure a race and class has been selected
-      // on Foundry the only *required* field to create an actor is Name, as seen on Foundry's vanilla new actor window.
       const errorMessage = game.i18n.format('HCT.Error.RequiredOptionNotFulfilled', { opt: opt.key });
       ui.notifications?.error(errorMessage);
       return true;

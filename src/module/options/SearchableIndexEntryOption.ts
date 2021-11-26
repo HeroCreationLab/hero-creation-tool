@@ -2,15 +2,14 @@ import { StepEnum } from '../Step';
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 import * as Constants from '../constants';
 import HeroOption, { apply } from './HeroOption';
-
-type Result = { id: string; name: string; img: string };
+import { IndexEntry } from '../indexUtils';
 
 /**
  * Represents a value needs to be selected by the player with a single output onto the created actor.
  * (e.g. Dwarven's Tool Proficiency is a single option between three defined ones)
  * @class
  */
-export default class SearchableItemOption implements HeroOption {
+export default class SearchableIndexEntryOption implements HeroOption {
   readonly settings: {
     addValues: boolean;
     default?: string;
@@ -20,7 +19,7 @@ export default class SearchableItemOption implements HeroOption {
   constructor(
     readonly origin: StepEnum,
     readonly key: string,
-    private options: Array<Result | Item>,
+    private options: Array<IndexEntry>,
     private selectCallback?: (id: string) => any,
     private placeholder?: string,
   ) {
@@ -37,8 +36,8 @@ export default class SearchableItemOption implements HeroOption {
 
   $input!: JQuery;
   $resultBox!: JQuery;
-  searchArray: Array<Result | Item>;
-  selected?: Result | Item;
+  searchArray: Array<IndexEntry>;
+  selected?: IndexEntry;
 
   render($parent: JQuery, options?: { prepend: boolean }): void {
     const $form = $(`<form data-hct-searchbar autocomplete="off">`);
@@ -89,9 +88,9 @@ export default class SearchableItemOption implements HeroOption {
     $('div', this.$resultBox).on('click', (event) => {
       const id = $(event.currentTarget).data('key');
       $searchWrapper.removeClass('active');
-      this.$input.val(this.options.find((o) => o.id == id)?.name ?? id);
+      this.$input.val(this.options.find((o) => o._id == id)?.name ?? id);
       if (this.selectCallback) this.selectCallback(id);
-      this.selected = this.options.find((o) => o.id === id || o.name === id); // Results use id, Items use name
+      this.selected = this.options.find((o) => o._id === id || o.name === id); // Results use id, Items use name
     });
   }
 
@@ -99,7 +98,7 @@ export default class SearchableItemOption implements HeroOption {
     return this.selected;
   }
 
-  showSuggestions(searchArray: Array<Result | Item>) {
+  showSuggestions(searchArray: Array<IndexEntry>) {
     let listData;
     if (!searchArray.length) {
       listData = `<li>${'No matches'}</li>`;
@@ -108,7 +107,7 @@ export default class SearchableItemOption implements HeroOption {
         .map(
           (result) =>
             `<li>
-              <div class="hct-icon-with-context" data-key=\"${result.id ?? result.name}\">
+              <div class="hct-icon-with-context" data-key=\"${result._id ?? result.name}\">
                 <img class="hct-icon-square-med hct-background-black hct-no-border" src="${
                   result.img ?? Constants.MYSTERY_MAN
                 }">
