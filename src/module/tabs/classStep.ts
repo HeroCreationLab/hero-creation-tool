@@ -213,6 +213,10 @@ class _Class extends Step {
       filterValues: [...Array(this.primaryClassLevel).keys()].map((k) => `${this._class!.name} ${k + 1}`),
       filterField: 'data.requirements',
       itemList: this.classFeatures!,
+    }).sort((a, b) => {
+      const lvA = parseInt(a.data.requirements.substring(a.data.requirements.indexOf(' ')));
+      const lvB = parseInt(b.data.requirements.substring(b.data.requirements.indexOf(' ')));
+      return lvA - lvB;
     });
     // handle fighting style
     const fsString = Utils.getModuleSetting(SettingKeys.FIGHTING_STYLE_STRING) as string;
