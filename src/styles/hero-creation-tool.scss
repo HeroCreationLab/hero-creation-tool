@@ -29,6 +29,33 @@ $color-accent-alt: darkgreen;
 }
 
 .hct {
+  &-accented {
+    color: $color-accent;
+  }
+
+  &-accented[href] {
+    color: $color-accent;
+  }
+
+  &-background {
+    &-black {
+      background-color: black;
+    }
+  }
+
+  &-banner {
+    width: 100%;
+    text-align: center;
+    margin-top: 50px;
+    border: 1px solid gray;
+    padding: $small;
+    border-radius: $small;
+  }
+
+  &-baseline {
+    align-items: baseline;
+  }
+
   &-container {
     display: flex;
     flex-direction: column;
@@ -37,12 +64,12 @@ $color-accent-alt: darkgreen;
     margin: 0;
   }
 
-  &-accented {
-    color: $color-accent;
-  }
+  &-flex {
+    display: flex;
 
-  &-accented[href] {
-    color: $color-accent;
+    &-justify-sb {
+      justify-content: space-between;
+    }
   }
 
   &-hover {
@@ -57,29 +84,36 @@ $color-accent-alt: darkgreen;
     }
   }
 
-  &-flex {
-    display: flex;
+  &-icon {
+    border: none;
+    border-radius: $tiny;
+    min-width: 48px;
+    width: 48px;
 
-    &-justify-sb {
-      justify-content: space-between;
+    &-square-med {
+      width: $large;
+      height: $large;
+      border-radius: $tiny;
+      margin-right: $small;
     }
-    &-grow {
-      flex-grow: 1;
+
+    &-with-context &-link {
+      border: none;
+      background: none;
+      padding: 1px 5px 0 0;
+    }
+
+    &-clickable {
+      cursor: pointer;
+    }
+
+    &-borderless {
+      border: none;
     }
   }
 
   &-large-font {
     font-size: large;
-  }
-
-  &-baseline {
-    align-items: baseline;
-  }
-
-  &-background {
-    &-black {
-      background-color: black;
-    }
   }
 
   &-search {
@@ -146,41 +180,6 @@ $color-accent-alt: darkgreen;
     &-autocom-box li:hover {
       background: rgba(255, 255, 255, 0.7);
     }
-  }
-
-  &-icon {
-    border: none;
-    border-radius: $tiny;
-    width: 48px;
-
-    &-square-med {
-      width: $large;
-      height: $large;
-      border-radius: $tiny;
-      margin-right: $small;
-    }
-
-    &-with-context &-link {
-      border: none;
-      background: none;
-    }
-
-    &-clickable {
-      cursor: pointer;
-    }
-
-    &-borderless {
-      border: none;
-    }
-  }
-
-  &-banner {
-    width: 100%;
-    text-align: center;
-    margin-top: 50px;
-    border: 1px solid gray;
-    padding: $small;
-    border-radius: $small;
   }
 
   &-postlabel {
@@ -374,6 +373,9 @@ $color-accent-alt: darkgreen;
     &-180 {
       width: 180px;
     }
+    &-195 {
+      width: 195px;
+    }
     &-60 {
       width: 60px;
     }
@@ -447,6 +449,12 @@ $color-accent-alt: darkgreen;
     }
     &-tiny {
       padding: $tiny;
+    }
+  }
+
+  &-overflow {
+    &-ellipsis {
+      text-overflow: ellipsis;
     }
   }
 }

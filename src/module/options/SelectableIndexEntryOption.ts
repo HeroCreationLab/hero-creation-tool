@@ -42,13 +42,13 @@ export default class SelectableIndexEntryOption implements HeroOption {
     const $container = $('<div class="hct-icon-with-context">');
     this.$link = $(`<a class="entity-link hct-icon-link" draggable="false" data-pack="" data-id="">`);
     this.$itemImg = $('<img class="hct-icon">');
-    this.$select = $(`<select class="hct-flex-grow">`);
+    this.$select = $(`<select class="hct-overflow-ellipsis hct-width-195">`);
 
     this.$link.append(this.$itemImg);
     $container.append(this.$link);
     this.optionsMap.forEach((item, key) => {
       const placeholder = item.name === this.settings.placeholderName ? 'selected disabled' : '';
-      const $opt = $(`<option value="${key}" ${placeholder}>${item.name}</option>`);
+      const $opt = $(`<option class="hct-overflow-ellipsis" value="${key}" ${placeholder}>${item.name}</option>`);
       this.$select.append($opt);
     });
     this.$select.on('change', () => {

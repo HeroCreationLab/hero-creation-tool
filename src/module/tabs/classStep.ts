@@ -13,6 +13,12 @@ import { HitDie } from '../HitDie';
 import { ClassLevel } from '../ClassLevel';
 import { ClassEntry, ClassFeatureEntry, getClassEntries, getClassFeatureEntries } from '../indexUtils';
 
+export type ClassSpellcastingData = {
+  item: Item;
+  ability: string;
+  progression: string;
+};
+
 class _Class extends Step {
   private classes?: ClassEntry[] = [];
   private classFeatures?: ClassFeatureEntry[] = [];
@@ -23,7 +29,7 @@ class _Class extends Step {
     super(StepEnum.Class);
   }
 
-  spellcasting!: { item: ClassFeatureEntry; ability: string; progression: string };
+  spellcasting?: ClassSpellcastingData;
 
   getUpdateData() {
     return this._class
@@ -200,7 +206,7 @@ class _Class extends Step {
     this.stepOptions.push(...options);
   }
 
-  private setClassFeaturesUi($context: JQuery<HTMLElement>) {
+  private async setClassFeaturesUi($context: JQuery<HTMLElement>) {
     const $featuresSection = $('section', $('[data-hct_class_area=features]', $context)).empty();
     let classFeatures = Utils.filterItemList({
       filterValues: [...Array(this.primaryClassLevel).keys()].map((k) => `${this._class!.name} ${k + 1}`),
@@ -208,24 +214,27 @@ class _Class extends Step {
       itemList: this.classFeatures!,
     });
     // handle fighting style
-    const fightingStyles = classFeatures.filter((i) => (i as any).name.startsWith('Fighting Style'));
-    classFeatures = classFeatures.filter((i) => !(i as any).name.startsWith('Fighting Style'));
+    const fsString = 'Fighting Style'; // TODO externalize to module setting
+    const fightingStyles = classFeatures.filter((i) => (i as any).name.startsWith(fsString));
+    classFeatures = classFeatures.filter((i) => !(i as any).name.startsWith(fsString));
 
     const spellcastingItem = classFeatures.find(
       (i) => (i as any).name.startsWith('Spellcasting') || (i as any).name.startsWith('Pact Magic'),
     );
     if (spellcastingItem) {
       this.spellcasting = {
-        item: spellcastingItem,
+        item: (await game.packs.get(spellcastingItem._pack)?.getDocument(spellcastingItem._id)) as Item,
         ability: this._class!.data.spellcasting.ability,
         progression: this._class!.data.spellcasting.progression,
       };
+    } else {
+      this.spellcasting = undefined;
     }
 
     if (fightingStyles && fightingStyles.length > 0) {
       const fsOption = new SelectableIndexEntryOption(StepEnum.Class, 'items', fightingStyles, {
         addValues: true,
-        placeholderName: 'Fighting Style',
+        placeholderName: fsString,
       });
       fsOption.render($featuresSection);
       this.stepOptions.push(fsOption);
