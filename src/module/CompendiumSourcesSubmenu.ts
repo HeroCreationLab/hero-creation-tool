@@ -1,5 +1,5 @@
 import * as Constants from './constants';
-import SettingKeys, { SourceType } from './settings';
+import SettingKeys from './settings';
 
 export default class CompendiumSourcesSubmenu extends FormApplication {
   constructor() {
@@ -42,9 +42,8 @@ export default class CompendiumSourcesSubmenu extends FormApplication {
   }
 
   getData() {
-    const val: any = game.settings.get(Constants.MODULE_NAME, SettingKeys.SOURCES);
-    let selected;
-    if (foundry.utils.isObjectEmpty(val)) {
+    let selected: any = game.settings.get(Constants.MODULE_NAME, SettingKeys.SOURCES);
+    if (foundry.utils.isObjectEmpty(selected)) {
       selected = {
         races: [Constants.DEFAULT_PACKS.RACES],
         racialFeatures: [Constants.DEFAULT_PACKS.RACE_FEATURES],
@@ -54,8 +53,6 @@ export default class CompendiumSourcesSubmenu extends FormApplication {
         spells: [Constants.DEFAULT_PACKS.SPELLS],
         feats: [],
       };
-    } else {
-      selected = pruneUnselectedPacks(val);
     }
     const data = buildTemplateData({
       compendiaList: this.baseCompendiumList,
@@ -64,23 +61,10 @@ export default class CompendiumSourcesSubmenu extends FormApplication {
     return data as any;
   }
 
-  _updateObject(event: Event, formData?: Record<string, unknown>) {
-    let data: any;
-    if (formData) {
-      data = formData;
-    }
-    const savedData: any = {};
-    for (const k of Object.keys(data)) {
-      const key = k as SourceType;
-      savedData[key] = data[k].reduce((map: any, obj: any, index: number) => {
-        const c = this.baseCompendiumList[index];
-        map[c.collection] = obj;
-        return map;
-      }, {});
-    }
+  _updateObject(event: Event, formData?: any) {
     console.log(`${Constants.LOG_PREFIX} | Saving compendia sources:`);
-    console.log(savedData);
-    return game.settings.set(Constants.MODULE_NAME, SettingKeys.SOURCES, savedData);
+    console.log(formData);
+    return game.settings.set(Constants.MODULE_NAME, SettingKeys.SOURCES, formData);
   }
 }
 
@@ -139,11 +123,4 @@ function buildTemplateData({ compendiaList, selectedCompendia }: BuildData) {
       },
     },
   };
-}
-
-function pruneUnselectedPacks(val: any): any {
-  return Object.keys(val).reduce((map: any, acc) => {
-    map[acc] = Object.keys(val[acc]).filter((pack) => val[acc][pack]);
-    return map;
-  }, {});
 }
