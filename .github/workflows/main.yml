@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+env:
+  node_version: 14
+
 jobs:
   build:
     runs-on: ubuntu-latest
