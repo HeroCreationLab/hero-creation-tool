@@ -31,11 +31,16 @@ export default class CompendiumSourcesSubmenu extends FormApplication {
     for (i = 0; i < coll.length; i++) {
       coll[i].addEventListener('click', function () {
         this.classList.toggle('active');
+        const child = this.firstElementChild;
         const content = this.nextElementSibling as any;
         if (content.style.display === 'block') {
           content.style.display = 'none';
+          child?.classList.remove('fa-chevron-down');
+          child?.classList.add('fa-chevron-right');
         } else {
           content.style.display = 'block';
+          child?.classList.remove('fa-chevron-right');
+          child?.classList.add('fa-chevron-down');
         }
       });
     }
