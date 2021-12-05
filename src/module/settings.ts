@@ -61,13 +61,13 @@ function sourcesConfiguration() {
     config: false,
     type: Object,
     default: {
-      races: { [Constants.DEFAULT_PACKS.RACES]: true },
-      racialFeatures: { [Constants.DEFAULT_PACKS.RACE_FEATURES]: true },
-      classes: { [Constants.DEFAULT_PACKS.CLASSES]: true },
-      classFeatures: { [Constants.DEFAULT_PACKS.CLASS_FEATURES]: true },
-      backgroundFeatures: {},
-      spells: { [Constants.DEFAULT_PACKS.SPELLS]: true },
-      feats: {},
+      races: [Constants.DEFAULT_PACKS.RACES],
+      racialFeatures: [Constants.DEFAULT_PACKS.RACE_FEATURES],
+      classes: [Constants.DEFAULT_PACKS.CLASSES],
+      classFeatures: [Constants.DEFAULT_PACKS.CLASS_FEATURES],
+      backgroundFeatures: [],
+      spells: [Constants.DEFAULT_PACKS.SPELLS],
+      feats: [],
     },
   });
   // Define a settings submenu which handles advanced configuration needs

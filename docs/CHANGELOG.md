@@ -1,5 +1,9 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.5.0 (2021-12-05)
+- Updated module to work with Foundry VTT v9 *(from this version onwards, the module will likely no longer be retrocompatible with version 0.8.x)*
+- Fixed some style issues that popped up again on the Sources selection menu [(#57)](https://github.com/HeroCreationLab/hero-creation-tool/issues/57), and took the opportunity to beautify the menu a little with some padding between buttons and properly switching chevrons to reflect the open-closed status of the different sources submenues.
+
 ## 1.4.0 (2021-11-26)
 - Refactored compendia processing so that it indexes sources and uses the indexes instead - big performance upgrade should be noticeable.
 - Some refactoring on how races/subraces are handled - usage should remain the same, but the code is a lot more straightforward now.

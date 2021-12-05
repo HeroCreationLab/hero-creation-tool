@@ -58,7 +58,7 @@ export default class FixedOption implements HeroOption {
       const $container = $('<div class="hct-icon-with-context">');
       const item = this.option as IndexEntry;
       const $link = $(
-        `<a class="entity-link hct-icon-link" draggable="false" data-pack="${item._pack}" data-id="${item._id}">`,
+        `<a class="content-link hct-icon-link" draggable="false" data-pack="${item._pack}" data-id="${item._id}">`,
       );
       this.$itemImg.attr('src', item.img);
       $link.append(this.$itemImg);

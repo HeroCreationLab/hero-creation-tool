@@ -11,7 +11,7 @@
       },
       "ShowRolls": {
         "Name": "Afficher les jets sur le chat",
-        "Hint": "Afficher les scores des capacités et les jets d'or de départ sous forme de messages de chat"
+        "Hint": "Show ability score, hp per level and starting gold rolls as chat messages"
       },
       "IndividualPanelScroll": {
         "Name": "Individual panel scrolls",

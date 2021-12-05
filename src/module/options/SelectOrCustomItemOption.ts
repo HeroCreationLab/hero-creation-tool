@@ -81,7 +81,7 @@ export default class SelectOrCustomItemOption implements HeroOption {
     this.$select.on('change', () => {
       this.isCustom = this.CUSTOM === this.$select.val();
       if (this.isCustom) {
-        this.$link.removeClass('entity-link');
+        this.$link.removeClass('content-link');
         this.$customDescription.text('');
         this.$customName.text('');
         this.item = undefined;
@@ -94,7 +94,7 @@ export default class SelectOrCustomItemOption implements HeroOption {
         this.$icon.attr('src', this.item.img || Constants.MYSTERY_MAN);
         this.$link.attr('data-pack', this.item._pack);
         this.$link.attr('data-id', this.item._id);
-        this.$link.addClass('entity-link');
+        this.$link.addClass('content-link');
       }
     });
     $iconAndSelect.append(this.$select);

@@ -93,10 +93,9 @@ export async function getRuleJournalEntryByName(journalName: string) {
 
 async function getIndexEntriesForSource(source: keyof Source) {
   const sources: Source = (await game.settings.get(CONSTANTS.MODULE_NAME, SettingKeys.SOURCES)) as Source;
-  const selectedPacks = Object.keys(sources[source]).filter((p: string) => sources[source][p]);
 
   const indexEntries = [];
-  for (const packName of selectedPacks) {
+  for (const packName of sources[source]) {
     const pack = game.packs.get(packName);
     if (!pack) ui.notifications?.warn(`No pack for name [${packName}]!`);
     if (pack?.documentName !== 'Item') throw new Error(`${packName} is not an Item pack`);
@@ -147,7 +146,7 @@ export type RaceEntry = IndexEntry & {
   };
 };
 function addRaceFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
-  if (source[SourceType.RACES][packName]) {
+  if (source[SourceType.RACES].includes(packName)) {
     fieldsToIndex.add('data.requirements'); // for figuring subraces
     fieldsToIndex.add('data.description.value'); // for sidebar
   }
@@ -157,7 +156,7 @@ export type RacialFeatureEntry = IndexEntry & {
   data: { requirements: string };
 };
 function addRacialFeaturesFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
-  if (source[SourceType.RACIAL_FEATURES][packName]) {
+  if (source[SourceType.RACIAL_FEATURES].includes(packName)) {
     fieldsToIndex.add('data.requirements'); // for mapping racial features to races/subraces
   }
 }
@@ -180,7 +179,7 @@ export type ClassEntry = IndexEntry & {
   };
 };
 function addClassFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
-  if (source[SourceType.CLASSES][packName]) {
+  if (source[SourceType.CLASSES].includes(packName)) {
     fieldsToIndex.add('data.description.value'); // for sidebar
     fieldsToIndex.add('data.hitDice');
     fieldsToIndex.add('data.saves');
@@ -193,7 +192,7 @@ export type ClassFeatureEntry = IndexEntry & {
   data: { requirements: string };
 };
 function addClassFeaturesFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
-  if (source[SourceType.CLASS_FEATURES][packName]) {
+  if (source[SourceType.CLASS_FEATURES].includes(packName)) {
     fieldsToIndex.add('data.requirements'); // for mapping class features to classes
   }
 }
@@ -204,7 +203,7 @@ export type SpellEntry = IndexEntry & {
   };
 };
 function addSpellFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
-  if (source[SourceType.SPELLS][packName]) {
+  if (source[SourceType.SPELLS].includes(packName)) {
     fieldsToIndex.add('data.level');
   }
 }
@@ -213,7 +212,7 @@ export type FeatEntry = IndexEntry & {
   data: { requirements: string };
 };
 function addFeatFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
-  if (source[SourceType.FEATS][packName]) {
+  if (source[SourceType.FEATS].includes(packName)) {
     fieldsToIndex.add('data.requirements'); // unsure if will be used, would like to at least mention the requirement.
   }
 }
@@ -225,7 +224,7 @@ export type BackgroundFeatureEntry = IndexEntry & {
   };
 };
 function addBackgroundFeaturesFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
-  if (source[SourceType.BACKGROUND_FEATURES][packName]) {
+  if (source[SourceType.BACKGROUND_FEATURES].includes(packName)) {
     fieldsToIndex.add('data.requirements'); // to map possible background names
     fieldsToIndex.add('data.source'); // to make sure this is a background feature
   }
