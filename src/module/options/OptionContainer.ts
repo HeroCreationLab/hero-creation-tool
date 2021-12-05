@@ -39,7 +39,7 @@ export default class OptionContainer implements HeroOption {
     $container.append($legend);
     if (this.settings.deletable && this.deleteCallback) {
       const $deleteButton = $(
-        `<button class="hct-no-border hct-no-background hct-width-fit hct-hover-no-shadow hct-hover-accent hct-padding-l-small"><i class="fas fa-trash"></i></button>`,
+        `<button class="hct-no-border hct-no-background hct-width-fit hct-hover-no-shadow hct-hover-accent"><i class="fas fa-trash"></i></button>`,
       );
       $deleteButton.on('click', () => {
         this.deleteCallback!(this);

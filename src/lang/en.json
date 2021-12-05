@@ -11,7 +11,7 @@
       },
       "ShowRolls": {
         "Name": "Show rolls on chat",
-        "Hint": "Show ability score and starting gold rolls as chat messages"
+        "Hint": "Show ability score, hp per level and starting gold rolls as chat messages"
       },
       "IndividualPanelScroll": {
         "Name": "Individual panel scrolls",
