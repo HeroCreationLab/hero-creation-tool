@@ -1,8 +1,8 @@
-import { registerSettings } from './settings';
+import SettingKeys, { registerSettings } from './settings';
 import { preloadTemplates } from './preloadTemplates';
 import HeroCreationTool from './HeroCreationToolApp';
 import { buildEquipmentAndJournalIndexes, buildSourceIndexes } from './indexUtils';
-import { addActorDirectoryButton } from './utils';
+import { addActorDirectoryButton, addCreateNewActorButton, getModuleSetting } from './utils';
 
 const heroCreationTool = new HeroCreationTool();
 
@@ -25,7 +25,16 @@ Hooks.on('renderHeroCreationTool', async function (app: any, html: any, data: an
 
 // Rendering the button on Actor's directory
 Hooks.on('renderActorDirectory', () => {
-  addActorDirectoryButton(heroCreationTool);
+  if (!getModuleSetting(SettingKeys.BUTTON_ON_DIALOG)) {
+    addActorDirectoryButton(heroCreationTool);
+  }
+});
+
+// Rendering the button on the Create New Actor dialog
+Hooks.on('renderApplication', (app: any, html: any, data: any) => {
+  if (app.title === 'Create New Actor' && getModuleSetting(SettingKeys.BUTTON_ON_DIALOG)) {
+    addCreateNewActorButton(heroCreationTool, html, app);
+  }
 });
 
 // This hooks onto the rendering actor sheet to show the button

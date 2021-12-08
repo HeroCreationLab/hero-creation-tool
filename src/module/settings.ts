@@ -15,6 +15,7 @@ const enum SettingKeys {
   FIGHTING_STYLE_STRING = 'fightingStyleLookupString',
   EQUIPMENTS_BLACKLIST = 'equipmentsBlackList',
   SUBRACES_BLACKLIST = 'subracesBlacklist',
+  BUTTON_ON_DIALOG = 'buttonOnDialog',
   SOURCES = 'compendiumSources',
 }
 export default SettingKeys;
@@ -51,6 +52,7 @@ export function registerSettings(): void {
   subraceNameBlacklist();
   // custom packs
   sourcesConfiguration();
+  buttonOnDialogInsteadOfActorsDirectory();
   // integrations
   useTokenizerIfAvailable();
 }
@@ -130,6 +132,17 @@ function useTokenizerIfAvailable() {
   game.settings.register(Constants.MODULE_NAME, SettingKeys.USE_TOKENIZER, {
     name: game.i18n.localize('HCT.Setting.UseTokenizer.Name'),
     hint: game.i18n.localize('HCT.Setting.UseTokenizer.Hint'),
+    scope: 'world',
+    config: true,
+    type: Boolean,
+    default: false,
+  });
+}
+
+function buttonOnDialogInsteadOfActorsDirectory() {
+  game.settings.register(Constants.MODULE_NAME, SettingKeys.BUTTON_ON_DIALOG, {
+    name: game.i18n.localize('HCT.Setting.ButtonOnDialogInsteadOfActorsDirectory.Name'),
+    hint: game.i18n.localize('HCT.Setting.ButtonOnDialogInsteadOfActorsDirectory.Hint'),
     scope: 'world',
     config: true,
     type: Boolean,

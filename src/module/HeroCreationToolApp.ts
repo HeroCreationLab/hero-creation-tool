@@ -34,6 +34,7 @@ enum StepIndex {
 
 export default class HeroCreationTool extends Application {
   actor?: Actor;
+  actorName?: string;
   readonly steps: Array<Step>;
   currentTab: StepIndex = StepIndex.Basics;
 
@@ -52,17 +53,25 @@ export default class HeroCreationTool extends Application {
     return options;
   }
 
-  async openForActor(actor?: Actor) {
-    this.actor = actor;
+  async openForNewActor(actorName?: string) {
+    this.actor = undefined;
+    this.actorName = actorName;
     this.options.title = game.i18n.localize('HCT.CreationWindowTitle');
-    const openMessage = actor ? `${actor.name} (id ${actor.id})` : `new actor`;
-    console.log(`${CONSTANTS.LOG_PREFIX} | Opening for ${openMessage}`);
-    for (const step of this.steps) {
-      step.clearOptions();
-    }
+    console.log(`${CONSTANTS.LOG_PREFIX} | Opening for new actor${actorName ? ' with name: ' + actorName : ''}`);
+    this.steps.forEach((step) => step.clearOptions());
     this.currentTab = -1;
     this.render(true);
   }
+
+  // for level up
+  // async openForActor(actor: Actor) {
+  //   this.actor = actor;
+  //   this.options.title = game.i18n.localize('HCT.CreationWindowTitle');
+  //   console.log(`${CONSTANTS.LOG_PREFIX} | Opening for ${actor.name} (id ${actor.id})`);
+  //   this.steps.forEach(step => step.clearOptions());
+  //   this.currentTab = -1;
+  //   this.render(true);
+  // }
 
   activateListeners() {
     console.log(`${CONSTANTS.LOG_PREFIX} | Binding listeners`);
@@ -99,7 +108,7 @@ export default class HeroCreationTool extends Application {
 
   renderChildrenData() {
     for (const step of this.steps) {
-      step.renderData();
+      step.renderData({ actorName: this.actorName });
     }
   }
 

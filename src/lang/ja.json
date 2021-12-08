@@ -51,6 +51,10 @@
         "Name": "Subrace Names Blacklist",
         "Hint": "Items excluded by name from been Subraces (case-sensitive, separated by ';', spaces are ok). Used by default to exclude things like Gnome Cunning from registering as Gnome subclasses. Default - 'Gnome Cunning; Halfling Nimbleness'"
       },
+      "ButtonOnDialogInsteadOfActorsDirectory": {
+        "Name": "Create Actor dialog button",
+        "Hint": "If the button interferes with other modules, or you prefer the aesthetic of having a single 'create actor' button to not confuse your players"
+      },
       "Sources": {
         "Name": "辞典の参照元",
         "Hint": "キャラクター作成の各ステップにおける、データの参照元となる辞典を選択します。",
