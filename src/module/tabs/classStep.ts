@@ -79,9 +79,7 @@ class _Class extends Step {
         }
         if (this.classes) {
           this.updateClass(this.section());
-          this.primaryClassLevel = 1;
           this.$primaryClassLevelSelect.disabled = false;
-          this.$primaryClassLevelSelect.selectedIndex = 0;
         } else ui.notifications!.error(game.i18n.format('HCT.Error.UpdateValueLoad', { value: 'Classes' }));
       },
       game.i18n.localize('HCT.Class.Select.Default'),
