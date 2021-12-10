@@ -16,6 +16,7 @@ type itemOrPack = {
 class _Equipment extends Step {
   constructor() {
     super(StepEnum.Equipment);
+    this.priceMap.clear();
   }
 
   defaultGoldDice!: string;
@@ -96,6 +97,7 @@ class _Equipment extends Step {
       this.clearOptions();
       this.$itemList.empty();
       this.spent = 0;
+      this.priceMap.clear();
       this.updateGold();
     });
 
@@ -222,7 +224,7 @@ class _Equipment extends Step {
             PackNames.DIPLOMAT,
             { addValues: true, deletable: true },
             (opt: DeletableOption) => this.onDelete(opt),
-            foundry.utils.randomID(),
+            id,
           ),
           PackPrices.DIPLOMAT,
           1,
@@ -248,7 +250,7 @@ class _Equipment extends Step {
             PackNames.DUNGEONEER,
             { addValues: true, deletable: true },
             (opt: DeletableOption) => this.onDelete(opt),
-            foundry.utils.randomID(),
+            id,
           ),
           PackPrices.DUNGEONEER,
           1,
@@ -274,7 +276,7 @@ class _Equipment extends Step {
             PackNames.ENTERNAINER,
             { addValues: true, deletable: true },
             (opt: DeletableOption) => this.onDelete(opt),
-            foundry.utils.randomID(),
+            id,
           ),
           PackPrices.ENTERNAINER,
           1,
@@ -299,7 +301,7 @@ class _Equipment extends Step {
             PackNames.EXPLORER,
             { addValues: true, deletable: true },
             (opt: DeletableOption) => this.onDelete(opt),
-            foundry.utils.randomID(),
+            id,
           ),
           PackPrices.EXPLORER,
           1,
@@ -325,7 +327,7 @@ class _Equipment extends Step {
             PackNames.PRIEST,
             { addValues: true, deletable: true },
             (opt: DeletableOption) => this.onDelete(opt),
-            foundry.utils.randomID(),
+            id,
           ),
           PackPrices.PRIEST,
           1,
@@ -349,7 +351,7 @@ class _Equipment extends Step {
             PackNames.SCHOLAR,
             { addValues: true, deletable: true },
             (opt: DeletableOption) => this.onDelete(opt),
-            foundry.utils.randomID(),
+            id,
           ),
           PackPrices.SCHOLAR,
           1,
