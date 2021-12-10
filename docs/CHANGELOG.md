@@ -1,5 +1,10 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.5.1 (202y-mm-dd)
+- Added module setting to display module button either on actor's directory or on the Create Actor dialog.
+- Styled clickable icons *-the ones that open a popup window-* with a box shadow on hover, to highlight their clickability. Affects avatar, token, any race/class feature (but not the proper Race/Class icon), feat, background feature, equipment, spells.
+- Fixed a bug where Feat selection would not reset when changing races.
+
 ## 1.5.0 (2021-12-05)
 - Updated module to work with Foundry VTT v9 *(from this version onwards, the module will likely no longer be retrocompatible with version 0.8.x)*
 - Fixed some style issues that popped up again on the Sources selection menu [(#57)](https://github.com/HeroCreationLab/hero-creation-tool/issues/57), and took the opportunity to beautify the menu a little with some padding between buttons and properly switching chevrons to reflect the open-closed status of the different sources submenues.

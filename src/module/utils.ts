@@ -75,7 +75,7 @@ export function addCreateNewActorButton(app: HeroCreationTool, html: any, dialog
   console.log(`${Constants.LOG_PREFIX} | Adding Create New Actor button`);
 
   const $hctButton = $(
-    `<button class='header-hct-button' data-hct_start>
+    `<button class='dialog-button' data-hct_start>
       <i class='fas fa-dice-d20'></i>${game.i18n.localize('HCT.ActorsDirectoryButton')}
     </button>`,
   );

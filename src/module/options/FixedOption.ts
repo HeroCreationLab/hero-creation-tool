@@ -44,7 +44,7 @@ export default class FixedOption implements HeroOption {
   }
 
   private $textElem = $('<p class="hct-option">').html(`${this.textToShow}`);
-  private $itemImg = $('<img class="hct-icon">');
+  private $itemImg = $('<img class="hct-icon hct-hover-shadow-accent">');
   private $itemName = $('<p>');
 
   /**

@@ -41,7 +41,7 @@ export default class SelectableIndexEntryOption implements HeroOption {
   render($parent: JQuery): void {
     const $container = $('<div class="hct-icon-with-context">');
     this.$link = $(`<a class="content-link hct-icon-link" draggable="false" data-pack="" data-id="">`);
-    this.$itemImg = $('<img class="hct-icon">');
+    this.$itemImg = $('<img class="hct-icon hct-hover-shadow-accent">');
     this.$select = $(`<select class="hct-overflow-ellipsis hct-width-195">`);
 
     this.$link.append(this.$itemImg);
