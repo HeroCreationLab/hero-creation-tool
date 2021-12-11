@@ -32,11 +32,15 @@ export default class OptionContainer implements HeroOption {
 
   render($parent: JQuery): void {
     const $container = $(
-      `<fieldset style="margin-bottom:10px; border-radius:5px; padding: 5px;" ${
+      `<fieldset class="hct-option-container" ${
         this.settings.deletable ? 'id="hct_deletable_' + this.callbackParams + '"' : ''
       }>`,
     );
-    const $legend = $(`<legend>${this.label || ''}${this.detail ? ' (' + this.detail + ')' : ''}</legend>`);
+    const $legend = $(
+      `<legend class="hct-option-container-legend">${this.label || ''}${
+        this.detail ? ' (' + this.detail + ')' : ''
+      }</legend>`,
+    );
     $container.append($legend);
     if (this.settings.deletable && this.deleteCallback) {
       const $deleteButton = $(

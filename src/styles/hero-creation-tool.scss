@@ -62,9 +62,10 @@ $color-accent-alt: darkgreen;
     &--floating {
       width: 24px;
       height: 24px;
+      padding: 0;
       position: relative;
       background: $color-button-background;
-      border: 2px groove #f0f0e0;
+      color: var(--color-text-dark-primary);
     }
 
     &-up {
@@ -86,6 +87,10 @@ $color-accent-alt: darkgreen;
 
   &-flex {
     display: flex;
+
+    &-grow-1 {
+      flex-grow: 1;
+    }
 
     &-justify-sb {
       justify-content: space-between;
@@ -357,6 +362,17 @@ $color-accent-alt: darkgreen;
     overflow: hidden;
   }
 
+  &-option-container {
+    margin-bottom: 10px;
+    border-radius: 5px;
+    padding: 5px 10px;
+
+    &-legend {
+      margin-bottom: -6px;
+      line-height: 30px;
+    }
+  }
+
   &-submenu-header {
     position: sticky;
     top: 0px;
@@ -371,11 +387,9 @@ $color-accent-alt: darkgreen;
   }
 
   &-quantity-buttons {
-    width: 0px;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    transform: translateX(-2px) translateY(-2px);
   }
 
   // utilitarian
@@ -433,6 +447,9 @@ $color-accent-alt: darkgreen;
   }
 
   &-margin {
+    &-0 {
+      margin: 0;
+    }
     &-b {
       &-tiny {
         margin-bottom: $tiny;
