@@ -95,9 +95,14 @@ class _Basics extends Step {
     this.useTokenizer = game.settings.get(Constants.MODULE_NAME, SettingKeys.USE_TOKENIZER) as boolean;
   }
 
-  renderData(): void {
+  renderData(data: { actorName?: string }): void {
     this.clearOptions();
-    this.nameOption = new InputOption(this.step, 'name', game.i18n.localize('HCT.Common.RequiredName'), '');
+    this.nameOption = new InputOption(
+      this.step,
+      'name',
+      game.i18n.localize('HCT.Common.RequiredName'),
+      data?.actorName ?? '',
+    );
     this.nameOption.render($('[data-hero_name]', this.section()));
 
     this.avatarOption = new InputOption(this.step, 'img', Constants.MYSTERY_MAN, Constants.MYSTERY_MAN);

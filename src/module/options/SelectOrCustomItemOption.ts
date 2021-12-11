@@ -80,6 +80,16 @@ export default class SelectOrCustomItemOption implements HeroOption {
     }
     this.$select.on('change', () => {
       this.isCustom = this.CUSTOM === this.$select.val();
+      if (!this.$select.val()) {
+        // selected Choose again
+        this.$icon.removeClass('hct-hover-shadow-accent');
+        this.$icon.attr('src', Constants.MYSTERY_MAN);
+        this.$link.removeClass('content-link');
+        this.item = undefined;
+        this.$customInputs.hide();
+        return;
+      }
+      this.$icon.addClass('hct-hover-shadow-accent');
       if (this.isCustom) {
         this.$link.removeClass('content-link');
         this.$customDescription.text('');

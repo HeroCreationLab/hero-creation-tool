@@ -106,6 +106,7 @@ class _Race extends Step {
 
   updateRace(raceName: string, raceItems: RaceEntry[]) {
     this.clearOptions();
+    this.resetFeat();
 
     this.setAbilityScoresUi();
     this.setSizeUi();
@@ -119,6 +120,12 @@ class _Race extends Step {
 
     this.stepOptions.push(new HiddenOption(StepEnum.Race, 'items', raceItems, { addValues: true }));
     this.stepOptions.push(new HiddenOption(StepEnum.Race, 'data.details.race', raceName));
+  }
+
+  resetFeat() {
+    $('[data-hct_feat_icon] img', this.$context)
+      .attr('src', Constants.MYSTERY_MAN)
+      .removeClass('hct-hover-shadow-accent');
   }
 
   async setProficienciesUi() {
@@ -242,7 +249,7 @@ class _Race extends Step {
 
   setRaceFeaturesUi(raceItems: IndexEntry[]): void {
     const options: HeroOption[] = [];
-    const raceFeatures: IndexEntry[] = Utils.filterItemList({
+    const raceFeatures: RacialFeatureEntry[] = Utils.filterItemList({
       filterValues: raceItems.map((r) => r.name!),
       filterField: 'data.requirements',
       itemList: this.raceFeatures!,
@@ -270,7 +277,9 @@ class _Race extends Step {
       const $imgLink = $('[data-hct_feat_icon]', this.$context);
       $imgLink.attr('data-pack', featEntry._pack ?? '');
       $imgLink.attr('data-id', featEntry._id ?? '');
-      $('img', $imgLink).attr('src', featEntry.img ?? Constants.MYSTERY_MAN);
+      $('img', $imgLink)
+        .attr('src', featEntry.img ?? Constants.MYSTERY_MAN)
+        .addClass('hct-hover-shadow-accent');
     });
     const $raceFeaturesSection = $('section', $('[data-hct_race_area=feat]', this.$context)).empty();
     featOption.render($raceFeaturesSection);

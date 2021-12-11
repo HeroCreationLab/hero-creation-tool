@@ -67,7 +67,26 @@ export function addActorDirectoryButton(app: HeroCreationTool) {
       )}</button>`,
     );
   $('[data-hct_start]').on('click', function () {
-    if (userHasRightPermissions()) app.openForActor();
+    if (userHasRightPermissions()) app.openForNewActor();
+  });
+}
+
+export function addCreateNewActorButton(app: HeroCreationTool, html: any, dialogApp: any) {
+  console.log(`${Constants.LOG_PREFIX} | Adding Create New Actor button`);
+
+  const $hctButton = $(
+    `<button class='dialog-button' data-hct_start>
+      <i class='fas fa-dice-d20'></i>${game.i18n.localize('HCT.ActorsDirectoryButton')}
+    </button>`,
+  );
+
+  $('button', html).after($hctButton); // added after the Create New Actor confirm button
+  $hctButton.on('click', function () {
+    if (userHasRightPermissions()) {
+      const heroName = $('input', html).val() as string;
+      app.openForNewActor(heroName);
+    }
+    dialogApp.close();
   });
 }
 

@@ -31,7 +31,7 @@ export abstract class Step {
    * Method called by the Application for each tab to render their internal HTML.
    * Called at the end of every 'renderApp' Hook.
    */
-  renderData(): void {
+  renderData(data?: any): void {
     return;
   }
 
