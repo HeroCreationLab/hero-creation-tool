@@ -229,7 +229,19 @@
       "SpellCount": "Nombre de sorts",
       "SpellList": "Sorts de départ",
       "Spellcasting": "Lancer des sorts",
-      "SelectItemError": "Nom d'élément incorrect dans l'entrée de recherche de l'onglet Sorts."
+      "SelectItemError": "Nom d'élément incorrect dans l'entrée de recherche de l'onglet Sorts.",
+      "Cantrips": "Can",
+      "Superscript": {
+        "1": "st",
+        "2": "nd",
+        "3": "rd",
+        "4": "th",
+        "5": "th",
+        "6": "th",
+        "7": "th",
+        "8": "th",
+        "9": "th"
+      }
     },
     "Bio": {
       "Title": "Biographie",

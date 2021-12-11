@@ -394,6 +394,33 @@ $color-accent-alt: darkgreen;
 
   // utilitarian
 
+  &-font {
+    &-size {
+      &-xsm {
+        font-size: x-small;
+      }
+    }
+  }
+
+  &-height {
+    &-46 {
+      min-height: 46px;
+      max-height: 46px;
+    }
+
+    &-100p {
+      height: 100%;
+    }
+  }
+
+  &-text {
+    &-align {
+      &-center {
+        text-align: center;
+      }
+    }
+  }
+
   &-width {
     &-full {
       width: 100%;
@@ -410,6 +437,9 @@ $color-accent-alt: darkgreen;
         width: 60%;
       }
     }
+    &-10per {
+      width: 10%;
+    }
     &-fit {
       width: fit-content;
     }
@@ -424,17 +454,6 @@ $color-accent-alt: darkgreen;
     }
     &-60 {
       width: 60px;
-    }
-  }
-
-  &-height {
-    &-46 {
-      min-height: 46px;
-      max-height: 46px;
-    }
-
-    &-100p {
-      height: 100%;
     }
   }
 

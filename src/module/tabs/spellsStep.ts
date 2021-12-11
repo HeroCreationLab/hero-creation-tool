@@ -152,9 +152,9 @@ class _Spells extends Step {
       console.error(`Unable to find spells' rule journal on compendium ${rulesCompendiumName}`);
     }
 
-    for (let i = 0; i < 10; i++) {
-      $(`[data-hct_lv${i}_label]`, this.section()).html(`${(game as any).dnd5e.config.spellLevels[i]}: `);
-    }
+    // for (let i = 0; i < 10; i++) {
+    //   $(`[data-hct_lv${i}_label]`, this.section()).html(`${(game as any).dnd5e.config.spellLevels[i]}: `);
+    // }
   }
 
   update(data: any) {
