@@ -13,6 +13,7 @@ export default class OptionContainer implements HeroOption {
     readonly key: string,
     private options: HeroOption[],
     private label?: string,
+    private detail?: string,
     readonly settings: {
       addValues: boolean;
       deletable?: boolean;
@@ -35,7 +36,7 @@ export default class OptionContainer implements HeroOption {
         this.settings.deletable ? 'id="hct_deletable_' + this.callbackParams + '"' : ''
       }>`,
     );
-    const $legend = $(`<legend>${this.label || ''}</legend>`);
+    const $legend = $(`<legend>${this.label || ''}${this.detail ? ' (' + this.detail + ')' : ''}</legend>`);
     $container.append($legend);
     if (this.settings.deletable && this.deleteCallback) {
       const $deleteButton = $(

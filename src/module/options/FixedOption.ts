@@ -17,7 +17,6 @@ export default class FixedOption implements HeroOption {
     readonly settings: {
       addValues: boolean;
       type: OptionType;
-      quantity?: number;
     } = { addValues: false, type: OptionType.TEXT },
   ) {}
 
@@ -26,10 +25,6 @@ export default class FixedOption implements HeroOption {
   }
 
   applyToHero(actor: ActorDataConstructorData) {
-    if (this.settings.type == OptionType.ITEM && this.settings.quantity && this.settings.quantity > 1) {
-      (this.option as any).data.quantity = this.settings.quantity;
-    }
-
     apply(
       actor,
       this.key,

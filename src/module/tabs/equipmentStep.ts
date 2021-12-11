@@ -1,12 +1,13 @@
 import * as Utils from '../utils';
 import * as Constants from '../constants';
 import { Step, StepEnum } from '../Step';
-import FixedOption, { OptionType } from '../options/FixedOption';
+import FixedOption from '../options/FixedOption';
 import SettingKeys from '../settings';
 import HeroOption from '../options/HeroOption';
 import OptionContainer from '../options/OptionContainer';
 import DeletableOption from '../options/DeletableOption';
 import { EquipmentEntry, getEquipmentEntries, getRuleJournalEntryByName } from '../indexUtils';
+import QuantifiableOption from '../options/QuantifiableOption';
 
 type itemOrPack = {
   itemName?: string;
@@ -16,7 +17,7 @@ type itemOrPack = {
 class _Equipment extends Step {
   constructor() {
     super(StepEnum.Equipment);
-    this.priceMap.clear();
+    this.spentMap.clear();
   }
 
   defaultGoldDice!: string;
@@ -42,7 +43,7 @@ class _Equipment extends Step {
   extra = 0;
   spent = 0;
 
-  priceMap: Map<string, number> = new Map();
+  spentMap: Map<string, number> = new Map();
 
   async setListeners() {
     this.$searchWrapper = $('.hct-search-wrapper', this.section());
@@ -61,6 +62,7 @@ class _Equipment extends Step {
           console.error(error);
           return false;
         }
+        this.$searchWrapper.removeClass('active');
       }
       return false;
     });
@@ -97,7 +99,7 @@ class _Equipment extends Step {
       this.clearOptions();
       this.$itemList.empty();
       this.spent = 0;
-      this.priceMap.clear();
+      this.spentMap.clear();
       this.updateGold();
     });
 
@@ -134,7 +136,7 @@ class _Equipment extends Step {
       this.addPackToSelection(item.name as PackNames);
     } else {
       const id = foundry.utils.randomID();
-      this.addItemOptionToSelection(id, this.makeItemOption(id, item, 1), item.data.price, 1);
+      this.addItemOptionToSelection(id, this.makeItemOption(id, item, 1, true, true, true), item.data.price, 1);
     }
   }
 
@@ -186,6 +188,7 @@ class _Equipment extends Step {
             'items',
             options,
             PackNames.BURGLAR,
+            PackPrices.BURGLAR + 'gp',
             { addValues: true, deletable: true },
             (opt: DeletableOption) => this.onDelete(opt),
             id,
@@ -222,6 +225,7 @@ class _Equipment extends Step {
             'items',
             options,
             PackNames.DIPLOMAT,
+            PackPrices.DIPLOMAT + 'gp',
             { addValues: true, deletable: true },
             (opt: DeletableOption) => this.onDelete(opt),
             id,
@@ -248,6 +252,7 @@ class _Equipment extends Step {
             'items',
             options,
             PackNames.DUNGEONEER,
+            PackPrices.DUNGEONEER + 'gp',
             { addValues: true, deletable: true },
             (opt: DeletableOption) => this.onDelete(opt),
             id,
@@ -257,7 +262,7 @@ class _Equipment extends Step {
         );
         break;
 
-      case PackNames.ENTERNAINER:
+      case PackNames.ENTERTAINER:
         this.items
           .filter((item) => {
             const itemsInPack = ['Backpack', 'Bedroll', 'Waterskin', 'Disguise Kit'];
@@ -273,12 +278,13 @@ class _Equipment extends Step {
             StepEnum.Equipment,
             'items',
             options,
-            PackNames.ENTERNAINER,
+            PackNames.ENTERTAINER,
+            PackPrices.ENTERTAINER + 'gp',
             { addValues: true, deletable: true },
             (opt: DeletableOption) => this.onDelete(opt),
             id,
           ),
-          PackPrices.ENTERNAINER,
+          PackPrices.ENTERTAINER,
           1,
         );
         break;
@@ -299,6 +305,7 @@ class _Equipment extends Step {
             'items',
             options,
             PackNames.EXPLORER,
+            PackPrices.EXPLORER + 'gp',
             { addValues: true, deletable: true },
             (opt: DeletableOption) => this.onDelete(opt),
             id,
@@ -325,6 +332,7 @@ class _Equipment extends Step {
             'items',
             options,
             PackNames.PRIEST,
+            PackPrices.PRIEST + 'gp',
             { addValues: true, deletable: true },
             (opt: DeletableOption) => this.onDelete(opt),
             id,
@@ -349,6 +357,7 @@ class _Equipment extends Step {
             'items',
             options,
             PackNames.SCHOLAR,
+            PackPrices.SCHOLAR + 'gp',
             { addValues: true, deletable: true },
             (opt: DeletableOption) => this.onDelete(opt),
             id,
@@ -364,24 +373,30 @@ class _Equipment extends Step {
     this.stepOptions.splice(this.stepOptions.indexOf(option), 1);
     const deletableId = option.callbackParams;
     $(`#hct_deletable_${deletableId}`, this.$itemList).remove();
-
-    const price = this.priceMap.get(deletableId);
-    this.priceMap.delete(deletableId);
-    this.updateGold(-price!);
+    this.spentMap.delete(deletableId);
+    this.updateGold();
   }
 
-  makeItemOption(id: string, item: EquipmentEntry, quantity = 1, deletable = true): HeroOption {
-    const option = new FixedOption(
-      StepEnum.Equipment,
-      'items',
-      item,
-      `${item.name} x${quantity} (${item.data.price * quantity}gp)`,
-      {
-        addValues: true,
-        type: OptionType.ITEM,
-        quantity: quantity ?? 1,
+  makeItemOption(
+    id: string,
+    item: EquipmentEntry,
+    quantity = 1,
+    deletable = true,
+    canChangeQuantity = false,
+    showTotalCost = false,
+  ): HeroOption {
+    const option = new QuantifiableOption(StepEnum.Equipment, item, {
+      addValues: true,
+      quantity: quantity ?? 1,
+      price: item.data.price,
+      id: id,
+      canChangeQuantity: canChangeQuantity,
+      showTotalCost: showTotalCost,
+      changeCallback: (id, num) => {
+        this.spentMap.set(id, num);
+        this.updateGold();
       },
-    );
+    });
     if (deletable) {
       return new DeletableOption(
         StepEnum.Equipment,
@@ -397,14 +412,16 @@ class _Equipment extends Step {
   }
 
   addItemOptionToSelection(id: string, itemOption: HeroOption, cost: number, quantity = 1) {
-    this.priceMap.set(id, cost * quantity);
+    this.spentMap.set(id, cost * quantity);
     itemOption.render(this.$itemList);
     this.stepOptions.push(itemOption);
-    this.updateGold(cost * quantity);
+    this.updateGold();
   }
 
-  updateGold(reduceBy?: number) {
-    if (reduceBy) this.spent += reduceBy;
+  updateGold() {
+    this.spent = Array.from(this.spentMap.values()).reduce((previousValue, currentValue) => {
+      return currentValue + previousValue;
+    }, 0);
     this.total = this.roundToTwo(this.available) + this.roundToTwo(this.extra);
     this.$totalGold.html(this.total.toString());
     this.$remainingGold.html(this.roundToTwo(this.total - this.spent).toString());
@@ -474,7 +491,7 @@ const enum PackNames {
   BURGLAR = "Burglar's Pack",
   DIPLOMAT = "Diplomat's Pack",
   DUNGEONEER = "Dungeoneer's Pack",
-  ENTERNAINER = "Entertainer's Pack",
+  ENTERTAINER = "Entertainer's Pack",
   EXPLORER = "Explorer's Pack",
   PRIEST = "Priest's Pack",
   SCHOLAR = "Scholar's Pack",
@@ -484,7 +501,7 @@ const PackPrices = {
   BURGLAR: 16,
   DIPLOMAT: 39,
   DUNGEONEER: 12,
-  ENTERNAINER: 40,
+  ENTERTAINER: 40,
   EXPLORER: 10,
   PRIEST: 19,
   SCHOLAR: 40,
@@ -515,8 +532,8 @@ const packs: EquipmentEntry[] = [
     type: '',
   },
   {
-    name: PackNames.ENTERNAINER,
-    data: { price: PackPrices.ENTERNAINER, rarity: '' },
+    name: PackNames.ENTERTAINER,
+    data: { price: PackPrices.ENTERTAINER, rarity: '' },
     img: 'icons/tools/instruments/lute-gold-brown.webp',
     _id: '',
     _pack: '',
