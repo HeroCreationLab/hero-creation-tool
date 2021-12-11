@@ -1,5 +1,9 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.5.2 (2021-12-11)
+- Restyled number of selected spells into a list
+- Minor equipment tab fixes
+
 ## 1.5.1 (2021-12-11)
 - Added module setting to display module button either on actor's directory or on the Create Actor dialog.
 - Added increase/decrease buttons on Equipment selections to modify the quantity.

@@ -281,7 +281,6 @@ export default ClassTab;
 function addLevelSelect($parent: JQuery, className: string) {
   const $select = document.createElement('select');
   $select.setAttribute(`data-hct-${className}-level`, '');
-  $select.classList.add('hct-margin-l-tiny');
   for (let i = 1; i <= 20; i++) {
     const $opt = document.createElement('option');
     $opt.value = i + '';
