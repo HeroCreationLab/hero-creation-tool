@@ -251,6 +251,9 @@
       "BondsTitle": "関わり深いもの",
       "FlawsTitle": "弱味",
       "BiographyPlaceholder": "背景/経歴..."
+    },
+    "Migrations": {
+      "Info1": "Hero Creation Tool :: Migration 1 - Restoring Compendia sources setting to default to prevent errors when moving from v0.8.x to v9"
     }
   }
 }

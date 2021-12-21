@@ -1,6 +1,6 @@
 import * as Constants from './constants';
 import HeroCreationTool from './HeroCreationToolApp';
-import SettingKeys from './settings';
+import SettingKeys, { PrivateSettingKeys } from './settings';
 
 export function setPanelScrolls($section: JQuery) {
   const individualScrolls = getModuleSetting(SettingKeys.INDIVIDUAL_PANEL_SCROLLS);
@@ -24,7 +24,7 @@ export function setPanelScrolls($section: JQuery) {
   }
 }
 
-export function getModuleSetting(key: SettingKeys) {
+export function getModuleSetting(key: SettingKeys | PrivateSettingKeys) {
   return game.settings.get(Constants.MODULE_NAME, key);
 }
 

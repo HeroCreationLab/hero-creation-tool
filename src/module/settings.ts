@@ -1,6 +1,11 @@
 import CompendiumSourcesSubmenu from './CompendiumSourcesSubmenu';
 import * as Constants from './constants';
 
+// settings not shown on the Module Settings - not modifiable by users
+export const enum PrivateSettingKeys {
+  LAST_MIGRATION = 'lastMigration',
+}
+
 const enum SettingKeys {
   USE_TOKENIZER = 'useTokenizer',
   TOKEN_BAR = 'displayBarsMode',
@@ -55,6 +60,9 @@ export function registerSettings(): void {
   buttonOnDialogInsteadOfActorsDirectory();
   // integrations
   useTokenizerIfAvailable();
+
+  // private settings
+  lastMigration();
 }
 
 function sourcesConfiguration() {
@@ -239,5 +247,16 @@ function abilityScoreMethods() {
     config: true,
     type: Boolean,
     default: true,
+  });
+}
+
+// PRIVATE SETTINGS
+
+function lastMigration() {
+  game.settings.register(Constants.MODULE_NAME, PrivateSettingKeys.LAST_MIGRATION, {
+    scope: 'world',
+    config: false,
+    default: 0,
+    type: Number,
   });
 }

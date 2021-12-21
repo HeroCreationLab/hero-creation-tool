@@ -1,5 +1,9 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.5.3 (2021-12-21)
+- Added a migration handler to more easily distribute migrations in the future. Each migration will only run once on each world.
+- Migration in place that will restart compendium sources for everyone, to fix an incompatibility from how sources were saved on v8 vs v9 (as mentioned above, this should only happen when you first open the world after updating, and never again).
+
 ## 1.5.2 (2021-12-11)
 - Restyled number of selected spells into a list
 - Minor equipment tab fixes
