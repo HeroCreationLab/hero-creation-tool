@@ -3,6 +3,7 @@ import { preloadTemplates } from './preloadTemplates';
 import HeroCreationTool from './HeroCreationToolApp';
 import { buildEquipmentAndJournalIndexes, buildSourceIndexes } from './indexUtils';
 import { addActorDirectoryButton, addCreateNewActorButton, getModuleSetting } from './utils';
+import performMigrations from './migrations/migrationsHandler';
 
 const heroCreationTool = new HeroCreationTool();
 
@@ -15,6 +16,7 @@ Hooks.once('init', async () => {
 // Build indexes on ready
 Hooks.once('ready', async () => {
   await buildEquipmentAndJournalIndexes();
+  await performMigrations();
 });
 
 Hooks.on('renderHeroCreationTool', async function (app: any, html: any, data: any) {
