@@ -48,42 +48,60 @@ export async function buildEquipmentAndJournalIndexes() {
 }
 
 export async function getRaceEntries() {
-  return (getIndexEntriesForSource(SourceType.RACES) as unknown) as Promise<RaceEntry[]>;
+  const raceEntries = await ((getIndexEntriesForSource(SourceType.RACES) as unknown) as Promise<RaceEntry[]>);
+  // sanitize entries to remove anything nonconforming to a Feature (for now, until Race becomes a type)
+  return raceEntries.filter((r) => r.type == 'feat');
 }
 
 export async function getRaceFeatureEntries() {
-  return ((getIndexEntriesForSource(SourceType.RACIAL_FEATURES) as unknown) as Promise<
+  const raceFeatureEntries = await ((getIndexEntriesForSource(SourceType.RACIAL_FEATURES) as unknown) as Promise<
     RacialFeatureEntry[]
-  >).then((result) => result.filter((feature) => feature?.data?.requirements !== ''));
+  >);
+  // sanitize entries to remove anything nonconforming to a Feature (for now at least, if Race Features become a type in the future)
+  return raceFeatureEntries.filter((f) => f.type == 'feat' && f?.data?.requirements !== '');
 }
 
 export async function getClassEntries() {
-  return (getIndexEntriesForSource(SourceType.CLASSES) as unknown) as Promise<ClassEntry[]>;
+  const classEntries = await ((getIndexEntriesForSource(SourceType.CLASSES) as unknown) as Promise<ClassEntry[]>);
+  // sanitize entries to remove anything nonconforming to a Class
+  return classEntries.filter((c) => c.type == 'class');
 }
 
 export async function getClassFeatureEntries() {
-  return ((getIndexEntriesForSource(SourceType.CLASS_FEATURES) as unknown) as Promise<
+  const classFeatureEntries = await ((getIndexEntriesForSource(SourceType.CLASS_FEATURES) as unknown) as Promise<
     RacialFeatureEntry[]
-  >).then((result) => result.filter((feature) => feature?.data?.requirements !== ''));
+  >);
+  // sanitize entries to remove anything nonconforming to a Feature (for now at least, if Class Features become a type in the future)
+  return classFeatureEntries.filter((f) => f.type == 'feat' && f?.data?.requirements !== '');
 }
 
 export async function getSpellEntries() {
-  return (getIndexEntriesForSource(SourceType.SPELLS) as unknown) as Promise<SpellEntry[]>;
+  const spellEntries = await ((getIndexEntriesForSource(SourceType.SPELLS) as unknown) as Promise<SpellEntry[]>);
+  // sanitize entries to remove anything nonconforming to a Spell
+  return spellEntries.filter((s) => s.type == 'spell');
 }
 
 export async function getBackgroundFeatureEntries() {
-  return (getIndexEntriesForSource(SourceType.BACKGROUND_FEATURES) as unknown) as Promise<BackgroundFeatureEntry[]>;
+  const backgroundFeatureEntries = await ((getIndexEntriesForSource(
+    SourceType.BACKGROUND_FEATURES,
+  ) as unknown) as Promise<BackgroundFeatureEntry[]>);
+  // sanitize entries to remove anything nonconforming to a Feature (for now at least, if Background Features become a type in the future)
+  return backgroundFeatureEntries.filter((f) => f.type == 'feat');
 }
 
 export async function getFeatEntries() {
-  return (getIndexEntriesForSource(SourceType.FEATS) as unknown) as Promise<FeatEntry[]>;
+  const featEntries = await ((getIndexEntriesForSource(SourceType.FEATS) as unknown) as Promise<FeatEntry[]>);
+  // sanitize entries to remove anything nonconforming to a Feature (for now at least, if Feats become a type in the future)
+  return featEntries.filter((f) => f.type == 'feat');
 }
 
 export async function getEquipmentEntries() {
-  const entries = await ((game.packs.get(CONSTANTS.DEFAULT_PACKS.ITEMS)?.index as unknown) as Promise<
+  const equipmentEntries = await ((game.packs.get(CONSTANTS.DEFAULT_PACKS.ITEMS)?.index as unknown) as Promise<
     EquipmentEntry[]
   >);
-  return entries.map((entry) => ({ ...entry, _pack: CONSTANTS.DEFAULT_PACKS.ITEMS }));
+  return equipmentEntries
+    .filter((e) => !['class', 'feat', 'spell'].includes(e.type))
+    .map((e) => ({ ...e, _pack: CONSTANTS.DEFAULT_PACKS.ITEMS }));
 }
 
 export async function getRuleJournalEntryByName(journalName: string) {
