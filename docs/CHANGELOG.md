@@ -1,7 +1,15 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.5.4 (2021-12-22)
+- Added some sanity checks for items taken from compendia to avoid pulling items that can't function as the required source type; this should prevent the tool breaking if any of the compendia had nonconforming data (for example, having a custom compendium with Spells, and placing a Class/Feature there, it would break because those items don't have a `Level` field). In detail:
+  - Races, Race Features, Class Features, Background Features and Feats check that the type is of type 'feat' (Feature).
+  - Classes check that the type of items is 'class' (Class)
+  - Spells check that the type of items is 'spell' (Spell)
+  - Equipment items check that the type of items is NEITHER 'feat', 'class' or 'spell' (taken from the default Items (SRD) compendium, but it's always good to double check just in case)
+  - Additionally, Race Features and Class Features check that the item has Requiments not-empty (as it's required to tie them to the corresponding race/class).
+
 ## 1.5.3 (2021-12-21)
-- Added a migration handler to more easily distribute migrations in the future. Each migration will only run once on each world.
+- Added a migration handler to more easily distribute migrations in the future. Each migration will only run once on each world. Should fix [(#65)](https://github.com/HeroCreationLab/hero-creation-tool/issues/65)
 - Migration in place that will restart compendium sources for everyone, to fix an incompatibility from how sources were saved on v8 vs v9 (as mentioned above, this should only happen when you first open the world after updating, and never again).
 
 ## 1.5.2 (2021-12-11)
