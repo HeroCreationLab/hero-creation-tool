@@ -1,65 +1,76 @@
-/*
-  Functions used exclusively on the Abilities tab
-*/
-import * as Constants from '../constants';
-import * as Utils from '../utils';
 import { Step, StepEnum } from '../Step';
 import HeroOption from '../options/HeroOption';
 import FixedOption, { OptionType } from '../options/FixedOption';
-import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 import SettingKeys from '../settings';
 import { getRuleJournalEntryByName } from '../indexUtils';
+import { getAbilityModifierValue, getModuleSetting, setPanelScrolls } from '../utils';
+
+const enum EntryMode {
+  ROLL = 'roll',
+  STANDARD_ARRAY = 'standard',
+  POINT_BUY = 'point-buy',
+  MANUAL_ENTRY = 'manual',
+}
 
 class _Abilities extends Step {
   constructor() {
     super(StepEnum.Abilities);
   }
 
-  touched!: boolean;
-
   section = () => $('#abDiv');
 
-  setListeners(): void {
+  possibleValues: number[] = [];
+
+  pointBuy = false;
+
+  async setListeners() {
     // entry mode
-    $('[data-mode]').on('click', (event) => {
-      this.touched = true;
+    $('[data-mode]', this.section).on('click', async (event) => {
       const mode = $(event.target).data('mode');
+
+      this.possibleValues = [];
       switch (mode) {
-        case 'roll':
-          rollAbilities();
+        case EntryMode.ROLL:
+          this.possibleValues = await prepareRolls();
           break;
-        case 'standard':
-          prepareStandardArray();
+        case EntryMode.STANDARD_ARRAY:
+          this.possibleValues = [15, 14, 13, 12, 10, 8];
           break;
-        case 'point-buy':
-          preparePointBuy();
+        case EntryMode.POINT_BUY:
+          this.possibleValues = [15, 14, 13, 12, 11, 10, 9, 8];
+          $('[data-hct-point-buy-score]').val(0); // reset current score
           break;
-        case 'manual':
-          manualAbilities();
+        case EntryMode.MANUAL_ENTRY:
+          this.possibleValues = [20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
           break;
       }
+      // handle Point Buy specifics
+      $('[data-hct-point-buy]', this.section).toggle(mode == EntryMode.POINT_BUY);
+      this.pointBuy = mode == EntryMode.POINT_BUY;
+
+      fillAbilitySelects(this.possibleValues, this.section, this.pointBuy);
+      recalculateTotalsAndModifiers(this.pointBuy);
     });
 
-    // for point buy and manual entry
-    $('[data-hct-abilities-up]').on('click', (ev) => increaseAbility($(ev.target).data('hct-abilities-up')));
-    $('[data-hct-abilities-down]').on('click', (ev) => decreaseAbility($(ev.target).data('hct-abilities-down')));
+    //update values when an ability select is changed
+    $('[data-hct-ability-score]', this.section).on('change', (e) => recalculateTotalsAndModifiers(this.pointBuy));
   }
 
   async renderData() {
-    Utils.setPanelScrolls(this.section());
+    setPanelScrolls(this.section());
 
     // Enable only DM-allowed methods
     const $methodsContext = $('[data-hct-ability-methods]', this.section);
-    $('[data-mode="roll"]', $methodsContext).prop('disabled', !Utils.getModuleSetting(SettingKeys.ENABLE_ASI_ROLL));
-    $('[data-mode="standard"]', $methodsContext).prop(
-      'disabled',
-      !Utils.getModuleSetting(SettingKeys.ENABLE_ASI_STANDARD),
-    );
-    $('[data-mode="point-buy"]', $methodsContext).prop(
-      'disabled',
-      !Utils.getModuleSetting(SettingKeys.ENABLE_ASI_POINTBUY),
-    );
-    $('[data-mode="manual"]', $methodsContext).prop('disabled', !Utils.getModuleSetting(SettingKeys.ENABLE_ASI_MANUAL));
+    $('[data-mode="roll"]', $methodsContext).prop('disabled', !getModuleSetting(SettingKeys.ENABLE_ASI_ROLL));
+    $('[data-mode="standard"]', $methodsContext).prop('disabled', !getModuleSetting(SettingKeys.ENABLE_ASI_STANDARD));
+    $('[data-mode="point-buy"]', $methodsContext).prop('disabled', !getModuleSetting(SettingKeys.ENABLE_ASI_POINTBUY));
+    $('[data-mode="manual"]', $methodsContext).prop('disabled', !getModuleSetting(SettingKeys.ENABLE_ASI_MANUAL));
+
+    // set proper dice to the Roll button
+    const dice = game.i18n.format('HCT.Abilities.Buttons.Roll', {
+      dice: getModuleSetting(SettingKeys.ABILITY_ROLL_FORMULA),
+    });
+    $('[data-mode="roll"]', $methodsContext).html(dice);
 
     // Show rules on the side panel
     const rulesCompendiumName = game.i18n.localize('HCT.Abilities.RulesJournalName');
@@ -70,233 +81,103 @@ class _Abilities extends Step {
       console.error(`Unable to find abilities' rule journal on compendium ${rulesCompendiumName}`);
     }
 
-    this.touched = false;
+    // setting default values
+    const $selects = $('[data-hct-ability-score]', this.section);
+    $selects.append($(`<option value=10>10</option>`));
+
+    // set pointbuy max and score
+    const pointBuyMax = getModuleSetting(SettingKeys.POINT_BUY_LIMIT) as number;
+    $('[data-hct-point-buy-max]').val(pointBuyMax);
+  }
+
+  update() {
+    const $raceStats = $('[data-hct-race-ability]');
+    if ($raceStats.length == 0) {
+      $(`[data-hct-ability-score-race-bonus]`).val(0).html('+0');
+    } else {
+      $raceStats.each((i, e) => {
+        const ability = e.dataset.hctRaceAbility;
+        const value = (e as HTMLInputElement).value;
+        $(`[data-hct-ability-score-race-bonus=${ability}]`)
+          .val(value)
+          .html(value.startsWith('-') ? value : '+' + value);
+      });
+    }
+    recalculateTotalsAndModifiers(this.pointBuy);
   }
 
   getOptions(): HeroOption[] {
     this.clearOptions();
-    if (this.touched && statsDuplicatedOrMissing()) {
-      ui.notifications?.error(game.i18n.localize('HCT.Abilities.NotAllSixAbilities'));
-      throw new Error('Invalid abilities');
-    }
 
-    const foundryAbilities = (game as any).dnd5e.config.abilities;
-    for (let i = 1; i < 7; i++) {
-      const $input: JQuery = $(`#number${i}`, this.section());
-      const $select: JQuery = $(`#stat${i}`, this.section());
-      const asiKey = ($select.val() as string)?.toLowerCase();
-      if (asiKey) {
-        const key = `data.abilities.${asiKey}.value`;
-        const asiValue: number = Number.parseInt($input.val() as string);
-        const textToShow = `${foundryAbilities[asiKey]}: ${asiValue}`;
+    $('[data-hct-ability-score]', this.section).each((i, e) => {
+      const ability = e.dataset.hctAbilityScore;
+      const value = (e as HTMLOptionElement).value;
+      if (ability && value) {
         this.stepOptions.push(
-          new FixedOption(this.step, key, asiValue, textToShow, { addValues: true, type: OptionType.NUMBER }),
-        );
-      }
-    }
-    if (this.stepOptions.length == 0) {
-      // default abilities
-      Object.keys(foundryAbilities).forEach((asi) => {
-        const defaultAsi = 10;
-        const textToShow = `${foundryAbilities[asi]}: ${defaultAsi}`;
-        this.stepOptions.push(
-          new FixedOption(this.step, `data.abilities.${asi}.value`, defaultAsi, textToShow, {
+          new FixedOption(this.step, `data.abilities.${ability}.value`, value, 'UNUSED', {
             addValues: true,
             type: OptionType.NUMBER,
           }),
         );
-      });
-    }
-    return this.stepOptions;
-  }
-
-  getHeroOptions(newActor: ActorDataConstructorData) {
-    console.log(`${Constants.LOG_PREFIX} | Saving Abilities Tab data into actor`);
-
-    const values: number[] = [];
-    const stats: string[] = [];
-    for (let i = 0; i < 6; i++) {
-      // Getting the stat
-      values[i] = $(`#number${i + 1}`).val() as number;
-      // Getting the type of stat
-      stats.push($(`#stat${i + 1}`).val() as string);
-    }
-
-    newActor.data = { abilities: {} } as any;
-    for (let i = 0; i < stats.length; i++) {
-      // Push abilities into the newActor object data
-      const stat = stats[i].toLowerCase();
-      if (newActor.data) {
-        (newActor.data as any).abilities[`${stat}`] = { value: values[i] };
       }
-    }
+    });
+    return this.stepOptions;
   }
 }
 const AbilitiesTab: Step = new _Abilities();
 export default AbilitiesTab;
 
-function statsDuplicatedOrMissing() {
-  /**Check that there are no repeats */
-  const stats: string[] = [];
-  for (let i = 0; i < 6; i++) {
-    stats.push($(`#stat${i + 1}`).val() as string);
-  }
-  for (let x = 0; x < stats.length; x++) {
-    for (let y = 0; y < stats.length; y++) {
-      if (!stats[x]) {
-        return true;
-      }
-      if (x != y && stats[x] == stats[y]) {
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
-async function rollAbilities() {
-  const roll = await new Roll('4d6kh3 + 4d6kh3 + 4d6kh3 + 4d6kh3 + 4d6kh3 + 4d6kh3').evaluate({ async: true });
-  if (Utils.getModuleSetting(SettingKeys.SHOW_ROLLS_AS_MESSAGES)) {
+async function prepareRolls() {
+  const abilityRoll = getModuleSetting(SettingKeys.ABILITY_ROLL_FORMULA) as string;
+  const roll = await new Roll(
+    `${abilityRoll} + ${abilityRoll} + ${abilityRoll} + ${abilityRoll} + ${abilityRoll} + ${abilityRoll}`,
+  ).evaluate({ async: true });
+  if (getModuleSetting(SettingKeys.SHOW_ROLLS_AS_MESSAGES)) {
     roll.toMessage({ flavor: game.i18n.localize('HCT.Abilities.RollChatFlavor') });
   }
-  const values: number[] = roll.result.split('+').map((r) => Number.parseInt(r.trim()));
-
-  toggleAbilitySelects(true, false);
-  toggleAbilityInputs(false);
-  togglePointBuyScore(false);
-  toggleAbilityUpDownButtons(false, false);
-  setAbilityInputs(values as any);
-  updateAbilityModifiers();
+  return roll.result.split('+').map((r) => Number.parseInt(r.trim()));
 }
 
-function prepareStandardArray() {
-  const values = [15, 14, 13, 12, 10, 8];
-  toggleAbilitySelects(true, true);
-  toggleAbilityInputs(false);
-  togglePointBuyScore(false);
-  toggleAbilityUpDownButtons(false, false);
-  setAbilityInputs(values);
-  updateAbilityModifiers();
+function fillAbilitySelects(possibleValues: number[], $section: any, isPointBuy: boolean) {
+  const $selects = $('[data-hct-ability-score]', $section);
+  $selects.empty();
+  if (!isPointBuy) {
+    $selects.append(
+      $(
+        `<option selected="true" disabled="disabled">${game.i18n.localize('HCT.Abilities.SelectPlaceholder')}</option>`,
+      ),
+    );
+  }
+  possibleValues.forEach((v) => {
+    const opt = $(`<option value='${v}' ${isPointBuy && v == 8 ? 'selected' : ''}>${v}</option>`);
+    $selects.append(opt);
+  });
 }
 
-function preparePointBuy() {
-  toggleAbilitySelects(false, false);
-  toggleAbilityInputs(false);
-  togglePointBuyScore(true);
-  toggleAbilityUpDownButtons(true, false);
-  setAbilityInputs(8);
-  updateAbilityModifiers();
-}
+function recalculateTotalsAndModifiers(isPointBuy: boolean) {
+  const abilities = Object.keys((game as any).dnd5e.config.abilities);
+  let points = 0;
+  abilities.forEach((ab) => {
+    const score = parseInt(($(`[data-hct-ability-score='${ab}']`).val() as string) ?? 10);
+    const race = parseInt($(`[data-hct-ability-score-race-bonus='${ab}']`).val() as string);
+    const $total = $(`[data-hct-ability-score-total='${ab}']`);
+    const $mod = $(`[data-hct-ability-score-mod='${ab}']`);
 
-function manualAbilities() {
-  toggleAbilitySelects(false, false);
-  toggleAbilityInputs(true);
-  togglePointBuyScore(false);
-  toggleAbilityUpDownButtons(true, true);
-  setAbilityInputs(10);
-  updateAbilityModifiers();
-}
+    const total = score + race;
+    $total.val(total).html(total + '');
+    const modifier = getAbilityModifierValue(total);
+    $mod.html((modifier < 0 ? '' : '+') + modifier);
 
-function togglePointBuyScore(isPointBuy: boolean) {
-  $('[data-hct-point-buy]').toggle(isPointBuy);
-  $('[data-hct-point-buy-score]').html('0');
-}
-
-function changeAbility(i: string, up: boolean) {
-  const stat = $('#number' + i) as any;
-  const value = parseInt(stat.val());
-  const isPointBuy = $('[data-hct-point-buy]').is(':visible');
-  const newValue = value + (up ? 1 : -1);
-
-  stat.val(newValue + '');
-
+    if (isPointBuy) {
+      points += getPointBuyCost(score);
+    }
+  });
   if (isPointBuy) {
-    const cost = (up && value > 12) || (!up && value > 13) ? 2 : 1;
-    const $currentPoints: JQuery = $('[data-hct-point-buy-score]');
-    const currentPoints = parseInt($currentPoints.html());
-    const maxPoints = parseInt($('[data-hct-point-buy-max]').html());
-    const newPoints = up ? currentPoints + cost : currentPoints - cost;
-    $currentPoints.html(newPoints + '');
-
-    for (let j = 1; j < 7; j++) {
-      const value = parseInt($('#number' + j).val() as string);
-      const disableUp = newPoints >= maxPoints || value == 15;
-      const disableDown = value == 8;
-      $('#up' + j).prop('disabled', disableUp);
-      $('#down' + j).prop('disabled', disableDown);
-    }
-    if (newPoints > maxPoints) alert(game.i18n.localize('HCT.Abitilies.PointBuy.OverLimit'));
-  } else {
-    if (newValue == 20) {
-      $('#up' + i).prop('disabled', true);
-    } else if (newValue == 1) {
-      $('#down' + i).prop('disabled', true);
-    } else {
-      $('#up' + i).prop('disabled', false);
-      $('#down' + i).prop('disabled', false);
-    }
-  }
-  updateAbilityModifiers();
-}
-
-function increaseAbility(i: string) {
-  changeAbility(i, true);
-}
-
-function decreaseAbility(i: string) {
-  changeAbility(i, false);
-}
-
-function setAbilityInputs(values: number | Array<number>) {
-  for (let i = 0; i < 6; i++) {
-    $('#number' + (i + 1)).val(Array.isArray(values) ? values[i] : values);
+    $('[data-hct-point-buy-score]').val(points);
   }
 }
 
-function toggleAbilitySelects(enable: boolean, resetSelects: boolean) {
-  for (let i = 0; i < 6; i++) {
-    $('#stat' + (i + 1)).prop('disabled', !enable);
-  }
-  if (resetSelects) {
-    for (let i = 0; i < 6; i++) {
-      $('#stat' + (i + 1)).val('');
-    }
-  } else {
-    $('#stat1').val('STR');
-    $('#stat2').val('DEX');
-    $('#stat3').val('CON');
-    $('#stat4').val('INT');
-    $('#stat5').val('WIS');
-    $('#stat6').val('CHA');
-  }
-}
-
-function toggleAbilityInputs(enable: boolean) {
-  for (let i = 0; i < 6; i++) {
-    $('#number' + (i + 1)).prop('disabled', !enable);
-  }
-}
-
-function toggleAbilityUpDownButtons(show: boolean, enableDown: boolean) {
-  for (let i = 0; i < 6; i++) {
-    const n = i + 1;
-    $('#up' + n).prop('disabled', false);
-    $('#down' + n).prop('disabled', !enableDown);
-    if (show) {
-      $('#up' + n).show();
-      $('#down' + n).show();
-    } else {
-      $('#up' + n).hide();
-      $('#down' + n).hide();
-    }
-  }
-}
-
-function updateAbilityModifiers() {
-  for (let i = 0; i < 6; i++) {
-    const num = parseInt($('#number' + (i + 1)).val() as string);
-    const mod = Utils.getAbilityModifierValue(num);
-    const id = 'mod' + (i + 1);
-    (document.getElementById(id) as any).innerHTML = (mod >= 0 ? '+' + mod : mod) + '';
-  }
+function getPointBuyCost(score: number) {
+  if (score < 14) return score - 8;
+  return (score - 13) * 2 + 5;
 }

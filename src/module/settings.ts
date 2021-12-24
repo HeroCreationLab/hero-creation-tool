@@ -21,6 +21,8 @@ const enum SettingKeys {
   EQUIPMENTS_BLACKLIST = 'equipmentsBlackList',
   SUBRACES_BLACKLIST = 'subracesBlacklist',
   BUTTON_ON_DIALOG = 'buttonOnDialog',
+  POINT_BUY_LIMIT = 'pointBuyLimit',
+  ABILITY_ROLL_FORMULA = 'abiiltyRollFormula',
   SOURCES = 'compendiumSources',
 }
 export default SettingKeys;
@@ -50,17 +52,18 @@ export function registerSettings(): void {
   showRollsAsChatMessages();
   individualPanelScrolls();
   abilityScoreMethods();
+  pointBuyLimit();
+  abilityRollFormula();
   tokenDisplayNameMode();
   tokenDisplayBarsMode();
   fightingStyleLookupString();
   equipmentBlacklist();
   subraceNameBlacklist();
+  buttonOnDialogInsteadOfActorsDirectory();
   // custom packs
   sourcesConfiguration();
-  buttonOnDialogInsteadOfActorsDirectory();
   // integrations
   useTokenizerIfAvailable();
-
   // private settings
   lastMigration();
 }
@@ -233,6 +236,14 @@ function abilityScoreMethods() {
     default: true,
   });
 
+  game.settings.register(Constants.MODULE_NAME, SettingKeys.ENABLE_ASI_MANUAL, {
+    name: game.i18n.localize('HCT.Setting.AllowAbilityInput.Name'),
+    scope: 'world',
+    config: true,
+    type: Boolean,
+    default: true,
+  });
+
   game.settings.register(Constants.MODULE_NAME, SettingKeys.ENABLE_ASI_POINTBUY, {
     name: game.i18n.localize('HCT.Setting.AllowAbilityPointBuy.Name'),
     scope: 'world',
@@ -240,13 +251,25 @@ function abilityScoreMethods() {
     type: Boolean,
     default: true,
   });
+}
 
-  game.settings.register(Constants.MODULE_NAME, SettingKeys.ENABLE_ASI_MANUAL, {
-    name: game.i18n.localize('HCT.Setting.AllowAbilityInput.Name'),
+function pointBuyLimit() {
+  game.settings.register(Constants.MODULE_NAME, SettingKeys.POINT_BUY_LIMIT, {
+    name: game.i18n.localize('HCT.Setting.PointBuyLimit.Name'),
     scope: 'world',
     config: true,
-    type: Boolean,
-    default: true,
+    default: 27,
+    type: Number,
+  });
+}
+
+function abilityRollFormula() {
+  game.settings.register(Constants.MODULE_NAME, SettingKeys.ABILITY_ROLL_FORMULA, {
+    name: game.i18n.localize('HCT.Setting.AbilityRollFormula.Name'),
+    scope: 'world',
+    config: true,
+    default: '4d6kh3',
+    type: String,
   });
 }
 

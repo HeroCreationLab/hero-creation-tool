@@ -1,5 +1,12 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.5.5 (2021-12-24)
+- Happy Xmas everyone!
+- Abilities Tab reworked - now it properly shows whatever Race bonus is present on the Race tab, and auto-calculates total + modifier on every change.
+- Point Buy is no longer strictly restricted - before, scores could no longer be increased after reaching 27 points; now it allows whatever the user inputs, though it shows the total points spent vs total allowed as a reference.
+- New module setting for customizing the Point Buy limit (default: 27)
+- New module setting for customizing ability rolls (default: 4d6kh1)
+
 ## 1.5.4 (2021-12-22)
 - Added some sanity checks for items taken from compendia to avoid pulling items that can't function as the required source type; this should prevent the tool breaking if any of the compendia had nonconforming data (for example, having a custom compendium with Spells, and placing a Class/Feature there, it would break because those items don't have a `Level` field). In detail:
   - Races, Race Features, Class Features, Background Features and Feats check that the type is of type 'feat' (Feature).

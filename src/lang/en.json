@@ -55,6 +55,12 @@
         "Name": "Create Actor dialog button",
         "Hint": "If the button interferes with other modules, or you prefer the aesthetic of having a single 'create actor' button to not confuse your players"
       },
+      "PointBuyLimit": {
+        "Name": "Point Buy Limit"
+      },
+      "AbilityRollFormula": {
+        "Name": "Formula used to roll stats (per stat)"
+      },
       "Sources": {
         "Name": "Compendium Sources",
         "Hint": "Select the compendia that will serve as data source for the different creation steps",
@@ -188,18 +194,17 @@
       "Cha": "Charisma",
       "Buttons": {
         "Info": "Info",
-        "Roll": "Roll 4d6 keep 3",
+        "Roll": "Roll {dice}",
         "StandardArray": "Standard Array",
         "PointBuy": "Point Buy",
         "ManualEntry": "Manual Entry"
       },
       "RollChatFlavor": "Rolled ability scores",
+      "SelectPlaceholder": "Select..",
       "PointBuy": {
         "Score": " Point Buy Score: ",
         "OverLimit": "You have gone over the maximum points allowed for Point Buy"
-      },
-      "Select.Placeholder": "Select ability..",
-      "NotAllSixAbilities": "Hero doesn't have all six abilities scores or has some repeated one"
+      }
     },
     "Background": {
       "Title": "Background",

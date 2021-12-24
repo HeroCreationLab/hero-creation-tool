@@ -455,6 +455,16 @@ $color-accent-alt: darkgreen;
     &-60 {
       width: 60px;
     }
+    &-max {
+      &-2rem {
+        max-width: 2rem;
+      }
+    }
+    &-min {
+      &-72 {
+        min-width: 72px;
+      }
+    }
   }
 
   &-no-border {
@@ -482,6 +492,9 @@ $color-accent-alt: darkgreen;
     &-r {
       &-tiny {
         margin-right: $tiny;
+      }
+      &-small {
+        margin-right: $small;
       }
     }
     &-small {

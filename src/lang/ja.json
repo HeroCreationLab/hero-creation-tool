@@ -55,6 +55,12 @@
         "Name": "Create Actor dialog button",
         "Hint": "If the button interferes with other modules, or you prefer the aesthetic of having a single 'create actor' button to not confuse your players"
       },
+      "PointBuyLimit": {
+        "Name": "Point Buy Limit"
+      },
+      "AbilityRollFormula": {
+        "Name": "Formula used to roll stats (per stat)"
+      },
       "Sources": {
         "Name": "辞典の参照元",
         "Hint": "キャラクター作成の各ステップにおける、データの参照元となる辞典を選択します。",
@@ -188,18 +194,17 @@
       "Cha": "魅力",
       "Buttons": {
         "Info": "情報",
-        "Roll": "4d6の3つ残し",
+        "Roll": "Roll {dice}",
         "StandardArray": "標準値セット",
         "PointBuy": "ポイント購入",
         "ManualEntry": "マニュアル入力"
       },
       "RollChatFlavor": "能力値決定ロール",
+      "SelectPlaceholder": "Select..",
       "PointBuy": {
         "Score": " ポイント購入スコア：",
         "OverLimit": "ポイント購入の上限値を超えました。"
-      },
-      "Select.Placeholder": "能力値選択...",
-      "NotAllSixAbilities": "能力値が6つ揃っていないか、重複しています。"
+      }
     },
     "Background": {
       "Title": "背景",

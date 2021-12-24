@@ -22,6 +22,7 @@ export default class InputOption implements HeroOption {
       preLabel?: string;
       postLabel?: string;
       class?: string;
+      data?: string;
     } = { addValues: false, type: 'text' },
   ) {}
 
@@ -38,9 +39,10 @@ export default class InputOption implements HeroOption {
       $container.append($preLabel);
     }
 
+    const data = this.settings.data;
     if (wrapped) {
       const $wrapper = $(`<div class="hct-flex ${this.settings.class ?? ''}">`);
-      this.$elem = $(`<input type="${this.settings.type}" placeholder="${this.placeholder}" 
+      this.$elem = $(`<input type="${this.settings.type}" placeholder="${this.placeholder}" ${data ?? ''} 
         value=${this.val} ${this.settings.type == 'number' ? `${min} ${max}` : ''}>`);
       $wrapper.append(this.$elem);
 
@@ -51,7 +53,7 @@ export default class InputOption implements HeroOption {
       $container.append($wrapper);
     } else {
       this.$elem = $(`<input class="${this.settings.class ?? ''}"
-        type="${this.settings.type}" placeholder="${this.placeholder}" 
+        type="${this.settings.type}" placeholder="${this.placeholder}"  ${data ?? ''}  
         value=${this.val} ${this.settings.type == 'number' ? `${min} ${max}` : ''}>`);
       $container.append(this.$elem);
     }
