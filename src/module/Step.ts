@@ -59,7 +59,7 @@ export abstract class Step {
    * Method called when switching to this tab, useful when trying to update this tab's content based on external data
    * e.g. Updating Spells' spellcasting ability based on Class
    */
-  update(data: any): void {
+  update(data?: any): void {
     throw Error('update() not implemented in step ' + this.constructor.name);
   }
 

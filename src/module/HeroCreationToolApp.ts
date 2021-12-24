@@ -188,6 +188,9 @@ export default class HeroCreationTool extends Application {
       case StepIndex.Spells:
         this.steps[StepIndex.Spells].update({ class: this.steps[StepIndex.Class].getUpdateData() });
         break;
+      case StepIndex.Abilities:
+        this.steps[StepIndex.Abilities].update();
+        break;
     }
   }
 }

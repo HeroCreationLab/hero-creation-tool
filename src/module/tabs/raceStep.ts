@@ -240,6 +240,7 @@ class _Race extends Step {
         type: 'number',
         preLabel: `${foundryAbilities[key]}`,
         class: 'hct-width-half',
+        data: `data-hct-race-ability='${key}'`,
       });
     });
     const $abilityScoreSection = $('section', $('[data-hct_race_area=abilityScores]', this.$context)).empty();

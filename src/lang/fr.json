@@ -55,6 +55,12 @@
         "Name": "Create Actor dialog button",
         "Hint": "If the button interferes with other modules, or you prefer the aesthetic of having a single 'create actor' button to not confuse your players"
       },
+      "PointBuyLimit": {
+        "Name": "Point Buy Limit"
+      },
+      "AbilityRollFormula": {
+        "Name": "Formula used to roll stats (per stat)"
+      },
       "Sources": {
         "Name": "Compendium Sources",
         "Hint": "Sélectionnez les compendiums qui serviront de source de données pour les différentes étapes de création.",
@@ -188,18 +194,17 @@
       "Cha": "Charisme",
       "Buttons": {
         "Info": "Info",
-        "Roll": "Lancer 4d6 garder 3",
+        "Roll": "Lancer {roll}",
         "StandardArray": "Standard Array",
         "PointBuy": "Point Buy",
         "ManualEntry": "Manual Entry"
       },
       "RollChatFlavor": "Score de caractéristique obtenu",
+      "SelectPlaceholder": "Select..",
       "PointBuy": {
         "Score": " Point Buy Score: ",
         "OverLimit": "Vous avez dépassé le nombre maximum de points autorisés pour Point Buy."
-      },
-      "Select.Placeholder": "Caractéristique...",
-      "NotAllSixAbilities": "Le héros n'a pas tous les six scores de caractéristique ou en a une répété."
+      }
     },
     "Background": {
       "Title": "Historique",

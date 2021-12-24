@@ -3,8 +3,7 @@
         <div class="hct-panel-left">
             <div data-hct-ability-methods>
                 <h2 class="hct-area-title">{{localize 'HCT.Abilities.Method'}}</h2>
-                <button type="button" class="step-button hct-option centered-text" data-mode="roll">{{localize
-                    'HCT.Abilities.Buttons.Roll'}}</button>
+                <button type="button" class="step-button hct-option centered-text" data-mode="roll"></button>
                 <button type="button" class="step-button hct-option centered-text" data-mode="standard">{{localize
                     'HCT.Abilities.Buttons.StandardArray'}}</button>
                 <button type="button" class="step-button hct-option centered-text" data-mode="point-buy">{{localize
@@ -12,111 +11,69 @@
                 <button type="button" class="step-button hct-option centered-text" data-mode="manual">{{localize
                     'HCT.Abilities.Buttons.ManualEntry'}}</button>
             </div>
-            <form autocomplete="off">
+            <div>
                 <h2 class="hct-area-title">{{localize 'HCT.Abilities.Values'}}</h2>
-                <div class='hct-asi-group'>
-                    <input class="hct-asi-value" type="number" id="number1" value="10" min="1" max="20" disabled>
-                    <span class="hct-asi-value" id="mod1" flex>+0</span>
-                    <button class="hct-asi-button" type="button" data-hct-abilities-up="1" hidden id="up1">+</button>
-                    <button class="hct-asi-button" type="button" data-hct-abilities-down="1" hidden
-                        id="down1">-</button>
-                    <select disabled class="hct-select" name="stats" id="stat1">
-                        <option value="" disabled selected>{{localize 'HCT.Abilities.Select.Placeholder'}}</option>
-                        <option value="STR">{{localize 'HCT.Abilities.Str'}}</option>
-                        <option value="DEX">{{localize 'HCT.Abilities.Dex'}}</option>
-                        <option value="CON">{{localize 'HCT.Abilities.Con'}}</option>
-                        <option value="INT">{{localize 'HCT.Abilities.Int'}}</option>
-                        <option value="WIS">{{localize 'HCT.Abilities.Wis'}}</option>
-                        <option value="CHA">{{localize 'HCT.Abilities.Cha'}}</option>
-                    </select>
+                <div class='hct-flex'>
+                    <h3 class='hct-flex-grow-1'>{{localize 'HCT.Abilities.Str'}}</h3>
+                    <select class='hct-margin-r-small' data-hct-ability-score='str'></select>
+                    <p class='hct-width-min-72'>
+                        <span data-hct-ability-score-race-bonus='str'>+Race</span> = <span
+                            data-hct-ability-score-total='str'>Total</span>
+                        (<span data-hct-ability-score-mod='str'>+Mod</span>)
+                    </p>
                 </div>
-                <div class='hct-asi-group'>
-                    <input class="hct-asi-value" type="number" id="number2" value="10" min="1" max="20" disabled>
-                    <span class="hct-asi-value" id="mod2">+0</span>
-                    <button class="hct-asi-button" type="button" data-hct-abilities-up="2" hidden id="up2">+</button>
-                    <button class="hct-asi-button" type="button" data-hct-abilities-down="2" hidden
-                        id="down2">-</button>
-                    <select disabled class="hct-select" name="stats" id="stat2">
-                        <option value="" disabled selected>{{localize 'HCT.Abilities.Select.Placeholder'}}</option>
-                        <option value="STR">{{localize 'HCT.Abilities.Str'}}</option>
-                        <option value="DEX">{{localize 'HCT.Abilities.Dex'}}</option>
-                        <option value="CON">{{localize 'HCT.Abilities.Con'}}</option>
-                        <option value="INT">{{localize 'HCT.Abilities.Int'}}</option>
-                        <option value="WIS">{{localize 'HCT.Abilities.Wis'}}</option>
-                        <option value="CHA">{{localize 'HCT.Abilities.Cha'}}</option>
-                    </select>
+                <div class='hct-flex'>
+                    <h3 class='hct-flex-grow-1'>{{localize 'HCT.Abilities.Dex'}}</h3>
+                    <select class='hct-margin-r-small' data-hct-ability-score='dex'></select>
+                    <p class='hct-width-min-72'>
+                        <span data-hct-ability-score-race-bonus='dex'>+Race</span> = <span
+                            data-hct-ability-score-total='dex'>Total</span>
+                        (<span data-hct-ability-score-mod='dex'>+Mod</span>)
+                    </p>
                 </div>
-                <div class='hct-asi-group'>
-                    <input class="hct-asi-value" type="number" id="number3" value="10" min="1" max="20" disabled>
-                    <span class="hct-asi-value" id="mod3">+0</span>
-                    <button class="hct-asi-button" type="button" data-hct-abilities-up="3" hidden id="up3">+</button>
-                    <button class="hct-asi-button" type="button" data-hct-abilities-down="3" hidden
-                        id="down3">-</button>
-                    <select disabled class="hct-select" name="stats" id="stat3">
-                        <option value="" disabled selected>{{localize 'HCT.Abilities.Select.Placeholder'}}</option>
-                        <option value="STR">{{localize 'HCT.Abilities.Str'}}</option>
-                        <option value="DEX">{{localize 'HCT.Abilities.Dex'}}</option>
-                        <option value="CON">{{localize 'HCT.Abilities.Con'}}</option>
-                        <option value="INT">{{localize 'HCT.Abilities.Int'}}</option>
-                        <option value="WIS">{{localize 'HCT.Abilities.Wis'}}</option>
-                        <option value="CHA">{{localize 'HCT.Abilities.Cha'}}</option>
-                    </select>
+                <div class='hct-flex'>
+                    <h3 class='hct-flex-grow-1'>{{localize 'HCT.Abilities.Con'}}</h3>
+                    <select class='hct-margin-r-small' data-hct-ability-score='con'></select>
+                    <p class='hct-width-min-72'>
+                        <span data-hct-ability-score-race-bonus='con'>+Race</span> = <span
+                            data-hct-ability-score-total='con'>Total</span>
+                        (<span data-hct-ability-score-mod='con'>+Mod</span>)
+                    </p>
                 </div>
-                <div class='hct-asi-group'>
-                    <input class="hct-asi-value" type="number" id="number4" value="10" min="1" max="20" disabled>
-                    <span class="hct-asi-value" id="mod4">+0</span>
-                    <button class="hct-asi-button" type="button" data-hct-abilities-up="4" hidden id="up4">+</button>
-                    <button class="hct-asi-button" type="button" data-hct-abilities-down="4" hidden
-                        id="down4">-</button>
-                    <select disabled class="hct-select" name="stats" id="stat4">
-                        <option value="" disabled selected>{{localize 'HCT.Abilities.Select.Placeholder'}}</option>
-                        <option value="STR">{{localize 'HCT.Abilities.Str'}}</option>
-                        <option value="DEX">{{localize 'HCT.Abilities.Dex'}}</option>
-                        <option value="CON">{{localize 'HCT.Abilities.Con'}}</option>
-                        <option value="INT">{{localize 'HCT.Abilities.Int'}}</option>
-                        <option value="WIS">{{localize 'HCT.Abilities.Wis'}}</option>
-                        <option value="CHA">{{localize 'HCT.Abilities.Cha'}}</option>
-                    </select>
+                <div class='hct-flex'>
+                    <h3 class='hct-flex-grow-1'>{{localize 'HCT.Abilities.Int'}}</h3>
+                    <select class='hct-margin-r-small' data-hct-ability-score='int'></select>
+                    <p class='hct-width-min-72'>
+                        <span data-hct-ability-score-race-bonus='int'>+Race</span> = <span
+                            data-hct-ability-score-total='int'>Total</span>
+                        (<span data-hct-ability-score-mod='int'>+Mod</span>)
+                    </p>
                 </div>
-                <div class='hct-asi-group'>
-                    <input class="hct-asi-value" type="number" id="number5" value="10" min="1" max="20" disabled>
-                    <span class="hct-asi-value" id="mod5">+0</span>
-                    <button class="hct-asi-button" type="button" data-hct-abilities-up="5" hidden id="up5">+</button>
-                    <button class="hct-asi-button" type="button" data-hct-abilities-down="5" hidden
-                        id="down5">-</button>
-                    <select disabled class="hct-select" name="stats" id="stat5">
-                        <option value="" disabled selected>{{localize 'HCT.Abilities.Select.Placeholder'}}</option>
-                        <option value="STR">{{localize 'HCT.Abilities.Str'}}</option>
-                        <option value="DEX">{{localize 'HCT.Abilities.Dex'}}</option>
-                        <option value="CON">{{localize 'HCT.Abilities.Con'}}</option>
-                        <option value="INT">{{localize 'HCT.Abilities.Int'}}</option>
-                        <option value="WIS">{{localize 'HCT.Abilities.Wis'}}</option>
-                        <option value="CHA">{{localize 'HCT.Abilities.Cha'}}</option>
-                    </select>
+                <div class='hct-flex'>
+                    <h3 class='hct-flex-grow-1'>{{localize 'HCT.Abilities.Wis'}}</h3>
+                    <select class='hct-margin-r-small' data-hct-ability-score='wis'></select>
+                    <p class='hct-width-min-72'>
+                        <span data-hct-ability-score-race-bonus='wis'>+Race</span> = <span
+                            data-hct-ability-score-total='wis'>Total</span>
+                        (<span data-hct-ability-score-mod='wis'>+Mod</span>)
+                    </p>
                 </div>
-                <div class='hct-asi-group'>
-                    <input class="hct-asi-value" type="number" id="number6" value="10" min="1" max="20" disabled>
-                    <span class="hct-asi-value" id="mod6">+0</span>
-                    <button class="hct-asi-button" type="button" data-hct-abilities-up="6" hidden id="up6">+</button>
-                    <button class="hct-asi-button" type="button" data-hct-abilities-down="6" hidden
-                        id="down6">-</button>
-                    <select disabled class="hct-select" name="stats" id="stat6">
-                        <option value="" disabled selected>{{localize 'HCT.Abilities.Select.Placeholder'}}</option>
-                        <option value="STR">{{localize 'HCT.Abilities.Str'}}</option>
-                        <option value="DEX">{{localize 'HCT.Abilities.Dex'}}</option>
-                        <option value="CON">{{localize 'HCT.Abilities.Con'}}</option>
-                        <option value="INT">{{localize 'HCT.Abilities.Int'}}</option>
-                        <option value="WIS">{{localize 'HCT.Abilities.Wis'}}</option>
-                        <option value="CHA">{{localize 'HCT.Abilities.Cha'}}</option>
-                    </select>
+                <div class='hct-flex'>
+                    <h3 class='hct-flex-grow-1'>{{localize 'HCT.Abilities.Cha'}}</h3>
+                    <select class='hct-margin-r-small' data-hct-ability-score='cha'></select>
+                    <p class='hct-width-min-72'>
+                        <span data-hct-ability-score-race-bonus='cha'>+Race</span> = <span
+                            data-hct-ability-score-total='cha'>Total</span>
+                        (<span data-hct-ability-score-mod='cha'>+Mod</span>)
+                    </p>
                 </div>
                 <div class="hct-point-buy-area" data-hct-point-buy style="display: none;">
                     <p class="centered-text hct-large-font">{{localize
                         'HCT.Abilities.PointBuy.Score'}}
-                        <span data-hct-point-buy-score>0</span> / <span data-hct-point-buy-max>27</span>
+                        <input disabled type='number' class='hct-width-max-2rem' data-hct-point-buy-score /> / <input disabled type='number' class='hct-width-max-2rem' data-hct-point-buy-max />
                     </p>
                 </div>
-            </form>
+            </div>
         </div>
         <div class="hct-panel-right hct-infoArea" data-hct_abilities_description></div>
     </main>
