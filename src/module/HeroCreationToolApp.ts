@@ -94,7 +94,7 @@ export default class HeroCreationTool extends Application {
       this.currentTab++;
       this.openTab(this.currentTab);
     });
-    $('[data-hct_submit]').on('click', () => this.buildActor());
+    $('[data-hct_submit]').on('click', () => this.confirmSubmittion());
 
     this.openTab(-1);
   }
@@ -110,6 +110,27 @@ export default class HeroCreationTool extends Application {
     for (const step of this.steps) {
       step.renderData({ actorName: this.actorName });
     }
+  }
+
+  private async confirmSubmittion() {
+    new Dialog({
+      title: game.i18n.localize('HCT.Submit.Title'),
+      content: game.i18n.localize('HCT.Submit.Content'),
+      buttons: {
+        yes: {
+          icon: "<i class='fas fa-check'></i>",
+          label: game.i18n.localize('HCT.Submit.YesLabel'),
+          callback: () => {
+            this.buildActor();
+          },
+        },
+        no: {
+          icon: "<i class='fas fa-times'></i>",
+          label: game.i18n.localize('HCT.Submit.NoLabel'),
+        },
+      },
+      default: 'yes',
+    }).render(true);
   }
 
   private async buildActor() {

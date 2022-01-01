@@ -1,5 +1,9 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.5.6 (2022-01-dd)
+- Added a confirmation dialog when clicking the final button, to give users a final call before creating the hero (also, to prevent accidentally hitting Submit midwork and screwing stuff up)
+- Added a missing translation on the level selector for Class.
+
 ## 1.5.5 (2021-12-24)
 - Happy Xmas everyone!
 - Abilities Tab reworked - now it properly shows whatever Race bonus is present on the Race tab, and auto-calculates total + modifier on every change.
