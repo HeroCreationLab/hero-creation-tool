@@ -141,9 +141,6 @@ export async function hydrateItems(indexEntries: Array<IndexEntry>): Promise<Ite
     const item = await game.packs.get(indexEntry._pack)?.getDocument(indexEntry._id);
     if (!item) throw new Error(`No item for id ${indexEntry._id}!`);
     const itemForEmbedding = worldItems.fromCompendium(item as Item);
-    if (indexEntry.type === 'class') {
-      (itemForEmbedding!.data as any).levels = (indexEntry as ClassEntry).data.levels;
-    }
     if (quantity) {
       (itemForEmbedding!.data as any).quantity = quantity;
     }

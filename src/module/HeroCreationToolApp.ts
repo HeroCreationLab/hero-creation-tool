@@ -163,6 +163,7 @@ export default class HeroCreationTool extends Application {
         return;
       }
       const itemsFromCompendia = await hydrateItems(itemsFromActor); // hydrating index entries for the actual items
+      setClassLevel(itemsFromCompendia, this.steps[StepIndex.Class].getUpdateData());
       await newActor.createEmbeddedDocuments('Item', itemsFromCompendia as any); // adding items after actor creation to process active effects
       this.close();
     }
@@ -252,4 +253,11 @@ function handleNavs(index: number) {
   const $footer = $('.hct-container footer');
   $('[data-hct_back]', $footer).prop('disabled', index < StepIndex.Basics);
   $('[data-hct_next]', $footer).prop('disabled', index >= StepIndex.Bio);
+}
+
+function setClassLevel(itemsFromCompendia: Item[], classData: any) {
+  const classItem = itemsFromCompendia.find((i) => i.type === 'class');
+  if (classItem) {
+    (classItem as any).data.levels = classData.level;
+  }
 }
