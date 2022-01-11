@@ -94,7 +94,7 @@ export default class HeroCreationTool extends Application {
       this.currentTab++;
       this.openTab(this.currentTab);
     });
-    $('[data-hct_submit]').on('click', () => this.buildActor());
+    $('[data-hct_submit]').on('click', () => this.confirmSubmittion());
 
     this.openTab(-1);
   }
@@ -110,6 +110,27 @@ export default class HeroCreationTool extends Application {
     for (const step of this.steps) {
       step.renderData({ actorName: this.actorName });
     }
+  }
+
+  private async confirmSubmittion() {
+    new Dialog({
+      title: game.i18n.localize('HCT.Submit.Title'),
+      content: game.i18n.localize('HCT.Submit.Content'),
+      buttons: {
+        yes: {
+          icon: "<i class='fas fa-check'></i>",
+          label: game.i18n.localize('HCT.Submit.YesLabel'),
+          callback: () => {
+            this.buildActor();
+          },
+        },
+        no: {
+          icon: "<i class='fas fa-times'></i>",
+          label: game.i18n.localize('HCT.Submit.NoLabel'),
+        },
+      },
+      default: 'yes',
+    }).render(true);
   }
 
   private async buildActor() {
@@ -130,7 +151,7 @@ export default class HeroCreationTool extends Application {
       // calculate whatever needs inter-tab values like HP
       cleanUpErroneousItems(newActorData);
       await calculateStartingHp(newActorData, this.steps[StepIndex.Class].getUpdateData());
-      setTokenDisplaySettings(newActorData);
+      setTokenSettings(newActorData);
       const itemsFromActor = newActorData.items; // moving item index entries to a different variable
       newActorData.items = [];
       const cls = getDocumentClass('Actor');
@@ -142,6 +163,7 @@ export default class HeroCreationTool extends Application {
         return;
       }
       const itemsFromCompendia = await hydrateItems(itemsFromActor); // hydrating index entries for the actual items
+      setClassLevel(itemsFromCompendia, this.steps[StepIndex.Class].getUpdateData());
       await newActor.createEmbeddedDocuments('Item', itemsFromCompendia as any); // adding items after actor creation to process active effects
       this.close();
     }
@@ -209,11 +231,15 @@ async function calculateStartingHp(newActor: ActorDataConstructorData, classUpda
   setProperty(newActor, 'data.attributes.hp.value', startingHp);
 }
 
-function setTokenDisplaySettings(newActor: ActorDataConstructorData) {
+function setTokenSettings(newActor: ActorDataConstructorData) {
   const displayBarsSetting = game.settings.get(CONSTANTS.MODULE_NAME, SettingKeys.TOKEN_BAR);
-  const displayNameSetting = game.settings.get(CONSTANTS.MODULE_NAME, SettingKeys.TOKEN_NAME);
   setProperty(newActor, 'token.displayBars', displayBarsSetting);
+
+  const displayNameSetting = game.settings.get(CONSTANTS.MODULE_NAME, SettingKeys.TOKEN_NAME);
   setProperty(newActor, 'token.displayName', displayNameSetting);
+
+  const dimSight = (newActor?.data as any)?.attributes?.senses.darkvision ?? 0;
+  setProperty(newActor, 'token.dimSight', dimSight);
 }
 
 function cleanUpErroneousItems(newActor: ActorDataConstructorData) {
@@ -231,4 +257,11 @@ function handleNavs(index: number) {
   const $footer = $('.hct-container footer');
   $('[data-hct_back]', $footer).prop('disabled', index < StepIndex.Basics);
   $('[data-hct_next]', $footer).prop('disabled', index >= StepIndex.Bio);
+}
+
+function setClassLevel(itemsFromCompendia: Item[], classData: any) {
+  const classItem = itemsFromCompendia.find((i) => i.type === 'class');
+  if (classItem) {
+    (classItem as any).data.levels = classData.level;
+  }
 }

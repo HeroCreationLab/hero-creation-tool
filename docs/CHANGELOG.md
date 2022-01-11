@@ -1,5 +1,13 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.5.6 (2022-01-11)
+- **IMPORTANT FOR FR/JP USERS**: starting on this version, the bundled translations are deprecated; hereafter, translations will be maintained in independent modules to allow more flexibility and easier unkeep both on this module and on translation ones. Both translations will remain on the code until the next version after independent translations are available and I can link them here on the changelog.
+- Added a confirmation dialog when clicking the final button, to give users a final call before creating the hero (also, to prevent accidentally hitting Submit midwork and screwing stuff up)
+- Added a missing translation on the level selector for Class.
+- Fixed a wrong JQuery selection that duplicated the Actor's Directory button each time it was opened as an undocked tab, and also prevented it from appearing on the undocked tab (now it should show on both at the same time normally, without duplicates). [(#73)](https://github.com/HeroCreationLab/hero-creation-tool/issues/73)
+- Fixed a bug where the Class level would be created as 1, even thought the HP and features corresponded to the level selected.
+- Fixed a bug where Darkvision would apply to the character sheet but not give Dim Sight to the token prototype. [(#58)](https://github.com/HeroCreationLab/hero-creation-tool/issues/58)
+
 ## 1.5.5 (2021-12-24)
 - Happy Xmas everyone!
 - Abilities Tab reworked - now it properly shows whatever Race bonus is present on the Race tab, and auto-calculates total + modifier on every change.

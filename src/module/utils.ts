@@ -60,7 +60,7 @@ export function addActorDirectoryButton(app: HeroCreationTool) {
   console.log(`${Constants.LOG_PREFIX} | Adding actors directory button`);
 
   $('.directory-header', $('[data-tab="actors"]'))
-    .first()
+    .filter((i, e) => !$(e).has('.header-hct-button').length)
     .prepend(
       `<button class='header-hct-button' data-hct_start><i class='fas fa-dice-d20'></i>${game.i18n.localize(
         'HCT.ActorsDirectoryButton',
