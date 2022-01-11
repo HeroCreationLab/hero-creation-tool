@@ -1,7 +1,19 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.6.0 (2022-mm-dd)
+- **IMPORTANT FOR JP USERS** - Japanese localization moved to https://github.com/BrotherSharper/foundryVTTja
+- Tool can now be launched using `HeroCreationTool.openForNewActor()` from macros or other modules.
+- Sources selector app can be now be launched using `HeroCreationTool.selectSources()` from macros or other modules.
+- Refactored sources selector app to use `<details>` for a default collapsible widget instead of using a custom one.
+- Removed option to create a **Background Feature** directly from the Background tab - it was a weird leftover as it causes some confusion between Background and Background Feature, and no other tab allowed creation of items directly from the tool, adding some avoidable complexity.
+- ⚠️ **WARNING - TEMPORARY**: Added a checkbox on the Background Feature tab to show the feature description on the side, as users mentioned using the features for the whole background and this would allow them to see the skills and etc more easily. **_Please be warned that this will stay only until proper Background items are available on dnd5e; thereafter the background description will be shown on the side, just like for Races and Classes._**
+- Module now uses [TailwindCSS](https://tailwindcss.com/) for most of the styling.
+
+## 1.5.7 (2022-01-dd)
+- Fixed bug when Race ability scores get deleted, and show a NaN on the abilities tab (plus a cascading effect of broken ASIs if that happens)
+
 ## 1.5.6 (2022-01-11)
-- **IMPORTANT FOR FR/JP USERS**: starting on this version, the bundled translations are deprecated; hereafter, translations will be maintained in independent modules to allow more flexibility and easier unkeep both on this module and on translation ones. Both translations will remain on the code until the next version after independent translations are available and I can link them here on the changelog.
+- **IMPORTANT FOR FR/JP USERS**: starting on this version, the bundled translations are deprecated; hereafter, translations will be maintained in independent modules to allow more flexibility and easier unkeep both on this module and on translation ones. Both translations will remain on the code until the next version after independent translations are available and I can link them here on the changelog, but they will NOT be updated anymore.
 - Added a confirmation dialog when clicking the final button, to give users a final call before creating the hero (also, to prevent accidentally hitting Submit midwork and screwing stuff up)
 - Added a missing translation on the level selector for Class.
 - Fixed a wrong JQuery selection that duplicated the Actor's Directory button each time it was opened as an undocked tab, and also prevented it from appearing on the undocked tab (now it should show on both at the same time normally, without duplicates). [(#73)](https://github.com/HeroCreationLab/hero-creation-tool/issues/73)

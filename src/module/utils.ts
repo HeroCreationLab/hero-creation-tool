@@ -1,11 +1,12 @@
+import CompendiumSourcesSubmenu from './CompendiumSourcesSubmenu';
 import * as Constants from './constants';
 import HeroCreationTool from './HeroCreationToolApp';
 import SettingKeys, { PrivateSettingKeys } from './settings';
 
 export function setPanelScrolls($section: JQuery) {
   const individualScrolls = getModuleSetting(SettingKeys.INDIVIDUAL_PANEL_SCROLLS);
-  const scroll = 'hct-y-scroll';
-  const height = 'hct-height-100p';
+  const scroll = 'hct-overflow-y-scroll';
+  const height = 'hct-h-full';
 
   const $leftPanel = $('.hct-panel-left', $section);
   const $rightPanel = $('.hct-panel-right', $section);
@@ -59,10 +60,10 @@ export function filterItemList<T>({
 export function addActorDirectoryButton(app: HeroCreationTool) {
   console.log(`${Constants.LOG_PREFIX} | Adding actors directory button`);
 
-  $('.directory-header', $('[data-tab="actors"]'))
-    .filter((i, e) => !$(e).has('.header-hct-button').length)
-    .prepend(
-      `<button class='header-hct-button' data-hct_start><i class='fas fa-dice-d20'></i>${game.i18n.localize(
+  $('.directory-header .header-actions', $('[data-tab="actors"]'))
+    .filter((i, e) => !$(e).has('#hct-directory-button').length)
+    .append(
+      `<button id='hct-directory-button' data-hct_start><i class='fas fa-dice-d20'></i>${game.i18n.localize(
         'HCT.ActorsDirectoryButton',
       )}</button>`,
     );
@@ -88,6 +89,16 @@ export function addCreateNewActorButton(app: HeroCreationTool, html: any, dialog
     }
     dialogApp.close();
   });
+}
+
+export function setPublicApi(app: HeroCreationTool) {
+  (window as any).HeroCreationTool = {
+    selectSources: () => {
+      const sourcesApp = new CompendiumSourcesSubmenu();
+      sourcesApp.render(true);
+    },
+    openForNewActor: () => app.openForNewActor(),
+  };
 }
 
 function userHasRightPermissions(): boolean {

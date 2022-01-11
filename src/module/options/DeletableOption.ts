@@ -17,13 +17,13 @@ export default class DeletableOption implements HeroOption {
 
   render($parent: JQuery<HTMLElement>): void {
     const $container = $(
-      `<div class="hct-flex hct-flex-justify-sb hct-width-full" ${
+      `<div class="flexrow hct-justify-between hct-w-full" ${
         this.callbackParams ? 'id="hct_deletable_' + this.callbackParams + '"' : ''
       }>`,
     );
     const $deleteButton = $(
-      `<button class="hct-no-border hct-no-background hct-width-fit hct-hover-no-shadow hct-hover-accent ${
-        this.settings.rightPadding ? 'hct-padding-r-tiny' : ''
+      `<button class="hct-border-0 hct-bg-inherit hct-grow-0 hover:hct-shadow-none hct-hover-accent ${
+        this.settings.rightPadding ? 'hct-pr-sm' : ''
       }"><i class="fas fa-trash"></i></button>`,
     );
     $deleteButton.on('click', () => {

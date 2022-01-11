@@ -5,9 +5,11 @@ const fs = require('fs-extra');
 const gulp = require('gulp');
 const path = require('path');
 const rollupConfig = require('./rollup.config');
+const postcss = require('gulp-postcss');
+const tailwindcss = require('tailwindcss');
+const autoprefixer = require('autoprefixer');
+const sourcemaps = require('gulp-sourcemaps');
 const semver = require('semver');
-const sass = require('gulp-sass');
-sass.compiler = require('sass');
 
 /********************/
 /*  CONFIGURATION   */
@@ -17,7 +19,7 @@ const name = path.basename(path.resolve('.'));
 const sourceDirectory = './src';
 const distDirectory = './dist';
 const stylesDirectory = `${sourceDirectory}/styles`;
-const stylesExtension = 'scss';
+const stylesExtension = 'css';
 const sourceFileExtension = 'ts';
 const staticFiles = ['assets', 'lang', 'packs', 'templates', 'module.json'];
 const getDownloadURL = (version) => `https://host/path/to/${version}.zip`;
@@ -40,7 +42,9 @@ async function buildCode() {
 function buildStyles() {
   return gulp
     .src(`${stylesDirectory}/${name}.${stylesExtension}`)
-    .pipe(sass().on('error', sass.logError))
+    .pipe(sourcemaps.init())
+    .pipe(postcss([tailwindcss('./tailwind.config.js'), autoprefixer]))
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(`${distDirectory}/styles`));
 }
 

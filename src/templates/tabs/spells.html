@@ -1,13 +1,13 @@
-<section id="spellsDiv" class="tab-body apply-header-font" data-hct_tab_section="6">
-    <main class='tab-content hct-panel-container'>
+<section id="spellsDiv" class="hct-py-lg hct-grow" data-hct_tab_section="6">
+    <main class='hct-panel-container'>
         <div class="hct-panel-left">
             <div data-hct_spells_data>
                 <div data-hct_area="spellcasting-ability">
-                    <h2 class="hct-area-title">{{ localize 'HCT.Spells.Spellcasting' }}</h2>
-                    <div>
+                    <h2 class="hct-mb-md hct-font-title">{{ localize 'HCT.Spells.Spellcasting' }}</h2>
+                    <div class='hct-mb-xl'>
                         <p data-hct_spellcasting_ability></p>
-                        <hr class="hct-margin-small">
-                        <div class="hct-width-full hct-flex hct-flex-justify-sb">
+                        <hr class="hct-m-md">
+                        <div class="hct-w-full flexrow hct-justify-between">
                             <span>{{ localize 'HCT.Spells.ShowFeatureOnSide'}}</span>
                             <input type="checkbox" id="hct-show-class-spellcasting-desc">
                         </div>
@@ -15,20 +15,20 @@
                 </div>
 
                 <div data-hct_area="spellcount">
-                    <h2 class="hct-area-title">{{ localize 'HCT.Spells.SpellCount' }}</h2>
+                    <h2 class="hct-mb-md hct-font-title">{{ localize 'HCT.Spells.SpellCount' }}</h2>
                     <table>
-                        <tbody class="hct-text-align-center">
+                        <tbody class="hct-text-center">
                             <tr>
-                                <th class="hct-width-10per">{{ localize 'HCT.Spells.Cantrips' }}</th>
-                                <th class="hct-width-10per">1<sup class="hct-font-size-xsm">{{ localize 'HCT.Spells.Superscript.1' }}</sup></th>
-                                <th class="hct-width-10per">2<sup class="hct-font-size-xsm">{{ localize 'HCT.Spells.Superscript.2' }}</sup></th>
-                                <th class="hct-width-10per">3<sup class="hct-font-size-xsm">{{ localize 'HCT.Spells.Superscript.3' }}</sup></th>
-                                <th class="hct-width-10per">4<sup class="hct-font-size-xsm">{{ localize 'HCT.Spells.Superscript.4' }}</sup></th>
-                                <th class="hct-width-10per">5<sup class="hct-font-size-xsm">{{ localize 'HCT.Spells.Superscript.5' }}</sup></th>
-                                <th class="hct-width-10per">6<sup class="hct-font-size-xsm">{{ localize 'HCT.Spells.Superscript.6' }}</sup></th>
-                                <th class="hct-width-10per">7<sup class="hct-font-size-xsm">{{ localize 'HCT.Spells.Superscript.7' }}</sup></th>
-                                <th class="hct-width-10per">8<sup class="hct-font-size-xsm">{{ localize 'HCT.Spells.Superscript.8' }}</sup></th>
-                                <th class="hct-width-10per">9<sup class="hct-font-size-xsm">{{ localize 'HCT.Spells.Superscript.9' }}</sup></th>
+                                <th class="">{{ localize 'HCT.Spells.Cantrips' }}</th>
+                                <th class="">1<sup class="hct-text-xs">{{ localize 'HCT.Spells.Superscript.1' }}</sup></th>
+                                <th class="">2<sup class="hct-text-xs">{{ localize 'HCT.Spells.Superscript.2' }}</sup></th>
+                                <th class="">3<sup class="hct-text-xs">{{ localize 'HCT.Spells.Superscript.3' }}</sup></th>
+                                <th class="">4<sup class="hct-text-xs">{{ localize 'HCT.Spells.Superscript.4' }}</sup></th>
+                                <th class="">5<sup class="hct-text-xs">{{ localize 'HCT.Spells.Superscript.5' }}</sup></th>
+                                <th class="">6<sup class="hct-text-xs">{{ localize 'HCT.Spells.Superscript.6' }}</sup></th>
+                                <th class="">7<sup class="hct-text-xs">{{ localize 'HCT.Spells.Superscript.7' }}</sup></th>
+                                <th class="">8<sup class="hct-text-xs">{{ localize 'HCT.Spells.Superscript.8' }}</sup></th>
+                                <th class="">9<sup class="hct-text-xs">{{ localize 'HCT.Spells.Superscript.9' }}</sup></th>
                             </tr>
                             <tr>
                                 <td data-hct_lv0_count>0</td>
@@ -47,21 +47,22 @@
                 </div>
 
                 <div data-hct_area="spells">
-                    <h2 class="hct-area-title">{{localize 'HCT.Spells.SpellList' }}</h2>
-                    <form data-hct-searchbar autocomplete="off">
-                        <div class="hct-search-wrapper">
-                            <div class="hct-search-area">
-                                <i class="fas fa-search hct-search-fa"></i>
-                                <input type="text" placeholder="{{localize 'HCT.Common.Searchbar.Placeholder'}}">
+                    <h2 class="hct-mb-md hct-font-title">{{localize 'HCT.Spells.SpellList' }}</h2>
+                    <div class="hct-pl-sm">
+                        <form data-hct-searchbar autocomplete="off">
+                            <div class="hct-search-wrapper">
+                                <div class="flexrow">
+                                    <input type="text" placeholder="{{localize 'HCT.Common.Searchbar.Placeholder'}}">
+                                </div>
+                                <div class="hct-search-autocom-box" data-hct-searchbar-results>
+                                    <!-- here list are inserted from javascript -->
+                                </div>
                             </div>
-                            <div class="hct-search-autocom-box" data-hct-searchbar-results>
-                                <!-- here list are inserted from javascript -->
-                            </div>
-                        </div>
-                    </form>
-                    <button class="step-button hct-option centered-text" data-hct_spells_clear>{{localize
-                        'HCT.Common.Searchbar.ClearList' }}</button>
-                    <div data-hct-itemlist></div>
+                        </form>
+                        <button class="hct-button hct-mb-sm hct-block hct-w-full" data-hct_spells_clear>{{localize
+                            'HCT.Common.Searchbar.ClearList' }}</button>
+                        <div data-hct-itemlist></div>
+                    </div>
                 </div>
             </div>
         </div>

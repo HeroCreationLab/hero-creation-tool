@@ -201,7 +201,7 @@ class _Race extends Step {
       type: 'number',
       preLabel: game.i18n.localize(`HCT.Common.Movement.walk`),
       postLabel: 'ft',
-      class: 'hct-width-half',
+      class: 'hct-w-6/12',
     });
     const $movementSection = $('section', $('[data-hct_race_area=movement]', this.$context)).empty();
     movementOption.render($movementSection);
@@ -214,7 +214,7 @@ class _Race extends Step {
       type: 'number',
       preLabel: game.i18n.localize(`HCT.Common.Senses.darkvision`),
       postLabel: 'ft',
-      class: 'hct-width-half',
+      class: 'hct-w-6/12',
     });
     const $sensesSection = $('section', $('[data-hct_race_area=senses]', this.$context)).empty();
     sensesOption.render($sensesSection);
@@ -239,7 +239,7 @@ class _Race extends Step {
         addValues: true,
         type: 'number',
         preLabel: `${foundryAbilities[key]}`,
-        class: 'hct-width-half',
+        class: 'hct-w-6/12',
         data: `data-hct-race-ability='${key}'`,
       });
     });

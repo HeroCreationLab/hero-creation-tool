@@ -1,33 +1,38 @@
-<section id="basicsDiv" class="tab-body apply-header-font hct-y-scroll" data-hct_tab_section="0">
-    <main class='tab-content'>
-        <div class="form--padding">
+<section id="basicsDiv" class="hct-py-lg hct-grow hct-overflow-y-scroll" data-hct_tab_section="0">
+    <main class=''>
+        <div class="hct-p-xl">
             <form class="flexcol" autocomplete="off">
-                <div class="hct-flex hct-padding-b-tiny" data-hero_name>
-                    <label class="hct-width-180">{{localize 'HCT.Common.RequiredName'}}</label>
+                <div class="flexrow hct-pb-sm" data-hero_name>
+                    <label class="hct-grow">{{localize 'HCT.Common.RequiredName'}}</label>
+                    <div class='flexrow hct-grow-2'></div>
                 </div>
-                <div class="hct-flex hct-padding-b-tiny" data-hero_avatar>
-                    <label class="hct-width-180">{{localize 'HCT.Basics.Avatar'}}</label>
-                    <button type="button" class="div-button file-picker centered-text" data-filepick='avatar'>
-                        {{localize 'HCT.Basics.PickButton'}}
-                    </button>
+                <div class="flexrow hct-pb-sm" data-hero_avatar>
+                    <label class="hct-grow">{{localize 'HCT.Basics.Avatar'}}</label>
+                    <div class='flexrow hct-grow-2'>
+                        <button type="button" class="hct-button file-picker" data-filepick='avatar'>
+                            {{localize 'HCT.Basics.PickButton'}}
+                        </button>
+                    </div>
                 </div>
-                <div class="hct-flex hct-padding-b-tiny" data-hero_token>
-                    <label class="hct-width-180">{{localize 'HCT.Basics.Token'}}</label>
-                    <button type="button" class="div-button file-picker centered-text" data-filepick='token'>
-                        {{localize 'HCT.Basics.PickButton'}}
-                    </button>
+                <div class="flexrow hct-pb-sm" data-hero_token>
+                    <label class="hct-grow">{{localize 'HCT.Basics.Token'}}</label>
+                    <div class='flexrow hct-grow-2'>
+                        <button type="button" class="hct-button file-picker" data-filepick='token'>
+                            {{localize 'HCT.Basics.PickButton'}}
+                        </button>
+                    </div>
                 </div>
-                <div class="hct-flex hct-padding-b-tiny">
-                    <label class="hct-width-180">{{localize 'HCT.Basics.Preview'}}</label>
-                    <div id="avatar-token-display">
-                        <img class="hct-icon-clickable hct-hover-shadow-accent hct-icon-borderless" id="avatar_img" data-img='avatar'
+                <div class="flexrow hct-pb-sm">
+                    <label class="hct-grow">{{localize 'HCT.Basics.Preview'}}</label>
+                    <div class="flexrow hct-grow-2 hct-items-center">
+                        <img id='hct_avatar' class="hct-cursor-pointer hct-hover-shadow-accent hct-border-0 hct-border-rad-tiny hct-mr-lg" data-img='avatar'
                             title="Avatar" src="icons/svg/mystery-man.svg" data-filepick='avatar'>
-                        <img class="hct-icon-clickable hct-hover-shadow-accent hct-icon-borderless" id="token_img" data-img='token'
+                        <img id='hct_token' class="hct-cursor-pointer hct-hover-shadow-accent hct-border-0 hct-border-rad-tiny" data-img='token'
                             title="Token" src="icons/svg/mystery-man.svg" data-filepick='token'>
                     </div>
                 </div>
-                <div class="hct-flex hct-padding-b-tiny">
-                    <label class="hct-banner" data-tokenizer-warning>{{localize
+                <div class="flexrow hct-pb-sm">
+                    <label id='hct_tokenizer_banner' class="hct-w-full hct-text-center hct-mt-xl hct-p-md hct-border-rad-small" data-tokenizer-warning>{{localize
                         'HCT.Integration.Tokenizer.WarningOn'}}</label>
                 </div>
             </form>

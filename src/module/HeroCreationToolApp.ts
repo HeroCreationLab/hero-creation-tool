@@ -202,10 +202,11 @@ export default class HeroCreationTool extends Application {
 
   openTab(index: StepIndex): void {
     handleNavs(index);
-    $('.tab-body').hide();
-    $('.tablinks').removeClass('active');
-    $(`[data-hct_tab_index=${index}]`).addClass('active');
+    $('[data-hct_tab_section]').hide();
+    $('[data-hct_tab_index]').removeClass('active');
+
     $(`[data-hct_tab_section=${index}]`).show();
+    $(`[data-hct_tab_index=${index}]`).addClass('active');
     switch (index) {
       case StepIndex.Spells:
         this.steps[StepIndex.Spells].update({ class: this.steps[StepIndex.Class].getUpdateData() });
@@ -250,11 +251,11 @@ function cleanUpErroneousItems(newActor: ActorDataConstructorData) {
 }
 
 function handleNavs(index: number) {
-  // hides the tabs if switching to startDiv, else show them.
-  $('.hct-container .tabs').toggle(index !== -1);
+  // hides the nav if switching to startDiv, else show them.
+  $('#hct_nav').toggle(index !== -1);
 
   // disables back/next buttons where appropriate
-  const $footer = $('.hct-container footer');
+  const $footer = $('#hct_footer');
   $('[data-hct_back]', $footer).prop('disabled', index < StepIndex.Basics);
   $('[data-hct_next]', $footer).prop('disabled', index >= StepIndex.Bio);
 }

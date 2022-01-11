@@ -148,7 +148,7 @@ class _Equipment extends Step {
       listData = list
         .map(
           (item) =>
-            `<li><div class="hct-icon-with-context" data-item_name=\"${item.name}\"><img class="hct-icon-square-med hct-background-black hct-no-border" src="${item.img}"><span>${item.name} (${item.data.price}gp)</span></div></li>`,
+            `<li><div class="hct-icon-with-context" data-item_name=\"${item.name}\"><img class="hct-icon-square-med hct-bg-black hct-border-0" src="${item.img}"><span>${item.name} (${item.data.price}gp)</span></div></li>`,
         )
         .join('');
     }

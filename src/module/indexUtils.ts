@@ -240,12 +240,14 @@ export type BackgroundFeatureEntry = IndexEntry & {
   data: {
     requirements: string;
     source: string;
+    description: { value: string }; // TODO: remove this when background items become a thing.
   };
 };
 function addBackgroundFeaturesFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
   if (source[SourceType.BACKGROUND_FEATURES].includes(packName)) {
     fieldsToIndex.add('data.requirements'); // to map possible background names
     fieldsToIndex.add('data.source'); // to make sure this is a background feature
+    fieldsToIndex.add('data.description'); // TODO: TO BE REMOVED when background items become a thing.
   }
 }
 

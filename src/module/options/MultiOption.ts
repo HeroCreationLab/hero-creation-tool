@@ -41,13 +41,13 @@ export default class MultiOption implements HeroOption {
    */
   render($parent: JQuery): void {
     this.$container = $(`<div class="hct-options-container">`);
-    const $titleDiv = $('<div class="hct-flex hct-flex-justify-sb hct-width-full" data-hct_opt_container_title>');
-    const $title = $(`<p class="hct-options-container-label">${this.label}</p>`);
+    const $titleDiv = $('<div class="flexrow hct-justify-between hct-w-full" data-hct_opt_container_title>');
+    const $title = $(`<p class="hct-grow">${this.label}</p>`);
     $titleDiv.append($title);
 
     if (this.settings.expandable) {
       const $addButton = $(
-        '<button class="hct-no-border hct-no-background hct-width-fit hct-hover-no-shadow hct-hover-accent-alt"><i class="fas fa-plus"></i></button>',
+        '<button class="hct-border-0 hct-grow-0 hct-bg-inherit hover:hct-shadow-none hct-hover-accent-alt"><i class="fas fa-plus"></i></button>',
       );
       $addButton.on('click', () => {
         if (!this.settings.customizable) {
@@ -106,7 +106,7 @@ export default class MultiOption implements HeroOption {
   addCustomOption(): void {
     const o = new DeletableOption(
       this.origin,
-      new InputOption(this.origin, this.key, '...', ' ', { ...this.settings, type: 'text', preLabel: ' ' }),
+      new InputOption(this.origin, this.key, '...', '', { ...this.settings, type: 'text', preLabel: '' }),
       { addValues: this.settings.addValues, rightPadding: true },
       (arg: any) => this.onDelete(arg),
       foundry.utils.randomID(),
