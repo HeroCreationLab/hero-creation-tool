@@ -151,7 +151,7 @@ export default class HeroCreationTool extends Application {
       // calculate whatever needs inter-tab values like HP
       cleanUpErroneousItems(newActorData);
       await calculateStartingHp(newActorData, this.steps[StepIndex.Class].getUpdateData());
-      setTokenDisplaySettings(newActorData);
+      setTokenSettings(newActorData);
       const itemsFromActor = newActorData.items; // moving item index entries to a different variable
       newActorData.items = [];
       const cls = getDocumentClass('Actor');
@@ -231,11 +231,15 @@ async function calculateStartingHp(newActor: ActorDataConstructorData, classUpda
   setProperty(newActor, 'data.attributes.hp.value', startingHp);
 }
 
-function setTokenDisplaySettings(newActor: ActorDataConstructorData) {
+function setTokenSettings(newActor: ActorDataConstructorData) {
   const displayBarsSetting = game.settings.get(CONSTANTS.MODULE_NAME, SettingKeys.TOKEN_BAR);
-  const displayNameSetting = game.settings.get(CONSTANTS.MODULE_NAME, SettingKeys.TOKEN_NAME);
   setProperty(newActor, 'token.displayBars', displayBarsSetting);
+
+  const displayNameSetting = game.settings.get(CONSTANTS.MODULE_NAME, SettingKeys.TOKEN_NAME);
   setProperty(newActor, 'token.displayName', displayNameSetting);
+
+  const dimSight = (newActor?.data as any)?.attributes?.senses.darkvision ?? 0;
+  setProperty(newActor, 'token.dimSight', dimSight);
 }
 
 function cleanUpErroneousItems(newActor: ActorDataConstructorData) {
