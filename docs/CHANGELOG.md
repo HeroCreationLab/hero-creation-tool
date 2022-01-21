@@ -1,6 +1,6 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
-## 1.6.0 (2022-mm-dd)
+## 1.6.0 (2022-01-21)
 - **IMPORTANT FOR JP USERS** - Japanese localization moved to https://github.com/BrotherSharper/foundryVTTja
 - Tool can now be launched using `HeroCreationTool.openForNewActor()` from macros or other modules.
 - Sources selector app can be now be launched using `HeroCreationTool.selectSources()` from macros or other modules.
