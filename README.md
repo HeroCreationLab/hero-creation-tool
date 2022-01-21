@@ -6,6 +6,8 @@
 
 * **[The Tool](#the-tool)**
 
+* **[Public API](#public-api)**
+
 * **[Limitations](#limitations)**
 
 * **[FAQ](#faq)**
@@ -31,6 +33,15 @@ The tool can be installed like a regular module, so you can log out of your worl
 After installing the module, you will find a new button on top of your Actors' Directory. Clicking it will start the tool, and if it's not simple enough from there, we failed!
 
 ![Button Example](examples/button-example.png)
+
+## Public API
+
+Since version `1.6.0`, the tool can be interacted with using a public API if anyone wants to call the tool from a module for whatever reason, or make macros calling it. The current available calls are:
+
+```js
+    HeroCreationTool.openForNewActor() // Opens the tool for creating a new actor
+    HeroCreationTool.selectSources() // Opens the source selector (the same can also be accessed from the Module Settings)
+```
 
 ## Limitations
 
