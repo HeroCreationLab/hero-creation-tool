@@ -229,7 +229,9 @@
       "Title": "Background",
       "RulesJournalName": "Backgrounds",
       "Name": "Background Name",
-      "Alignment": "Alignment"
+      "Alignment": "Alignment",
+      "ShowFeatureOnSide": "Show the Feature description on the side panel (re-check to refresh)",
+      "NoFeatureSelected": "No background feature selected"
     },
     "Equipment": {
       "Title": "Equipment",

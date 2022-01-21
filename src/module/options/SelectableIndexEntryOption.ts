@@ -17,11 +17,23 @@ export default class SelectableIndexEntryOption implements HeroOption {
     readonly settings: {
       addValues: boolean;
       placeholderName?: string;
+      placeholder?: IndexEntry;
     } = { addValues: false },
   ) {
+    if (this.settings.placeholder) {
+      this.options.unshift(this.settings.placeholder);
+    }
     this.optionsMap = new Map(
-      options.map((i) => [i.name === this.settings.placeholderName ? '' : foundry.utils.randomID(), i]),
+      options.map((i) => [
+        i.name === this.settings.placeholderName || i.name == this.settings.placeholder?.name
+          ? ''
+          : foundry.utils.randomID(),
+        i,
+      ]),
     );
+    if (this.settings.placeholder) {
+      this.optionsMap.set('', this.settings.placeholder);
+    }
   }
 
   optionsMap: Map<string, IndexEntry>;
@@ -40,15 +52,18 @@ export default class SelectableIndexEntryOption implements HeroOption {
 
   render($parent: JQuery): void {
     const $container = $('<div class="hct-icon-with-context">');
-    this.$link = $(`<a class="content-link hct-icon-link" draggable="false" data-pack="" data-id="">`);
-    this.$itemImg = $('<img class="hct-icon hct-hover-shadow-accent">');
-    this.$select = $(`<select class="hct-overflow-ellipsis hct-width-195">`);
+    this.$link = $(`<a class="content-link hct-icon-link hct-grow-0" draggable="false" data-pack="" data-id="">`);
+    this.$itemImg = $('<img class="hct-icon hct-border-0 hct-border-rad-tiny hct-hover-shadow-accent">');
+    this.$select = $(`<select class="hct-grow">`);
 
     this.$link.append(this.$itemImg);
     $container.append(this.$link);
     this.optionsMap.forEach((item, key) => {
-      const placeholder = item.name === this.settings.placeholderName ? 'selected disabled' : '';
-      const $opt = $(`<option class="hct-overflow-ellipsis" value="${key}" ${placeholder}>${item.name}</option>`);
+      const placeholderProps =
+        item.name === this.settings.placeholderName || item.name === this.settings.placeholder?.name
+          ? 'selected disabled'
+          : '';
+      const $opt = $(`<option class="hct-text-ellipsis" value="${key}" ${placeholderProps}>${item.name}</option>`);
       this.$select.append($opt);
     });
     this.$select.on('change', () => {
@@ -63,8 +78,9 @@ export default class SelectableIndexEntryOption implements HeroOption {
     this.$select.trigger('change');
   }
 
-  value(): any {
+  value(): IndexEntry | null {
     const val = this.$select.val() ?? '';
-    return this.optionsMap.get(val as string);
+    if (val === '') return null;
+    return this.optionsMap.get(val as string) ?? null;
   }
 }

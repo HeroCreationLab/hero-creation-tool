@@ -97,7 +97,7 @@ class _Abilities extends Step {
     } else {
       $raceStats.each((i, e) => {
         const ability = e.dataset.hctRaceAbility;
-        const value = (e as HTMLInputElement).value;
+        const value = (e as HTMLInputElement).value !== '' ? (e as HTMLInputElement).value : '0';
         $(`[data-hct-ability-score-race-bonus=${ability}]`)
           .val(value)
           .html(value.startsWith('-') ? value : '+' + value);

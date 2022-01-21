@@ -1,65 +1,66 @@
-<section id="eqDiv" class="tab-body apply-header-font" data-hct_tab_section="5">
-    <main class='tab-content hct-panel-container'>
+<section id="eqDiv" class="hct-py-lg hct-grow" data-hct_tab_section="5">
+    <main class='hct-panel-container'>
         <div class="hct-panel-left">
             <div data-hct_equipment_data>
                 <div data-hct_area="gold">
-                    <h2 class="hct-flex hct-flex-justify-sb hct-baseline">{{localize
+                    <h2 class="flexrow hct-justify-between hct-align-baseline hct-font-title">{{localize
                         'HCT.Equipment.StartingGoldTitle' }}</h2>
-                    <div class="hct-flex hct-flex-justify-sb hct-baseline">
-                        <span class="hct-padding-tiny">{{localize 'HCT.Equipment.Roll' }}</span>
-                        <div class="hct-flex hct-width-60per">
-                            <input type="text" data-hct_equipment_roll_expression>
-                            <button class="step-button hct-option hct-roll-btn" data-hct_equipment_roll>
-                                <i class="fas fa-dice-d20" style="padding: 5px; margin: 0;"></i>
+                    <div class="flexrow hct-justify-between hct-align-baseline hct-mb-sm">
+                        <span class="hct-p-sm">{{localize 'HCT.Equipment.Roll' }}</span>
+                        <div class="flexrow hct-items-center">
+                            <input class='hct-grow' type="text" data-hct_equipment_roll_expression>
+                            <button class="hct-button hct-grow-0 hct-ml-sm" data-hct_equipment_roll>
+                                <i class="fas fa-dice-d20"></i>
                             </button>
                         </div>
                     </div>
-                    <div class="hct-flex hct-flex-justify-sb hct-baseline">
-                        <span class="hct-padding-tiny">{{localize 'HCT.Equipment.ManualInput' }}</span>
-                        <div class="hct-flex hct-width-60per">
-                            <input style="text-align: center; font-size: large;" type="number" value="0"
+                    <div class="flexrow hct-justify-between hct-align-baseline hct-mb-sm">
+                        <span class="hct-p-sm">{{localize 'HCT.Equipment.ManualInput' }}</span>
+                        <div class="flexrow hct-items-center">
+                            <input class='hct-grow' type="number" value="0"
                                 data-hct_equipment_manual_gold disabled>
-                            <button class="step-button hct-option hct-roll-btn" data-hct_equipment_input>
-                                <i class="fas fa-pencil-alt" style="padding: 5px; margin: 0;"></i>
+                            <button class="hct-button hct-grow-0 hct-ml-sm" data-hct_equipment_input>
+                                <i class="fas fa-pencil-alt"></i>
                             </button>
                         </div>
                     </div>
-                    <div class="hct-flex hct-flex-justify-sb hct-baseline">
-                        <span class="hct-padding-tiny">{{localize 'HCT.Equipment.Additional' }}</span>
-                        <div class="hct-flex hct-width-60per">
+                    <div class="flexrow hct-justify-between hct-align-baseline hct-mb-sm">
+                        <span class="hct-p-sm">{{localize 'HCT.Equipment.Additional' }}</span>
+                        <div class="flexrow hct-items-center">
                             <input data-hct_equipment_extra type="number" value="0">
                         </div>
                     </div>
-                    <hr class="hct-margin-small">
-                    <p class="centered-text hct-large-font">
+                    <hr class="hct-m-md">
+                    <p class="hct-text-center hct-text-lg">
                         <span>{{localize 'HCT.Equipment.TotalGoldLabel' }}</span><span
                             data-hct_total_gold>0</span><span> gp</span>
                     </p>
-                    <p class="centered-text hct-large-font">
+                    <p class="hct-text-center hct-text-lg">
                         <span>{{localize 'HCT.Equipment.RemainingGoldLabel' }}</span><span
                             data-hct_remaining_gold>0</span><span> gp</span>
                     </p>
-                    <div class="centered-text">
+                    <div class="hct-text-center hct-mb-md">
                         <input type="checkbox" id="hct-remaining-gold" name="hct-remaining-gold" checked>
                         <label for="hct-remaining-gold">{{localize 'HCT.Equipment.RemainingGoldCheckboxLabel' }}</label>
                     </div>
                 </div>
                 <div data-hct_area="equipment">
-                    <h2 class="hct-area-title">{{localize 'HCT.Equipment.StartingItemsTitle' }}</h2>
-                    <form data-hct-searchbar autocomplete="off">
-                        <div class="hct-search-wrapper">
-                            <div class="hct-search-area">
-                                <i class="fas fa-search hct-search-fa"></i>
-                                <input type="text" placeholder="{{localize 'HCT.Common.Searchbar.Placeholder'}}">
+                    <h2 class="hct-mb-md hct-font-title">{{localize 'HCT.Equipment.StartingItemsTitle' }}</h2>
+                    <div class="hct-pl-sm">
+                        <form data-hct-searchbar autocomplete="off">
+                            <div class="hct-search-wrapper">
+                                <div class="flexrow">
+                                    <input type="text" placeholder="{{localize 'HCT.Common.Searchbar.Placeholder'}}">
+                                </div>
+                                <div class="hct-search-autocom-box" data-hct-searchbar-results>
+                                    <!-- here list are inserted from javascript -->
+                                </div>
                             </div>
-                            <div class="hct-search-autocom-box" data-hct-searchbar-results>
-                                <!-- here list are inserted from javascript -->
-                            </div>
-                        </div>
-                    </form>
-                    <button class="step-button hct-option centered-text" data-hct_equipment_clear>{{localize
-                        'HCT.Common.Searchbar.ClearList' }}</button>
-                    <div data-hct-itemlist></div>
+                        </form>
+                        <button class="hct-button hct-mb-sm hct-block hct-w-full" data-hct_equipment_clear>{{localize
+                            'HCT.Common.Searchbar.ClearList' }}</button>
+                        <div data-hct-itemlist></div>
+                    </div>
                 </div>
             </div>
         </div>

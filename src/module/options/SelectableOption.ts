@@ -21,7 +21,7 @@ export default class SelectableOption implements HeroOption {
     readonly changeCallback?: (data?: any) => void,
     readonly callbackMapping?: Map<string, string>,
   ) {
-    this.$elem = $(`<select class="hct-option-select">`);
+    this.$elem = $(`<select class="hct-grow">`);
     if (!settings.default) {
       this.$elem.append(
         $(`<option value="" selected disabled hidden>
@@ -74,9 +74,9 @@ export default class SelectableOption implements HeroOption {
    * @param {JQuery} $parent
    */
   render($parent: JQuery, options?: { beforeParent: boolean }): void {
-    const $block = $('<div class="hct-option">');
+    const $block = $('<div class="hct-option hct-grow">');
     if (this.label) {
-      $block.append($('<span class="hct-option-label">').text(this.label));
+      $block.append($('<span class="hct-pr-sm">').text(this.label));
     }
     $block.append(this.$elem);
     const $container = $('<div>');

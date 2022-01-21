@@ -103,13 +103,13 @@ class _Basics extends Step {
       game.i18n.localize('HCT.Common.RequiredName'),
       data?.actorName ?? '',
     );
-    this.nameOption.render($('[data-hero_name]', this.section()));
+    this.nameOption.render($('[data-hero_name] div', this.section()));
 
     this.avatarOption = new InputOption(this.step, 'img', Constants.MYSTERY_MAN, Constants.MYSTERY_MAN);
-    this.avatarOption.render($('[data-hero_avatar]', this.section()));
+    this.avatarOption.render($('[data-hero_avatar] div', this.section()));
 
     this.tokenOption = new InputOption(this.step, 'token.img', Constants.MYSTERY_MAN, Constants.MYSTERY_MAN);
-    this.tokenOption.render($('[data-hero_token]', this.section()));
+    this.tokenOption.render($('[data-hero_token] div', this.section()));
 
     this.stepOptions.push(this.nameOption, this.avatarOption, this.tokenOption);
 

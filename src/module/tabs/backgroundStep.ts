@@ -2,12 +2,17 @@
   Functions used exclusively on the Background tab
 */
 import * as Utils from '../utils';
-import * as Constants from '../constants';
 import * as ProficiencyUtils from '../proficiencyUtils';
 import { Step, StepEnum } from '../Step';
 import SelectableOption from '../options/SelectableOption';
-import SelectOrCustomItemOption from '../options/SelectOrCustomItemOption';
-import { BackgroundFeatureEntry, getBackgroundFeatureEntries, getRuleJournalEntryByName } from '../indexUtils';
+import {
+  BackgroundFeatureEntry,
+  getBackgroundFeatureEntries,
+  getRuleJournalEntryByName,
+  RuleEntry,
+} from '../indexUtils';
+import SelectableIndexEntryOption from '../options/SelectableIndexEntryOption';
+import { MYSTERY_MAN } from '../constants';
 
 class _BackgroundTab extends Step {
   constructor() {
@@ -17,6 +22,10 @@ class _BackgroundTab extends Step {
   section = () => $('#backgroundDiv');
 
   backgroundFeatures!: BackgroundFeatureEntry[];
+  backgroundRules?: RuleEntry;
+
+  //TODO remove when Background items become a thing
+  backgroundFeatureOption?: SelectableIndexEntryOption;
 
   async setSourceData() {
     this.backgroundFeatures = await getBackgroundFeatureEntries();
@@ -26,9 +35,9 @@ class _BackgroundTab extends Step {
     Utils.setPanelScrolls(this.section());
     // Show rules on the side panel
     const rulesCompendiumName = game.i18n.localize('HCT.Background.RulesJournalName');
-    const backgroundRules = await getRuleJournalEntryByName(rulesCompendiumName);
-    if (backgroundRules) {
-      $('[data-hct_background_description]', this.section()).html(TextEditor.enrichHTML(backgroundRules.content));
+    this.backgroundRules = await getRuleJournalEntryByName(rulesCompendiumName);
+    if (this.backgroundRules) {
+      $('[data-hct_background_description]', this.section()).html(TextEditor.enrichHTML(this.backgroundRules.content));
     } else {
       console.error(`Unable to find backgrounds' rule journal on compendium ${rulesCompendiumName}`);
     }
@@ -37,6 +46,28 @@ class _BackgroundTab extends Step {
     this.setAlignmentUi();
     this.setProficienciesUi();
     this.setBackgroundFeatureUi();
+  }
+
+  setListeners(): void {
+    // TODO replace this to switch between showing Background rules vs Background desc when background items become a thing
+    $('[data-hct-show-background-feature-desc]', this.section()).on('change', (ev) => {
+      if ((ev.currentTarget as HTMLInputElement).checked) {
+        // put  feature desc on the side
+        const selectedBackgroundFeature = this.backgroundFeatureOption?.value() as
+          | BackgroundFeatureEntry
+          | null
+          | undefined;
+        const descToShow = selectedBackgroundFeature
+          ? selectedBackgroundFeature.data.description.value
+          : game.i18n.localize('HCT.Background.NoFeatureSelected');
+        $('[data-hct_background_description]', this.section()).html(TextEditor.enrichHTML(descToShow));
+      } else {
+        // put Backgrounds rules on the side
+        $('[data-hct_background_description]', this.section()).html(
+          TextEditor.enrichHTML(this.backgroundRules?.content ?? ''),
+        );
+      }
+    });
   }
 
   private async setProficienciesUi() {
@@ -82,22 +113,18 @@ class _BackgroundTab extends Step {
 
   private setBackgroundFeatureUi() {
     const $featureArea = $('[data-hct_area=feature]', this.section());
-    const customFeatureOption: SelectOrCustomItemOption = new SelectOrCustomItemOption(
-      this.step,
-      { type: 'feat', source: 'Background' },
-      () => {
-        // properties callback
-        const $name = $('input', $('[data-hct_area=name]', this.section()));
-        return { requirements: $name.val() };
+    this.backgroundFeatureOption = new SelectableIndexEntryOption(StepEnum.Class, 'items', this.backgroundFeatures, {
+      addValues: true,
+      placeholder: {
+        name: game.i18n.localize('HCT.Common.SelectPlaceholder'),
+        _id: '',
+        _pack: '',
+        type: 'feat',
+        img: MYSTERY_MAN,
       },
-      this.backgroundFeatures,
-      {
-        addValues: true,
-        allowNulls: true,
-      },
-    );
-    customFeatureOption.render($featureArea);
-    this.stepOptions.push(customFeatureOption);
+    });
+    this.backgroundFeatureOption.render($featureArea);
+    this.stepOptions.push(this.backgroundFeatureOption);
   }
 
   private setAlignmentUi() {
@@ -134,29 +161,16 @@ class _BackgroundTab extends Step {
   private onBackgroundSelect(backgroundFeatureName: string) {
     const $featureArea = $('[data-hct_area=feature]', $('#backgroundDiv'));
     const $select = $('select', $featureArea);
-    const $img = $('img', $featureArea);
-    const $name = $('input', $featureArea);
-    const $desc = $('textarea', $featureArea);
-    let isCustomTouched = false;
-    if ($name.val() != '' || $desc.val() != '') isCustomTouched = true;
 
-    if (!isCustomTouched) {
-      if (backgroundFeatureName === 'custom') {
-        $('option:selected', $select).prop('selected', false);
-        $("option[value='']", $select).prop('selected', 'true');
-        $img.attr('src', Constants.MYSTERY_MAN);
-        return;
-      }
-      const value = $('option', $select)
-        .filter(function () {
-          return $(this).text() === backgroundFeatureName;
-        })
-        .first()
-        .attr('value');
-      if (value) {
-        $select.val(value);
-        $select.trigger('change');
-      }
+    const value = $('option', $select)
+      .filter(function () {
+        return $(this).text() === backgroundFeatureName;
+      })
+      .first()
+      .attr('value');
+    if (value) {
+      $select.val(value);
+      $select.trigger('change');
     }
   }
 }

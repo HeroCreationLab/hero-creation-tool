@@ -108,9 +108,7 @@ export default class SearchableIndexEntryOption implements HeroOption {
           (result) =>
             `<li>
               <div class="hct-icon-with-context" data-key=\"${result._id ?? result.name}\">
-                <img class="hct-icon-square-med hct-background-black hct-no-border" src="${
-                  result.img ?? Constants.MYSTERY_MAN
-                }">
+                <img class="hct-icon-square-med hct-bg-black hct-border-0" src="${result.img ?? Constants.MYSTERY_MAN}">
                 <span>${result.name}</span>
               </div>
             </li>`,

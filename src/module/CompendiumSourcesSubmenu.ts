@@ -25,25 +25,25 @@ export default class CompendiumSourcesSubmenu extends FormApplication {
   activateListeners(html: JQuery) {
     super.activateListeners(html);
 
-    const coll = $('.hct-collapsible', html);
-    let i;
+    // const coll = $('.hct-collapsible', html);
+    // let i;
 
-    for (i = 0; i < coll.length; i++) {
-      coll[i].addEventListener('click', function () {
-        this.classList.toggle('active');
-        const child = this.firstElementChild;
-        const content = this.nextElementSibling as any;
-        if (content.style.display === 'block') {
-          content.style.display = 'none';
-          child?.classList.remove('fa-chevron-down');
-          child?.classList.add('fa-chevron-right');
-        } else {
-          content.style.display = 'block';
-          child?.classList.remove('fa-chevron-right');
-          child?.classList.add('fa-chevron-down');
-        }
-      });
-    }
+    // for (i = 0; i < coll.length; i++) {
+    //   coll[i].addEventListener('click', function () {
+    //     this.classList.toggle('active');
+    //     const child = this.firstElementChild;
+    //     const content = this.nextElementSibling as any;
+    //     if (content.style.display === 'block') {
+    //       content.style.display = 'none';
+    //       child?.classList.remove('fa-chevron-down');
+    //       child?.classList.add('fa-chevron-right');
+    //     } else {
+    //       content.style.display = 'block';
+    //       child?.classList.remove('fa-chevron-right');
+    //       child?.classList.add('fa-chevron-down');
+    //     }
+    //   });
+    // }
   }
 
   getData() {

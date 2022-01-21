@@ -33,19 +33,22 @@ export default class QuantifiableOption implements HeroOption {
   }
 
   private $up = $(
-    `<button class="hct-button--floating hct-button-up"><i class="hct-margin-0 fas fa-angle-up" class="hct-padding-tiny"></i></button>`,
+    `<button id='hct_quantity_button_up' class="hct-button--floating"><i class="hct-m-0 fas fa-angle-up" class="hct-p-sm"></i></button>`,
   );
   private $down = $(
-    '<button class="hct-button--floating hct-button-down"><i class="hct-margin-0 fas fa-angle-down" class="hct-padding-tiny"></i></button>',
+    `<button id='hct_quantity_button_down' class="hct-button--floating"><i class="hct-m-0 fas fa-angle-down" class="hct-p-sm"></i></button>`,
   );
   private $text = $(buildText(this.itemOption, this.settings.quantity, this.settings.showTotalCost));
 
   render(parent: JQuery): void {
-    const $container = $('<div class="hct-icon-with-context hct-padding-b-tiny hct-flex-grow-1">');
+    const $container = $('<div class="hct-icon-with-context hct-pb-sm hct-grow">');
     const $link = $(
-      `<a class="content-link hct-icon-link hct-flex" draggable="false" data-pack="${this.itemOption._pack}" data-id="${this.itemOption._id}">`,
+      `<a class="content-link hct-icon-link flexrow" draggable="false" data-pack="${this.itemOption._pack}" data-id="${this.itemOption._id}">`,
     );
-    const $itemImg = $('<img class="hct-icon hct-hover-shadow-accent">').attr('src', this.itemOption.img);
+    const $itemImg = $('<img class="hct-icon hct-border-0 hct-border-rad-tiny hct-hover-shadow-accent">').attr(
+      'src',
+      this.itemOption.img,
+    );
     $link.append($itemImg);
     $container.append($link);
     $container.append(this.$text);
@@ -92,8 +95,8 @@ export default class QuantifiableOption implements HeroOption {
 function buildText(itemOption: any, quantity: number, showTotal: boolean) {
   if (showTotal) {
     const totalPrice = Math.round((itemOption.data.price * quantity + Number.EPSILON) * 100) / 100;
-    return `<p class="hct-flex-grow-1">${itemOption.name} x${quantity} (${totalPrice}gp)</p>`;
+    return `<p class="hct-grow">${itemOption.name} x${quantity} (${totalPrice}gp)</p>`;
   } else {
-    return `<p class="hct-flex-grow-1">${itemOption.name} x${quantity}</p>`;
+    return `<p class="hct-grow">${itemOption.name} x${quantity}</p>`;
   }
 }

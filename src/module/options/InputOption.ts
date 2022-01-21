@@ -35,19 +35,19 @@ export default class InputOption implements HeroOption {
     const wrapped = !!this.settings.postLabel;
 
     if (this.settings.preLabel) {
-      const $preLabel = $(`<span class="hct-option-label">${this.settings.preLabel}</span>`);
+      const $preLabel = $(`<span class="hct-pr-sm hct-w-6/12">${this.settings.preLabel}</span>`);
       $container.append($preLabel);
     }
 
     const data = this.settings.data;
     if (wrapped) {
-      const $wrapper = $(`<div class="hct-flex ${this.settings.class ?? ''}">`);
+      const $wrapper = $(`<div class="flexrow ${this.settings.class ?? ''}">`);
       this.$elem = $(`<input type="${this.settings.type}" placeholder="${this.placeholder}" ${data ?? ''} 
         value=${this.val} ${this.settings.type == 'number' ? `${min} ${max}` : ''}>`);
       $wrapper.append(this.$elem);
 
       if (this.settings.postLabel) {
-        const $postLabel = $(`<p class='hct-postlabel'>${this.settings.postLabel}</p>`);
+        const $postLabel = $(`<p class='hct-ml-sm'>${this.settings.postLabel}</p>`);
         $wrapper.append($postLabel);
       }
       $container.append($wrapper);
