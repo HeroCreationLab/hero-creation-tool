@@ -35,7 +35,8 @@ Hooks.on('renderActorDirectory', () => {
 
 // Rendering the button on the Create New Actor dialog
 Hooks.on('renderApplication', (app: any, html: any, data: any) => {
-  if (app.title === 'Create New Actor' && getModuleSetting(SettingKeys.BUTTON_ON_DIALOG)) {
+  const createNewActorLocalized = game.i18n.format('DOCUMENT.Create', { type: game.i18n.localize('DOCUMENT.Actor') });
+  if (app.title === createNewActorLocalized && getModuleSetting(SettingKeys.BUTTON_ON_DIALOG)) {
     addCreateNewActorButton(heroCreationTool, html, app);
   }
 });
