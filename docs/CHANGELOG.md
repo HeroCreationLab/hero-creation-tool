@@ -1,7 +1,7 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
 ## 1.6.1 (2022-01-22)
-- Fixed the creation of the tool's button inside the Create New Actor dialog, that was not working for other languagues than English.
+- Fixed the creation of the tool's button inside the Create New Actor dialog, that was not working for other languagues than English. [(#79)](https://github.com/HeroCreationLab/hero-creation-tool/issues/79)
 
 ## 1.6.0 (2022-01-21)
 - **IMPORTANT FOR JP USERS** - Japanese localization moved to https://github.com/BrotherSharper/foundryVTTja
