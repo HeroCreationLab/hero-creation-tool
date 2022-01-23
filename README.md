@@ -2,6 +2,8 @@
 
 <img src="src/assets/logo.png" width="400">
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/N4N88281M)
+
 * **[Setup](#setup)**
 
 * **[The Tool](#the-tool)**
