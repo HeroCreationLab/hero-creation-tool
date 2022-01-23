@@ -1,5 +1,8 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.6.2 (2022-01-23)
+- Removed ja.json reference on the manifest. Unfortunate leftover from previous update.
+
 ## 1.6.1 (2022-01-22)
 - Fixed the creation of the tool's button inside the Create New Actor dialog, that was not working for other languagues than English. [(#79)](https://github.com/HeroCreationLab/hero-creation-tool/issues/79)
 

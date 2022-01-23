@@ -2,7 +2,7 @@
   "name": "hero-creation-tool",
   "title": "Hero Creation Tool for DnD5E",
   "description": "A step-by-step tool for creating player characters with race, class, etc.",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "minimumCoreVersion": "9",
   "compatibleCoreVersion": "9",
   "esmodules": ["module/hero-creation-tool.js"],
@@ -19,11 +19,6 @@
       "lang": "fr",
       "name": "Français",
       "path": "lang/fr.json"
-    },
-    {
-      "lang": "ja",
-      "name": "日本語",
-      "path": "lang/ja.json"
     }
   ],
   "url": "https://github.com/HeroCreationLab/hero-creation-tool",
