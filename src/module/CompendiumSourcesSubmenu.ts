@@ -57,6 +57,7 @@ export default class CompendiumSourcesSubmenu extends FormApplication {
         backgroundFeatures: [],
         spells: [Constants.DEFAULT_PACKS.SPELLS],
         feats: [],
+        items: [Constants.DEFAULT_PACKS.ITEMS],
       };
     }
     const data = buildTemplateData({
@@ -93,6 +94,7 @@ type BuildData = {
     backgroundFeatures: string[];
     spells: string[];
     feats: string[];
+    items: string[];
   };
 };
 function buildTemplateData({ compendiaList, selectedCompendia }: BuildData) {
@@ -125,6 +127,10 @@ function buildTemplateData({ compendiaList, selectedCompendia }: BuildData) {
       feats: {
         label: game.i18n.localize('HCT.Setting.Sources.FeatCompendia'),
         compendia: buildCompendiaList(compendiaList, selectedCompendia.feats),
+      },
+      items: {
+        label: game.i18n.localize('HCT.Setting.Sources.EquipmentCompendia'),
+        compendia: buildCompendiaList(compendiaList, selectedCompendia.items),
       },
     },
   };
