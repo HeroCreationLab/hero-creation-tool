@@ -1,7 +1,7 @@
 import SettingKeys, { registerSettings } from './settings';
 import { preloadTemplates } from './preloadTemplates';
 import HeroCreationTool from './HeroCreationToolApp';
-import { buildEquipmentAndJournalIndexes, buildSourceIndexes } from './indexUtils';
+import { buildJournalIndexes, buildSourceIndexes } from './indexUtils';
 import { addActorDirectoryButton, addCreateNewActorButton, getModuleSetting, setPublicApi } from './utils';
 import performMigrations from './migrations/migrationsHandler';
 
@@ -15,7 +15,7 @@ Hooks.once('init', async () => {
 
 // Build indexes on ready
 Hooks.once('ready', async () => {
-  await buildEquipmentAndJournalIndexes();
+  await buildJournalIndexes();
   await performMigrations();
   setPublicApi(heroCreationTool);
 });

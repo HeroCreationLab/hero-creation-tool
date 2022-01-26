@@ -72,7 +72,8 @@
         "ClassFeatureCompendia": "Class Features Compendia",
         "BackgroundFeatureCompendia": "Background Features Compendia",
         "SpellCompendia": "Spell Compendia",
-        "FeatCompendia": "Feat Compendia"
+        "FeatCompendia": "Feat Compendia",
+        "EquipmentCompendia": "Equipment Compendia"
       }
     },
     "Permissions": {
@@ -286,7 +287,8 @@
       "NoLabel": "Go Back"
     },
     "Migrations": {
-      "Info1": "Hero Creation Tool :: Migration 1 - Restoring Compendia sources setting to default to prevent errors when moving from v0.8.x to v9"
+      "Info1": "Hero Creation Tool :: Migration 1 - Restoring Compendia sources setting to default to prevent errors when moving from v0.8.x to v9",
+      "Info2": "Hero Creation Tool :: Migration 2 - Adding default 5e Items and Rules compendia to sources"
     }
   }
 }

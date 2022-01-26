@@ -35,6 +35,7 @@ export const enum SourceType {
   BACKGROUND_FEATURES = 'backgroundFeatures',
   SPELLS = 'spells',
   FEATS = 'feats',
+  ITEMS = 'items',
 }
 
 export type Source = {
@@ -81,6 +82,7 @@ function sourcesConfiguration() {
       backgroundFeatures: [],
       spells: [Constants.DEFAULT_PACKS.SPELLS],
       feats: [],
+      items: [Constants.DEFAULT_PACKS.ITEMS],
     },
   });
   // Define a settings submenu which handles advanced configuration needs

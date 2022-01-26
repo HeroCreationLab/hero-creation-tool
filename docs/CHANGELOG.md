@@ -1,5 +1,8 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.6.3 (2022-01-26)
+- Added Source settings for what compendia to use for Equipments (default `dnd5e.items`).
+
 ## 1.6.2 (2022-01-23)
 - Removed ja.json reference on the manifest. Unfortunate leftover from previous update.
 

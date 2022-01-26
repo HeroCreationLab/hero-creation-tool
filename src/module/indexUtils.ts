@@ -19,6 +19,7 @@ export async function buildSourceIndexes() {
       addSpellFields(fieldsToIndex, sourcePacks, name);
       addFeatFields(fieldsToIndex, sourcePacks, name);
       addBackgroundFeaturesFields(fieldsToIndex, sourcePacks, name);
+      addEquipmentFields(fieldsToIndex, sourcePacks, name);
 
       if (fieldsToIndex.size) {
         fieldsToIndex.add('img');
@@ -28,16 +29,8 @@ export async function buildSourceIndexes() {
   await Promise.all(itemsPromises);
 }
 
-export async function buildEquipmentAndJournalIndexes() {
-  console.log(`${CONSTANTS.LOG_PREFIX} | Indexing items (equipment) and journals (rules)`);
-  const itemsPack = game.packs.get(CONSTANTS.DEFAULT_PACKS.ITEMS);
-  if (!itemsPack) {
-    throw new Error(
-      `${CONSTANTS.LOG_PREFIX} | Cannot find default DnD5e items compendium (for indexing equipment) under name ${CONSTANTS.DEFAULT_PACKS.ITEMS}`,
-    );
-  }
-  await (itemsPack as any).getIndex({ fields: ['img', 'data.price', 'data.rarity'] });
-
+export async function buildJournalIndexes() {
+  console.log(`${CONSTANTS.LOG_PREFIX} | Indexing journals (rules)`);
   const rulesPack = game.packs.get(CONSTANTS.DEFAULT_PACKS.RULES);
   if (!rulesPack) {
     throw new Error(
@@ -96,12 +89,9 @@ export async function getFeatEntries() {
 }
 
 export async function getEquipmentEntries() {
-  const equipmentEntries = await ((game.packs.get(CONSTANTS.DEFAULT_PACKS.ITEMS)?.index as unknown) as Promise<
-    EquipmentEntry[]
-  >);
-  return equipmentEntries
-    .filter((e) => !['class', 'feat', 'spell'].includes(e.type))
-    .map((e) => ({ ...e, _pack: CONSTANTS.DEFAULT_PACKS.ITEMS }));
+  const equipmentEntries = await ((getIndexEntriesForSource(SourceType.ITEMS) as unknown) as Promise<EquipmentEntry[]>);
+  // sanitize entries to remove anything nonconforming to an Item
+  return equipmentEntries.filter((e) => !['class', 'feat', 'spell'].includes(e.type));
 }
 
 export async function getRuleJournalEntryByName(journalName: string) {
@@ -232,7 +222,7 @@ export type FeatEntry = IndexEntry & {
 };
 function addFeatFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
   if (source[SourceType.FEATS].includes(packName)) {
-    fieldsToIndex.add('data.requirements'); // unsure if will be used, would like to at least mention the requirement.
+    fieldsToIndex.add('data.requirements'); // TODO if feat has a requirement show it.
   }
 }
 
@@ -258,6 +248,14 @@ export type EquipmentEntry = IndexEntry & {
     quantity?: number;
   };
 };
+function addEquipmentFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
+  if (source[SourceType.ITEMS].includes(packName)) {
+    fieldsToIndex.add('data.price');
+    fieldsToIndex.add('data.rarity');
+    fieldsToIndex.add('data.quantity');
+    //fieldsToIndex.add('data.description'); maybe description to find Spellcasting Foci ?
+  }
+}
 
 export type RuleEntry = {
   _id: string;

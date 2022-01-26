@@ -437,7 +437,7 @@ class _Equipment extends Step {
       .split(';')
       .map((e) => e.trim());
     this.items = filteredItems
-      .filter((item) => item?.data?.rarity == 'common') // get only common items
+      .filter((item) => item?.data?.rarity.toLowerCase() == 'common') // get only common items
       .filter((item) => !itemBlackList.includes(item.name)); // remove some punctual "common" but magical/special items
 
     this.defaultGoldDice = game.settings.get(Constants.MODULE_NAME, SettingKeys.DEFAULT_GOLD_DICE) as string;

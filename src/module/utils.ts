@@ -25,6 +25,10 @@ export function setPanelScrolls($section: JQuery) {
   }
 }
 
+export async function setModuleSetting(key: SettingKeys | PrivateSettingKeys, value: any) {
+  await game.settings.set(Constants.MODULE_NAME, key, value);
+}
+
 export function getModuleSetting(key: SettingKeys | PrivateSettingKeys) {
   return game.settings.get(Constants.MODULE_NAME, key);
 }
