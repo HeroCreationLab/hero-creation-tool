@@ -1,6 +1,6 @@
-import { StepEnum } from '../Step';
+import { StepEnum } from '../step';
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
-import HeroOption from './HeroOption';
+import HeroOption from './heroOption';
 
 /**
  * Represents a fixed value that will be imprinted into the created actor

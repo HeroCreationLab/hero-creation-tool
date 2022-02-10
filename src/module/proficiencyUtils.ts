@@ -1,7 +1,7 @@
 import { getEquipmentEntries } from './indexUtils';
-import HeroOption from './options/HeroOption';
-import MultiOption from './options/MultiOption';
-import { StepEnum } from './Step';
+import HeroOption from './options/heroOption';
+import MultiOption from './options/multiOption';
+import { StepEnum } from './step';
 
 export type OptionSettings = {
   step: StepEnum;

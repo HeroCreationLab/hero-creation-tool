@@ -1,7 +1,8 @@
 import * as Utils from './utils';
 import SettingKeys from './settings';
-import { HpCalculation } from './constants';
-import { ClassLevel } from './ClassLevel';
+import { CLASS_LEVEL } from './constants';
+
+export type HpCalculation = 'roll' | 'avg';
 
 export class HitDie {
   constructor(private hd: string) {}
@@ -19,7 +20,7 @@ export class HitDie {
     return half + 1;
   }
 
-  async calculateHpAtLevel(level: ClassLevel, method: HpCalculation, conMod: number) {
+  async calculateHpAtLevel(level: CLASS_LEVEL, method: HpCalculation, conMod: number) {
     const firstLevelHp = this.getMax() + conMod;
     if (level === 1) return firstLevelHp;
 

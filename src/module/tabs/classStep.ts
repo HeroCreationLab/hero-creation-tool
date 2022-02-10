@@ -1,18 +1,17 @@
 /*
   Functions used exclusively on the Class tab
 */
-import { Step, StepEnum } from '../Step';
-import * as CONSTANTS from '../constants';
+import { Step, StepEnum } from '../step';
 import * as Utils from '../utils';
 import * as ProficiencyUtils from '../proficiencyUtils';
-import HiddenOption from '../options/HiddenOption';
-import FixedOption, { OptionType } from '../options/FixedOption';
-import SelectableIndexEntryOption from '../options/SelectableIndexEntryOption';
-import SearchableIndexEntryOption from '../options/SearchableIndexEntryOption';
-import { HitDie } from '../HitDie';
-import { ClassLevel } from '../ClassLevel';
+import HiddenOption from '../options/hiddenOption';
+import FixedOption, { OptionType } from '../options/fixedOption';
+import SelectableIndexEntryOption from '../options/selectableIndexEntryOption';
+import SearchableIndexEntryOption from '../options/searchableIndexEntryOption';
+import { HitDie } from '../hitDie';
 import { ClassEntry, ClassFeatureEntry, getClassEntries, getClassFeatureEntries } from '../indexUtils';
 import SettingKeys from '../settings';
+import { MYSTERY_MAN, CLASS_LEVEL } from '../constants';
 
 export type ClassSpellcastingData = {
   item: Item;
@@ -24,7 +23,7 @@ class _Class extends Step {
   private classes?: ClassEntry[] = [];
   private classFeatures?: ClassFeatureEntry[] = [];
   private _class?: ClassEntry;
-  private primaryClassLevel: ClassLevel = 1;
+  private primaryClassLevel: CLASS_LEVEL = 1;
   private primaryClassHitDie: HitDie | null = null;
   constructor() {
     super(StepEnum.Class);
@@ -89,7 +88,7 @@ class _Class extends Step {
     this.$primaryClassLevelSelect = addLevelSelect($classSearch, 'class');
     this.$primaryClassLevelSelect.disabled = true;
     this.$primaryClassLevelSelect.addEventListener('change', (event) => {
-      this.primaryClassLevel = parseInt((event.target as any)?.value) as ClassLevel;
+      this.primaryClassLevel = parseInt((event.target as any)?.value) as CLASS_LEVEL;
       this.updateClass(this.section());
     });
   }
@@ -99,7 +98,7 @@ class _Class extends Step {
     this.clearOptions();
 
     // icon, description and class item
-    $('[data-hct_class_icon]', $section).attr('src', this._class?.img || CONSTANTS.MYSTERY_MAN);
+    $('[data-hct_class_icon]', $section).attr('src', this._class?.img || MYSTERY_MAN);
     $('[data-hct_class_description]', $section).html(
       TextEditor.enrichHTML(this._class?.data?.description?.value ?? ''),
     );

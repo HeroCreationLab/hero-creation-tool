@@ -3,15 +3,15 @@
 */
 import * as Utils from '../utils';
 import * as ProficiencyUtils from '../proficiencyUtils';
-import { Step, StepEnum } from '../Step';
-import SelectableOption from '../options/SelectableOption';
+import { Step, StepEnum } from '../step';
+import SelectableOption from '../options/selectableOption';
 import {
   BackgroundFeatureEntry,
   getBackgroundFeatureEntries,
   getRuleJournalEntryByName,
   RuleEntry,
 } from '../indexUtils';
-import SelectableIndexEntryOption from '../options/SelectableIndexEntryOption';
+import SelectableIndexEntryOption from '../options/selectableIndexEntryOption';
 import { MYSTERY_MAN } from '../constants';
 
 class _BackgroundTab extends Step {

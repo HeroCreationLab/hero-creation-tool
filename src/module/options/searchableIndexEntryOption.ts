@@ -1,8 +1,8 @@
-import { StepEnum } from '../Step';
+import { StepEnum } from '../step';
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
-import * as Constants from '../constants';
-import HeroOption, { apply } from './HeroOption';
+import HeroOption, { apply } from './heroOption';
 import { IndexEntry } from '../indexUtils';
+import { MYSTERY_MAN } from '../constants';
 
 /**
  * Represents a value needs to be selected by the player with a single output onto the created actor.
@@ -108,7 +108,7 @@ export default class SearchableIndexEntryOption implements HeroOption {
           (result) =>
             `<li>
               <div class="hct-icon-with-context" data-key=\"${result._id ?? result.name}\">
-                <img class="hct-icon-square-med hct-bg-black hct-border-0" src="${result.img ?? Constants.MYSTERY_MAN}">
+                <img class="hct-icon-square-med hct-bg-black hct-border-0" src="${result.img ?? MYSTERY_MAN}">
                 <span>${result.name}</span>
               </div>
             </li>`,

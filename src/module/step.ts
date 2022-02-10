@@ -1,4 +1,4 @@
-import HeroOption from './options/HeroOption';
+import HeroOption from './options/hHeroOption';
 
 export abstract class Step {
   readonly step: StepEnum;

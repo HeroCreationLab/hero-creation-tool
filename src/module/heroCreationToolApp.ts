@@ -2,7 +2,6 @@
  version 0.1
  This object is a pop-up window to edit the actor's inital levels and stuffs
  */
-import * as CONSTANTS from './constants';
 import * as Utils from './utils';
 import SettingKeys from './settings';
 
@@ -14,12 +13,12 @@ import BackgroundTab from './tabs/backgroundStep';
 import EquipmentTab from './tabs/equipmentStep';
 import SpellsTab from './tabs/spellsStep';
 import BioTab from './tabs/bioStep';
-import { Step } from './Step';
-import HeroOption from './options/HeroOption';
+import { Step } from './step';
+import HeroOption from './options/hHeroOption';
 import type { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
-import { HitDie } from './HitDie';
-import { ClassLevel } from './ClassLevel';
+import { HitDie, HpCalculation } from './hitDie';
 import { hydrateItems, IndexEntry } from './indexUtils';
+import { LOG_PREFIX, MODULE_ID, MYSTERY_MAN, CLASS_LEVEL } from './constants';
 
 enum StepIndex {
   Basics,
@@ -46,7 +45,7 @@ export default class HeroCreationTool extends Application {
 
   static get defaultOptions() {
     const options = super.defaultOptions;
-    options.template = CONSTANTS.MODULE_PATH + '/templates/app.html';
+    options.template = `modules/${MODULE_ID}/templates/app.html`;
     options.width = 720;
     options.height = 680;
     options.resizable = true;
@@ -57,7 +56,7 @@ export default class HeroCreationTool extends Application {
     this.actor = undefined;
     this.actorName = actorName;
     this.options.title = game.i18n.localize('HCT.CreationWindowTitle');
-    console.log(`${CONSTANTS.LOG_PREFIX} | Opening for new actor${actorName ? ' with name: ' + actorName : ''}`);
+    console.log(`${LOG_PREFIX} | Opening for new actor${actorName ? ' with name: ' + actorName : ''}`);
     this.steps.forEach((step) => step.clearOptions());
     this.currentTab = -1;
     this.render(true);
@@ -67,14 +66,14 @@ export default class HeroCreationTool extends Application {
   // async openForActor(actor: Actor) {
   //   this.actor = actor;
   //   this.options.title = game.i18n.localize('HCT.CreationWindowTitle');
-  //   console.log(`${CONSTANTS.LOG_PREFIX} | Opening for ${actor.name} (id ${actor.id})`);
+  //   console.log(`${LOG_PREFIX} | Opening for ${actor.name} (id ${actor.id})`);
   //   this.steps.forEach(step => step.clearOptions());
   //   this.currentTab = -1;
   //   this.render(true);
   // }
 
   activateListeners() {
-    console.log(`${CONSTANTS.LOG_PREFIX} | Binding listeners`);
+    console.log(`${LOG_PREFIX} | Binding listeners`);
 
     // listeners specific for each tab
     for (const step of this.steps) {
@@ -100,7 +99,7 @@ export default class HeroCreationTool extends Application {
   }
 
   async setupData() {
-    console.log(`${CONSTANTS.LOG_PREFIX} | Setting up data-derived elements`);
+    console.log(`${LOG_PREFIX} | Setting up data-derived elements`);
     for (const step of this.steps) {
       await step.setSourceData();
     }
@@ -134,7 +133,7 @@ export default class HeroCreationTool extends Application {
   }
 
   private async buildActor() {
-    console.log(`${CONSTANTS.LOG_PREFIX} | Building actor - data used:`);
+    console.log(`${LOG_PREFIX} | Building actor - data used:`);
     const newActorData = this.initializeActorData();
     let errors = false;
     // yeah, a loop label, sue me.
@@ -174,11 +173,11 @@ export default class HeroCreationTool extends Application {
       name: '',
       type: 'character',
       sort: 12000,
-      img: CONSTANTS.MYSTERY_MAN,
+      img: MYSTERY_MAN,
       token: {
         actorLink: true,
         disposition: 1,
-        img: CONSTANTS.MYSTERY_MAN,
+        img: MYSTERY_MAN,
         vision: true,
         dimSight: 0,
         bar1: { attribute: 'attributes.hp' },
@@ -224,8 +223,8 @@ async function calculateStartingHp(newActor: ActorDataConstructorData, classUpda
   if (!classUpdateData) return 10 + conModifier; // release valve in case there's no class selected
 
   const hitDie: HitDie = classUpdateData?.hitDie;
-  const startingLevel: ClassLevel = classUpdateData?.level;
-  const method: CONSTANTS.HpCalculation = classUpdateData?.hpMethod;
+  const startingLevel: CLASS_LEVEL = classUpdateData?.level;
+  const method: HpCalculation = classUpdateData?.hpMethod;
 
   const startingHp = await hitDie.calculateHpAtLevel(startingLevel, method, conModifier);
   setProperty(newActor, 'data.attributes.hp.max', startingHp);
@@ -233,10 +232,10 @@ async function calculateStartingHp(newActor: ActorDataConstructorData, classUpda
 }
 
 function setTokenSettings(newActor: ActorDataConstructorData) {
-  const displayBarsSetting = game.settings.get(CONSTANTS.MODULE_NAME, SettingKeys.TOKEN_BAR);
+  const displayBarsSetting = game.settings.get(MODULE_ID, SettingKeys.TOKEN_BAR);
   setProperty(newActor, 'token.displayBars', displayBarsSetting);
 
-  const displayNameSetting = game.settings.get(CONSTANTS.MODULE_NAME, SettingKeys.TOKEN_NAME);
+  const displayNameSetting = game.settings.get(MODULE_ID, SettingKeys.TOKEN_NAME);
   setProperty(newActor, 'token.displayName', displayNameSetting);
 
   const dimSight = (newActor?.data as any)?.attributes?.senses.darkvision ?? 0;
