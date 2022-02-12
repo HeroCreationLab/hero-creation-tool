@@ -1,4 +1,4 @@
-import * as Constants from './constants';
+import { DEFAULT_PACKS, LOG_PREFIX, MODULE_ID } from './constants';
 import SettingKeys from './settings';
 
 export default class CompendiumSourcesSubmenu extends FormApplication {
@@ -47,17 +47,17 @@ export default class CompendiumSourcesSubmenu extends FormApplication {
   }
 
   getData() {
-    let selected: any = game.settings.get(Constants.MODULE_NAME, SettingKeys.SOURCES);
+    let selected: any = game.settings.get(MODULE_ID, SettingKeys.SOURCES);
     if (foundry.utils.isObjectEmpty(selected)) {
       selected = {
-        races: [Constants.DEFAULT_PACKS.RACES],
-        racialFeatures: [Constants.DEFAULT_PACKS.RACE_FEATURES],
-        classes: [Constants.DEFAULT_PACKS.CLASSES],
-        classFeatures: [Constants.DEFAULT_PACKS.CLASS_FEATURES],
+        races: [DEFAULT_PACKS.RACES],
+        racialFeatures: [DEFAULT_PACKS.RACE_FEATURES],
+        classes: [DEFAULT_PACKS.CLASSES],
+        classFeatures: [DEFAULT_PACKS.CLASS_FEATURES],
         backgroundFeatures: [],
-        spells: [Constants.DEFAULT_PACKS.SPELLS],
+        spells: [DEFAULT_PACKS.SPELLS],
         feats: [],
-        items: [Constants.DEFAULT_PACKS.ITEMS],
+        items: [DEFAULT_PACKS.ITEMS],
       };
     }
     const data = buildTemplateData({
@@ -68,9 +68,9 @@ export default class CompendiumSourcesSubmenu extends FormApplication {
   }
 
   _updateObject(event: Event, formData?: any) {
-    console.log(`${Constants.LOG_PREFIX} | Saving compendia sources:`);
+    console.log(`${LOG_PREFIX} | Saving compendia sources:`);
     console.log(formData);
-    return game.settings.set(Constants.MODULE_NAME, SettingKeys.SOURCES, formData);
+    return game.settings.set(MODULE_ID, SettingKeys.SOURCES, formData);
   }
 }
 

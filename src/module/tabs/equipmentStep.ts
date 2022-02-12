@@ -1,13 +1,13 @@
 import * as Utils from '../utils';
-import * as Constants from '../constants';
-import { Step, StepEnum } from '../Step';
-import FixedOption from '../options/FixedOption';
+import { Step, StepEnum } from '../step';
+import FixedOption from '../options/fixedOption';
 import SettingKeys from '../settings';
-import HeroOption from '../options/HeroOption';
-import OptionContainer from '../options/OptionContainer';
-import DeletableOption from '../options/DeletableOption';
+import HeroOption from '../options/heroOption';
+import OptionContainer from '../options/optionContainer';
+import DeletableOption from '../options/deletableOption';
 import { EquipmentEntry, getEquipmentEntries, getRuleJournalEntryByName } from '../indexUtils';
-import QuantifiableOption from '../options/QuantifiableOption';
+import QuantifiableOption from '../options/quantifiableOption';
+import { MODULE_ID } from '../constants';
 
 type itemOrPack = {
   itemName?: string;
@@ -440,7 +440,7 @@ class _Equipment extends Step {
       .filter((item) => item?.data?.rarity.toLowerCase() == 'common') // get only common items
       .filter((item) => !itemBlackList.includes(item.name)); // remove some punctual "common" but magical/special items
 
-    this.defaultGoldDice = game.settings.get(Constants.MODULE_NAME, SettingKeys.DEFAULT_GOLD_DICE) as string;
+    this.defaultGoldDice = game.settings.get(MODULE_ID, SettingKeys.DEFAULT_GOLD_DICE) as string;
   }
 
   async renderData() {

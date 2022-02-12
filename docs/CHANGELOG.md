@@ -1,5 +1,11 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.7.0 (2022-02-12)
+- ⚠️ **API DEPRECATION WARNING**: Following recommended practices outlined [HERE](https://foundryvtt.wiki/en/development/guides/package-best-practices), the API is being moved from `window.HeroCreationTool` to `game.modules.get('hero-creation-tool')?.api`. Existing API will coexist until `1.8.0` with a deprecation warning.
+- Fixed Weapon/Armor/Tools proficiencies if custom base items are defined [(#88)](https://github.com/HeroCreationLab/hero-creation-tool/issues/88)
+- Fixed bug where creating a Hero without a race would break trying to set up the token vision level.
+- Internal refactor cleanup of constants, localizations, imports and etc.
+
 ## 1.6.3 (2022-01-26)
 - Added Source settings for what compendia to use for Equipments (default `dnd5e.items`).
 

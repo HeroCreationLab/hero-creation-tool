@@ -1,9 +1,9 @@
-import * as CONSTANTS from './constants';
+import { DEFAULT_PACKS, LOG_PREFIX, MODULE_ID } from './constants';
 import SettingKeys, { Source, SourceType } from './settings';
 
 export async function buildSourceIndexes() {
-  console.log(`${CONSTANTS.LOG_PREFIX} | Indexing source compendiums`);
-  const sourcePacks: Source = (await game.settings.get(CONSTANTS.MODULE_NAME, SettingKeys.SOURCES)) as Source;
+  console.log(`${LOG_PREFIX} | Indexing source compendiums`);
+  const sourcePacks: Source = (await game.settings.get(MODULE_ID, SettingKeys.SOURCES)) as Source;
   const itemsPromises: Promise<Item | null | undefined>[] = [];
   game.packs
     .filter((p) => p.documentName == 'Item')
@@ -30,11 +30,11 @@ export async function buildSourceIndexes() {
 }
 
 export async function buildJournalIndexes() {
-  console.log(`${CONSTANTS.LOG_PREFIX} | Indexing journals (rules)`);
-  const rulesPack = game.packs.get(CONSTANTS.DEFAULT_PACKS.RULES);
+  console.log(`${LOG_PREFIX} | Indexing journals (rules)`);
+  const rulesPack = game.packs.get(DEFAULT_PACKS.RULES);
   if (!rulesPack) {
     throw new Error(
-      `${CONSTANTS.LOG_PREFIX} | Cannot find default DnD5e rules compendium (for indexing sidepanel rules) under name ${CONSTANTS.DEFAULT_PACKS.RULES}`,
+      `${LOG_PREFIX} | Cannot find default DnD5e rules compendium (for indexing sidepanel rules) under name ${DEFAULT_PACKS.RULES}`,
     );
   }
   await (rulesPack as any).getIndex({ fields: ['name', 'content'] });
@@ -95,12 +95,12 @@ export async function getEquipmentEntries() {
 }
 
 export async function getRuleJournalEntryByName(journalName: string) {
-  const entries = await ((game.packs.get(CONSTANTS.DEFAULT_PACKS.RULES)?.index as unknown) as Promise<RuleEntry[]>);
+  const entries = await ((game.packs.get(DEFAULT_PACKS.RULES)?.index as unknown) as Promise<RuleEntry[]>);
   return entries.find((e) => e.name === journalName);
 }
 
 async function getIndexEntriesForSource(source: keyof Source) {
-  const sources: Source = (await game.settings.get(CONSTANTS.MODULE_NAME, SettingKeys.SOURCES)) as Source;
+  const sources: Source = (await game.settings.get(MODULE_ID, SettingKeys.SOURCES)) as Source;
 
   const indexEntries = [];
   for (const packName of sources[source]) {
@@ -119,7 +119,7 @@ async function getIndexEntriesForSource(source: keyof Source) {
 }
 
 export async function hydrateItems(indexEntries: Array<IndexEntry>): Promise<Item[]> {
-  console.log(`${CONSTANTS.LOG_PREFIX} | Hydrating items:`);
+  console.log(`${LOG_PREFIX} | Hydrating items:`);
   const worldItems = game.items;
   if (!worldItems) throw new Error('game.items not initialized yet');
 

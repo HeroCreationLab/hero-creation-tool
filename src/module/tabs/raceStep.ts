@@ -1,16 +1,15 @@
 /*
   Functions used exclusively on the Race tab
 */
-import { Step, StepEnum } from '../Step';
+import { Step, StepEnum } from '../step';
 import * as Utils from '../utils';
-import * as Constants from '../constants';
 import * as ProficiencyUtils from '../proficiencyUtils';
-import HeroOption from '../options/HeroOption';
-import HiddenOption from '../options/HiddenOption';
-import SelectableOption from '../options/SelectableOption';
-import FixedOption, { OptionType } from '../options/FixedOption';
-import InputOption from '../options/InputOption';
-import SearchableIndexEntryOption from '../options/SearchableIndexEntryOption';
+import HeroOption from '../options/heroOption';
+import HiddenOption from '../options/hiddenOption';
+import SelectableOption from '../options/selectableOption';
+import FixedOption, { OptionType } from '../options/fixedOption';
+import InputOption from '../options/inputOption';
+import SearchableIndexEntryOption from '../options/searchableIndexEntryOption';
 import {
   FeatEntry,
   getFeatEntries,
@@ -21,6 +20,7 @@ import {
   RacialFeatureEntry,
 } from '../indexUtils';
 import SettingKeys from '../settings';
+import { MYSTERY_MAN } from '../constants';
 
 type KeyValue = {
   key: string;
@@ -89,7 +89,7 @@ class _Race extends Step {
         this.updateRace(selectedRace.name, parentRace ? [parentRace, selectedRace] : [selectedRace]);
 
         // update icon and description
-        $('[data-hct_race_icon]').attr('src', selectedRace.img || Constants.MYSTERY_MAN);
+        $('[data-hct_race_icon]').attr('src', selectedRace.img || MYSTERY_MAN);
         if (parentRace) {
           $('[data-hct_race_description]').html(TextEditor.enrichHTML(parentRace.data.description.value));
           $('[data-hct_subrace_description]').html(TextEditor.enrichHTML(selectedRace.data.description.value));
@@ -123,9 +123,7 @@ class _Race extends Step {
   }
 
   resetFeat() {
-    $('[data-hct_feat_icon] img', this.$context)
-      .attr('src', Constants.MYSTERY_MAN)
-      .removeClass('hct-hover-shadow-accent');
+    $('[data-hct_feat_icon] img', this.$context).attr('src', MYSTERY_MAN).removeClass('hct-hover-shadow-accent');
   }
 
   async setProficienciesUi() {
@@ -279,7 +277,7 @@ class _Race extends Step {
       $imgLink.attr('data-pack', featEntry._pack ?? '');
       $imgLink.attr('data-id', featEntry._id ?? '');
       $('img', $imgLink)
-        .attr('src', featEntry.img ?? Constants.MYSTERY_MAN)
+        .attr('src', featEntry.img ?? MYSTERY_MAN)
         .addClass('hct-hover-shadow-accent');
     });
     const $raceFeaturesSection = $('section', $('[data-hct_race_area=feat]', this.$context)).empty();

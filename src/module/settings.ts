@@ -1,5 +1,5 @@
-import CompendiumSourcesSubmenu from './CompendiumSourcesSubmenu';
-import * as Constants from './constants';
+import CompendiumSourcesSubmenu from './compendiumSourcesSubmenu';
+import { MODULE_ID, LOG_PREFIX, DEFAULT_PACKS } from './constants';
 
 // settings not shown on the Module Settings - not modifiable by users
 export const enum PrivateSettingKeys {
@@ -43,7 +43,7 @@ export type Source = {
 };
 
 export function registerSettings(): void {
-  console.log(`${Constants.LOG_PREFIX} | Building module settings`);
+  console.log(`${LOG_PREFIX} | Building module settings`);
 
   Handlebars.registerHelper('checkedIf', function (condition) {
     return condition ? 'checked' : '';
@@ -70,23 +70,23 @@ export function registerSettings(): void {
 }
 
 function sourcesConfiguration() {
-  game.settings.register(Constants.MODULE_NAME, SettingKeys.SOURCES, {
+  game.settings.register(MODULE_ID, SettingKeys.SOURCES, {
     scope: 'world',
     config: false,
     type: Object,
     default: {
-      races: [Constants.DEFAULT_PACKS.RACES],
-      racialFeatures: [Constants.DEFAULT_PACKS.RACE_FEATURES],
-      classes: [Constants.DEFAULT_PACKS.CLASSES],
-      classFeatures: [Constants.DEFAULT_PACKS.CLASS_FEATURES],
+      races: [DEFAULT_PACKS.RACES],
+      racialFeatures: [DEFAULT_PACKS.RACE_FEATURES],
+      classes: [DEFAULT_PACKS.CLASSES],
+      classFeatures: [DEFAULT_PACKS.CLASS_FEATURES],
       backgroundFeatures: [],
-      spells: [Constants.DEFAULT_PACKS.SPELLS],
+      spells: [DEFAULT_PACKS.SPELLS],
       feats: [],
-      items: [Constants.DEFAULT_PACKS.ITEMS],
+      items: [DEFAULT_PACKS.ITEMS],
     },
   });
   // Define a settings submenu which handles advanced configuration needs
-  game.settings.registerMenu(Constants.MODULE_NAME, SettingKeys.SOURCES, {
+  game.settings.registerMenu(MODULE_ID, SettingKeys.SOURCES, {
     name: game.i18n.localize('HCT.Setting.Sources.Name'),
     hint: game.i18n.localize('HCT.Setting.Sources.Hint'),
     label: game.i18n.localize('HCT.Setting.Sources.Label'),
@@ -97,7 +97,7 @@ function sourcesConfiguration() {
 }
 
 function fightingStyleLookupString() {
-  game.settings.register(Constants.MODULE_NAME, SettingKeys.FIGHTING_STYLE_STRING, {
+  game.settings.register(MODULE_ID, SettingKeys.FIGHTING_STYLE_STRING, {
     name: game.i18n.localize('HCT.Setting.FightingStyleString.Name'),
     hint: game.i18n.localize('HCT.Setting.FightingStyleString.Hint'),
     scope: 'world',
@@ -108,7 +108,7 @@ function fightingStyleLookupString() {
 }
 
 function equipmentBlacklist() {
-  game.settings.register(Constants.MODULE_NAME, SettingKeys.EQUIPMENTS_BLACKLIST, {
+  game.settings.register(MODULE_ID, SettingKeys.EQUIPMENTS_BLACKLIST, {
     name: game.i18n.localize('HCT.Setting.EquipmentBlacklist.Name'),
     hint: game.i18n.localize('HCT.Setting.EquipmentBlacklist.Hint'),
     scope: 'world',
@@ -120,7 +120,7 @@ function equipmentBlacklist() {
 }
 
 function subraceNameBlacklist() {
-  game.settings.register(Constants.MODULE_NAME, SettingKeys.SUBRACES_BLACKLIST, {
+  game.settings.register(MODULE_ID, SettingKeys.SUBRACES_BLACKLIST, {
     name: game.i18n.localize('HCT.Setting.SubraceNameBlacklist.Name'),
     hint: game.i18n.localize('HCT.Setting.SubraceNameBlacklist.Hint'),
     scope: 'world',
@@ -131,7 +131,7 @@ function subraceNameBlacklist() {
 }
 
 function defaultStartingGoldDice() {
-  game.settings.register(Constants.MODULE_NAME, SettingKeys.DEFAULT_GOLD_DICE, {
+  game.settings.register(MODULE_ID, SettingKeys.DEFAULT_GOLD_DICE, {
     name: game.i18n.localize('HCT.Setting.DefaultGoldDice.Name'),
     hint: game.i18n.localize('HCT.Setting.DefaultGoldDice.Hint'),
     scope: 'world',
@@ -142,7 +142,7 @@ function defaultStartingGoldDice() {
 }
 
 function useTokenizerIfAvailable() {
-  game.settings.register(Constants.MODULE_NAME, SettingKeys.USE_TOKENIZER, {
+  game.settings.register(MODULE_ID, SettingKeys.USE_TOKENIZER, {
     name: game.i18n.localize('HCT.Setting.UseTokenizer.Name'),
     hint: game.i18n.localize('HCT.Setting.UseTokenizer.Hint'),
     scope: 'world',
@@ -153,7 +153,7 @@ function useTokenizerIfAvailable() {
 }
 
 function buttonOnDialogInsteadOfActorsDirectory() {
-  game.settings.register(Constants.MODULE_NAME, SettingKeys.BUTTON_ON_DIALOG, {
+  game.settings.register(MODULE_ID, SettingKeys.BUTTON_ON_DIALOG, {
     name: game.i18n.localize('HCT.Setting.ButtonOnDialogInsteadOfActorsDirectory.Name'),
     hint: game.i18n.localize('HCT.Setting.ButtonOnDialogInsteadOfActorsDirectory.Hint'),
     scope: 'world',
@@ -164,7 +164,7 @@ function buttonOnDialogInsteadOfActorsDirectory() {
 }
 
 function tokenDisplayBarsMode() {
-  game.settings.register(Constants.MODULE_NAME, SettingKeys.TOKEN_BAR, {
+  game.settings.register(MODULE_ID, SettingKeys.TOKEN_BAR, {
     name: game.i18n.localize('HCT.Setting.TokenBarMode.Name'),
     scope: 'world',
     config: true,
@@ -182,7 +182,7 @@ function tokenDisplayBarsMode() {
 }
 
 function tokenDisplayNameMode() {
-  game.settings.register(Constants.MODULE_NAME, SettingKeys.TOKEN_NAME, {
+  game.settings.register(MODULE_ID, SettingKeys.TOKEN_NAME, {
     name: game.i18n.localize('HCT.Setting.TokenNameMode.Name'),
     scope: 'world',
     config: true,
@@ -200,7 +200,7 @@ function tokenDisplayNameMode() {
 }
 
 function showRollsAsChatMessages() {
-  game.settings.register(Constants.MODULE_NAME, SettingKeys.SHOW_ROLLS_AS_MESSAGES, {
+  game.settings.register(MODULE_ID, SettingKeys.SHOW_ROLLS_AS_MESSAGES, {
     name: game.i18n.localize('HCT.Setting.ShowRolls.Name'),
     hint: game.i18n.localize('HCT.Setting.ShowRolls.Hint'),
     scope: 'world',
@@ -211,7 +211,7 @@ function showRollsAsChatMessages() {
 }
 
 function individualPanelScrolls() {
-  game.settings.register(Constants.MODULE_NAME, SettingKeys.INDIVIDUAL_PANEL_SCROLLS, {
+  game.settings.register(MODULE_ID, SettingKeys.INDIVIDUAL_PANEL_SCROLLS, {
     name: game.i18n.localize('HCT.Setting.IndividualPanelScroll.Name'),
     hint: game.i18n.localize('HCT.Setting.IndividualPanelScroll.Hint'),
     scope: 'client',
@@ -222,7 +222,7 @@ function individualPanelScrolls() {
 }
 
 function abilityScoreMethods() {
-  game.settings.register(Constants.MODULE_NAME, SettingKeys.ENABLE_ASI_ROLL, {
+  game.settings.register(MODULE_ID, SettingKeys.ENABLE_ASI_ROLL, {
     name: game.i18n.localize('HCT.Setting.AllowAbilityRolling.Name'),
     scope: 'world',
     config: true,
@@ -230,7 +230,7 @@ function abilityScoreMethods() {
     default: true,
   });
 
-  game.settings.register(Constants.MODULE_NAME, SettingKeys.ENABLE_ASI_STANDARD, {
+  game.settings.register(MODULE_ID, SettingKeys.ENABLE_ASI_STANDARD, {
     name: game.i18n.localize('HCT.Setting.AllowAbilityStandardArray.Name'),
     scope: 'world',
     config: true,
@@ -238,7 +238,7 @@ function abilityScoreMethods() {
     default: true,
   });
 
-  game.settings.register(Constants.MODULE_NAME, SettingKeys.ENABLE_ASI_MANUAL, {
+  game.settings.register(MODULE_ID, SettingKeys.ENABLE_ASI_MANUAL, {
     name: game.i18n.localize('HCT.Setting.AllowAbilityInput.Name'),
     scope: 'world',
     config: true,
@@ -246,7 +246,7 @@ function abilityScoreMethods() {
     default: true,
   });
 
-  game.settings.register(Constants.MODULE_NAME, SettingKeys.ENABLE_ASI_POINTBUY, {
+  game.settings.register(MODULE_ID, SettingKeys.ENABLE_ASI_POINTBUY, {
     name: game.i18n.localize('HCT.Setting.AllowAbilityPointBuy.Name'),
     scope: 'world',
     config: true,
@@ -256,7 +256,7 @@ function abilityScoreMethods() {
 }
 
 function pointBuyLimit() {
-  game.settings.register(Constants.MODULE_NAME, SettingKeys.POINT_BUY_LIMIT, {
+  game.settings.register(MODULE_ID, SettingKeys.POINT_BUY_LIMIT, {
     name: game.i18n.localize('HCT.Setting.PointBuyLimit.Name'),
     scope: 'world',
     config: true,
@@ -266,7 +266,7 @@ function pointBuyLimit() {
 }
 
 function abilityRollFormula() {
-  game.settings.register(Constants.MODULE_NAME, SettingKeys.ABILITY_ROLL_FORMULA, {
+  game.settings.register(MODULE_ID, SettingKeys.ABILITY_ROLL_FORMULA, {
     name: game.i18n.localize('HCT.Setting.AbilityRollFormula.Name'),
     scope: 'world',
     config: true,
@@ -278,7 +278,7 @@ function abilityRollFormula() {
 // PRIVATE SETTINGS
 
 function lastMigration() {
-  game.settings.register(Constants.MODULE_NAME, PrivateSettingKeys.LAST_MIGRATION, {
+  game.settings.register(MODULE_ID, PrivateSettingKeys.LAST_MIGRATION, {
     scope: 'world',
     config: false,
     default: 0,

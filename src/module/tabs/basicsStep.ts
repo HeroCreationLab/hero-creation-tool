@@ -1,10 +1,10 @@
 /*
   Functions used exclusively on the Basics tab
 */
-import * as Constants from '../constants';
-import { Step, StepEnum } from '../Step';
-import InputOption from '../options/InputOption';
+import { Step, StepEnum } from '../step';
+import InputOption from '../options/inputOption';
 import SettingKeys from '../settings';
+import { INTEGRATION, MODULE_ID, MYSTERY_MAN } from '../constants';
 
 const enum ImgType {
   AVATAR = 'avatar',
@@ -60,7 +60,7 @@ class _Basics extends Step {
           this.openFilePicker(pick);
           return;
         }
-        const lastUnsupportedVersion = Constants.INTEGRATION.TOKENIZER.VERSION;
+        const lastUnsupportedVersion = INTEGRATION.TOKENIZER.VERSION;
         // search for newer than last unsupported version
         if (!isNewerVersion(tokenizerVersion, lastUnsupportedVersion)) {
           ui.notifications?.error(
@@ -92,7 +92,7 @@ class _Basics extends Step {
   }
 
   setSourceData(): void {
-    this.useTokenizer = game.settings.get(Constants.MODULE_NAME, SettingKeys.USE_TOKENIZER) as boolean;
+    this.useTokenizer = game.settings.get(MODULE_ID, SettingKeys.USE_TOKENIZER) as boolean;
   }
 
   renderData(data: { actorName?: string }): void {
@@ -105,10 +105,10 @@ class _Basics extends Step {
     );
     this.nameOption.render($('[data-hero_name] div', this.section()));
 
-    this.avatarOption = new InputOption(this.step, 'img', Constants.MYSTERY_MAN, Constants.MYSTERY_MAN);
+    this.avatarOption = new InputOption(this.step, 'img', MYSTERY_MAN, MYSTERY_MAN);
     this.avatarOption.render($('[data-hero_avatar] div', this.section()));
 
-    this.tokenOption = new InputOption(this.step, 'token.img', Constants.MYSTERY_MAN, Constants.MYSTERY_MAN);
+    this.tokenOption = new InputOption(this.step, 'token.img', MYSTERY_MAN, MYSTERY_MAN);
     this.tokenOption.render($('[data-hero_token] div', this.section()));
 
     this.stepOptions.push(this.nameOption, this.avatarOption, this.tokenOption);

@@ -3,7 +3,7 @@
 [![Module Version](https://img.shields.io/github/v/release/HeroCreationLab/hero-creation-tool?color=blue)](#)
 [![Core Version](https://img.shields.io/endpoint?url=https://foundryshields.com/version?url=https%3A%2F%2Fgithub.com%2FHeroCreationLab%2Fhero-creation-tool%2Freleases%2Fdownload%2F1.6.2%2Fmodule.json)](#)
 [![System](https://img.shields.io/endpoint?url=https%3A%2F%2Ffoundryshields.com%2Fsystem%3FnameType%3Dshort%26url%3Dhttps%3A%2F%2Fgithub.com%2FHeroCreationLab%2Fhero-creation-tool%2Freleases%2Fdownload%2F1.6.2%2Fmodule.json)](#)
-[![GitHub release (latest by date)](https://img.shields.io/github/downloads/HeroCreationLab/hero-creation-tool/latest/total?color=purple)](#)
+[![GitHub release (latest by date)](https://img.shields.io/github/downloads/HeroCreationLab/hero-creation-tool/latest/module.zip?color=purple)](#)
 [![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fhero-creation-tool&colorB=4aa94a)](#) 
 
 <img src="src/assets/logo.png" width="400">

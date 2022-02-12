@@ -1,7 +1,10 @@
-import { getEquipmentEntries } from './indexUtils';
-import HeroOption from './options/HeroOption';
-import MultiOption from './options/MultiOption';
-import { StepEnum } from './Step';
+import { ProficiencyChoicesType, ProficiencySelectorClass } from './dnd5e';
+import HeroOption from './options/heroOption';
+import MultiOption from './options/multiOption';
+import { StepEnum } from './step';
+const { default: ProficiencySelector } = (await import(
+  foundry.utils.getRoute('../../systems/dnd5e/module/apps/proficiency-selector.js')
+)) as { default: ProficiencySelectorClass };
 
 export type OptionSettings = {
   step: StepEnum;
@@ -42,64 +45,34 @@ export function prepareLanguageOptions(optionSettings: OptionSettings): MultiOpt
 }
 
 export async function prepareToolOptions(optionSettings: OptionSettings) {
-  const foundryToolTypes = (game as any).dnd5e.config.toolProficiencies;
-  const foundryTools = (game as any).dnd5e.config.toolIds;
-  const toolTypeChoices: KeyValue[] = Object.keys(foundryToolTypes).map((k) => ({
-    key: k,
-    value: `All ${foundryToolTypes[k]}`,
-  }));
-  const indexEntries = await getEquipmentEntries();
-  const toolChoices: KeyValue[] = Object.keys(foundryTools).map((k) => {
-    const id = foundryTools[k];
-    const item = indexEntries?.find((i) => i._id === id);
-    return { key: k, value: item!.name! };
-  });
+  const toolChoices = await ProficiencySelector.getChoices('tool');
+
   return prepareOptions(
     optionSettings,
     'toolProf',
-    optionSettings.filteredOptions ?? [...toolTypeChoices, ...toolChoices],
+    optionSettings.filteredOptions ?? toKeyValues(toolChoices),
     game.i18n.localize('HCT.Common.ToolProficiencies'),
   );
 }
 
 export async function prepareWeaponOptions(optionSettings: OptionSettings) {
-  const foundryWeaponTypes = (game as any).dnd5e.config.weaponProficiencies;
-  const foundryWeapons = (game as any).dnd5e.config.weaponIds;
-  const weaponTypeChoices: KeyValue[] = Object.keys(foundryWeaponTypes).map((k) => ({
-    key: k,
-    value: `All ${foundryWeaponTypes[k]}`,
-  }));
-  const indexEntries = await getEquipmentEntries();
-  const weaponChoices: KeyValue[] = Object.keys(foundryWeapons).map((k) => {
-    const id = foundryWeapons[k];
-    const item = indexEntries?.find((i) => i._id === id);
-    return { key: k, value: item!.name! };
-  });
+  const weaponChoices = await ProficiencySelector.getChoices('weapon');
+
   return prepareOptions(
     optionSettings,
     'weaponProf',
-    optionSettings.filteredOptions ?? [...weaponTypeChoices, ...weaponChoices],
+    optionSettings.filteredOptions ?? toKeyValues(weaponChoices),
     game.i18n.localize('HCT.Common.WeaponProficiencies'),
   );
 }
 
 export async function prepareArmorOptions(optionSettings: OptionSettings) {
-  const foundryArmorTypes = (game as any).dnd5e.config.armorProficiencies;
-  const foundryArmor = (game as any).dnd5e.config.armorIds;
-  const armorTypeChoices: KeyValue[] = Object.keys(foundryArmorTypes).map((k) => ({
-    key: k,
-    value: `All ${foundryArmorTypes[k]}`,
-  }));
-  const indexEntries = await getEquipmentEntries();
-  const foundryArmorChoices: KeyValue[] = Object.keys(foundryArmor).map((k) => {
-    const id = foundryArmor[k];
-    const itemEntry = indexEntries?.find((i) => i._id === id);
-    return { key: k, value: itemEntry!.name! };
-  });
+  const armorChoices = await ProficiencySelector.getChoices('armor');
+
   return prepareOptions(
     optionSettings,
     'armorProf',
-    optionSettings.filteredOptions ?? [...armorTypeChoices, ...foundryArmorChoices],
+    optionSettings.filteredOptions ?? toKeyValues(armorChoices),
     game.i18n.localize('HCT.Common.ArmorProficiencies'),
   );
 }
@@ -117,3 +90,16 @@ export function prepareOptions(
   });
   return container;
 }
+
+const toKeyValues = (prof?: ProficiencyChoicesType): KeyValue[] => {
+  if (!prof) return [];
+
+  const parentTypes = Object.keys(prof).map((p) => ({ key: p, value: prof[p].label }));
+  const childrenTypes = Object.values(prof).flatMap((p) => {
+    if (!p.children) return [];
+    return Object.keys(p.children).flatMap((ck) => {
+      return { key: ck, value: p.children![ck].label };
+    });
+  });
+  return [...parentTypes, ...childrenTypes];
+};

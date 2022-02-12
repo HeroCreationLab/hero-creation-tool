@@ -1,4 +1,4 @@
-import { StepEnum } from '../Step';
+import { StepEnum } from '../step';
 import type { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 
 /**

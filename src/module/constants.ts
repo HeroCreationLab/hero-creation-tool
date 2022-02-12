@@ -1,8 +1,6 @@
 // Class for general global variables.
 
-export const MODULE_NAME = 'hero-creation-tool';
-export const MODULE_PATH = 'modules/hero-creation-tool';
-
+export const MODULE_ID = 'hero-creation-tool';
 export const LOG_PREFIX = 'Hero Creation Tool';
 export const MYSTERY_MAN = 'icons/svg/mystery-man.svg';
 
@@ -30,4 +28,4 @@ export const MERGE_OPTIONS = {
   inplace: false,
 };
 
-export type HpCalculation = 'roll' | 'avg';
+export type CLASS_LEVEL = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20;

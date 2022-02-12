@@ -1,8 +1,8 @@
-import { StepEnum } from '../Step';
+import { StepEnum } from '../step';
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
-import HeroOption, { apply } from './HeroOption';
-import * as Constants from '../constants';
+import HeroOption, { apply } from './heroOption';
 import { IndexEntry } from '../indexUtils';
+import { MYSTERY_MAN } from '../constants';
 
 /**
  * Represents a value needs to be selected by the player with a single output onto the created actor.
@@ -69,7 +69,7 @@ export default class SelectableIndexEntryOption implements HeroOption {
     this.$select.on('change', () => {
       const val = this.$select.val();
       const item = this.optionsMap.get((val as string) ?? '')!;
-      this.$itemImg.attr('src', item.img || Constants.MYSTERY_MAN);
+      this.$itemImg.attr('src', item.img || MYSTERY_MAN);
       this.$link.attr('data-pack', item._pack);
       this.$link.attr('data-id', item._id);
     });

@@ -1,6 +1,6 @@
-import { Step, StepEnum } from '../Step';
-import HeroOption from '../options/HeroOption';
-import FixedOption, { OptionType } from '../options/FixedOption';
+import { Step, StepEnum } from '../step';
+import HeroOption from '../options/heroOption';
+import FixedOption, { OptionType } from '../options/fixedOption';
 import SettingKeys from '../settings';
 import { getRuleJournalEntryByName } from '../indexUtils';
 import { getAbilityModifierValue, getModuleSetting, setPanelScrolls } from '../utils';

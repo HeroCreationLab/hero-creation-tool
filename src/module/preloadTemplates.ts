@@ -1,20 +1,20 @@
-import * as Constants from './constants';
+import { LOG_PREFIX, MODULE_ID } from './constants';
 
 export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]> {
-  console.log(`${Constants.LOG_PREFIX} | Loading templates`);
+  console.log(`${LOG_PREFIX} | Loading templates`);
 
   const templatePaths: string[] = [
-    Constants.MODULE_PATH + '/templates/nav-tabs.html',
-    Constants.MODULE_PATH + '/templates/footer.html',
-    Constants.MODULE_PATH + '/templates/tabs/abilities.html',
-    Constants.MODULE_PATH + '/templates/tabs/background.html',
-    Constants.MODULE_PATH + '/templates/tabs/basics.html',
-    Constants.MODULE_PATH + '/templates/tabs/bio.html',
-    Constants.MODULE_PATH + '/templates/tabs/class.html',
-    Constants.MODULE_PATH + '/templates/tabs/equipment.html',
-    Constants.MODULE_PATH + '/templates/tabs/race.html',
-    Constants.MODULE_PATH + '/templates/tabs/spells.html',
-    Constants.MODULE_PATH + '/templates/tabs/start.html',
+    `modules/${MODULE_ID}/templates/nav-tabs.html`,
+    `modules/${MODULE_ID}/templates/footer.html`,
+    `modules/${MODULE_ID}/templates/tabs/abilities.html`,
+    `modules/${MODULE_ID}/templates/tabs/background.html`,
+    `modules/${MODULE_ID}/templates/tabs/basics.html`,
+    `modules/${MODULE_ID}/templates/tabs/bio.html`,
+    `modules/${MODULE_ID}/templates/tabs/class.html`,
+    `modules/${MODULE_ID}/templates/tabs/equipment.html`,
+    `modules/${MODULE_ID}/templates/tabs/race.html`,
+    `modules/${MODULE_ID}/templates/tabs/spells.html`,
+    `modules/${MODULE_ID}/templates/tabs/start.html`,
   ];
 
   return loadTemplates(templatePaths);
