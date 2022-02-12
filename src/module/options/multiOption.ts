@@ -1,9 +1,9 @@
 import { StepEnum } from '../step';
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 import SelectableOption from './selectableOption';
-import HeroOption from './hHeroOption';
-import InputOption from './iInputOption';
-import DeletableOption from './dDeletableOption';
+import HeroOption from './heroOption';
+import InputOption from './inputOption';
+import DeletableOption from './deletableOption';
 
 /**
  * Represents an array of values selected by the player for the created actor.
