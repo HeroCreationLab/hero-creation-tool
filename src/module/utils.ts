@@ -95,17 +95,32 @@ export function addCreateNewActorButton(app: HeroCreationTool, html: any, dialog
   });
 }
 
+interface ModuleDataWithApi extends Game.ModuleData<foundry.packages.ModuleData> {
+  api?: {
+    selectSources: () => void;
+    openForNewActor: () => void;
+  };
+}
 export function setPublicApi(app: HeroCreationTool) {
   (window as any).HeroCreationTool = {
+    // TODO remove on 1.8.0
     selectSources: () => {
-      console.warn();
+      console.warn(
+        `HCT: window.HeroCreationTool API is deprecated and will be removed on v1.8.0; use "game.modules.get('hero-creation-tool').api" instead`,
+      );
       const sourcesApp = new CompendiumSourcesSubmenu();
       sourcesApp.render(true);
     },
-    openForNewActor: () => app.openForNewActor(),
+    openForNewActor: () => {
+      console.warn(
+        `HCT: window.HeroCreationTool API is deprecated and will be removed on v1.8.0; use "game.modules.get('hero-creation-tool').api" instead`,
+      );
+      app.openForNewActor();
+    },
   };
 
-  (game.modules.get(MODULE_ID) as any).api = {
+  const module: ModuleDataWithApi = game.modules.get(MODULE_ID)!;
+  module.api = {
     selectSources: () => {
       const sourcesApp = new CompendiumSourcesSubmenu();
       sourcesApp.render(true);
