@@ -72,7 +72,8 @@
         "ClassFeatureCompendia": "Capacités des Classes Compendiums",
         "BackgroundFeatureCompendia": "Capacités d'Historique Compendiums",
         "SpellCompendia": "Sorts Compendiums",
-        "FeatCompendia": "Dons Compendiums"
+        "FeatCompendia": "Dons Compendiums",
+        "EquipmentCompendia": "Equipment Compendia"
       }
     },
     "Permissions": {
@@ -140,7 +141,6 @@
     "Custom": "Personnalisé",
     "Next": "Suivant",
     "Back": "Retour",
-    "Submit": "Soumettre",
     "Start": {
       "Title": "Start",
       "Welcome": "Bienvenue sur Hero Creation Tool pour DnD 5e",
@@ -179,7 +179,8 @@
       "HpCalcAvg": "Average",
       "HpCalcRoll": "Roll",
       "HitPointsBlob": " + votre modificateur de Constitution",
-      "HpRollChatFlavor": "Rolled hp for level {lv}"
+      "HpRollChatFlavor": "Rolled hp for level {lv}",
+      "Level": "Level {lv}"
     },
     "Abilities": {
       "Title": "Caractéristique",
@@ -210,7 +211,9 @@
       "Title": "Historique",
       "RulesJournalName": "Backgrounds",
       "Name": "Nom d'Historique",
-      "Alignment": "Alignement"
+      "Alignment": "Alignement",
+      "ShowFeatureOnSide": "Show the Feature description on the side panel (re-check to refresh)",
+      "NoFeatureSelected": "No background feature selected"
     },
     "Equipment": {
       "Title": "Equipement",
@@ -257,8 +260,16 @@
       "FlawsTitle": "Défauts",
       "BiographyPlaceholder": "Biographie.."
     },
+    "Submit": {
+      "Button": "Soumettre",
+      "Title": "Confirm choices?",
+      "Content": "<p>You can go back and review and/or change anything before the hero is created.</p>",
+      "YesLabel": "Create Hero",
+      "NoLabel": "Go Back"
+    },
     "Migrations": {
-      "Info1": "Hero Creation Tool :: Migration 1 - Restoring Compendia sources setting to default to prevent errors when moving from v0.8.x to v9"
+      "Info1": "Hero Creation Tool :: Migration 1 - Restoring Compendia sources setting to default to prevent errors when moving from v0.8.x to v9",
+      "Info2": "Hero Creation Tool :: Migration 2 - Adding default 5e Items and Rules compendia to sources"
     }
   }
 }

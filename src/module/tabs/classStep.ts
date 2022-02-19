@@ -283,7 +283,7 @@ function addLevelSelect($parent: JQuery, className: string) {
   for (let i = 1; i <= 20; i++) {
     const $opt = document.createElement('option');
     $opt.value = i + '';
-    $opt.text = game.i18n.localize(`HCT.Class.Level${i}`);
+    $opt.text = game.i18n.format(`HCT.Class.Level`, { lv: i });
     $select.appendChild($opt);
   }
   $parent.append($select);
