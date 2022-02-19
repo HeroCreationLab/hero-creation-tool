@@ -1,5 +1,8 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.7.1 (2022-02-19)
+- Updated the fr.json translations to fix a key that was causing a complete failure when using French translations due to a key that had become a nested key. **Please remember that FR localization is deprecated overall as of v1.5.6, this is just a fix to prevent the module from working** [(#91)](https://github.com/HeroCreationLab/hero-creation-tool/issues/91)
+
 ## 1.7.0 (2022-02-12)
 - ⚠️ **API DEPRECATION WARNING**: Following recommended practices outlined [HERE](https://foundryvtt.wiki/en/development/guides/package-best-practices), the API is being moved from `window.HeroCreationTool` to `game.modules.get('hero-creation-tool')?.api`. Existing API will coexist until `1.8.0` with a deprecation warning.
 - Fixed Weapon/Armor/Tools proficiencies if custom base items are defined [(#88)](https://github.com/HeroCreationLab/hero-creation-tool/issues/88)
@@ -42,11 +45,11 @@
 
 ## 1.5.4 (2021-12-22)
 - Added some sanity checks for items taken from compendia to avoid pulling items that can't function as the required source type; this should prevent the tool breaking if any of the compendia had nonconforming data (for example, having a custom compendium with Spells, and placing a Class/Feature there, it would break because those items don't have a `Level` field). In detail:
-  - Races, Race Features, Class Features, Background Features and Feats check that the type is of type 'feat' (Feature).
-  - Classes check that the type of items is 'class' (Class)
-  - Spells check that the type of items is 'spell' (Spell)
-  - Equipment items check that the type of items is NEITHER 'feat', 'class' or 'spell' (taken from the default Items (SRD) compendium, but it's always good to double check just in case)
-  - Additionally, Race Features and Class Features check that the item has Requiments not-empty (as it's required to tie them to the corresponding race/class).
+- Races, Race Features, Class Features, Background Features and Feats check that the type is of type 'feat' (Feature).
+- Classes check that the type of items is 'class' (Class)
+- Spells check that the type of items is 'spell' (Spell)
+- Equipment items check that the type of items is NEITHER 'feat', 'class' or 'spell' (taken from the default Items (SRD) compendium, but it's always good to double check just in case)
+- Additionally, Race Features and Class Features check that the item has Requiments not-empty (as it's required to tie them to the corresponding race/class).
 
 ## 1.5.3 (2021-12-21)
 - Added a migration handler to more easily distribute migrations in the future. Each migration will only run once on each world. Should fix [(#65)](https://github.com/HeroCreationLab/hero-creation-tool/issues/65)
