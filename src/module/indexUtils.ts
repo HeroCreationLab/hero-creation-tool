@@ -198,11 +198,15 @@ function addClassFields(fieldsToIndex: Set<string>, source: Source, packName: st
 }
 
 export type ClassFeatureEntry = IndexEntry & {
-  data: { requirements: string };
+  data: {
+    description: { value: string };
+    requirements: string;
+  };
 };
 function addClassFeaturesFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
   if (source[SourceType.CLASS_FEATURES].includes(packName)) {
     fieldsToIndex.add('data.requirements'); // for mapping class features to classes
+    fieldsToIndex.add('data.description'); // used to show Spellcasting/Pact Magic features on the Spells tab
   }
 }
 

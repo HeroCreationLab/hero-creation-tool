@@ -20,6 +20,7 @@ const enum SettingKeys {
   FIGHTING_STYLE_STRING = 'fightingStyleLookupString',
   EQUIPMENTS_BLACKLIST = 'equipmentsBlackList',
   SUBRACES_BLACKLIST = 'subracesBlacklist',
+  SPELL_GRANTING_STRING = 'spellGrantingLookupString',
   BUTTON_ON_DIALOG = 'buttonOnDialog',
   POINT_BUY_LIMIT = 'pointBuyLimit',
   ABILITY_ROLL_FORMULA = 'abiiltyRollFormula',
@@ -58,6 +59,7 @@ export function registerSettings(): void {
   tokenDisplayNameMode();
   tokenDisplayBarsMode();
   fightingStyleLookupString();
+  spellGrantingLookupString();
   equipmentBlacklist();
   subraceNameBlacklist();
   buttonOnDialogInsteadOfActorsDirectory();
@@ -103,6 +105,17 @@ function fightingStyleLookupString() {
     scope: 'world',
     config: true,
     default: 'Fighting Style',
+    type: String,
+  });
+}
+
+function spellGrantingLookupString() {
+  game.settings.register(MODULE_ID, SettingKeys.SPELL_GRANTING_STRING, {
+    name: game.i18n.localize('HCT.Setting.spellcastingString.Name'),
+    hint: game.i18n.localize('HCT.Setting.spellcastingString.Hint'),
+    scope: 'world',
+    config: true,
+    default: 'Spellcasting; Pact Magic',
     type: String,
   });
 }

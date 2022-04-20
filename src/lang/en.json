@@ -233,7 +233,7 @@
       "RulesJournalName": "10. Spellcasting",
       "SpellcastingAbilityBlob": "<p>You selected {class} - your Spellcasting Ability is <b>{spa}</b></p>",
       "NoSpellcastingClass": "No spellcasting class selected",
-      "ShowFeatureOnSide": "Show the class Spellcasting Feature on the side panel",
+      "ShowFeatureOnSide": "Show the class spell-granting feature on the side panel",
       "SpellCount": "Number of Spells",
       "SpellList": "Starting Spells",
       "Spellcasting": "Spellcasting",

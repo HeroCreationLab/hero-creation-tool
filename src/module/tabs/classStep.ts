@@ -14,7 +14,7 @@ import SettingKeys from '../settings';
 import { MYSTERY_MAN, CLASS_LEVEL } from '../constants';
 
 export type ClassSpellcastingData = {
-  item: Item;
+  description?: string;
   ability: string;
   progression: string;
 };
@@ -29,6 +29,8 @@ class _Class extends Step {
     super(StepEnum.Class);
   }
 
+  spellGrantingString!: string[];
+  fightingStyleString!: string;
   spellcasting?: ClassSpellcastingData;
 
   getUpdateData() {
@@ -58,6 +60,9 @@ class _Class extends Step {
     // class features
     const classFeatureItems = await getClassFeatureEntries();
     this.classFeatures = classFeatureItems?.sort((a, b) => a.name.localeCompare(b.name)) as any;
+
+    this.spellGrantingString = (Utils.getModuleSetting(SettingKeys.SPELL_GRANTING_STRING) as string).split(';');
+    this.fightingStyleString = Utils.getModuleSetting(SettingKeys.FIGHTING_STYLE_STRING) as string;
   }
 
   private $primaryClassLevelSelect!: HTMLSelectElement;
@@ -216,27 +221,25 @@ class _Class extends Step {
       return lvA - lvB;
     });
     // handle fighting style
-    const fsString = Utils.getModuleSetting(SettingKeys.FIGHTING_STYLE_STRING) as string;
-    const fightingStyles = classFeatures.filter((i) => (i as any).name.startsWith(fsString));
-    classFeatures = classFeatures.filter((i) => !(i as any).name.startsWith(fsString));
+    const fightingStyles = classFeatures.filter((i) => i.name.startsWith(this.fightingStyleString));
+    classFeatures = classFeatures.filter((i) => !i.name.startsWith(this.fightingStyleString));
 
-    const spellcastingItem = classFeatures.find(
-      (i) => (i as any).name.startsWith('Spellcasting') || (i as any).name.startsWith('Pact Magic'),
-    );
-    if (spellcastingItem) {
+    // handle spellcasting/pact magic
+    if (this._class?.data.spellcasting.progression === 'none') {
+      this.spellcasting = undefined;
+    } else {
       this.spellcasting = {
-        item: (await game.packs.get(spellcastingItem._pack)?.getDocument(spellcastingItem._id)) as Item,
+        description: classFeatures.find((i) => this.spellGrantingString.some((s) => i.name.includes(s)))?.data
+          .description.value,
         ability: this._class!.data.spellcasting.ability,
         progression: this._class!.data.spellcasting.progression,
       };
-    } else {
-      this.spellcasting = undefined;
     }
 
     if (fightingStyles && fightingStyles.length > 0) {
       const fsOption = new SelectableIndexEntryOption(StepEnum.Class, 'items', fightingStyles, {
         addValues: true,
-        placeholderName: fsString,
+        placeholderName: this.fightingStyleString,
       });
       fsOption.render($featuresSection);
       this.stepOptions.push(fsOption);

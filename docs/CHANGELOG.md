@@ -14,6 +14,7 @@
 ```
 - Replaced importing ProficiencySelector for using the one now exposed by the system [(#93)](https://github.com/HeroCreationLab/hero-creation-tool/issues/93)
 - Module compatible with the latest 5e system version - required for ProficiencySelector fix, Backgrounds (WIP) and Subclasses (WIP) among other things
+- Separated how the class data is fetched on the Spells tab. The text showing if the class is a spellcaster or not depends on the class spellcasting progression now, the feature checkbox depends on whether a suitable feature can be found using a new 'spell granting features' module setting that lists all substrings to search for a feature. 
 
 ## 1.7.1 (2022-02-19)
 - Updated the fr.json translations to fix a key that was causing a complete failure when using French translations due to a key that had become a nested key. **Please remember that FR localization is deprecated overall as of v1.5.6, this is just a fix to prevent the module from working** [(#91)](https://github.com/HeroCreationLab/hero-creation-tool/issues/91)

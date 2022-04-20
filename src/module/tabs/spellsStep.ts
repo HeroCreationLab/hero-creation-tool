@@ -169,7 +169,7 @@ class _Spells extends Step {
       $spellCastingAbilityElem.html(
         game.i18n.format('HCT.Spells.SpellcastingAbilityBlob', { class: data.class.name, spa: spa }),
       );
-      const enrichedText = TextEditor.enrichHTML((classSpellcasting.item.data as any).data.description.value);
+      const enrichedText = TextEditor.enrichHTML(classSpellcasting.description ?? '');
       $showFeatureDescCheckbox.prop('disabled', false);
       $showFeatureDescCheckbox.prev().css('color', '#191813');
       $showFeatureDescCheckbox.on('change', (event) => {
