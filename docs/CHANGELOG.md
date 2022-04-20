@@ -1,5 +1,20 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.8.0 (2022-mm-dd)
+- ⚠️ **API DEPRECATION WARNING**: Removed old API, please use the one from the module object hereafter
+```
+    // OLD API - replace with code from below
+    //HeroCreationTool.openForNewActor()
+    //HeroCreationTool.selectSources()
+
+    // NEW API
+    const { api } = game.modules.get('hero-creation-tool')
+    api.openForNewActor()
+    api.selectSources()
+```
+- Replaced importing ProficiencySelector for using the one now exposed by the system [(#93)](https://github.com/HeroCreationLab/hero-creation-tool/issues/93)
+- Module compatible with the latest 5e system version - required for ProficiencySelector fix, Backgrounds (WIP) and Subclasses (WIP) among other things
+
 ## 1.7.1 (2022-02-19)
 - Updated the fr.json translations to fix a key that was causing a complete failure when using French translations due to a key that had become a nested key. **Please remember that FR localization is deprecated overall as of v1.5.6, this is just a fix to prevent the module from working** [(#91)](https://github.com/HeroCreationLab/hero-creation-tool/issues/91)
 

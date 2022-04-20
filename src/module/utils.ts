@@ -102,23 +102,6 @@ interface ModuleDataWithApi extends Game.ModuleData<foundry.packages.ModuleData>
   };
 }
 export function setPublicApi(app: HeroCreationTool) {
-  (window as any).HeroCreationTool = {
-    // TODO remove on 1.8.0
-    selectSources: () => {
-      console.warn(
-        `HCT: window.HeroCreationTool API is deprecated and will be removed on v1.8.0; use "game.modules.get('hero-creation-tool').api" instead`,
-      );
-      const sourcesApp = new CompendiumSourcesSubmenu();
-      sourcesApp.render(true);
-    },
-    openForNewActor: () => {
-      console.warn(
-        `HCT: window.HeroCreationTool API is deprecated and will be removed on v1.8.0; use "game.modules.get('hero-creation-tool').api" instead`,
-      );
-      app.openForNewActor();
-    },
-  };
-
   const module: ModuleDataWithApi = game.modules.get(MODULE_ID)!;
   module.api = {
     selectSources: () => {

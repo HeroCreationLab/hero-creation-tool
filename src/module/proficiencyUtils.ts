@@ -1,10 +1,7 @@
-import { ProficiencyChoicesType, ProficiencySelectorClass } from './dnd5e';
+import { ProficiencyChoicesType } from './dnd5e';
 import HeroOption from './options/heroOption';
 import MultiOption from './options/multiOption';
 import { StepEnum } from './step';
-const { default: ProficiencySelector } = (await import(
-  foundry.utils.getRoute('../../systems/dnd5e/module/apps/proficiency-selector.js')
-)) as { default: ProficiencySelectorClass };
 
 export type OptionSettings = {
   step: StepEnum;
@@ -45,7 +42,7 @@ export function prepareLanguageOptions(optionSettings: OptionSettings): MultiOpt
 }
 
 export async function prepareToolOptions(optionSettings: OptionSettings) {
-  const toolChoices = await ProficiencySelector.getChoices('tool');
+  const toolChoices = await (game as any).dnd5e.applications.ProficiencySelector.getChoices('tool');
 
   return prepareOptions(
     optionSettings,
@@ -56,7 +53,7 @@ export async function prepareToolOptions(optionSettings: OptionSettings) {
 }
 
 export async function prepareWeaponOptions(optionSettings: OptionSettings) {
-  const weaponChoices = await ProficiencySelector.getChoices('weapon');
+  const weaponChoices = await (game as any).dnd5e.applications.ProficiencySelector.getChoices('weapon');
 
   return prepareOptions(
     optionSettings,
@@ -67,7 +64,7 @@ export async function prepareWeaponOptions(optionSettings: OptionSettings) {
 }
 
 export async function prepareArmorOptions(optionSettings: OptionSettings) {
-  const armorChoices = await ProficiencySelector.getChoices('armor');
+  const armorChoices = await (game as any).dnd5e.applications.ProficiencySelector.getChoices('armor');
 
   return prepareOptions(
     optionSettings,
