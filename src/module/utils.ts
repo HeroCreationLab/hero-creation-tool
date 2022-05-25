@@ -3,6 +3,13 @@ import { MODULE_ID, LOG_PREFIX } from './constants';
 import HeroCreationTool from './heroCreationToolApp';
 import SettingKeys, { PrivateSettingKeys } from './settings';
 
+export function getGame(): Game {
+  if (!(game instanceof Game)) {
+    throw new Error('game is not initialized yet!');
+  }
+  return game;
+}
+
 export function setPanelScrolls($section: JQuery) {
   const individualScrolls = getModuleSetting(SettingKeys.INDIVIDUAL_PANEL_SCROLLS);
   const scroll = 'hct-overflow-y-scroll';

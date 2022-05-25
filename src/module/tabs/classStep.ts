@@ -12,6 +12,7 @@ import { HitDie } from '../hitDie';
 import { ClassEntry, ClassFeatureEntry, getClassEntries, getClassFeatureEntries } from '../indexUtils';
 import SettingKeys from '../settings';
 import { MYSTERY_MAN, CLASS_LEVEL } from '../constants';
+import * as Advancements from '../advancementUtils';
 
 export type ClassSpellcastingData = {
   description?: string;
@@ -81,6 +82,7 @@ class _Class extends Step {
         if (!this._class) {
           throw new Error(`Error finding class with name ${classId}`);
         }
+        Advancements.getItemGrantsForLevel(this._class, this.primaryClassLevel);
         if (this.classes) {
           this.updateClass(this.section());
           this.$primaryClassLevelSelect.disabled = false;
