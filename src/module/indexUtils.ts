@@ -1,5 +1,6 @@
 import { DEFAULT_PACKS, LOG_PREFIX, MODULE_ID } from './constants';
 import SettingKeys, { Source, SourceType } from './settings';
+import { getGame } from './utils';
 
 export async function buildSourceIndexes() {
   console.log(`${LOG_PREFIX} | Indexing source compendiums`);
@@ -18,7 +19,7 @@ export async function buildSourceIndexes() {
       addClassFeaturesFields(fieldsToIndex, sourcePacks, name);
       addSpellFields(fieldsToIndex, sourcePacks, name);
       addFeatFields(fieldsToIndex, sourcePacks, name);
-      addBackgroundFeaturesFields(fieldsToIndex, sourcePacks, name);
+      addBackgroundFields(fieldsToIndex, sourcePacks, name);
       addEquipmentFields(fieldsToIndex, sourcePacks, name);
 
       if (fieldsToIndex.size) {
@@ -41,13 +42,13 @@ export async function buildJournalIndexes() {
 }
 
 export async function getRaceEntries() {
-  const raceEntries = await ((getIndexEntriesForSource(SourceType.RACES) as unknown) as Promise<RaceEntry[]>);
+  const raceEntries = await (getIndexEntriesForSource(SourceType.RACES) as unknown as Promise<RaceEntry[]>);
   // sanitize entries to remove anything nonconforming to a Feature (for now, until Race becomes a type)
   return raceEntries.filter((r) => r.type == 'feat');
 }
 
 export async function getRaceFeatureEntries() {
-  const raceFeatureEntries = await ((getIndexEntriesForSource(SourceType.RACIAL_FEATURES) as unknown) as Promise<
+  const raceFeatureEntries = await (getIndexEntriesForSource(SourceType.RACIAL_FEATURES) as unknown as Promise<
     RacialFeatureEntry[]
   >);
   // sanitize entries to remove anything nonconforming to a Feature (for now at least, if Race Features become a type in the future)
@@ -55,13 +56,13 @@ export async function getRaceFeatureEntries() {
 }
 
 export async function getClassEntries() {
-  const classEntries = await ((getIndexEntriesForSource(SourceType.CLASSES) as unknown) as Promise<ClassEntry[]>);
+  const classEntries = await (getIndexEntriesForSource(SourceType.CLASSES) as unknown as Promise<ClassEntry[]>);
   // sanitize entries to remove anything nonconforming to a Class
   return classEntries.filter((c) => c.type == 'class');
 }
 
 export async function getClassFeatureEntries() {
-  const classFeatureEntries = await ((getIndexEntriesForSource(SourceType.CLASS_FEATURES) as unknown) as Promise<
+  const classFeatureEntries = await (getIndexEntriesForSource(SourceType.CLASS_FEATURES) as unknown as Promise<
     RacialFeatureEntry[]
   >);
   // sanitize entries to remove anything nonconforming to a Feature (for now at least, if Class Features become a type in the future)
@@ -69,33 +70,33 @@ export async function getClassFeatureEntries() {
 }
 
 export async function getSpellEntries() {
-  const spellEntries = await ((getIndexEntriesForSource(SourceType.SPELLS) as unknown) as Promise<SpellEntry[]>);
+  const spellEntries = await (getIndexEntriesForSource(SourceType.SPELLS) as unknown as Promise<SpellEntry[]>);
   // sanitize entries to remove anything nonconforming to a Spell
   return spellEntries.filter((s) => s.type == 'spell');
 }
 
-export async function getBackgroundFeatureEntries() {
-  const backgroundFeatureEntries = await ((getIndexEntriesForSource(
-    SourceType.BACKGROUND_FEATURES,
-  ) as unknown) as Promise<BackgroundFeatureEntry[]>);
+export async function getBackgroundEntries() {
+  const backgroundEntries = await (getIndexEntriesForSource(SourceType.BACKGROUNDS) as unknown as Promise<
+    BackgroundEntry[]
+  >);
   // sanitize entries to remove anything nonconforming to a Feature (for now at least, if Background Features become a type in the future)
-  return backgroundFeatureEntries.filter((f) => f.type == 'feat');
+  return backgroundEntries.filter((f) => f.type == 'background');
 }
 
 export async function getFeatEntries() {
-  const featEntries = await ((getIndexEntriesForSource(SourceType.FEATS) as unknown) as Promise<FeatEntry[]>);
+  const featEntries = await (getIndexEntriesForSource(SourceType.FEATS) as unknown as Promise<FeatEntry[]>);
   // sanitize entries to remove anything nonconforming to a Feature (for now at least, if Feats become a type in the future)
   return featEntries.filter((f) => f.type == 'feat');
 }
 
 export async function getEquipmentEntries() {
-  const equipmentEntries = await ((getIndexEntriesForSource(SourceType.ITEMS) as unknown) as Promise<EquipmentEntry[]>);
+  const equipmentEntries = await (getIndexEntriesForSource(SourceType.ITEMS) as unknown as Promise<EquipmentEntry[]>);
   // sanitize entries to remove anything nonconforming to an Item
   return equipmentEntries.filter((e) => !['class', 'feat', 'spell'].includes(e.type));
 }
 
 export async function getRuleJournalEntryByName(journalName: string) {
-  const entries = await ((game.packs.get(DEFAULT_PACKS.RULES)?.index as unknown) as Promise<RuleEntry[]>);
+  const entries = await (game.packs.get(DEFAULT_PACKS.RULES)?.index as unknown as Promise<RuleEntry[]>);
   return entries.find((e) => e.name === journalName);
 }
 
@@ -230,18 +231,10 @@ function addFeatFields(fieldsToIndex: Set<string>, source: Source, packName: str
   }
 }
 
-export type BackgroundFeatureEntry = IndexEntry & {
-  data: {
-    requirements: string;
-    source: string;
-    description: { value: string }; // TODO: remove this when background items become a thing.
-  };
-};
-function addBackgroundFeaturesFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
-  if (source[SourceType.BACKGROUND_FEATURES].includes(packName)) {
-    fieldsToIndex.add('data.requirements'); // to map possible background names
-    fieldsToIndex.add('data.source'); // to make sure this is a background feature
-    fieldsToIndex.add('data.description'); // TODO: TO BE REMOVED when background items become a thing.
+export type BackgroundEntry = IndexEntry & unknown;
+function addBackgroundFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
+  if (source[SourceType.BACKGROUNDS].includes(packName)) {
+    fieldsToIndex.add('name');
   }
 }
 
@@ -266,3 +259,25 @@ export type RuleEntry = {
   name: string;
   content: string;
 };
+
+export function getIndexByUuid(uuid: string): IndexEntry | undefined {
+  const { pack, id } = parseUuid(uuid);
+
+  // TODO see if its correctly indexed
+
+  return {
+    ...(getGame()
+      .packs.get(pack)
+      ?.index.find((i) => i._id === id) as IndexEntry),
+    _pack: pack,
+  };
+}
+
+function parseUuid(uuid: string): { pack: any; id: any } {
+  const firstDot = uuid.indexOf('.');
+  const lastDot = uuid.lastIndexOf('.');
+
+  const pack = uuid.substring(firstDot + 1, lastDot);
+  const id = uuid.substring(lastDot + 1);
+  return { pack, id };
+}

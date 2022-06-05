@@ -24,26 +24,6 @@ export default class CompendiumSourcesSubmenu extends FormApplication {
 
   activateListeners(html: JQuery) {
     super.activateListeners(html);
-
-    // const coll = $('.hct-collapsible', html);
-    // let i;
-
-    // for (i = 0; i < coll.length; i++) {
-    //   coll[i].addEventListener('click', function () {
-    //     this.classList.toggle('active');
-    //     const child = this.firstElementChild;
-    //     const content = this.nextElementSibling as any;
-    //     if (content.style.display === 'block') {
-    //       content.style.display = 'none';
-    //       child?.classList.remove('fa-chevron-down');
-    //       child?.classList.add('fa-chevron-right');
-    //     } else {
-    //       content.style.display = 'block';
-    //       child?.classList.remove('fa-chevron-right');
-    //       child?.classList.add('fa-chevron-down');
-    //     }
-    //   });
-    // }
   }
 
   getData() {
@@ -54,7 +34,7 @@ export default class CompendiumSourcesSubmenu extends FormApplication {
         racialFeatures: [DEFAULT_PACKS.RACE_FEATURES],
         classes: [DEFAULT_PACKS.CLASSES],
         classFeatures: [DEFAULT_PACKS.CLASS_FEATURES],
-        backgroundFeatures: [],
+        backgrounds: [DEFAULT_PACKS.BACKGROUNDS],
         spells: [DEFAULT_PACKS.SPELLS],
         feats: [],
         items: [DEFAULT_PACKS.ITEMS],
@@ -91,7 +71,7 @@ type BuildData = {
     racialFeatures: string[];
     classes: string[];
     classFeatures: string[];
-    backgroundFeatures: string[];
+    backgrounds: string[];
     spells: string[];
     feats: string[];
     items: string[];
@@ -116,9 +96,9 @@ function buildTemplateData({ compendiaList, selectedCompendia }: BuildData) {
         label: game.i18n.localize('HCT.Setting.Sources.ClassFeatureCompendia'),
         compendia: buildCompendiaList(compendiaList, selectedCompendia.classFeatures),
       },
-      backgroundFeatures: {
-        label: game.i18n.localize('HCT.Setting.Sources.BackgroundFeatureCompendia'),
-        compendia: buildCompendiaList(compendiaList, selectedCompendia.backgroundFeatures),
+      backgrounds: {
+        label: game.i18n.localize('HCT.Setting.Sources.BackgroundCompendia'),
+        compendia: buildCompendiaList(compendiaList, selectedCompendia.backgrounds),
       },
       spells: {
         label: game.i18n.localize('HCT.Setting.Sources.SpellCompendia'),

@@ -6,7 +6,6 @@
     "types": ["@league-of-foundry-developers/foundry-vtt-types", "node", "jest"],
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "sourceMap": true,

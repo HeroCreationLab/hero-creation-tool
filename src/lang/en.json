@@ -70,7 +70,7 @@
         "RacialFeatureCompendia": "Racial Features Compendia",
         "ClassCompendia": "Class Compendia",
         "ClassFeatureCompendia": "Class Features Compendia",
-        "BackgroundFeatureCompendia": "Background Features Compendia",
+        "BackgroundCompendia": "Background Compendia",
         "SpellCompendia": "Spell Compendia",
         "FeatCompendia": "Feat Compendia",
         "EquipmentCompendia": "Equipment Compendia"
@@ -210,7 +210,7 @@
     "Background": {
       "Title": "Background",
       "RulesJournalName": "Backgrounds",
-      "Name": "Background Name",
+      "Select.Default": "Select background..",
       "Alignment": "Alignment",
       "ShowFeatureOnSide": "Show the Feature description on the side panel (re-check to refresh)",
       "NoFeatureSelected": "No background feature selected"

@@ -9,7 +9,7 @@ import FixedOption, { OptionType } from '../options/fixedOption';
 import SelectableIndexEntryOption from '../options/selectableIndexEntryOption';
 import SearchableIndexEntryOption from '../options/searchableIndexEntryOption';
 import { HitDie } from '../hitDie';
-import { ClassEntry, ClassFeatureEntry, getClassEntries, getClassFeatureEntries } from '../indexUtils';
+import { ClassEntry, ClassFeatureEntry, getClassEntries, getIndexByUuid } from '../indexUtils';
 import SettingKeys from '../settings';
 import { MYSTERY_MAN, CLASS_LEVEL } from '../constants';
 import * as Advancements from '../advancementUtils';
@@ -22,7 +22,6 @@ export type ClassSpellcastingData = {
 
 class _Class extends Step {
   private classes?: ClassEntry[] = [];
-  private classFeatures?: ClassFeatureEntry[] = [];
   private _class?: ClassEntry;
   private primaryClassLevel: CLASS_LEVEL = 1;
   private primaryClassHitDie: HitDie | null = null;
@@ -59,8 +58,8 @@ class _Class extends Step {
     if (!this.classes) ui.notifications!.error(game.i18n.format('HCT.Error.RenderLoad', { value: 'Classes' }));
 
     // class features
-    const classFeatureItems = await getClassFeatureEntries();
-    this.classFeatures = classFeatureItems?.sort((a, b) => a.name.localeCompare(b.name)) as any;
+    // const classFeatureItems = await getClassFeatureEntries();
+    // this.classFeatures = classFeatureItems?.sort((a, b) => a.name.localeCompare(b.name)) as any;
 
     this.spellGrantingString = (Utils.getModuleSetting(SettingKeys.SPELL_GRANTING_STRING) as string).split(';');
     this.fightingStyleString = Utils.getModuleSetting(SettingKeys.FIGHTING_STYLE_STRING) as string;
@@ -82,7 +81,6 @@ class _Class extends Step {
         if (!this._class) {
           throw new Error(`Error finding class with name ${classId}`);
         }
-        Advancements.getItemGrantsForLevel(this._class, this.primaryClassLevel);
         if (this.classes) {
           this.updateClass(this.section());
           this.$primaryClassLevelSelect.disabled = false;
@@ -100,7 +98,7 @@ class _Class extends Step {
     });
   }
 
-  updateClass($section: JQuery) {
+  async updateClass($section: JQuery) {
     const $context = $('[data-hct_class_data]', $section);
     this.clearOptions();
 
@@ -115,10 +113,33 @@ class _Class extends Step {
     this._class.data.levels = this.primaryClassLevel;
     this.stepOptions.push(new HiddenOption(ClassTab.step, 'items', [this._class], { addValues: true }));
 
+    const advancementsUpToSelectedLevel = await Advancements.getAdvancementsUpToLevel(
+      this._class,
+      this.primaryClassLevel,
+    );
+    const classFeatures: ClassFeatureEntry[] = [];
+    if (advancementsUpToSelectedLevel?.length) {
+      const itemGrantAdvancements = Advancements.filterItemGrantAdvancements(advancementsUpToSelectedLevel);
+      if (itemGrantAdvancements.length) {
+        const grantedItems = itemGrantAdvancements
+          .flatMap((iga) => iga.data.configuration.items)
+          .map(getIndexByUuid) as ClassFeatureEntry[]; // TODO see if we can properly type this
+
+        classFeatures.push(...grantedItems);
+      }
+
+      const hitPointsAdvancement = Advancements.filterHitPointsAdvancements(advancementsUpToSelectedLevel);
+      if (itemGrantAdvancements.length) {
+        // manejar HP
+
+        console.log(hitPointsAdvancement);
+      }
+    }
+
     this.setHitPointsUi($context);
     this.setSavingThrowsUi($context);
     this.setProficienciesUi($context);
-    this.setClassFeaturesUi($context);
+    this.setClassFeaturesUi($context, classFeatures);
 
     this.setSpellcastingAbilityIfExisting();
 
@@ -211,22 +232,14 @@ class _Class extends Step {
     this.stepOptions.push(...options);
   }
 
-  private async setClassFeaturesUi($context: JQuery<HTMLElement>) {
+  private async setClassFeaturesUi($context: JQuery<HTMLElement>, classFeatures: ClassFeatureEntry[]) {
     const $featuresSection = $('section', $('[data-hct_class_area=features]', $context)).empty();
-    let classFeatures = Utils.filterItemList({
-      filterValues: [...Array(this.primaryClassLevel).keys()].map((k) => `${this._class!.name} ${k + 1}`),
-      filterField: 'data.requirements',
-      itemList: this.classFeatures!,
-    }).sort((a, b) => {
-      const lvA = parseInt(a.data.requirements.substring(a.data.requirements.indexOf(' ')));
-      const lvB = parseInt(b.data.requirements.substring(b.data.requirements.indexOf(' ')));
-      return lvA - lvB;
-    });
-    // handle fighting style
+
+    // TODO handle fighting style fuera
     const fightingStyles = classFeatures.filter((i) => i.name.startsWith(this.fightingStyleString));
     classFeatures = classFeatures.filter((i) => !i.name.startsWith(this.fightingStyleString));
 
-    // handle spellcasting/pact magic
+    // TODO handle spellcasting/pact magic fuera
     if (this._class?.data.spellcasting.progression === 'none') {
       this.spellcasting = undefined;
     } else {

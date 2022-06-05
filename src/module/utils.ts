@@ -3,11 +3,21 @@ import { MODULE_ID, LOG_PREFIX } from './constants';
 import HeroCreationTool from './heroCreationToolApp';
 import SettingKeys, { PrivateSettingKeys } from './settings';
 
-export function getGame(): Game {
+interface DnD5eGame extends Game {
+  dnd5e: {
+    advancement: {
+      types: {
+        [key: string]: any;
+      };
+    };
+  };
+}
+
+export function getGame(): DnD5eGame {
   if (!(game instanceof Game)) {
     throw new Error('game is not initialized yet!');
   }
-  return game;
+  return game as DnD5eGame;
 }
 
 export function setPanelScrolls($section: JQuery) {

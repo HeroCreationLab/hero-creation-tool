@@ -12,6 +12,7 @@ export const enum DEFAULT_PACKS {
   ITEMS = 'dnd5e.items',
   SPELLS = 'dnd5e.spells',
   RULES = 'dnd5e.rules',
+  BACKGROUNDS = 'dnd5e.backgrounds',
 }
 
 export const INTEGRATION = {
