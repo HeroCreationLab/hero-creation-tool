@@ -2,7 +2,7 @@ import * as Utils from '../utils';
 import { Step, StepEnum } from '../step';
 import FixedOption, { OptionType } from '../options/fixedOption';
 import DeletableOption from '../options/deletableOption';
-import { getRuleJournalEntryByName, getSpellEntries, SpellEntry } from '../indexUtils';
+import { SpellEntry, getSpellEntries, getRuleJournalEntryByName } from '../indexes/indexUtils';
 import { ClassSpellcastingData as ClassSpellcastingData } from './classStep';
 
 class _Spells extends Step {

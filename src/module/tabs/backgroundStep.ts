@@ -1,14 +1,19 @@
-/*
-  Functions used exclusively on the Background tab
-*/
 import * as Utils from '../utils';
 import * as ProficiencyUtils from '../proficiencyUtils';
 import { Step, StepEnum } from '../step';
 import SelectableOption from '../options/selectableOption';
-import { BackgroundEntry, getBackgroundEntries, getRuleJournalEntryByName, RuleEntry } from '../indexUtils';
+import {
+  getIndexEntryByUuid,
+  getRuleJournalEntryByName,
+  getBackgroundEntries,
+  RuleEntry,
+  BackgroundEntry,
+} from '../indexes/indexUtils';
 import { MYSTERY_MAN } from '../constants';
 import SearchableIndexEntryOption from '../options/searchableIndexEntryOption';
+import * as Advancements from '../advancementUtils';
 import { getGame } from '../utils';
+import FixedOption, { OptionType } from '../options/fixedOption';
 
 class _BackgroundTab extends Step {
   constructor() {
@@ -43,11 +48,6 @@ class _BackgroundTab extends Step {
       game.i18n.localize('HCT.Background.Select.Default'),
     );
     searchableOption.render($('[data-hct-background-search]'));
-
-    // this.setBackgroundNameUi();
-    this.setAlignmentUi();
-    this.setProficienciesUi();
-    this.setBackgroundFeatureUi();
   }
 
   setListeners(): void {
@@ -70,6 +70,49 @@ class _BackgroundTab extends Step {
     //     );
     //   }
     // });
+  }
+
+  private async updateBackground(backgroundId: string) {
+    console.log(backgroundId);
+
+    const selectedBackground = this.backgrounds.find((e) => e._id === backgroundId);
+    if (!selectedBackground) {
+      throw new Error('Background not found'); //FIXME i18n this
+    }
+
+    // FIXME remove this when advancements are indexed
+    const backgroundItem = await getGame().packs.get(selectedBackground._pack)?.getDocument(selectedBackground._id);
+    if (!backgroundItem) {
+      throw new Error('Background not found');
+    }
+
+    this.clearOptions();
+
+    this.stepOptions.push(
+      new FixedOption(BackgroundTab.step, 'items', selectedBackground, undefined, {
+        addValues: true,
+        type: OptionType.ITEM,
+      }),
+    );
+
+    // update icon and description
+    $('[data-hct_background_icon]').attr('src', selectedBackground.img || MYSTERY_MAN);
+    $('[data-hct_background_description]').html(
+      TextEditor.enrichHTML((backgroundItem as any).data.data.description?.value ?? ''),
+    );
+
+    if (Advancements.hasAdvancements(backgroundItem)) {
+      const itemGrantAdvancements = backgroundItem.advancement.byType.ItemGrant;
+      if (itemGrantAdvancements.length) {
+        const grantedItems = itemGrantAdvancements
+          .flatMap((iga) => iga.data.configuration.items)
+          .map(getIndexEntryByUuid) as BackgroundEntry[]; // TODO see if we can properly type this
+        this.setBackgroundFeatureUi(grantedItems);
+      }
+    }
+
+    this.setAlignmentUi();
+    this.setProficienciesUi();
   }
 
   private async setProficienciesUi() {
@@ -113,20 +156,16 @@ class _BackgroundTab extends Step {
     this.stepOptions.push(...options);
   }
 
-  private setBackgroundFeatureUi() {
-    // const $featureArea = $('[data-hct_area=feature]', this.section());
-    // this.backgroundFeatureOption = new SelectableIndexEntryOption(StepEnum.Class, 'items', this.backgrounds, {
-    //   addValues: true,
-    //   placeholder: {
-    //     name: game.i18n.localize('HCT.Common.SelectPlaceholder'),
-    //     _id: '',
-    //     _pack: '',
-    //     type: 'feat',
-    //     img: MYSTERY_MAN,
-    //   },
-    // });
-    // this.backgroundFeatureOption.render($featureArea);
-    // this.stepOptions.push(this.backgroundFeatureOption);
+  private setBackgroundFeatureUi(features: BackgroundEntry[]) {
+    const $featureArea = $('[data-hct_area=feature]', this.section());
+    features.forEach((feature) => {
+      const featureOption = new FixedOption(this.step, 'items', feature, undefined, {
+        addValues: true,
+        type: OptionType.ITEM,
+      });
+      featureOption.render($featureArea);
+      this.stepOptions.push(featureOption);
+    });
   }
 
   private setAlignmentUi() {
@@ -142,58 +181,6 @@ class _BackgroundTab extends Step {
     alignmentOption.render($('[data-hct_area=alignment]', this.section()));
     this.stepOptions.push(alignmentOption);
   }
-
-  private async updateBackground(backgroundId: string) {
-    console.log(backgroundId);
-
-    const selectedBackground = this.backgrounds.find((e) => e._id === backgroundId);
-    if (!selectedBackground) {
-      throw new Error('Background not found'); //TODO i18n this
-    }
-    const backgroundItem = await getGame().packs.get(selectedBackground._pack)?.getDocument(selectedBackground._id);
-    if (!backgroundItem) {
-      throw new Error('Background not found'); //TODO i18n this
-    }
-    console.log(backgroundItem);
-    // update icon and description
-    $('[data-hct_background_icon]').attr('src', selectedBackground.img || MYSTERY_MAN);
-    $('[data-hct_background_description]').html(
-      TextEditor.enrichHTML((backgroundItem as any).data.data.description?.value ?? ''),
-    );
-  }
-
-  // private setBackgroundNameUi() {
-  //   const nameChoices = this.backgroundFeatures
-  //     .filter((f) => f.data.requirements)
-  //     .map((f) => ({ key: f.data.requirements, value: f.data.requirements }));
-  //   const nameOption = new SelectableOption(
-  //     StepEnum.Background,
-  //     'data.details.background',
-  //     nameChoices,
-  //     '',
-  //     { addValues: false, customizable: true },
-  //     this.onBackgroundSelect,
-  //     new Map(this.backgroundFeatures.map((obj) => [(obj.data as any).requirements, obj.name!])),
-  //   );
-  //   nameOption.render($('[data-hct_area=name]', this.section()));
-  //   this.stepOptions.push(nameOption);
-  // }
-
-  // private onBackgroundSelect(backgroundFeatureName: string) {
-  //   const $featureArea = $('[data-hct_area=feature]', $('#backgroundDiv'));
-  //   const $select = $('select', $featureArea);
-
-  //   const value = $('option', $select)
-  //     .filter(function () {
-  //       return $(this).text() === backgroundFeatureName;
-  //     })
-  //     .first()
-  //     .attr('value');
-  //   if (value) {
-  //     $select.val(value);
-  //     $select.trigger('change');
-  //   }
-  // }
 }
 const BackgroundTab: Step = new _BackgroundTab();
 export default BackgroundTab;

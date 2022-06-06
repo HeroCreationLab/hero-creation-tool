@@ -9,7 +9,7 @@ import FixedOption, { OptionType } from '../options/fixedOption';
 import SelectableIndexEntryOption from '../options/selectableIndexEntryOption';
 import SearchableIndexEntryOption from '../options/searchableIndexEntryOption';
 import { HitDie } from '../hitDie';
-import { ClassEntry, ClassFeatureEntry, getClassEntries, getIndexByUuid } from '../indexUtils';
+import { getClassEntries, getIndexEntryByUuid, ClassEntry, ClassFeatureEntry } from '../indexes/indexUtils';
 import SettingKeys from '../settings';
 import { MYSTERY_MAN, CLASS_LEVEL } from '../constants';
 import * as Advancements from '../advancementUtils';
@@ -123,7 +123,7 @@ class _Class extends Step {
       if (itemGrantAdvancements.length) {
         const grantedItems = itemGrantAdvancements
           .flatMap((iga) => iga.data.configuration.items)
-          .map(getIndexByUuid) as ClassFeatureEntry[]; // TODO see if we can properly type this
+          .map(getIndexEntryByUuid) as ClassFeatureEntry[]; // TODO see if we can properly type this
 
         classFeatures.push(...grantedItems);
       }
@@ -235,11 +235,11 @@ class _Class extends Step {
   private async setClassFeaturesUi($context: JQuery<HTMLElement>, classFeatures: ClassFeatureEntry[]) {
     const $featuresSection = $('section', $('[data-hct_class_area=features]', $context)).empty();
 
-    // TODO handle fighting style fuera
+    // TODO handle fighting style outside of this function
     const fightingStyles = classFeatures.filter((i) => i.name.startsWith(this.fightingStyleString));
     classFeatures = classFeatures.filter((i) => !i.name.startsWith(this.fightingStyleString));
 
-    // TODO handle spellcasting/pact magic fuera
+    // TODO handle spellcasting/pact magic outside of this function
     if (this._class?.data.spellcasting.progression === 'none') {
       this.spellcasting = undefined;
     } else {

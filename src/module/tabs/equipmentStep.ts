@@ -5,7 +5,7 @@ import SettingKeys from '../settings';
 import HeroOption from '../options/heroOption';
 import OptionContainer from '../options/optionContainer';
 import DeletableOption from '../options/deletableOption';
-import { EquipmentEntry, getEquipmentEntries, getRuleJournalEntryByName } from '../indexUtils';
+import { EquipmentEntry, getEquipmentEntries, getRuleJournalEntryByName } from '../indexes/indexUtils';
 import QuantifiableOption from '../options/quantifiableOption';
 import { MODULE_ID } from '../constants';
 

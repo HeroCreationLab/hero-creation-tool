@@ -9,6 +9,7 @@ export default async () => {
   const newSourceSettings = {
     ...sourceSettings,
     backgrounds: [DEFAULT_PACKS.BACKGROUNDS],
+    subclasses: [DEFAULT_PACKS.SUBCLASSES],
   };
   delete (newSourceSettings as any).backgroundFeatures; // remove old Background Features key on sources
 

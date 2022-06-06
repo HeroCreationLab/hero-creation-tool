@@ -1,7 +1,7 @@
 import SettingKeys, { registerSettings } from './settings';
 import { preloadTemplates } from './preloadTemplates';
 import HeroCreationTool from './heroCreationToolApp';
-import { buildJournalIndexes, buildSourceIndexes } from './indexUtils';
+import { buildJournalIndexes, buildSourceIndexes } from './indexes/indexUtils';
 import { addActorDirectoryButton, addCreateNewActorButton, getModuleSetting, setPublicApi } from './utils';
 import performMigrations from './migrations/migrationsHandler';
 

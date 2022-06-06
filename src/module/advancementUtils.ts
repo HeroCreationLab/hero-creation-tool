@@ -1,4 +1,4 @@
-import { IndexEntry } from './indexUtils';
+import { IndexEntry } from './indexes/indexUtils';
 import { getGame } from './utils';
 
 interface AdvancementConfiguration {
@@ -48,20 +48,23 @@ interface ScaleValueAdvancement extends Advancement {
   };
 }
 
-function hasAdvancements(item: any): item is { advancement: AdvancementConfiguration } {
+export function hasAdvancements(item: any): item is { advancement: AdvancementConfiguration } {
   return item.advancement; // TODO make a tighter guard
 }
 
-// export async function getAll(entry: IndexEntry) {
-//   console.log('in getAdvancements');
+// export async function getAllItemGrantAdvancements(entry: IndexEntry) {
 //   if (!entry._pack || !entry._id) return;
 
 //   const item = await getGame().packs.get(entry._pack)?.getDocument(entry._id);
-//   console.log(item);
+//   if (!item) throw new Error(`Unable to find item id [${entry._id}] in pack [${entry._pack}]`); // FIXME i18n this
+//   if (!hasAdvancements(item)) {
+//     return [];
+//   }
+
+//   return item.advancement.byType.ItemGrant;
 // }
 
 export async function getAdvancementsUpToLevel(entry: IndexEntry, maxLevel: number) {
-  console.log(`in getAdvancements for level ${maxLevel}`);
   if (!entry._pack || !entry._id) return;
 
   const item = await getGame().packs.get(entry._pack)?.getDocument(entry._id);

@@ -11,14 +11,14 @@ import FixedOption, { OptionType } from '../options/fixedOption';
 import InputOption from '../options/inputOption';
 import SearchableIndexEntryOption from '../options/searchableIndexEntryOption';
 import {
+  IndexEntry,
   FeatEntry,
   getFeatEntries,
-  getRaceEntries,
-  getRaceFeatureEntries,
-  IndexEntry,
   RaceEntry,
+  getRaceEntries,
   RacialFeatureEntry,
-} from '../indexUtils';
+  getRaceFeatureEntries,
+} from '../indexes/indexUtils';
 import SettingKeys from '../settings';
 import { MYSTERY_MAN } from '../constants';
 

@@ -33,6 +33,7 @@ export const enum SourceType {
   RACIAL_FEATURES = 'racialFeatures',
   CLASSES = 'classes',
   CLASS_FEATURES = 'classFeatures',
+  SUBCLASSES = 'subclasses',
   BACKGROUNDS = 'backgrounds',
   SPELLS = 'spells',
   FEATS = 'feats',
