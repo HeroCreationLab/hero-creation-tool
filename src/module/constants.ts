@@ -3,6 +3,7 @@
 export const MODULE_ID = 'hero-creation-tool';
 export const LOG_PREFIX = 'Hero Creation Tool';
 export const MYSTERY_MAN = 'icons/svg/mystery-man.svg';
+export const NONE_ICON = 'icons/svg/cancel.svg';
 
 export const enum DEFAULT_PACKS {
   RACES = 'dnd5e.races',

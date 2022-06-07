@@ -12,7 +12,7 @@ import { MYSTERY_MAN } from '../constants';
 export default class SelectableIndexEntryOption implements HeroOption {
   constructor(
     readonly origin: StepEnum,
-    readonly key: string,
+    readonly key: 'items',
     readonly options: IndexEntry[],
     readonly settings: {
       addValues: boolean;

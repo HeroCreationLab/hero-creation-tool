@@ -20,7 +20,8 @@ import {
   getRaceFeatureEntries,
 } from '../indexes/indexUtils';
 import SettingKeys from '../settings';
-import { MYSTERY_MAN } from '../constants';
+import { MYSTERY_MAN, NONE_ICON } from '../constants';
+import { getGame } from '../utils';
 
 type KeyValue = {
   key: string;
@@ -28,15 +29,18 @@ type KeyValue = {
 };
 
 class _Race extends Step {
-  raceEntries?: RaceEntry[];
-  pickableRaces?: RaceEntry[];
-  raceFeatures?: RacialFeatureEntry[];
+  private raceEntries?: RaceEntry[];
+  // private pickableRaces?: RaceEntry[];
+  private raceFeatures?: RacialFeatureEntry[];
 
-  feats?: FeatEntry[];
+  private feats?: FeatEntry[];
 
-  $context!: JQuery;
+  private $context!: JQuery;
+  private $raceIcon!: JQuery;
+  private $raceDesc!: JQuery;
+  private $subraceDesc!: JQuery;
 
-  subraceBlacklist?: string[];
+  private subraceBlacklist?: string[];
 
   constructor() {
     super(StepEnum.Race);
@@ -65,7 +69,12 @@ class _Race extends Step {
 
   renderData(): void {
     Utils.setPanelScrolls(this.section());
-    $('[data-hct_race_data]').hide();
+    const $dataSection = $('[data-hct_race_data]').hide();
+    this.$raceIcon = $('[data-hct_race_icon]', this.section());
+    this.$raceDesc = $('[data-hct_race_description]', this.section());
+    this.$subraceDesc = $('[data-hct_subrace_description]', this.section());
+    const $subraceSeparator = $('[data-hct_subrace_separator]', this.section());
+
     if (!this.raceEntries) {
       ui.notifications!.error(game.i18n.format('HCT.Error.UpdateValueLoad', { value: 'Races' }));
       return;
@@ -73,10 +82,17 @@ class _Race extends Step {
 
     const searchableOption = new SearchableIndexEntryOption(
       this.step,
-      'item',
+      'items',
       getPickableRaces(this.raceEntries, this.subraceBlacklist ?? []),
       (raceId) => {
-        // callback on selected
+        if (!raceId) {
+          $dataSection.hide();
+          this.$raceIcon.attr('src', NONE_ICON);
+          this.$raceDesc.html(getGame().i18n.localize('HCT.Race.DescriptionPlaceholder'));
+          this.$subraceDesc.empty();
+          $subraceSeparator.toggle(false);
+          return;
+        }
         if (!this.raceEntries) {
           ui.notifications!.error(game.i18n.format('HCT.Error.UpdateValueLoad', { value: 'Races' }));
           return;
@@ -89,24 +105,24 @@ class _Race extends Step {
         this.updateRace(selectedRace.name, parentRace ? [parentRace, selectedRace] : [selectedRace]);
 
         // update icon and description
-        $('[data-hct_race_icon]').attr('src', selectedRace.img || MYSTERY_MAN);
+        this.$raceIcon.attr('src', selectedRace.img || MYSTERY_MAN);
         if (parentRace) {
-          $('[data-hct_race_description]').html(TextEditor.enrichHTML(parentRace.data.description.value));
-          $('[data-hct_subrace_description]').html(TextEditor.enrichHTML(selectedRace.data.description.value));
+          this.$raceDesc.html(TextEditor.enrichHTML(parentRace.data.description.value));
+          this.$subraceDesc.html(TextEditor.enrichHTML(selectedRace.data.description.value));
         } else {
-          $('[data-hct_race_description]').html(TextEditor.enrichHTML(selectedRace.data.description.value));
-          $('[data-hct_subrace_description]').empty();
+          this.$raceDesc.html(TextEditor.enrichHTML(selectedRace.data.description.value));
+          this.$subraceDesc.empty();
         }
-        $('[data-hct_subrace_separator]').toggle(!!parentRace);
+        $subraceSeparator.toggle(!!parentRace);
       },
       game.i18n.localize('HCT.Race.Select.Default'),
+      true,
     );
     searchableOption.render($('[data-hct-race-search]'));
   }
 
   updateRace(raceName: string, raceItems: RaceEntry[]) {
     this.clearOptions();
-    this.resetFeat();
 
     this.setAbilityScoresUi();
     this.setSizeUi();
@@ -122,12 +138,8 @@ class _Race extends Step {
     this.stepOptions.push(new HiddenOption(StepEnum.Race, 'data.details.race', raceName));
   }
 
-  resetFeat() {
-    $('[data-hct_feat_icon] img', this.$context).attr('src', MYSTERY_MAN).removeClass('hct-hover-shadow-accent');
-  }
-
   async setProficienciesUi() {
-    const $proficienciesSection = $('section', $('[data-hct_race_area=proficiencies]', this.$context)).empty();
+    const $proficienciesSection = $('[data-hct_race_area=proficiencies]', this.$context).empty();
     const options = [];
     options.push(
       ProficiencyUtils.prepareSkillOptions({
@@ -201,7 +213,7 @@ class _Race extends Step {
       postLabel: 'ft',
       class: 'hct-w-6/12',
     });
-    const $movementSection = $('section', $('[data-hct_race_area=movement]', this.$context)).empty();
+    const $movementSection = $('[data-hct_race_area=movement]', this.$context).empty();
     movementOption.render($movementSection);
     this.stepOptions.push(movementOption);
   }
@@ -214,7 +226,7 @@ class _Race extends Step {
       postLabel: 'ft',
       class: 'hct-w-6/12',
     });
-    const $sensesSection = $('section', $('[data-hct_race_area=senses]', this.$context)).empty();
+    const $sensesSection = $('[data-hct_race_area=senses]', this.$context).empty();
     sensesOption.render($sensesSection);
     this.stepOptions.push(sensesOption);
   }
@@ -225,7 +237,7 @@ class _Race extends Step {
       default: 'med',
       customizable: false,
     });
-    const $sizeSection = $('section', $('[data-hct_race_area=size]', this.$context)).empty();
+    const $sizeSection = $('[data-hct_race_area=size]', this.$context).empty();
     sizeOption.render($sizeSection);
     this.stepOptions.push(sizeOption);
   }
@@ -241,7 +253,7 @@ class _Race extends Step {
         data: `data-hct-race-ability='${key}'`,
       });
     });
-    const $abilityScoreSection = $('section', $('[data-hct_race_area=abilityScores]', this.$context)).empty();
+    const $abilityScoreSection = $('[data-hct_race_area=abilityScores]', this.$context).empty();
     options.forEach((o) => o.render($abilityScoreSection));
     this.stepOptions.push(...options);
   }
@@ -261,16 +273,19 @@ class _Race extends Step {
       options.push(featureOption);
     });
 
-    const $raceFeaturesSection = $('section', $('[data-hct_race_area=features]', this.$context)).empty();
+    const $raceFeaturesSection = $('[data-hct_race_area=features]', this.$context).empty();
     options.forEach((o) => o.render($raceFeaturesSection));
     this.stepOptions.push(...options);
   }
 
   setFeatsUi(): void {
-    const featOption: HeroOption = new SearchableIndexEntryOption(this.step, 'items', this.feats ?? [], (featId) => {
+    const $featSection = $('[data-hct_race_area=feat]', this.$context).empty();
+
+    const handleFeatSelected = (featId: string | null) => {
+      if (!featId) return;
       const featEntry = this.feats?.find((f) => f._id == featId);
       if (!featEntry) {
-        ui.notifications!.error(game.i18n.format('HCT.Error.UpdateValueLoad', { value: 'Feats' }));
+        ui.notifications!.error(game.i18n.format('HCT.Error.UpdateValueLoad', { value: 'Feats' })); // FIXME i18n
         return;
       }
       const $imgLink = $('[data-hct_feat_icon]', this.$context);
@@ -279,9 +294,15 @@ class _Race extends Step {
       $('img', $imgLink)
         .attr('src', featEntry.img ?? MYSTERY_MAN)
         .addClass('hct-hover-shadow-accent');
-    });
-    const $raceFeaturesSection = $('section', $('[data-hct_race_area=feat]', this.$context)).empty();
-    featOption.render($raceFeaturesSection);
+    };
+
+    const featOption: HeroOption = new SearchableIndexEntryOption(
+      this.step,
+      'items',
+      this.feats ?? [],
+      handleFeatSelected,
+    );
+    featOption.render($featSection);
     this.stepOptions.push(featOption);
   }
 }

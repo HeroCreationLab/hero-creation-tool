@@ -2,7 +2,7 @@ import { StepEnum } from '../step';
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 import HeroOption, { apply } from './heroOption';
 import { IndexEntry } from '../indexes/indexUtils';
-import { MYSTERY_MAN } from '../constants';
+import { MYSTERY_MAN, NONE_ICON } from '../constants';
 
 /**
  * Represents a value needs to be selected by the player with a single output onto the created actor.
@@ -12,34 +12,67 @@ import { MYSTERY_MAN } from '../constants';
 export default class SearchableIndexEntryOption implements HeroOption {
   readonly settings: {
     addValues: boolean;
-    default?: string;
     customizable: boolean;
   } = { addValues: true, customizable: false };
 
   constructor(
     readonly origin: StepEnum,
-    readonly key: string,
-    private options: Array<IndexEntry>,
-    private selectCallback?: (id: string) => any,
+    readonly key: 'items',
+    private options: IndexEntry[],
+    private selectCallback: (id: string | null) => any,
     private placeholder?: string,
+    readonly hideImage?: boolean,
   ) {
+    this.options = [this.noneOption, ...options];
     this.searchArray = [];
   }
 
+  private noneOption: IndexEntry = {
+    _id: 'none',
+    _pack: '',
+    name: 'None',
+    img: NONE_ICON,
+    type: 'none',
+  };
+
   isFulfilled() {
-    return !!this.value();
+    return !!this.value() && this.value() !== this.noneOption;
   }
 
   applyToHero(actor: ActorDataConstructorData) {
-    apply(actor, this.key, [this.value()], this.settings.addValues);
+    if (this.isFulfilled()) {
+      apply(actor, this.key, [this.value()], this.settings.addValues);
+    }
   }
 
-  $input!: JQuery;
-  $resultBox!: JQuery;
-  searchArray: Array<IndexEntry>;
-  selected?: IndexEntry;
+  private $input!: JQuery;
+  private $img!: HTMLImageElement;
+  private $link!: JQuery;
+  private $resultBox!: JQuery;
+  private searchArray: Array<IndexEntry>;
+  private selected?: IndexEntry;
 
   render($parent: JQuery, options?: { prepend: boolean }): void {
+    const $container = $('<div class="hct-icon-with-context">');
+    if (!this.hideImage) {
+      const item = this.value();
+      this.$link = item?.local
+        ? $(
+            `<a class="content-link hct-icon-link" draggable="false" data-type="Item" data-entity="Item" data-id="${item._id}">`,
+          )
+        : $(
+            `<a class="content-link hct-icon-link" draggable="false" data-pack="${item?._pack}" data-id="${item?._id}">`,
+          );
+      this.$img = document.createElement('img');
+      this.$img.classList.add('hct-icon');
+      this.$img.classList.add('hct-border-0');
+      this.$img.classList.add('hct-border-rad-tiny');
+      this.$img.classList.add('hct-hover-shadow-accent');
+      this.$img.src = item?.img ?? MYSTERY_MAN;
+      this.$link.append(this.$img);
+      $container.append(this.$link);
+    }
+
     const $form = $(`<form data-hct-searchbar autocomplete="off">`);
     const $searchWrapper = $(`<div class="hct-search-wrapper">`);
     this.$input = $(
@@ -76,11 +109,12 @@ export default class SearchableIndexEntryOption implements HeroOption {
     $searchWrapper.append(this.$resultBox);
 
     $form.append($searchWrapper);
+    $container.append($form);
     $form.on('submit', (e) => false);
     if (options?.prepend) {
-      $parent.prepend($form);
+      $parent.prepend($container);
     } else {
-      $parent.append($form);
+      $parent.append($container);
     }
   }
 
@@ -88,13 +122,25 @@ export default class SearchableIndexEntryOption implements HeroOption {
     $('div', this.$resultBox).on('click', (event) => {
       const id = $(event.currentTarget).data('key');
       $searchWrapper.removeClass('active');
-      this.$input.val(this.options.find((o) => o._id == id)?.name ?? id);
-      if (this.selectCallback) this.selectCallback(id);
       this.selected = this.options.find((o) => o._id === id || o.name === id); // Results use id, Items use name
+      this.$input.val(this.selected?.name ?? id);
+
+      this.selectCallback(id !== 'none' ? id : null);
+      if (!this.hideImage) {
+        this.$img.src = id !== 'none' ? this.selected?.img ?? MYSTERY_MAN : NONE_ICON;
+
+        this.$link.attr('data-id', this.selected!._id);
+        if (this.selected?.local) {
+          this.$link.attr('data-type', 'Item');
+          this.$link.attr('data-entity', 'Item');
+        } else {
+          this.$link.attr('data-pack', this.selected!._pack);
+        }
+      }
     });
   }
 
-  value(): any {
+  value(): IndexEntry | undefined {
     return this.selected;
   }
 

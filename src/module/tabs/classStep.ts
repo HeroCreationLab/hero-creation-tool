@@ -9,10 +9,18 @@ import FixedOption, { OptionType } from '../options/fixedOption';
 import SelectableIndexEntryOption from '../options/selectableIndexEntryOption';
 import SearchableIndexEntryOption from '../options/searchableIndexEntryOption';
 import { HitDie } from '../hitDie';
-import { getClassEntries, getIndexEntryByUuid, ClassEntry, ClassFeatureEntry } from '../indexes/indexUtils';
+import {
+  getIndexEntryByUuid,
+  ClassEntry,
+  getClassEntries,
+  ClassFeatureEntry,
+  SubclassEntry,
+  getSubclassEntries,
+} from '../indexes/indexUtils';
 import SettingKeys from '../settings';
-import { MYSTERY_MAN, CLASS_LEVEL } from '../constants';
+import { MYSTERY_MAN, CLASS_LEVEL, NONE_ICON } from '../constants';
 import * as Advancements from '../advancementUtils';
+import { getGame } from '../utils';
 
 export type ClassSpellcastingData = {
   description?: string;
@@ -22,16 +30,23 @@ export type ClassSpellcastingData = {
 
 class _Class extends Step {
   private classes?: ClassEntry[] = [];
+  private subclasses?: SubclassEntry[] = [];
+
   private _class?: ClassEntry;
+  private selectedSubclass: SubclassEntry | undefined;
+
   private primaryClassLevel: CLASS_LEVEL = 1;
   private primaryClassHitDie: HitDie | null = null;
   constructor() {
     super(StepEnum.Class);
   }
 
-  spellGrantingString!: string[];
-  fightingStyleString!: string;
-  spellcasting?: ClassSpellcastingData;
+  private spellGrantingString!: string[];
+  private fightingStyleString!: string;
+  private spellcasting?: ClassSpellcastingData;
+
+  private $classIcon!: JQuery;
+  private $classDesc!: JQuery;
 
   getUpdateData() {
     return this._class
@@ -52,14 +67,10 @@ class _Class extends Step {
   }
 
   async setSourceData() {
-    // classes
-    const classItems = await getClassEntries();
-    this.classes = classItems?.sort((a, b) => a.name.localeCompare(b.name));
-    if (!this.classes) ui.notifications!.error(game.i18n.format('HCT.Error.RenderLoad', { value: 'Classes' }));
+    this.classes = (await getClassEntries())?.sort((a, b) => a.name.localeCompare(b.name));
+    this.subclasses = (await getSubclassEntries())?.sort((a, b) => a.name.localeCompare(b.name));
 
-    // class features
-    // const classFeatureItems = await getClassFeatureEntries();
-    // this.classFeatures = classFeatureItems?.sort((a, b) => a.name.localeCompare(b.name)) as any;
+    if (!this.classes) ui.notifications!.error(game.i18n.format('HCT.Error.RenderLoad', { value: 'Classes' }));
 
     this.spellGrantingString = (Utils.getModuleSetting(SettingKeys.SPELL_GRANTING_STRING) as string).split(';');
     this.fightingStyleString = Utils.getModuleSetting(SettingKeys.FIGHTING_STYLE_STRING) as string;
@@ -68,15 +79,24 @@ class _Class extends Step {
   private $primaryClassLevelSelect!: HTMLSelectElement;
   renderData(): void {
     Utils.setPanelScrolls(this.section());
-    $('[data-hct_class_data]', this.section()).hide();
+    const $dataSection = $('[data-hct_class_data]', this.section());
+    this.$classIcon = $('[data-hct_class_icon]', this.section());
+    this.$classDesc = $('[data-hct_class_description]', this.section());
+    $dataSection.hide();
 
     const searchableOption = new SearchableIndexEntryOption(
       this.step,
-      'item',
+      'items',
       this.classes!,
       (classId) => {
         // callback on selected
         this.clearOptions();
+        if (!classId) {
+          $dataSection.hide();
+          this.$classIcon.attr('src', NONE_ICON);
+          this.$classDesc.html(getGame().i18n.localize('HCT.Class.DescriptionPlaceholder'));
+          return;
+        }
         this._class = this.classes!.find((c) => c._id === classId);
         if (!this._class) {
           throw new Error(`Error finding class with name ${classId}`);
@@ -87,6 +107,7 @@ class _Class extends Step {
         } else ui.notifications!.error(game.i18n.format('HCT.Error.UpdateValueLoad', { value: 'Classes' }));
       },
       game.i18n.localize('HCT.Class.Select.Default'),
+      true,
     );
     const $classSearch = $('[data-hct-class-search]');
     searchableOption.render($classSearch, { prepend: true });
@@ -103,10 +124,8 @@ class _Class extends Step {
     this.clearOptions();
 
     // icon, description and class item
-    $('[data-hct_class_icon]', $section).attr('src', this._class?.img || MYSTERY_MAN);
-    $('[data-hct_class_description]', $section).html(
-      TextEditor.enrichHTML(this._class?.data?.description?.value ?? ''),
-    );
+    this.$classIcon.attr('src', this._class?.img || MYSTERY_MAN);
+    this.$classDesc.html(TextEditor.enrichHTML(this._class?.data?.description?.value ?? ''));
     if (!this._class) {
       throw new Error(`Error finding current class`);
     }
@@ -121,9 +140,9 @@ class _Class extends Step {
     if (advancementsUpToSelectedLevel?.length) {
       const itemGrantAdvancements = Advancements.filterItemGrantAdvancements(advancementsUpToSelectedLevel);
       if (itemGrantAdvancements.length) {
-        const grantedItems = itemGrantAdvancements
-          .flatMap((iga) => iga.data.configuration.items)
-          .map(getIndexEntryByUuid) as ClassFeatureEntry[]; // TODO see if we can properly type this
+        const grantedItems = (await Promise.all(
+          itemGrantAdvancements.flatMap((iga) => iga.data.configuration.items).map(getIndexEntryByUuid),
+        )) as ClassFeatureEntry[]; // TODO see if we can properly type this
 
         classFeatures.push(...grantedItems);
       }
@@ -136,6 +155,9 @@ class _Class extends Step {
       }
     }
 
+    const subclassesForClass =
+      this.subclasses?.filter((sc) => sc.data.classIdentifier === this._class?.data.identifier) ?? [];
+    this.setSubclassUi($context, subclassesForClass);
     this.setHitPointsUi($context);
     this.setSavingThrowsUi($context);
     this.setProficienciesUi($context);
@@ -145,6 +167,31 @@ class _Class extends Step {
 
     $('[data-hct_class_data]').show();
     return;
+  }
+
+  private setSubclassUi($context: JQuery<HTMLElement>, subclasses: SubclassEntry[]) {
+    const $section = $('section', $('[data-hct_class_area=subclass]', $context)).empty();
+
+    const handleSubclassChange = (subclassId: string | null) => {
+      if (!subclassId) {
+        this.selectedSubclass = undefined;
+
+        return;
+      }
+      console.log(`selected ${subclassId}`);
+      this.selectedSubclass = this.subclasses!.find((c) => c._id === subclassId);
+      console.log(this.selectedSubclass);
+    };
+
+    const searchableSubclassOption = new SearchableIndexEntryOption(
+      this.step,
+      'items',
+      subclasses,
+      (subclassId) => handleSubclassChange(subclassId),
+      game.i18n.localize('HCT.Class.Select.DefaultSubclass'),
+    );
+    searchableSubclassOption.render($section, { prepend: true });
+    this.stepOptions.push(searchableSubclassOption);
   }
 
   private setSpellcastingAbilityIfExisting() {

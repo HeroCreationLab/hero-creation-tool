@@ -81,7 +81,8 @@ export async function hydrateItems(indexEntries: Array<IndexEntry>): Promise<Ite
       return indexEntry; // return custom items as-is
     }
     const quantity = (indexEntry as any).data?.quantity;
-    const item = await game.packs.get(indexEntry._pack)?.getDocument(indexEntry._id);
+    // if the entry has a local item, use that instead of fetching it from a compendium
+    const item = indexEntry.local ?? (await game.packs.get(indexEntry._pack)?.getDocument(indexEntry._id));
     if (!item) throw new Error(`No item for id ${indexEntry._id}!`);
     const itemForEmbedding = worldItems.fromCompendium(item as Item);
     if (quantity) {
@@ -92,17 +93,41 @@ export async function hydrateItems(indexEntries: Array<IndexEntry>): Promise<Ite
   return (await Promise.all(itemPromises)) as any;
 }
 
-export function getIndexEntryByUuid(uuid: string): IndexEntry | undefined {
+export async function getIndexEntryByUuid(uuid: string): Promise<IndexEntry> {
   const { pack, id } = parseUuid(uuid);
 
+  if (pack === 'Item') {
+    // local item, not from Compendium
+    const item = getGame().items?.get(id);
+    if (!item) {
+      ui?.notifications?.error(getGame().i18n.format('HCT.Error.IndexEntryNotFound', { uuid }));
+      throw new Error(`No index entry for uuid ${uuid}`);
+    }
+    return toIndexEntry(item);
+  }
   // TODO see if we can avoid reindexing
   const packCollection = getGame().packs.get(pack);
-  (packCollection as any)?.getIndex({ fields: ['img'] });
+  await (packCollection as any)?.getIndex({ fields: ['img'] });
 
   const indexedEntry = packCollection?.index.find((i) => i._id === id) as IndexEntry;
+  if (!indexedEntry) {
+    ui?.notifications?.error(getGame().i18n.format('HCT.Error.IndexEntryNotFound', { uuid }));
+    throw new Error(`No index entry for uuid ${uuid}`);
+  }
   return {
     ...indexedEntry,
     _pack: pack,
+  };
+}
+
+function toIndexEntry(item: Item): IndexEntry {
+  return {
+    _pack: item.pack!,
+    _id: item.data._id!,
+    name: item.name!,
+    type: item.type,
+    img: item.img ?? '',
+    local: item,
   };
 }
 
@@ -110,7 +135,7 @@ function parseUuid(uuid: string): { pack: any; id: any } {
   const firstDot = uuid.indexOf('.');
   const lastDot = uuid.lastIndexOf('.');
 
-  const pack = uuid.substring(firstDot + 1, lastDot);
+  const pack = uuid.startsWith('Item') ? 'Item' : uuid.substring(firstDot + 1, lastDot);
   const id = uuid.substring(lastDot + 1);
   return { pack, id };
 }
@@ -121,6 +146,7 @@ export type IndexEntry = {
   type: string;
   name: string;
   img: string;
+  local?: Item; // for cases where we take the item from the directory instead of from a compendium index
 };
 
 // Race
@@ -163,6 +189,7 @@ export async function getRaceFeatureEntries() {
 export type ClassEntry = IndexEntry & {
   data: {
     description: { value: string };
+    identifier: string;
     hitDice: string;
     saves: string[];
     levels: number;
@@ -180,6 +207,7 @@ export type ClassEntry = IndexEntry & {
 export function addClassFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
   if (source[SourceType.CLASSES].includes(packName)) {
     fieldsToIndex.add('data.description.value'); // for sidebar
+    fieldsToIndex.add('data.identifier');
     fieldsToIndex.add('data.hitDice');
     fieldsToIndex.add('data.saves');
     fieldsToIndex.add('data.skills');
@@ -236,6 +264,11 @@ export function addSubclassFields(fieldsToIndex: Set<string>, source: Source, pa
     fieldsToIndex.add('data.spellcasting.progression');
   }
 }
+export async function getSubclassEntries() {
+  const classEntries = await (getIndexEntriesForSource(SourceType.SUBCLASSES) as unknown as Promise<SubclassEntry[]>);
+  // sanitize entries to remove anything nonconforming to a Subclass
+  return classEntries.filter((c) => c.type == 'subclass');
+}
 
 // Background
 export type BackgroundEntry = IndexEntry & unknown;
@@ -251,15 +284,6 @@ export async function getBackgroundEntries() {
   // sanitize entries to remove anything nonconforming to a Feature (for now at least, if Background Features become a type in the future)
   return backgroundEntries.filter((f) => f.type == 'background');
 }
-
-// Background Feature
-export type BackgroundFeatureEntry = IndexEntry & {
-  data: {
-    requirements: string;
-    source: string;
-    description: { value: string }; // TODO: remove this when background items become a thing.
-  };
-};
 
 // Equipment
 export type EquipmentEntry = IndexEntry & {

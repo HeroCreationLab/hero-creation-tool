@@ -9,7 +9,7 @@ import {
   RuleEntry,
   BackgroundEntry,
 } from '../indexes/indexUtils';
-import { MYSTERY_MAN } from '../constants';
+import { MYSTERY_MAN, NONE_ICON } from '../constants';
 import SearchableIndexEntryOption from '../options/searchableIndexEntryOption';
 import * as Advancements from '../advancementUtils';
 import { getGame } from '../utils';
@@ -22,8 +22,14 @@ class _BackgroundTab extends Step {
 
   section = () => $('#backgroundDiv');
 
-  backgrounds!: BackgroundEntry[];
-  backgroundRules?: RuleEntry;
+  private backgrounds!: BackgroundEntry[];
+  private backgroundRules?: RuleEntry;
+
+  private $backgroundIcon!: JQuery<HTMLElement>;
+  private $backgroundDesc!: JQuery<HTMLElement>;
+  private $backgroundData!: JQuery;
+
+  private enrichedRules!: string;
 
   async setSourceData() {
     this.backgrounds = await getBackgroundEntries();
@@ -31,53 +37,47 @@ class _BackgroundTab extends Step {
 
   async renderData() {
     Utils.setPanelScrolls(this.section());
+
+    this.$backgroundIcon = $('[data-hct_background_icon]');
+    this.$backgroundDesc = $('[data-hct_background_description]');
+    this.$backgroundData = $('[data-hct_background_data]').hide();
+
     // Show rules on the side panel
     const rulesCompendiumName = game.i18n.localize('HCT.Background.RulesJournalName');
     this.backgroundRules = await getRuleJournalEntryByName(rulesCompendiumName);
     if (this.backgroundRules) {
-      $('[data-hct_background_description]', this.section()).html(TextEditor.enrichHTML(this.backgroundRules.content));
+      this.enrichedRules = TextEditor.enrichHTML(this.backgroundRules.content);
+      this.$backgroundDesc.html(this.enrichedRules);
     } else {
       console.error(`Unable to find backgrounds' rule journal on compendium ${rulesCompendiumName}`);
     }
 
     const searchableOption = new SearchableIndexEntryOption(
       this.step,
-      'item',
+      'items',
       this.backgrounds,
       this.updateBackground.bind(this),
       game.i18n.localize('HCT.Background.Select.Default'),
+      true,
     );
     searchableOption.render($('[data-hct-background-search]'));
   }
 
   setListeners(): void {
-    // TODO replace this to switch between showing Background rules vs Background desc when background items become a thing
-    // $('[data-hct-show-background-feature-desc]', this.section()).on('change', (ev) => {
-    //   if ((ev.currentTarget as HTMLInputElement).checked) {
-    //     // put  feature desc on the side
-    //     const selectedBackgroundFeature = this.backgroundFeatureOption?.value() as
-    //       | BackgroundFeatureEntry
-    //       | null
-    //       | undefined;
-    //     const descToShow = selectedBackgroundFeature
-    //       ? selectedBackgroundFeature.data.description.value
-    //       : game.i18n.localize('HCT.Background.NoFeatureSelected');
-    //     $('[data-hct_background_description]', this.section()).html(TextEditor.enrichHTML(descToShow));
-    //   } else {
-    //     // put Backgrounds rules on the side
-    //     $('[data-hct_background_description]', this.section()).html(
-    //       TextEditor.enrichHTML(this.backgroundRules?.content ?? ''),
-    //     );
-    //   }
-    // });
+    // do nothing
   }
 
-  private async updateBackground(backgroundId: string) {
-    console.log(backgroundId);
-
+  private async updateBackground(backgroundId: string | null) {
+    if (!backgroundId) {
+      this.$backgroundIcon.attr('src', NONE_ICON);
+      this.$backgroundDesc.html(this.enrichedRules);
+      this.$backgroundData.hide();
+      this.clearOptions();
+      return;
+    }
     const selectedBackground = this.backgrounds.find((e) => e._id === backgroundId);
     if (!selectedBackground) {
-      throw new Error('Background not found'); //FIXME i18n this
+      throw new Error(`Unexpected error - background with id [${backgroundId} ]not found`);
     }
 
     // FIXME remove this when advancements are indexed
@@ -86,6 +86,7 @@ class _BackgroundTab extends Step {
       throw new Error('Background not found');
     }
 
+    this.$backgroundData.show();
     this.clearOptions();
 
     this.stepOptions.push(
@@ -96,17 +97,15 @@ class _BackgroundTab extends Step {
     );
 
     // update icon and description
-    $('[data-hct_background_icon]').attr('src', selectedBackground.img || MYSTERY_MAN);
-    $('[data-hct_background_description]').html(
-      TextEditor.enrichHTML((backgroundItem as any).data.data.description?.value ?? ''),
-    );
+    this.$backgroundIcon.attr('src', selectedBackground.img || MYSTERY_MAN);
+    this.$backgroundDesc.html(TextEditor.enrichHTML((backgroundItem as any).data.data.description?.value ?? ''));
 
     if (Advancements.hasAdvancements(backgroundItem)) {
       const itemGrantAdvancements = backgroundItem.advancement.byType.ItemGrant;
       if (itemGrantAdvancements.length) {
-        const grantedItems = itemGrantAdvancements
-          .flatMap((iga) => iga.data.configuration.items)
-          .map(getIndexEntryByUuid) as BackgroundEntry[]; // TODO see if we can properly type this
+        const grantedItems = (await Promise.all(
+          itemGrantAdvancements.flatMap((iga) => iga.data.configuration.items).map(getIndexEntryByUuid),
+        )) as BackgroundEntry[]; // TODO see if we can properly type this
         this.setBackgroundFeatureUi(grantedItems);
       }
     }
@@ -116,7 +115,7 @@ class _BackgroundTab extends Step {
   }
 
   private async setProficienciesUi() {
-    const $proficienciesArea = $('[data-hct_area=proficiences]', this.section());
+    const $proficienciesArea = $('[data-hct_area=proficiences]', this.section()).empty();
     const options = [];
     options.push(
       ProficiencyUtils.prepareSkillOptions({
@@ -157,7 +156,7 @@ class _BackgroundTab extends Step {
   }
 
   private setBackgroundFeatureUi(features: BackgroundEntry[]) {
-    const $featureArea = $('[data-hct_area=feature]', this.section());
+    const $featureArea = $('[data-hct_area=feature]', this.section()).empty();
     features.forEach((feature) => {
       const featureOption = new FixedOption(this.step, 'items', feature, undefined, {
         addValues: true,
@@ -178,7 +177,7 @@ class _BackgroundTab extends Step {
       addValues: false,
       customizable: false,
     });
-    alignmentOption.render($('[data-hct_area=alignment]', this.section()));
+    alignmentOption.render($('[data-hct_area=alignment]', this.section()).empty());
     this.stepOptions.push(alignmentOption);
   }
 }
