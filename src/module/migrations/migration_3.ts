@@ -12,6 +12,7 @@ export default async () => {
     subclasses: [DEFAULT_PACKS.SUBCLASSES],
   };
   delete (newSourceSettings as any).backgroundFeatures; // remove old Background Features key on sources
+  delete (newSourceSettings as any).classFeatures; // remove old Class Features key on sources
 
   await setModuleSetting(SettingKeys.SOURCES, newSourceSettings);
 };

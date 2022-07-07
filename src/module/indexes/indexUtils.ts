@@ -21,7 +21,7 @@ export async function buildSourceIndexes() {
       addRaceFields(fieldsToIndex, sourcePacks, name);
       addRacialFeaturesFields(fieldsToIndex, sourcePacks, name);
       addClassFields(fieldsToIndex, sourcePacks, name);
-      addClassFeaturesFields(fieldsToIndex, sourcePacks, name);
+      // addClassFeaturesFields(fieldsToIndex, sourcePacks, name);
       addSubclassFields(fieldsToIndex, sourcePacks, name);
       addSpellFields(fieldsToIndex, sourcePacks, name);
       addFeatFields(fieldsToIndex, sourcePacks, name);
@@ -88,6 +88,9 @@ export async function hydrateItems(indexEntries: Array<IndexEntry>): Promise<Ite
     if (quantity) {
       (itemForEmbedding!.data as any).quantity = quantity;
     }
+    if ((indexEntry as any)._advancement) {
+      (itemForEmbedding as any)._advancement = (indexEntry as any)._advancement;
+    }
     return itemForEmbedding;
   });
   return (await Promise.all(itemPromises)) as any;
@@ -105,11 +108,13 @@ export async function getIndexEntryByUuid(uuid: string): Promise<IndexEntry> {
     }
     return toIndexEntry(item);
   }
-  // TODO see if we can avoid reindexing
-  const packCollection = getGame().packs.get(pack);
-  await (packCollection as any)?.getIndex({ fields: ['img'] });
 
-  const indexedEntry = packCollection?.index.find((i) => i._id === id) as IndexEntry;
+  await onceAsync(() => (getGame().packs.get(pack) as any)?.getIndex({ fields: ['img'] }), pack);
+  const packIndex = getGame().packs.get(pack)?.index;
+  if (!packIndex) throw new Error(`Pack ${pack} not indexed or index not found`);
+  // await (packCollection as any)?.getIndex({ fields: ['img'] });
+
+  const indexedEntry = packIndex.find((i) => i._id === id) as IndexEntry;
   if (!indexedEntry) {
     ui?.notifications?.error(getGame().i18n.format('HCT.Error.IndexEntryNotFound', { uuid }));
     throw new Error(`No index entry for uuid ${uuid}`);
@@ -119,6 +124,19 @@ export async function getIndexEntryByUuid(uuid: string): Promise<IndexEntry> {
     _pack: pack,
   };
 }
+
+const onceAsync = (() => {
+  const indexedPacks: Map<string, Promise<void>> = new Map<string, Promise<void>>();
+
+  return function (loader: () => Promise<void> | undefined, packName: string) {
+    const p = indexedPacks.get(packName);
+    if (p) return p;
+    const newPromise = Promise.resolve(loader());
+    newPromise.catch(() => indexedPacks.delete(packName));
+    indexedPacks.set(packName, newPromise);
+    return newPromise;
+  };
+})();
 
 function toIndexEntry(item: Item): IndexEntry {
   return {
@@ -147,6 +165,34 @@ export type IndexEntry = {
   name: string;
   img: string;
   local?: Item; // for cases where we take the item from the directory instead of from a compendium index
+};
+
+export type EntryAdvancement = {
+  _id: string;
+  icon: string;
+  type: string;
+};
+
+export type EntryHitPointsAdvancement = EntryAdvancement & {
+  type: 'HitPoints';
+};
+
+export type EntryItemGrantAdvancement = EntryAdvancement & {
+  type: 'ItemGrant';
+  level: number;
+  configuration: {
+    items: string[];
+  };
+};
+
+export type EntryScaleValueAdvancement = EntryAdvancement & {
+  type: 'ScaleValue';
+  title: string;
+  configuration: {
+    identifier: string;
+    type: string;
+    scale: { [key: number]: { value: number } };
+  };
 };
 
 // Race
@@ -188,6 +234,7 @@ export async function getRaceFeatureEntries() {
 // Class
 export type ClassEntry = IndexEntry & {
   data: {
+    advancement: (EntryHitPointsAdvancement | EntryItemGrantAdvancement | EntryScaleValueAdvancement)[];
     description: { value: string };
     identifier: string;
     hitDice: string;
@@ -206,6 +253,7 @@ export type ClassEntry = IndexEntry & {
 };
 export function addClassFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
   if (source[SourceType.CLASSES].includes(packName)) {
+    fieldsToIndex.add('data.advancement');
     fieldsToIndex.add('data.description.value'); // for sidebar
     fieldsToIndex.add('data.identifier');
     fieldsToIndex.add('data.hitDice');
@@ -226,13 +274,18 @@ export type ClassFeatureEntry = IndexEntry & {
     description: { value: string };
     requirements: string;
   };
+  _advancement: {
+    id: string;
+    uuid: string;
+    lv?: number;
+  };
 };
-export function addClassFeaturesFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
-  if (source[SourceType.CLASS_FEATURES].includes(packName)) {
-    fieldsToIndex.add('data.requirements'); // for mapping class features to classes
-    fieldsToIndex.add('data.description'); // used to show Spellcasting/Pact Magic features on the Spells tab
-  }
-}
+// export function addClassFeaturesFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
+//   if (source[SourceType.CLASS_FEATURES].includes(packName)) {
+//     fieldsToIndex.add('data.requirements'); // for mapping class features to classes
+//     fieldsToIndex.add('data.description'); // used to show Spellcasting/Pact Magic features on the Spells tab
+//   }
+// }
 export async function getClassFeatureEntries() {
   const classFeatureEntries = await (getIndexEntriesForSource(SourceType.CLASS_FEATURES) as unknown as Promise<
     ClassFeatureEntry[]
@@ -244,7 +297,7 @@ export async function getClassFeatureEntries() {
 // Subclass
 export type SubclassEntry = IndexEntry & {
   data: {
-    advancement: any;
+    advancement: (EntryItemGrantAdvancement | EntryScaleValueAdvancement)[];
     description: { value: string };
     identifier: string;
     classIdentifier: string;

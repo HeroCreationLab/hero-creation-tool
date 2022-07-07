@@ -6,7 +6,6 @@ import * as Utils from '../utils';
 import * as ProficiencyUtils from '../proficiencyUtils';
 import HiddenOption from '../options/hiddenOption';
 import FixedOption, { OptionType } from '../options/fixedOption';
-import SelectableIndexEntryOption from '../options/selectableIndexEntryOption';
 import SearchableIndexEntryOption from '../options/searchableIndexEntryOption';
 import { HitDie } from '../hitDie';
 import {
@@ -17,10 +16,11 @@ import {
   SubclassEntry,
   getSubclassEntries,
 } from '../indexes/indexUtils';
-import SettingKeys from '../settings';
 import { MYSTERY_MAN, CLASS_LEVEL, NONE_ICON } from '../constants';
 import * as Advancements from '../advancementUtils';
 import { getGame } from '../utils';
+import HeroOption from '../options/heroOption';
+import { buildAdvancementMetadataForEntry } from '../advancementUtils';
 
 export type ClassSpellcastingData = {
   description?: string;
@@ -29,20 +29,22 @@ export type ClassSpellcastingData = {
 };
 
 class _Class extends Step {
+  constructor() {
+    super(StepEnum.Class);
+  }
+
   private classes?: ClassEntry[] = [];
   private subclasses?: SubclassEntry[] = [];
 
   private _class?: ClassEntry;
   private selectedSubclass: SubclassEntry | undefined;
 
-  private primaryClassLevel: CLASS_LEVEL = 1;
-  private primaryClassHitDie: HitDie | null = null;
-  constructor() {
-    super(StepEnum.Class);
-  }
+  private classFeatureOptions?: HeroOption[];
+  private subclassFeatureOptions?: HeroOption[];
 
-  private spellGrantingString!: string[];
-  private fightingStyleString!: string;
+  private characterLevel: CLASS_LEVEL = 1;
+  private primaryClassHitDie: HitDie | null = null;
+
   private spellcasting?: ClassSpellcastingData;
 
   private $classIcon!: JQuery;
@@ -53,7 +55,7 @@ class _Class extends Step {
       ? {
           name: this._class.name,
           spellcasting: this.spellcasting,
-          level: this.primaryClassLevel,
+          level: this.characterLevel,
           hitDie: this.primaryClassHitDie,
           hpMethod: (document.querySelector('input[name="higher-lv-hp"]:checked') as HTMLInputElement)?.value ?? 'avg',
         }
@@ -72,8 +74,8 @@ class _Class extends Step {
 
     if (!this.classes) ui.notifications!.error(game.i18n.format('HCT.Error.RenderLoad', { value: 'Classes' }));
 
-    this.spellGrantingString = (Utils.getModuleSetting(SettingKeys.SPELL_GRANTING_STRING) as string).split(';');
-    this.fightingStyleString = Utils.getModuleSetting(SettingKeys.FIGHTING_STYLE_STRING) as string;
+    // this.spellGrantingString = (Utils.getModuleSetting(SettingKeys.SPELL_GRANTING_STRING) as string).split(';');
+    // this.fightingStyleString = Utils.getModuleSetting(SettingKeys.FIGHTING_STYLE_STRING) as string;
   }
 
   private $primaryClassLevelSelect!: HTMLSelectElement;
@@ -114,14 +116,19 @@ class _Class extends Step {
     this.$primaryClassLevelSelect = addLevelSelect($classSearch, 'class');
     this.$primaryClassLevelSelect.disabled = true;
     this.$primaryClassLevelSelect.addEventListener('change', (event) => {
-      this.primaryClassLevel = parseInt((event.target as any)?.value) as CLASS_LEVEL;
+      this.characterLevel = parseInt((event.target as any)?.value) as CLASS_LEVEL;
       this.updateClass(this.section());
     });
+  }
+
+  getOptions(): HeroOption[] {
+    return [...this.stepOptions, ...(this.subclassFeatureOptions ?? [])];
   }
 
   async updateClass($section: JQuery) {
     const $context = $('[data-hct_class_data]', $section);
     this.clearOptions();
+    this.subclassFeatureOptions?.splice(0, this.subclassFeatureOptions?.length);
 
     // icon, description and class item
     this.$classIcon.attr('src', this._class?.img || MYSTERY_MAN);
@@ -129,31 +136,26 @@ class _Class extends Step {
     if (!this._class) {
       throw new Error(`Error finding current class`);
     }
-    this._class.data.levels = this.primaryClassLevel;
+    this._class.data.levels = this.characterLevel;
     this.stepOptions.push(new HiddenOption(ClassTab.step, 'items', [this._class], { addValues: true }));
 
-    const advancementsUpToSelectedLevel = await Advancements.getAdvancementsUpToLevel(
-      this._class,
-      this.primaryClassLevel,
-    );
-    const classFeatures: ClassFeatureEntry[] = [];
-    if (advancementsUpToSelectedLevel?.length) {
-      const itemGrantAdvancements = Advancements.filterItemGrantAdvancements(advancementsUpToSelectedLevel);
-      if (itemGrantAdvancements.length) {
-        const grantedItems = (await Promise.all(
-          itemGrantAdvancements.flatMap((iga) => iga.data.configuration.items).map(getIndexEntryByUuid),
-        )) as ClassFeatureEntry[]; // TODO see if we can properly type this
-
-        classFeatures.push(...grantedItems);
-      }
-
-      const hitPointsAdvancement = Advancements.filterHitPointsAdvancements(advancementsUpToSelectedLevel);
-      if (itemGrantAdvancements.length) {
-        // manejar HP
-
-        console.log(hitPointsAdvancement);
-      }
+    const classFeatureEntries = [];
+    const classItemGrants = Advancements.getItemGrantAdvancementsUpToLevel(this._class, this.characterLevel);
+    if (classItemGrants?.length) {
+      const grantedItems = (await Promise.all(
+        classItemGrants
+          .flatMap((iga) =>
+            iga.configuration.items.map((uuid) => ({
+              _uuid: uuid,
+              _advancement: { id: iga._id, uuid, lv: iga.level },
+            })),
+          )
+          .map(buildAdvancementMetadataForEntry),
+      )) as ClassFeatureEntry[];
+      classFeatureEntries.push(...grantedItems);
     }
+    this.classFeatureOptions = this.buildClassFeatureOptions(classFeatureEntries);
+    this.stepOptions.push(...this.classFeatureOptions);
 
     const subclassesForClass =
       this.subclasses?.filter((sc) => sc.data.classIdentifier === this._class?.data.identifier) ?? [];
@@ -161,7 +163,7 @@ class _Class extends Step {
     this.setHitPointsUi($context);
     this.setSavingThrowsUi($context);
     this.setProficienciesUi($context);
-    this.setClassFeaturesUi($context, classFeatures);
+    this.setClassFeaturesUi($context, this.classFeatureOptions ?? []);
 
     this.setSpellcastingAbilityIfExisting();
 
@@ -172,15 +174,27 @@ class _Class extends Step {
   private setSubclassUi($context: JQuery<HTMLElement>, subclasses: SubclassEntry[]) {
     const $section = $('section', $('[data-hct_class_area=subclass]', $context)).empty();
 
-    const handleSubclassChange = (subclassId: string | null) => {
+    const handleSubclassChange = async (subclassId: string | null) => {
+      this.subclassFeatureOptions?.splice(0, this.subclassFeatureOptions?.length);
       if (!subclassId) {
         this.selectedSubclass = undefined;
-
         return;
       }
-      console.log(`selected ${subclassId}`);
       this.selectedSubclass = this.subclasses!.find((c) => c._id === subclassId);
-      console.log(this.selectedSubclass);
+
+      if (this.selectedSubclass) {
+        const subclassItemGrants = Advancements.getItemGrantAdvancementsUpToLevel(
+          this.selectedSubclass!,
+          this.characterLevel,
+        );
+        if (subclassItemGrants?.length) {
+          const grantedItems = (await Promise.all(
+            subclassItemGrants.flatMap((iga) => iga.configuration.items).map(getIndexEntryByUuid),
+          )) as ClassFeatureEntry[];
+          this.subclassFeatureOptions = this.buildClassFeatureOptions(grantedItems);
+          this.setClassFeaturesUi($context, [...this.classFeatureOptions!, ...this.subclassFeatureOptions]);
+        }
+      }
     };
 
     const searchableSubclassOption = new SearchableIndexEntryOption(
@@ -279,42 +293,45 @@ class _Class extends Step {
     this.stepOptions.push(...options);
   }
 
-  private async setClassFeaturesUi($context: JQuery<HTMLElement>, classFeatures: ClassFeatureEntry[]) {
+  private buildClassFeatureOptions(classFeatureEntries: ClassFeatureEntry[]): HeroOption[] {
+    return classFeatureEntries.map(
+      (feature) =>
+        new FixedOption(ClassTab.step, 'items', feature, undefined, {
+          addValues: true,
+          type: OptionType.ITEM,
+        }),
+    );
+  }
+
+  private async setClassFeaturesUi($context: JQuery<HTMLElement>, featureOptions: HeroOption[]) {
     const $featuresSection = $('section', $('[data-hct_class_area=features]', $context)).empty();
+    featureOptions.forEach((o) => o.render($featuresSection));
 
-    // TODO handle fighting style outside of this function
-    const fightingStyles = classFeatures.filter((i) => i.name.startsWith(this.fightingStyleString));
-    classFeatures = classFeatures.filter((i) => !i.name.startsWith(this.fightingStyleString));
+    // FIXME fighting styles dont come in advancements - find a workaround
+    // const fightingStyles = allFeatures.filter((i) => i.name.startsWith(this.fightingStyleString));
+    // allFeatures = allFeatures.filter((i) => !i.name.startsWith(this.fightingStyleString));
 
-    // TODO handle spellcasting/pact magic outside of this function
-    if (this._class?.data.spellcasting.progression === 'none') {
-      this.spellcasting = undefined;
-    } else {
-      this.spellcasting = {
-        description: classFeatures.find((i) => this.spellGrantingString.some((s) => i.name.includes(s)))?.data
-          .description.value,
-        ability: this._class!.data.spellcasting.ability,
-        progression: this._class!.data.spellcasting.progression,
-      };
-    }
+    // FIXME handle spellcasting/pact magic outside of this function
+    // if (this._class?.data.spellcasting.progression === 'none') {
+    //   this.spellcasting = undefined;
+    // } else {
+    //   this.spellcasting = {
+    //     description: allFeatures.find((i) => this.spellGrantingString.some((s) => i.name.includes(s)))?.data
+    //       .description.value,
+    //     ability: this._class!.data.spellcasting.ability,
+    //     progression: this._class!.data.spellcasting.progression,
+    //   };
+    // }
 
-    if (fightingStyles && fightingStyles.length > 0) {
-      const fsOption = new SelectableIndexEntryOption(StepEnum.Class, 'items', fightingStyles, {
-        addValues: true,
-        placeholderName: this.fightingStyleString,
-      });
-      fsOption.render($featuresSection);
-      this.stepOptions.push(fsOption);
-    }
-
-    classFeatures.forEach((feature) => {
-      const featureOption = new FixedOption(ClassTab.step, 'items', feature, undefined, {
-        addValues: true,
-        type: OptionType.ITEM,
-      });
-      featureOption.render($featuresSection);
-      this.stepOptions.push(featureOption);
-    });
+    // let fsOption;
+    // if (fightingStyles && fightingStyles.length > 0) {
+    //   fsOption = new SelectableIndexEntryOption(StepEnum.Class, 'items', fightingStyles, {
+    //     addValues: true,
+    //     placeholderName: this.fightingStyleString,
+    //   });
+    //   // fsOption.render($featuresSection);
+    //   // this.stepOptions.push(fsOption);
+    // }
   }
 
   private setSavingThrowsUi($context: JQuery<HTMLElement>) {

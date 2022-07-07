@@ -267,7 +267,7 @@
     "Migrations": {
       "Info1": "Hero Creation Tool :: Migration 1 - Restoring Compendia sources setting to default to prevent errors when moving from v0.8.x to v9",
       "Info2": "Hero Creation Tool :: Migration 2 - Adding default 5e Items and Rules compendia to sources",
-      "Info3": "Hero Creation Tool :: Migration 3 - Updating sources for Subclasses & Backgrounds"
+      "Info3": "Hero Creation Tool :: Migration 3 - Updating sources for Advancements"
     }
   }
 }

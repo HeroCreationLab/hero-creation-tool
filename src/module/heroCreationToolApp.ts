@@ -162,10 +162,31 @@ export default class HeroCreationTool extends Application {
         return;
       }
       const itemsFromCompendia = await hydrateItems(itemsFromActor); // hydrating index entries for the actual items
-      setClassLevel(itemsFromCompendia, this.steps[StepIndex.Class].getUpdateData());
-      await newActor.createEmbeddedDocuments('Item', itemsFromCompendia as any); // adding items after actor creation to process active effects
+      const classItem = getClassItemWithLevel(itemsFromCompendia, this.steps[StepIndex.Class].getUpdateData());
+      const otherItems = itemsFromCompendia.filter((i) => i.type !== 'class');
+      const createdItems = await newActor.createEmbeddedDocuments('Item', otherItems as any); // adding items after actor creation to process active effects
+      this.buildAdvancements(classItem, createdItems);
+
+      if (classItem) await newActor.createEmbeddedDocuments('Item', [classItem] as any); // adding the class after Advancements have been filled in
+
       this.close();
     }
+  }
+
+  private buildAdvancements(classItem?: Item, createdItems?: any) {
+    if (!classItem) return;
+    (classItem.data as any).advancement = (classItem.data as any).advancement.map((a: any) => {
+      if (a.type === 'ItemGrant') {
+        a.configuration.items.forEach((itemUuid: string) => {
+          const linkedItem = createdItems.find((i: any) => i?.data?.flags?.core?.sourceId === itemUuid);
+          if (linkedItem) {
+            if (!a.value.added) a.value.added = {};
+            a.value.added[linkedItem.id] = itemUuid;
+          }
+        });
+      }
+      return a;
+    });
   }
 
   private initializeActorData() {
@@ -259,9 +280,10 @@ function handleNavs(index: number) {
   $('[data-hct_next]', $footer).prop('disabled', index >= StepIndex.Bio);
 }
 
-function setClassLevel(itemsFromCompendia: Item[], classData: any) {
+function getClassItemWithLevel(itemsFromCompendia: Item[], classData: any) {
   const classItem = itemsFromCompendia.find((i) => i.type === 'class');
   if (classItem) {
     (classItem as any).data.levels = classData.level;
   }
+  return classItem;
 }

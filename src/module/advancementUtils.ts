@@ -1,5 +1,4 @@
-import { IndexEntry } from './indexes/indexUtils';
-import { getGame } from './utils';
+import { EntryAdvancement, EntryItemGrantAdvancement, getIndexEntryByUuid, IndexEntry } from './indexes/indexUtils';
 
 interface AdvancementConfiguration {
   byId: {
@@ -52,29 +51,21 @@ export function hasAdvancements(item: any): item is { advancement: AdvancementCo
   return item.advancement;
 }
 
-export async function getAdvancementsUpToLevel(entry: IndexEntry, maxLevel: number) {
-  if (!entry._pack || !entry._id) return;
-
-  const item = await getGame().packs.get(entry._pack)?.getDocument(entry._id); // FIXME remove when advancements are indexed
-  if (!item) throw new Error(`Unable to find item id [${entry._id}] in pack [${entry._pack}]`); // FIXME i18n this
-  if (!hasAdvancements(item)) {
-    return [];
-  }
-
-  return Object.keys(item.advancement.byLevel)
-    .map(Number)
-    .filter((lv) => lv <= maxLevel)
-    .flatMap((lv) => item.advancement.byLevel[lv]);
+export function getItemGrantAdvancementsUpToLevel(
+  entry: IndexEntry & { data: { advancement: EntryAdvancement[] } },
+  maxLevel: number,
+): EntryItemGrantAdvancement[] {
+  return entry.data.advancement.filter(
+    (a) => a.type === 'ItemGrant' && maxLevel >= (a as EntryItemGrantAdvancement).level,
+  ) as EntryItemGrantAdvancement[];
 }
 
-export function filterItemGrantAdvancements(advancements: Advancement[]): ItemGrantAdvancement[] {
-  return advancements.filter(
-    (adv) => adv instanceof getGame().dnd5e.advancement.types.ItemGrantAdvancement,
-  ) as ItemGrantAdvancement[];
-}
-
-export function filterHitPointsAdvancements(advancements: Advancement[]): HitPointsAdvancement[] {
-  return advancements.filter(
-    (adv) => adv instanceof getGame().dnd5e.advancement.types.HitPointsAdvancement,
-  ) as HitPointsAdvancement[];
+export async function buildAdvancementMetadataForEntry(entry: {
+  _uuid: string;
+  _advancement: { id: string; uuid: string; lv?: number };
+}) {
+  return {
+    ...(await getIndexEntryByUuid(entry._uuid)),
+    _advancement: entry._advancement,
+  };
 }

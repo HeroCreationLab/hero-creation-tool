@@ -34,7 +34,7 @@ export default class CompendiumSourcesSubmenu extends FormApplication {
         racialFeatures: [DEFAULT_PACKS.RACE_FEATURES],
         classes: [DEFAULT_PACKS.CLASSES],
         subclasses: [DEFAULT_PACKS.SUBCLASSES],
-        classFeatures: [DEFAULT_PACKS.CLASS_FEATURES],
+        // classFeatures: [DEFAULT_PACKS.CLASS_FEATURES],
         backgrounds: [DEFAULT_PACKS.BACKGROUNDS],
         spells: [DEFAULT_PACKS.SPELLS],
         feats: [],
@@ -72,7 +72,7 @@ type BuildData = {
     racialFeatures: string[];
     classes: string[];
     subclasses: string[];
-    classFeatures: string[];
+    // classFeatures: string[];
     backgrounds: string[];
     spells: string[];
     feats: string[];
@@ -98,10 +98,10 @@ function buildTemplateData({ compendiaList, selectedCompendia }: BuildData) {
         label: game.i18n.localize('HCT.Setting.Sources.SubclassCompendia'),
         compendia: buildCompendiaList(compendiaList, selectedCompendia.subclasses),
       },
-      classFeatures: {
-        label: game.i18n.localize('HCT.Setting.Sources.ClassFeatureCompendia'),
-        compendia: buildCompendiaList(compendiaList, selectedCompendia.classFeatures),
-      },
+      // classFeatures: {
+      //   label: game.i18n.localize('HCT.Setting.Sources.ClassFeatureCompendia'),
+      //   compendia: buildCompendiaList(compendiaList, selectedCompendia.classFeatures),
+      // },
       backgrounds: {
         label: game.i18n.localize('HCT.Setting.Sources.BackgroundCompendia'),
         compendia: buildCompendiaList(compendiaList, selectedCompendia.backgrounds),
