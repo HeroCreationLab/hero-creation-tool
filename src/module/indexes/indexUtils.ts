@@ -8,7 +8,7 @@ import { getGame } from '../utils';
  *  like Class Features or Backgrounds, as they are taken from advancements)
  */
 export async function buildSourceIndexes() {
-  console.log(`${LOG_PREFIX} | Indexing source compendiums`);
+  console.info(`${LOG_PREFIX} | Indexing source compendiums`);
   const sourcePacks: Source = (await game.settings.get(MODULE_ID, SettingKeys.SOURCES)) as Source;
   const itemsPromises: Promise<Item | null | undefined>[] = [];
   game.packs
@@ -37,7 +37,7 @@ export async function buildSourceIndexes() {
 }
 
 export async function buildJournalIndexes() {
-  console.log(`${LOG_PREFIX} | Indexing journals (rules)`);
+  console.info(`${LOG_PREFIX} | Indexing journals (rules)`);
   const rulesPack = game.packs.get(DEFAULT_PACKS.RULES);
   if (!rulesPack) {
     throw new Error(
@@ -72,7 +72,7 @@ export async function getIndexEntriesForSource(source: keyof Source) {
 }
 
 export async function hydrateItems(indexEntries: Array<IndexEntry>): Promise<Item[]> {
-  console.log(`${LOG_PREFIX} | Hydrating items:`);
+  console.info(`${LOG_PREFIX} | Hydrating items:`);
   const worldItems = game.items;
   if (!worldItems) throw new Error('game.items not initialized yet');
 

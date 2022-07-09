@@ -151,42 +151,23 @@ class _Spells extends Step {
     } else {
       console.error(`Unable to find spells' rule journal on compendium ${rulesCompendiumName}`);
     }
-
-    // for (let i = 0; i < 10; i++) {
-    //   $(`[data-hct_lv${i}_label]`, this.section()).html(`${(game as any).dnd5e.config.spellLevels[i]}: `);
-    // }
   }
 
   update(data: any) {
     const $spellCastingAbilityElem = $('[data-hct_spellcasting_ability]', this.section());
-    const $showFeatureDescCheckbox = $(`#hct-show-class-spellcasting-desc`, this.section());
     const $sidePanel = $('[data-hct_spells_description]', this.section());
 
-    if (data.class?.spellcasting) {
-      const classSpellcasting = data.class.spellcasting as ClassSpellcastingData;
-      const spa = (game as any).dnd5e.config.abilities[classSpellcasting.ability];
-
-      $spellCastingAbilityElem.html(
-        game.i18n.format('HCT.Spells.SpellcastingAbilityBlob', { class: data.class.name, spa: spa }),
-      );
-      const enrichedText = TextEditor.enrichHTML(classSpellcasting.description ?? '');
-      $showFeatureDescCheckbox.prop('disabled', false);
-      $showFeatureDescCheckbox.prev().css('color', '#191813');
-      $showFeatureDescCheckbox.on('change', (event) => {
-        $sidePanel.html((event.currentTarget as any).checked ? enrichedText : this.rules ?? '');
-      });
-      if ($showFeatureDescCheckbox.is(':checked')) {
-        $sidePanel.html(enrichedText);
-      }
-
-      //const maxSpellLevel = calculateMaxSpellLevel(data.class.level, data.class.spellcasting.progression);
-    } else {
+    if (!data.class?.spellcasting) {
       $spellCastingAbilityElem.html(game.i18n.localize('HCT.Spells.NoSpellcastingClass'));
       $sidePanel.html(this.rules ?? '');
-      $showFeatureDescCheckbox.prop('disabled', true);
-      $showFeatureDescCheckbox.prop('checked', false);
-      $showFeatureDescCheckbox.prev().css('color', 'darkgrey');
+      return;
     }
+    const classSpellcasting = data.class.spellcasting as ClassSpellcastingData;
+    const spa = (game as any).dnd5e.config.abilities[classSpellcasting.ability];
+
+    $spellCastingAbilityElem.html(
+      game.i18n.format('HCT.Spells.SpellcastingAbilityBlob', { class: data.class.name, spa: spa }),
+    );
   }
 }
 const SpellsTab: Step = new _Spells();
@@ -196,18 +177,3 @@ const enum CountChange {
   UP,
   DOWN,
 }
-
-// function calculateMaxSpellLevel(level: number, progression: string): number | null {
-//   switch (progression) {
-//     case 'none':
-//       return null;
-//     case 'half':
-//       if (level > 1) return Math.floor(level / 2);
-//     case 'third':
-//       return (game as any).dnd5e.config.SPELL_SLOT_TABLE[level];
-//     case 'full':
-//       return (game as any).dnd5e.config.SPELL_SLOT_TABLE[level];
-//     default:
-//       return null;
-//   }
-// }

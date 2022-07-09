@@ -45,7 +45,7 @@ export type Source = {
 };
 
 export function registerSettings(): void {
-  console.log(`${LOG_PREFIX} | Building module settings`);
+  console.info(`${LOG_PREFIX} | Building module settings`);
 
   Handlebars.registerHelper('checkedIf', function (condition) {
     return condition ? 'checked' : '';

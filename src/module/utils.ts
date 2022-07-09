@@ -79,7 +79,7 @@ export function filterItemList<T>({
 }
 
 export function addActorDirectoryButton(app: HeroCreationTool) {
-  console.log(`${LOG_PREFIX} | Adding actors directory button`);
+  console.info(`${LOG_PREFIX} | Adding actors directory button`);
 
   $('.directory-header .header-actions', $('[data-tab="actors"]'))
     .filter((i, e) => !$(e).has('#hct-directory-button').length)
@@ -94,7 +94,7 @@ export function addActorDirectoryButton(app: HeroCreationTool) {
 }
 
 export function addCreateNewActorButton(app: HeroCreationTool, html: any, dialogApp: any) {
-  console.log(`${LOG_PREFIX} | Adding Create New Actor button`);
+  console.info(`${LOG_PREFIX} | Adding Create New Actor button`);
 
   const $hctButton = $(
     `<button class='dialog-button' data-hct_start>

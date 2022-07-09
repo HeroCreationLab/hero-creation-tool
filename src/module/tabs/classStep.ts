@@ -157,18 +157,35 @@ class _Class extends Step {
     this.classFeatureOptions = this.buildClassFeatureOptions(classFeatureEntries);
     this.stepOptions.push(...this.classFeatureOptions);
 
-    const subclassesForClass =
-      this.subclasses?.filter((sc) => sc.data.classIdentifier === this._class?.data.identifier) ?? [];
+    // const scaleValues = Advancements.getScaleValueAdvancements(this._class);
+    // TODO investigate this a little more: I see a warning when creating the actor, but it seems to work nonetheless ? it's probably infered by the class somehow
+
+    const subclassesForClass = filterSubclassesForClass(this._class, this.subclasses);
     this.setSubclassUi($context, subclassesForClass);
     this.setHitPointsUi($context);
     this.setSavingThrowsUi($context);
     this.setProficienciesUi($context);
     this.setClassFeaturesUi($context, this.classFeatureOptions ?? []);
 
+    this.handleSpellcasting(this._class);
+
     this.setSpellcastingAbilityIfExisting();
 
     $('[data-hct_class_data]').show();
     return;
+
+    function filterSubclassesForClass(_class: ClassEntry, subclasses?: SubclassEntry[]) {
+      return subclasses?.filter((sc) => sc.data.classIdentifier === _class?.data.identifier) ?? [];
+    }
+  }
+
+  private handleSpellcasting(clazz: ClassEntry) {
+    const { ability, progression } = clazz.data.spellcasting;
+    if (progression === 'none') {
+      this.spellcasting = undefined;
+    } else {
+      this.spellcasting = { ability, progression };
+    }
   }
 
   private setSubclassUi($context: JQuery<HTMLElement>, subclasses: SubclassEntry[]) {
@@ -310,18 +327,6 @@ class _Class extends Step {
     // FIXME fighting styles dont come in advancements - find a workaround
     // const fightingStyles = allFeatures.filter((i) => i.name.startsWith(this.fightingStyleString));
     // allFeatures = allFeatures.filter((i) => !i.name.startsWith(this.fightingStyleString));
-
-    // FIXME handle spellcasting/pact magic outside of this function
-    // if (this._class?.data.spellcasting.progression === 'none') {
-    //   this.spellcasting = undefined;
-    // } else {
-    //   this.spellcasting = {
-    //     description: allFeatures.find((i) => this.spellGrantingString.some((s) => i.name.includes(s)))?.data
-    //       .description.value,
-    //     ability: this._class!.data.spellcasting.ability,
-    //     progression: this._class!.data.spellcasting.progression,
-    //   };
-    // }
 
     // let fsOption;
     // if (fightingStyles && fightingStyles.length > 0) {

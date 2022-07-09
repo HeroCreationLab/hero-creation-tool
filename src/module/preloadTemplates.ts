@@ -1,7 +1,7 @@
 import { LOG_PREFIX, MODULE_ID } from './constants';
 
 export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]> {
-  console.log(`${LOG_PREFIX} | Loading templates`);
+  console.info(`${LOG_PREFIX} | Loading templates`);
 
   const templatePaths: string[] = [
     `modules/${MODULE_ID}/templates/nav-tabs.html`,

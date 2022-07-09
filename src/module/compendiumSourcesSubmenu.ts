@@ -49,8 +49,8 @@ export default class CompendiumSourcesSubmenu extends FormApplication {
   }
 
   _updateObject(event: Event, formData?: any) {
-    console.log(`${LOG_PREFIX} | Saving compendia sources:`);
-    console.log(formData);
+    console.info(`${LOG_PREFIX} | Saving compendia sources:`);
+    console.info(formData);
     return game.settings.set(MODULE_ID, SettingKeys.SOURCES, formData);
   }
 }

@@ -60,6 +60,12 @@ export function getItemGrantAdvancementsUpToLevel(
   ) as EntryItemGrantAdvancement[];
 }
 
+export function getScaleValueAdvancements(
+  entry: IndexEntry & { data: { advancement: EntryAdvancement[] } },
+): EntryItemGrantAdvancement[] {
+  return entry.data.advancement.filter((a) => a.type === 'ScaleValue') as EntryItemGrantAdvancement[];
+}
+
 export async function buildAdvancementMetadataForEntry(entry: {
   _uuid: string;
   _advancement: { id: string; uuid: string; lv?: number };
