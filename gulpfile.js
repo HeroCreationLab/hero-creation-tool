@@ -86,8 +86,8 @@ async function clean() {
     files.push('styles');
   }
 
-  console.log(' ', chalk.yellow('Files to clean:'));
-  console.log('   ', chalk.blueBright(files.join('\n    ')));
+  console.info(' ', chalk.yellow('Files to clean:'));
+  console.info('   ', chalk.blueBright(files.join('\n    ')));
 
   for (const filePath of files) {
     await fs.remove(`${distDirectory}/${filePath}`);
@@ -129,11 +129,11 @@ async function linkUserData() {
   const linkDirectory = path.resolve(getDataPath(), destinationDirectory, name);
 
   if (argv.clean || argv.c) {
-    console.log(chalk.yellow(`Removing build in ${chalk.blueBright(linkDirectory)}.`));
+    console.info(chalk.yellow(`Removing build in ${chalk.blueBright(linkDirectory)}.`));
 
     await fs.remove(linkDirectory);
   } else if (!fs.existsSync(linkDirectory)) {
-    console.log(chalk.green(`Linking dist to ${chalk.blueBright(linkDirectory)}.`));
+    console.info(chalk.green(`Linking dist to ${chalk.blueBright(linkDirectory)}.`));
     await fs.ensureDir(path.resolve(linkDirectory, '..'));
     await fs.symlink(path.resolve(distDirectory), linkDirectory);
   }
@@ -197,7 +197,7 @@ function bumpVersion(cb) {
       return cb(new Error(chalk.red('Error: Target version is identical to current version')));
     }
 
-    console.log(`Updating version number to '${targetVersion}'`);
+    console.info(`Updating version number to '${targetVersion}'`);
 
     packageJson.version = targetVersion;
     fs.writeJSONSync('package.json', packageJson, { spaces: 2 });

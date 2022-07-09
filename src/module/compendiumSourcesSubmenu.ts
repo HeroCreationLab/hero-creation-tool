@@ -24,26 +24,6 @@ export default class CompendiumSourcesSubmenu extends FormApplication {
 
   activateListeners(html: JQuery) {
     super.activateListeners(html);
-
-    // const coll = $('.hct-collapsible', html);
-    // let i;
-
-    // for (i = 0; i < coll.length; i++) {
-    //   coll[i].addEventListener('click', function () {
-    //     this.classList.toggle('active');
-    //     const child = this.firstElementChild;
-    //     const content = this.nextElementSibling as any;
-    //     if (content.style.display === 'block') {
-    //       content.style.display = 'none';
-    //       child?.classList.remove('fa-chevron-down');
-    //       child?.classList.add('fa-chevron-right');
-    //     } else {
-    //       content.style.display = 'block';
-    //       child?.classList.remove('fa-chevron-right');
-    //       child?.classList.add('fa-chevron-down');
-    //     }
-    //   });
-    // }
   }
 
   getData() {
@@ -53,8 +33,9 @@ export default class CompendiumSourcesSubmenu extends FormApplication {
         races: [DEFAULT_PACKS.RACES],
         racialFeatures: [DEFAULT_PACKS.RACE_FEATURES],
         classes: [DEFAULT_PACKS.CLASSES],
-        classFeatures: [DEFAULT_PACKS.CLASS_FEATURES],
-        backgroundFeatures: [],
+        subclasses: [DEFAULT_PACKS.SUBCLASSES],
+        // classFeatures: [DEFAULT_PACKS.CLASS_FEATURES],
+        backgrounds: [DEFAULT_PACKS.BACKGROUNDS],
         spells: [DEFAULT_PACKS.SPELLS],
         feats: [],
         items: [DEFAULT_PACKS.ITEMS],
@@ -68,8 +49,8 @@ export default class CompendiumSourcesSubmenu extends FormApplication {
   }
 
   _updateObject(event: Event, formData?: any) {
-    console.log(`${LOG_PREFIX} | Saving compendia sources:`);
-    console.log(formData);
+    console.info(`${LOG_PREFIX} | Saving compendia sources:`);
+    console.info(formData);
     return game.settings.set(MODULE_ID, SettingKeys.SOURCES, formData);
   }
 }
@@ -90,8 +71,9 @@ type BuildData = {
     races: string[];
     racialFeatures: string[];
     classes: string[];
-    classFeatures: string[];
-    backgroundFeatures: string[];
+    subclasses: string[];
+    // classFeatures: string[];
+    backgrounds: string[];
     spells: string[];
     feats: string[];
     items: string[];
@@ -112,13 +94,17 @@ function buildTemplateData({ compendiaList, selectedCompendia }: BuildData) {
         label: game.i18n.localize('HCT.Setting.Sources.ClassCompendia'),
         compendia: buildCompendiaList(compendiaList, selectedCompendia.classes),
       },
-      classFeatures: {
-        label: game.i18n.localize('HCT.Setting.Sources.ClassFeatureCompendia'),
-        compendia: buildCompendiaList(compendiaList, selectedCompendia.classFeatures),
+      subclasses: {
+        label: game.i18n.localize('HCT.Setting.Sources.SubclassCompendia'),
+        compendia: buildCompendiaList(compendiaList, selectedCompendia.subclasses),
       },
-      backgroundFeatures: {
-        label: game.i18n.localize('HCT.Setting.Sources.BackgroundFeatureCompendia'),
-        compendia: buildCompendiaList(compendiaList, selectedCompendia.backgroundFeatures),
+      // classFeatures: {
+      //   label: game.i18n.localize('HCT.Setting.Sources.ClassFeatureCompendia'),
+      //   compendia: buildCompendiaList(compendiaList, selectedCompendia.classFeatures),
+      // },
+      backgrounds: {
+        label: game.i18n.localize('HCT.Setting.Sources.BackgroundCompendia'),
+        compendia: buildCompendiaList(compendiaList, selectedCompendia.backgrounds),
       },
       spells: {
         label: game.i18n.localize('HCT.Setting.Sources.SpellCompendia'),

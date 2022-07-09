@@ -2,7 +2,7 @@ import { Step, StepEnum } from '../step';
 import HeroOption from '../options/heroOption';
 import FixedOption, { OptionType } from '../options/fixedOption';
 import SettingKeys from '../settings';
-import { getRuleJournalEntryByName } from '../indexUtils';
+import { getRuleJournalEntryByName } from '../indexes/indexUtils';
 import { getAbilityModifierValue, getModuleSetting, setPanelScrolls } from '../utils';
 
 const enum EntryMode {

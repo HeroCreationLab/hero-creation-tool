@@ -20,6 +20,7 @@ const enum SettingKeys {
   FIGHTING_STYLE_STRING = 'fightingStyleLookupString',
   EQUIPMENTS_BLACKLIST = 'equipmentsBlackList',
   SUBRACES_BLACKLIST = 'subracesBlacklist',
+  SPELL_GRANTING_STRING = 'spellGrantingLookupString',
   BUTTON_ON_DIALOG = 'buttonOnDialog',
   POINT_BUY_LIMIT = 'pointBuyLimit',
   ABILITY_ROLL_FORMULA = 'abiiltyRollFormula',
@@ -32,7 +33,8 @@ export const enum SourceType {
   RACIAL_FEATURES = 'racialFeatures',
   CLASSES = 'classes',
   CLASS_FEATURES = 'classFeatures',
-  BACKGROUND_FEATURES = 'backgroundFeatures',
+  SUBCLASSES = 'subclasses',
+  BACKGROUNDS = 'backgrounds',
   SPELLS = 'spells',
   FEATS = 'feats',
   ITEMS = 'items',
@@ -43,7 +45,7 @@ export type Source = {
 };
 
 export function registerSettings(): void {
-  console.log(`${LOG_PREFIX} | Building module settings`);
+  console.info(`${LOG_PREFIX} | Building module settings`);
 
   Handlebars.registerHelper('checkedIf', function (condition) {
     return condition ? 'checked' : '';
@@ -58,6 +60,7 @@ export function registerSettings(): void {
   tokenDisplayNameMode();
   tokenDisplayBarsMode();
   fightingStyleLookupString();
+  spellGrantingLookupString();
   equipmentBlacklist();
   subraceNameBlacklist();
   buttonOnDialogInsteadOfActorsDirectory();
@@ -78,8 +81,8 @@ function sourcesConfiguration() {
       races: [DEFAULT_PACKS.RACES],
       racialFeatures: [DEFAULT_PACKS.RACE_FEATURES],
       classes: [DEFAULT_PACKS.CLASSES],
-      classFeatures: [DEFAULT_PACKS.CLASS_FEATURES],
-      backgroundFeatures: [],
+      subclasses: [DEFAULT_PACKS.SUBCLASSES],
+      backgrounds: [DEFAULT_PACKS.BACKGROUNDS],
       spells: [DEFAULT_PACKS.SPELLS],
       feats: [],
       items: [DEFAULT_PACKS.ITEMS],
@@ -103,6 +106,17 @@ function fightingStyleLookupString() {
     scope: 'world',
     config: true,
     default: 'Fighting Style',
+    type: String,
+  });
+}
+
+function spellGrantingLookupString() {
+  game.settings.register(MODULE_ID, SettingKeys.SPELL_GRANTING_STRING, {
+    name: game.i18n.localize('HCT.Setting.spellcastingString.Name'),
+    hint: game.i18n.localize('HCT.Setting.spellcastingString.Hint'),
+    scope: 'world',
+    config: true,
+    default: 'Spellcasting; Pact Magic',
     type: String,
   });
 }

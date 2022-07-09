@@ -1,7 +1,7 @@
 import { StepEnum } from '../step';
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 import HeroOption, { apply } from './heroOption';
-import { IndexEntry } from '../indexUtils';
+import { IndexEntry } from '../indexes/indexUtils';
 
 /**
  * Represents a fixed value that will be imprinted into the created actor
@@ -52,9 +52,11 @@ export default class FixedOption implements HeroOption {
     } else {
       const $container = $('<div class="hct-icon-with-context">');
       const item = this.option as IndexEntry;
-      const $link = $(
-        `<a class="content-link hct-icon-link" draggable="false" data-pack="${item._pack}" data-id="${item._id}">`,
-      );
+      const $link = item.local
+        ? $(
+            `<a class="content-link hct-icon-link" draggable="false" data-type="Item" data-entity="Item" data-id="${item._id}">`,
+          )
+        : $(`<a class="content-link hct-icon-link" draggable="false" data-pack="${item._pack}" data-id="${item._id}">`);
       this.$itemImg.attr('src', item.img);
       $link.append(this.$itemImg);
       this.$itemName.html(this.textToShow ?? (item.name as string));

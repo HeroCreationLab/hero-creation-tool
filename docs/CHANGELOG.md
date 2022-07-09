@@ -1,7 +1,29 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.8.0 (2022-07-09)
+- ⚠️ **API DEPRECATION WARNING**: Removed old API, please use the one from the module object hereafter
+```
+    // OLD API - replace with code from below
+    //HeroCreationTool.openForNewActor()
+    //HeroCreationTool.selectSources()
+
+    // NEW API
+    const { api } = game.modules.get('hero-creation-tool')
+    api.openForNewActor()
+    api.selectSources()
+```
+- ⚠️ **FRENCH TRANSLATION DEPRECATED** - following the warning from 1.5.6, I have finally removed the localization file for french, to prevent any further issues like the one from 1.7.1. I invite anyone willing to support the french localization of the module to follow the idea from the JP localization.
+- Replaced importing ProficiencySelector for using the one now exposed by the system [(#93)](https://github.com/HeroCreationLab/hero-creation-tool/issues/93)
+- Module compatible with the latest 5e system version - required for ProficiencySelector fix, Backgrounds, Advancements and Subclasses (WIP) among other things
+- Background item-type now handled. Instead of using a "Feature" as background, with complicated rules to define the background name, now the new Background type (with Features through advancements) is supported. [(#97](https://github.com/HeroCreationLab/hero-creation-tool/issues/97)[(#104)](https://github.com/HeroCreationLab/hero-creation-tool/issues/104)
+- Subclass items now supported, albeit it's a little WIP still. You can select subclass compendia, and appropriate subclasses will be shown to select, but no level restriction is taken into account, and this will probably be refactored once SubclassAdvancements come in.
+- Class Features now taken from the Class' advancements instead of being fetched by requirement. [(#98)](https://github.com/HeroCreationLab/hero-creation-tool/issues/98)
+- Class Feature and Background Feature compendium sources deprecated - a migration should run the first time you run the module, creating the new Backgrounds' and Subclasses' defaults and removing these two.
+- (Related to Backgrounds) Advancements allow more than one background feature by default. [(#23)](https://github.com/HeroCreationLab/hero-creation-tool/issues/23)
+- Reworked how to show if a class is a spellcaster in the Spells tab; before, it tried to find a Spellcasting/Pact Magic feature, but it was hardcoded and finicky. Now it uses the values on the class, though it can't show the feature on the side. I think it's a good compromise as spells will probably be affected by advancements soon. [(#94)](https://github.com/HeroCreationLab/hero-creation-tool/issues/94)
+
 ## 1.7.1 (2022-02-19)
-- Updated the fr.json translations to fix a key that was causing a complete failure when using French translations due to a key that had become a nested key. **Please remember that FR localization is deprecated overall as of v1.5.6, this is just a fix to prevent the module from working** [(#91)](https://github.com/HeroCreationLab/hero-creation-tool/issues/91)
+- Updated the fr.json translations to fix a key that was causing a complete failure when using French translations due to a key that had become a nested key. **Please remember that FR localization is deprecated overall as of v1.5.6, this is just a fix to prevent the module from crashing** [(#91)](https://github.com/HeroCreationLab/hero-creation-tool/issues/91)
 
 ## 1.7.0 (2022-02-12)
 - ⚠️ **API DEPRECATION WARNING**: Following recommended practices outlined [HERE](https://foundryvtt.wiki/en/development/guides/package-best-practices), the API is being moved from `window.HeroCreationTool` to `game.modules.get('hero-creation-tool')?.api`. Existing API will coexist until `1.8.0` with a deprecation warning.

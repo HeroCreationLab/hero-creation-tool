@@ -3,6 +3,23 @@ import { MODULE_ID, LOG_PREFIX } from './constants';
 import HeroCreationTool from './heroCreationToolApp';
 import SettingKeys, { PrivateSettingKeys } from './settings';
 
+interface DnD5eGame extends Game {
+  dnd5e: {
+    advancement: {
+      types: {
+        [key: string]: any;
+      };
+    };
+  };
+}
+
+export function getGame(): DnD5eGame {
+  if (!(game instanceof Game)) {
+    throw new Error('game is not initialized yet!');
+  }
+  return game as DnD5eGame;
+}
+
 export function setPanelScrolls($section: JQuery) {
   const individualScrolls = getModuleSetting(SettingKeys.INDIVIDUAL_PANEL_SCROLLS);
   const scroll = 'hct-overflow-y-scroll';
@@ -62,7 +79,7 @@ export function filterItemList<T>({
 }
 
 export function addActorDirectoryButton(app: HeroCreationTool) {
-  console.log(`${LOG_PREFIX} | Adding actors directory button`);
+  console.info(`${LOG_PREFIX} | Adding actors directory button`);
 
   $('.directory-header .header-actions', $('[data-tab="actors"]'))
     .filter((i, e) => !$(e).has('#hct-directory-button').length)
@@ -77,7 +94,7 @@ export function addActorDirectoryButton(app: HeroCreationTool) {
 }
 
 export function addCreateNewActorButton(app: HeroCreationTool, html: any, dialogApp: any) {
-  console.log(`${LOG_PREFIX} | Adding Create New Actor button`);
+  console.info(`${LOG_PREFIX} | Adding Create New Actor button`);
 
   const $hctButton = $(
     `<button class='dialog-button' data-hct_start>
@@ -102,23 +119,6 @@ interface ModuleDataWithApi extends Game.ModuleData<foundry.packages.ModuleData>
   };
 }
 export function setPublicApi(app: HeroCreationTool) {
-  (window as any).HeroCreationTool = {
-    // TODO remove on 1.8.0
-    selectSources: () => {
-      console.warn(
-        `HCT: window.HeroCreationTool API is deprecated and will be removed on v1.8.0; use "game.modules.get('hero-creation-tool').api" instead`,
-      );
-      const sourcesApp = new CompendiumSourcesSubmenu();
-      sourcesApp.render(true);
-    },
-    openForNewActor: () => {
-      console.warn(
-        `HCT: window.HeroCreationTool API is deprecated and will be removed on v1.8.0; use "game.modules.get('hero-creation-tool').api" instead`,
-      );
-      app.openForNewActor();
-    },
-  };
-
   const module: ModuleDataWithApi = game.modules.get(MODULE_ID)!;
   module.api = {
     selectSources: () => {

@@ -1,7 +1,7 @@
 import { StepEnum } from '../step';
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 import HeroOption, { apply } from './heroOption';
-import { IndexEntry } from '../indexUtils';
+import { IndexEntry } from '../indexes/indexUtils';
 import { MYSTERY_MAN } from '../constants';
 
 /**
@@ -12,7 +12,7 @@ import { MYSTERY_MAN } from '../constants';
 export default class SelectableIndexEntryOption implements HeroOption {
   constructor(
     readonly origin: StepEnum,
-    readonly key: string,
+    readonly key: 'items',
     readonly options: IndexEntry[],
     readonly settings: {
       addValues: boolean;

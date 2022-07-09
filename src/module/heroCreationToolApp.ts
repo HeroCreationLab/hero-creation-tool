@@ -17,7 +17,7 @@ import { Step } from './step';
 import HeroOption from './options/heroOption';
 import type { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 import { HitDie, HpCalculation } from './hitDie';
-import { hydrateItems, IndexEntry } from './indexUtils';
+import { IndexEntry, hydrateItems } from './indexes/indexUtils';
 import { LOG_PREFIX, MODULE_ID, MYSTERY_MAN, CLASS_LEVEL } from './constants';
 
 enum StepIndex {
@@ -56,7 +56,7 @@ export default class HeroCreationTool extends Application {
     this.actor = undefined;
     this.actorName = actorName;
     this.options.title = game.i18n.localize('HCT.CreationWindowTitle');
-    console.log(`${LOG_PREFIX} | Opening for new actor${actorName ? ' with name: ' + actorName : ''}`);
+    console.info(`${LOG_PREFIX} | Opening for new actor${actorName ? ' with name: ' + actorName : ''}`);
     this.steps.forEach((step) => step.clearOptions());
     this.currentTab = -1;
     this.render(true);
@@ -66,14 +66,14 @@ export default class HeroCreationTool extends Application {
   // async openForActor(actor: Actor) {
   //   this.actor = actor;
   //   this.options.title = game.i18n.localize('HCT.CreationWindowTitle');
-  //   console.log(`${LOG_PREFIX} | Opening for ${actor.name} (id ${actor.id})`);
+  //   console.info(`${LOG_PREFIX} | Opening for ${actor.name} (id ${actor.id})`);
   //   this.steps.forEach(step => step.clearOptions());
   //   this.currentTab = -1;
   //   this.render(true);
   // }
 
   activateListeners() {
-    console.log(`${LOG_PREFIX} | Binding listeners`);
+    console.info(`${LOG_PREFIX} | Binding listeners`);
 
     // listeners specific for each tab
     for (const step of this.steps) {
@@ -99,7 +99,7 @@ export default class HeroCreationTool extends Application {
   }
 
   async setupData() {
-    console.log(`${LOG_PREFIX} | Setting up data-derived elements`);
+    console.info(`${LOG_PREFIX} | Setting up data-derived elements`);
     for (const step of this.steps) {
       await step.setSourceData();
     }
@@ -133,7 +133,7 @@ export default class HeroCreationTool extends Application {
   }
 
   private async buildActor() {
-    console.log(`${LOG_PREFIX} | Building actor - data used:`);
+    console.info(`${LOG_PREFIX} | Building actor - data used:`);
     const newActorData = this.initializeActorData();
     let errors = false;
     // yeah, a loop label, sue me.
@@ -162,10 +162,37 @@ export default class HeroCreationTool extends Application {
         return;
       }
       const itemsFromCompendia = await hydrateItems(itemsFromActor); // hydrating index entries for the actual items
-      setClassLevel(itemsFromCompendia, this.steps[StepIndex.Class].getUpdateData());
-      await newActor.createEmbeddedDocuments('Item', itemsFromCompendia as any); // adding items after actor creation to process active effects
+      const classItem = getClassItemWithLevel(itemsFromCompendia, this.steps[StepIndex.Class].getUpdateData());
+      const backgroundItem = getBackgroundItem(itemsFromCompendia);
+
+      const itemsWithoutAdvancements = keepItemsWithoutAdvancements(itemsFromCompendia);
+      const createdItems = await newActor.createEmbeddedDocuments('Item', itemsWithoutAdvancements as any); // adding items after actor creation to process active effects
+
+      const itemsWithAdvancements: Item[] = [];
+      if (classItem) itemsWithAdvancements.push(this.buildAdvancements(classItem, createdItems));
+      if (backgroundItem) itemsWithAdvancements.push(this.buildAdvancements(backgroundItem, createdItems));
+      await newActor.createEmbeddedDocuments('Item', itemsWithAdvancements as any); // adding the class after Advancements have been filled in
+
+      await (newActor as any).longRest({ dialog: false, chat: false, newDay: true });
+
       this.close();
     }
+  }
+
+  private buildAdvancements(itemWithAdvancements: Item, createdItems?: any) {
+    (itemWithAdvancements.data as any).advancement = (itemWithAdvancements.data as any).advancement.map((a: any) => {
+      if (a.type === 'ItemGrant') {
+        a.configuration.items.forEach((itemUuid: string) => {
+          const linkedItem = createdItems.find((i: any) => i?.data?.flags?.core?.sourceId === itemUuid);
+          if (linkedItem) {
+            if (!a.value.added) a.value.added = {};
+            a.value.added[linkedItem.id] = itemUuid;
+          }
+        });
+      }
+      return a;
+    });
+    return itemWithAdvancements;
   }
 
   private initializeActorData() {
@@ -217,6 +244,10 @@ export default class HeroCreationTool extends Application {
   }
 }
 
+function keepItemsWithoutAdvancements(itemsFromCompendia: Item[]) {
+  return itemsFromCompendia.filter((i) => !(i.type === 'class' || i.type === 'background'));
+}
+
 async function calculateStartingHp(newActor: ActorDataConstructorData, classUpdateData: any) {
   const totalCon = getProperty(newActor, 'data.abilities.con.value');
   const conModifier: number = totalCon ? Utils.getAbilityModifierValue(totalCon) : 0;
@@ -259,9 +290,14 @@ function handleNavs(index: number) {
   $('[data-hct_next]', $footer).prop('disabled', index >= StepIndex.Bio);
 }
 
-function setClassLevel(itemsFromCompendia: Item[], classData: any) {
+function getClassItemWithLevel(itemsFromCompendia: Item[], classData: any) {
   const classItem = itemsFromCompendia.find((i) => i.type === 'class');
   if (classItem) {
     (classItem as any).data.levels = classData.level;
   }
+  return classItem;
+}
+
+function getBackgroundItem(itemsFromCompendia: Item[]) {
+  return itemsFromCompendia.find((i) => i.type === 'background');
 }

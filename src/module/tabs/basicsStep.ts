@@ -124,7 +124,7 @@ class _Basics extends Step {
       current: path1,
       callback: (path: string) => this.fileChangedCallback(type, path),
     } as any);
-    fp2.browse();
+    fp2.browse('');
   }
 }
 const BasicsTab: Step = new _Basics();

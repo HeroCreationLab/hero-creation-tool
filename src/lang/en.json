@@ -69,8 +69,9 @@
         "RaceCompendia": "Race Compendia",
         "RacialFeatureCompendia": "Racial Features Compendia",
         "ClassCompendia": "Class Compendia",
+        "SubclassCompendia": "Subclass Compendia",
         "ClassFeatureCompendia": "Class Features Compendia",
-        "BackgroundFeatureCompendia": "Background Features Compendia",
+        "BackgroundCompendia": "Background Compendia",
         "SpellCompendia": "Spell Compendia",
         "FeatCompendia": "Feat Compendia",
         "EquipmentCompendia": "Equipment Compendia"
@@ -125,18 +126,12 @@
       }
     },
     "Error": {
+      "IndexEntryNotFound": "No index entry for uuid {uuid}",
       "ActorCreationError": "An error occurred when creating the actor with name {name}, aborting..",
       "UpdateValueLoad": "{value} not loaded for updating values",
       "RenderLoad": "{value} not loaded for render data",
       "CustomItemWithoutName": "Can't create custom feature on {origin} - Item name is mandatory (Item will be skipped)",
       "RequiredOptionNotFulfilled": "Option {opt} is required but not fulfilled."
-    },
-    "List": {
-      "DefaultOption": "Choose your {listType}",
-      "SpellDefaultOption": "Choose your spell",
-      "NoItemWithName": "No item with name: {itemName}",
-      "CantFindItem": "Could not find item with given parameters.",
-      "ChooseItem": "Choose your item"
     },
     "Custom": "Custom",
     "Next": "Next",
@@ -172,6 +167,8 @@
       "Title": "Class",
       "DescriptionPlaceholder": "Please select a class to see its description",
       "Select.Default": "Select your class..",
+      "Subclass": "Subclass",
+      "Select.DefaultSubclass": "Select your subclass..",
       "SavingThrows": "Saving Throws",
       "HitPoints": "Hit Points",
       "FirstLevelHp": "First level",
@@ -210,9 +207,8 @@
     "Background": {
       "Title": "Background",
       "RulesJournalName": "Backgrounds",
-      "Name": "Background Name",
+      "Select.Default": "Select background..",
       "Alignment": "Alignment",
-      "ShowFeatureOnSide": "Show the Feature description on the side panel (re-check to refresh)",
       "NoFeatureSelected": "No background feature selected"
     },
     "Equipment": {
@@ -233,7 +229,6 @@
       "RulesJournalName": "10. Spellcasting",
       "SpellcastingAbilityBlob": "<p>You selected {class} - your Spellcasting Ability is <b>{spa}</b></p>",
       "NoSpellcastingClass": "No spellcasting class selected",
-      "ShowFeatureOnSide": "Show the class Spellcasting Feature on the side panel",
       "SpellCount": "Number of Spells",
       "SpellList": "Starting Spells",
       "Spellcasting": "Spellcasting",
@@ -269,7 +264,8 @@
     },
     "Migrations": {
       "Info1": "Hero Creation Tool :: Migration 1 - Restoring Compendia sources setting to default to prevent errors when moving from v0.8.x to v9",
-      "Info2": "Hero Creation Tool :: Migration 2 - Adding default 5e Items and Rules compendia to sources"
+      "Info2": "Hero Creation Tool :: Migration 2 - Adding default 5e Items and Rules compendia to sources",
+      "Info3": "Hero Creation Tool :: Migration 3 - Updating sources for Advancements"
     }
   }
 }

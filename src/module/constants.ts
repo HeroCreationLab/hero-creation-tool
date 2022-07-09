@@ -3,15 +3,18 @@
 export const MODULE_ID = 'hero-creation-tool';
 export const LOG_PREFIX = 'Hero Creation Tool';
 export const MYSTERY_MAN = 'icons/svg/mystery-man.svg';
+export const NONE_ICON = 'icons/svg/cancel.svg';
 
 export const enum DEFAULT_PACKS {
   RACES = 'dnd5e.races',
   RACE_FEATURES = 'dnd5e.races',
   CLASSES = 'dnd5e.classes',
   CLASS_FEATURES = 'dnd5e.classfeatures',
+  SUBCLASSES = 'dnd5e.subclasses',
   ITEMS = 'dnd5e.items',
   SPELLS = 'dnd5e.spells',
   RULES = 'dnd5e.rules',
+  BACKGROUNDS = 'dnd5e.backgrounds',
 }
 
 export const INTEGRATION = {
