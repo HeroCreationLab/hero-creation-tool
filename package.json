@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "hero-creation-tool",
-  "version": "1.7.1",
+  "version": "1.8.0",
   "license": "MIT",
   "scripts": {
     "start": "gulp watch",
@@ -17,10 +17,11 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:ci": "jest --ci --reporters=default --reporters=jest-junit",
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "tsc": "tsc --noEmit"
   },
   "devDependencies": {
-    "@league-of-foundry-developers/foundry-vtt-types": "^9.268.0",
+    "@league-of-foundry-developers/foundry-vtt-types": "^9.269.0",
     "@rollup/plugin-node-resolve": "^11.2.1",
     "@types/jest": "^26.0.24",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
