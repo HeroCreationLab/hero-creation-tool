@@ -52,7 +52,7 @@ export default class SelectableIndexEntryOption implements HeroOption {
 
   render($parent: JQuery): void {
     const $container = $('<div class="hct-icon-with-context">');
-    this.$link = $(`<a class="content-link hct-icon-link hct-grow-0" draggable="false" data-pack="" data-id="">`);
+    this.$link = $(`<a class="content-link hct-icon-link hct-grow-0" draggable="false" data-uuid="">`);
     this.$itemImg = $('<img class="hct-icon hct-border-0 hct-border-rad-tiny hct-hover-shadow-accent">');
     this.$select = $(`<select class="hct-grow">`);
 
@@ -70,8 +70,7 @@ export default class SelectableIndexEntryOption implements HeroOption {
       const val = this.$select.val();
       const item = this.optionsMap.get((val as string) ?? '')!;
       this.$itemImg.attr('src', item.img || MYSTERY_MAN);
-      this.$link.attr('data-pack', item._pack);
-      this.$link.attr('data-id', item._id);
+      this.$link.attr('data-uuid', item._uuid);
     });
     $container.append(this.$select);
     $parent.append($container);

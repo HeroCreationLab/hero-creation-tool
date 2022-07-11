@@ -28,7 +28,8 @@ export default class CompendiumSourcesSubmenu extends FormApplication {
 
   getData() {
     let selected: any = game.settings.get(MODULE_ID, SettingKeys.SOURCES);
-    if (foundry.utils.isObjectEmpty(selected)) {
+    //@ts-expect-error Foundry.utils TS def not updated yet
+    if (foundry.utils.isEmpty(selected)) {
       selected = {
         races: [DEFAULT_PACKS.RACES],
         racialFeatures: [DEFAULT_PACKS.RACE_FEATURES],
@@ -53,13 +54,24 @@ export default class CompendiumSourcesSubmenu extends FormApplication {
     console.info(formData);
     return game.settings.set(MODULE_ID, SettingKeys.SOURCES, formData);
   }
+
+  protected _getSubmitData(updateData?: any | null | undefined): Record<string, unknown> {
+    if (!this.form) throw new Error('The FormApplication subclass has no registered form element');
+    const fd = new FormDataExtended(this.form as HTMLFormElement, { editors: this.editors });
+    const data = (fd as any).object;
+    this.form.querySelectorAll('[type="checkbox"]:checked').forEach((el: any) => {
+      if (!Array.isArray(data[el.name]) || typeof data[el.name][0] === 'boolean') data[el.name] = [];
+      data[el.name].push(el.value);
+    });
+    return data;
+  }
 }
 
 function buildCompendiaList(compendiaList: any[], defaultCollection?: string[]) {
   return compendiaList.map((p: any) => {
     return {
       collection: p.collection as string,
-      label: `${p.metadata.label} [${p.metadata.package}]`,
+      label: `${p.metadata.label} [${p.metadata.packageName}]`,
       checked: defaultCollection?.includes(p.collection),
     };
   });
