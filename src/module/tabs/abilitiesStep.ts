@@ -76,7 +76,10 @@ class _Abilities extends Step {
     const rulesCompendiumName = game.i18n.localize('HCT.Abilities.RulesJournalName');
     const abilitiesRules = await getRuleJournalEntryByName(rulesCompendiumName);
     if (abilitiesRules) {
-      $('[data-hct_abilities_description]', this.section()).html(TextEditor.enrichHTML(abilitiesRules.content));
+      $('[data-hct_abilities_description]', this.section()).html(
+        //@ts-expect-error TextEditor TS def not updated yet
+        await TextEditor.enrichHTML(abilitiesRules.content, { async: true }),
+      );
     } else {
       console.error(`Unable to find abilities' rule journal on compendium ${rulesCompendiumName}`);
     }

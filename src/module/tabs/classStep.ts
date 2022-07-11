@@ -132,11 +132,12 @@ class _Class extends Step {
 
     // icon, description and class item
     this.$classIcon.attr('src', this._class?.img || MYSTERY_MAN);
-    this.$classDesc.html(TextEditor.enrichHTML(this._class?.data?.description?.value ?? ''));
+    //@ts-expect-error TextEditor TS def not updated yet
+    this.$classDesc.html(TextEditor.enrichHTML(this._class?.system?.description?.value ?? '', { async: true }));
     if (!this._class) {
       throw new Error(`Error finding current class`);
     }
-    this._class.data.levels = this.characterLevel;
+    this._class.system.levels = this.characterLevel;
     this.stepOptions.push(new HiddenOption(ClassTab.step, 'items', [this._class], { addValues: true }));
 
     const classFeatureEntries = [];
@@ -175,12 +176,12 @@ class _Class extends Step {
     return;
 
     function filterSubclassesForClass(_class: ClassEntry, subclasses?: SubclassEntry[]) {
-      return subclasses?.filter((sc) => sc.data.classIdentifier === _class?.data.identifier) ?? [];
+      return subclasses?.filter((sc) => sc.system.classIdentifier === _class?.system.identifier) ?? [];
     }
   }
 
   private handleSpellcasting(clazz: ClassEntry) {
-    const { ability, progression } = clazz.data.spellcasting;
+    const { ability, progression } = clazz.system.spellcasting;
     if (progression === 'none') {
       this.spellcasting = undefined;
     } else {
@@ -226,7 +227,7 @@ class _Class extends Step {
   }
 
   private setSpellcastingAbilityIfExisting() {
-    const spellCastingAbility = (this._class?.data as any)?.spellcasting?.ability;
+    const spellCastingAbility = this._class?.system?.spellcasting?.ability;
     if (spellCastingAbility) {
       this.stepOptions.push(
         new FixedOption(StepEnum.Spells, 'data.attributes.spellcasting', spellCastingAbility, '', {
@@ -247,11 +248,11 @@ class _Class extends Step {
         step: this.step,
         $parent: $proficiencySection,
         pushTo: this.stepOptions,
-        filteredOptions: this._class!.data.skills.choices.map((s: string) => ({
+        filteredOptions: this._class!.system.skills.choices.map((s: string) => ({
           key: s,
           value: foundrySkills[s],
         })),
-        quantity: this._class!.data.skills.number,
+        quantity: this._class!.system.skills.number,
         addValues: true,
         expandable: false,
         customizable: false,
@@ -340,7 +341,7 @@ class _Class extends Step {
   }
 
   private setSavingThrowsUi($context: JQuery<HTMLElement>) {
-    const savingThrows: string[] = (this._class as any).data.saves;
+    const savingThrows: string[] = this._class!.system.saves;
     const foundryAbilities = (game as any).dnd5e.config.abilities;
     const $savingThrowsSection = $('section', $('[data-hct_class_area=saving-throws]', $context)).empty();
     savingThrows.forEach((save) => {
@@ -356,7 +357,7 @@ class _Class extends Step {
   }
 
   private setHitPointsUi($context: JQuery<HTMLElement>) {
-    this.primaryClassHitDie = new HitDie((this._class as any).data.hitDice);
+    this.primaryClassHitDie = new HitDie(this._class!.system.hitDice);
     $('[data-hct-class-hp-lv1]', $context).text(this.primaryClassHitDie.getMax());
     $('[data-hct-class-hp-higher-lv]', $context).text(this.primaryClassHitDie.getVal());
   }
