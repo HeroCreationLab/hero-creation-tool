@@ -1,5 +1,8 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.8.1 (2022-07-11)
+- Fixed subclasses not being linked to their features from Advancements (prevented them from being deleted when removing the subclass)
+
 ## 1.8.0 (2022-07-09)
 - ⚠️ **API DEPRECATION WARNING**: Removed old API, please use the one from the module object hereafter
 ```

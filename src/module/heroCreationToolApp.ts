@@ -162,20 +162,29 @@ export default class HeroCreationTool extends Application {
         return;
       }
       const itemsFromCompendia = await hydrateItems(itemsFromActor); // hydrating index entries for the actual items
-      const classItem = getClassItemWithLevel(itemsFromCompendia, this.steps[StepIndex.Class].getUpdateData());
-      const backgroundItem = getBackgroundItem(itemsFromCompendia);
-
       const itemsWithoutAdvancements = keepItemsWithoutAdvancements(itemsFromCompendia);
       const createdItems = await newActor.createEmbeddedDocuments('Item', itemsWithoutAdvancements as any); // adding items after actor creation to process active effects
 
       const itemsWithAdvancements: Item[] = [];
-      if (classItem) itemsWithAdvancements.push(this.buildAdvancements(classItem, createdItems));
+
+      const classItem = getItemOfType(itemsFromCompendia, 'class');
+      if (classItem) {
+        setClassLevel(classItem, getLevelFromClass(this.steps[StepIndex.Class].getUpdateData()));
+        itemsWithAdvancements.push(this.buildAdvancements(classItem, createdItems));
+      }
+      const subclassItem = getItemOfType(itemsFromCompendia, 'subclass');
+      if (subclassItem) itemsWithAdvancements.push(this.buildAdvancements(subclassItem, createdItems));
+
+      const backgroundItem = getItemOfType(itemsFromCompendia, 'background');
       if (backgroundItem) itemsWithAdvancements.push(this.buildAdvancements(backgroundItem, createdItems));
       await newActor.createEmbeddedDocuments('Item', itemsWithAdvancements as any); // adding the class after Advancements have been filled in
 
       await (newActor as any).longRest({ dialog: false, chat: false, newDay: true });
-
       this.close();
+    }
+
+    function getLevelFromClass(updateData: any): number {
+      return updateData?.level ?? 0;
     }
   }
 
@@ -244,10 +253,6 @@ export default class HeroCreationTool extends Application {
   }
 }
 
-function keepItemsWithoutAdvancements(itemsFromCompendia: Item[]) {
-  return itemsFromCompendia.filter((i) => !(i.type === 'class' || i.type === 'background'));
-}
-
 async function calculateStartingHp(newActor: ActorDataConstructorData, classUpdateData: any) {
   const totalCon = getProperty(newActor, 'data.abilities.con.value');
   const conModifier: number = totalCon ? Utils.getAbilityModifierValue(totalCon) : 0;
@@ -290,14 +295,16 @@ function handleNavs(index: number) {
   $('[data-hct_next]', $footer).prop('disabled', index >= StepIndex.Bio);
 }
 
-function getClassItemWithLevel(itemsFromCompendia: Item[], classData: any) {
-  const classItem = itemsFromCompendia.find((i) => i.type === 'class');
-  if (classItem) {
-    (classItem as any).data.levels = classData.level;
-  }
-  return classItem;
+function keepItemsWithoutAdvancements(itemsFromCompendia: Item[]) {
+  const typesWithAdvancements = ['class', 'subclass', 'background'];
+  return itemsFromCompendia.filter((i) => !typesWithAdvancements.includes(i.type));
 }
 
-function getBackgroundItem(itemsFromCompendia: Item[]) {
-  return itemsFromCompendia.find((i) => i.type === 'background');
+function getItemOfType(itemsFromCompendia: Item[], itemType: 'class' | 'subclass' | 'background') {
+  return itemsFromCompendia.find((i) => i.type === itemType)!;
+}
+
+function setClassLevel(item: Item, classLevel: number) {
+  (item as any).data.levels = classLevel;
+  return item;
 }
