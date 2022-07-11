@@ -54,9 +54,9 @@ export default class FixedOption implements HeroOption {
       const item = this.option as IndexEntry;
       const $link = item.local
         ? $(
-            `<a class="content-link hct-icon-link" draggable="false" data-type="Item" data-entity="Item" data-id="${item._id}">`,
+            `<a class="content-link hct-icon-link" draggable="false" data-type="Item" data-uuid="${item._uuid}" data-entity="Item">`,
           )
-        : $(`<a class="content-link hct-icon-link" draggable="false" data-pack="${item._pack}" data-id="${item._id}">`);
+        : $(`<a class="content-link hct-icon-link" draggable="false" data-uuid="${item._uuid}">`);
       this.$itemImg.attr('src', item.img);
       $link.append(this.$itemImg);
       this.$itemName.html(this.textToShow ?? (item.name as string));

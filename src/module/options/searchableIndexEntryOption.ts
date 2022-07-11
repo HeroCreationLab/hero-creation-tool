@@ -30,6 +30,7 @@ export default class SearchableIndexEntryOption implements HeroOption {
   private noneOption: IndexEntry = {
     _id: 'none',
     _pack: '',
+    _uuid: '',
     name: 'None',
     img: NONE_ICON,
     type: 'none',
@@ -58,11 +59,9 @@ export default class SearchableIndexEntryOption implements HeroOption {
       const item = this.value();
       this.$link = item?.local
         ? $(
-            `<a class="content-link hct-icon-link" draggable="false" data-type="Item" data-entity="Item" data-id="${item._id}">`,
+            `<a class="content-link hct-icon-link" draggable="false" data-type="Item" data-uuid="${item._uuid}" data-entity="Item">`,
           )
-        : $(
-            `<a class="content-link hct-icon-link" draggable="false" data-pack="${item?._pack}" data-id="${item?._id}">`,
-          );
+        : $(`<a class="content-link hct-icon-link" draggable="false" data-uuid="${item?._uuid}">`);
       this.$img = document.createElement('img');
       this.$img.classList.add('hct-icon');
       this.$img.classList.add('hct-border-0');
@@ -129,12 +128,10 @@ export default class SearchableIndexEntryOption implements HeroOption {
       if (!this.hideImage) {
         this.$img.src = id !== 'none' ? this.selected?.img ?? MYSTERY_MAN : NONE_ICON;
 
-        this.$link.attr('data-id', this.selected!._id);
+        this.$link.attr('data-uuid', this.selected!._uuid);
         if (this.selected?.local) {
           this.$link.attr('data-type', 'Item');
           this.$link.attr('data-entity', 'Item');
-        } else {
-          this.$link.attr('data-pack', this.selected!._pack);
         }
       }
     });

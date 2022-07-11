@@ -292,8 +292,7 @@ class _Race extends Step {
         return;
       }
       const $imgLink = $('[data-hct_feat_icon]', this.$context);
-      $imgLink.attr('data-pack', featEntry._pack ?? '');
-      $imgLink.attr('data-id', featEntry._id ?? '');
+      $imgLink.attr('data-uuid', featEntry._uuid ?? '');
       $('img', $imgLink)
         .attr('src', featEntry.img ?? MYSTERY_MAN)
         .addClass('hct-hover-shadow-accent');

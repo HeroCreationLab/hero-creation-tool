@@ -44,11 +44,9 @@ export default class QuantifiableOption implements HeroOption {
     const $container = $('<div class="hct-icon-with-context hct-pb-sm hct-grow">');
     const $link = this.itemOption.local
       ? $(
-          `<a class="content-link hct-icon-link" draggable="false" data-type="Item" data-entity="Item" data-id="${this.itemOption._id}">`,
+          `<a class="content-link hct-icon-link" draggable="false" data-type="Item" data-entity="Item" data-uuid="${this.itemOption._uuid}">`,
         )
-      : $(
-          `<a class="content-link hct-icon-link flexrow" draggable="false" data-pack="${this.itemOption._pack}" data-id="${this.itemOption._id}">`,
-        );
+      : $(`<a class="content-link hct-icon-link flexrow" draggable="false" data-uuid="${this.itemOption._uuid}">`);
     const $itemImg = $('<img class="hct-icon hct-border-0 hct-border-rad-tiny hct-hover-shadow-accent">').attr(
       'src',
       this.itemOption.img,

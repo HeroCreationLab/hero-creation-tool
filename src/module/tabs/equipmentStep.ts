@@ -516,6 +516,7 @@ const packs: EquipmentEntry[] = [
     img: 'icons/tools/hand/lockpicks-steel-grey.webp',
     _id: '',
     _pack: '',
+    _uuid: '',
     type: '',
   },
   {
@@ -524,6 +525,7 @@ const packs: EquipmentEntry[] = [
     img: 'icons/commodities/treasure/medal-ribbon-gold-red.webp',
     _id: '',
     _pack: '',
+    _uuid: '',
     type: '',
   },
   {
@@ -532,6 +534,7 @@ const packs: EquipmentEntry[] = [
     img: 'icons/sundries/lights/torch-brown-lit.webp',
     _id: '',
     _pack: '',
+    _uuid: '',
     type: '',
   },
   {
@@ -540,6 +543,7 @@ const packs: EquipmentEntry[] = [
     img: 'icons/tools/instruments/lute-gold-brown.webp',
     _id: '',
     _pack: '',
+    _uuid: '',
     type: '',
   },
   {
@@ -548,6 +552,7 @@ const packs: EquipmentEntry[] = [
     img: 'icons/tools/navigation/map-marked-green.webp',
     _id: '',
     _pack: '',
+    _uuid: '',
     type: '',
   },
   {
@@ -556,6 +561,7 @@ const packs: EquipmentEntry[] = [
     img: 'icons/commodities/treasure/token-gold-cross.webp',
     _id: '',
     _pack: '',
+    _uuid: '',
     type: '',
   },
   {
@@ -564,6 +570,7 @@ const packs: EquipmentEntry[] = [
     img: 'icons/skills/trades/academics-merchant-scribe.webp',
     _id: '',
     _pack: '',
+    _uuid: '',
     type: '',
   },
 ];

@@ -101,7 +101,7 @@ class _BackgroundTab extends Step {
     this.$backgroundIcon.attr('src', selectedBackground.img || MYSTERY_MAN);
     this.$backgroundDesc.html(
       //@ts-expect-error TextEditor TS def not updated yet
-      TextEditor.enrichHTML((backgroundItem as any).data.data.description?.value ?? '', { async: true }),
+      TextEditor.enrichHTML((backgroundItem as any).system.description?.value ?? '', { async: true }),
     );
 
     if (Advancements.hasAdvancements(backgroundItem)) {

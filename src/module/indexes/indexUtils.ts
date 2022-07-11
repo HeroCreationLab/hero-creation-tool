@@ -63,7 +63,7 @@ export async function getIndexEntriesForSource(source: keyof Source) {
     const itemPack = pack as CompendiumCollection<CompendiumCollection.Metadata & { entity: 'Item' }>;
     if ((itemPack as any).indexed) {
       const packIndexEntries = [...(await itemPack.index)];
-      indexEntries.push(...packIndexEntries.map((e) => ({ ...e, _pack: packName })));
+      indexEntries.push(...packIndexEntries.map((e) => ({ ...e, _pack: packName, _uuid: buildUuid(e._id, packName) })));
     } else {
       console.error(`Index not built for pack [${packName}] - skipping it`);
     }
@@ -122,6 +122,7 @@ export async function getIndexEntryByUuid(uuid: string): Promise<IndexEntry> {
   return {
     ...indexedEntry,
     _pack: pack,
+    _uuid: uuid,
   };
 }
 
@@ -142,6 +143,7 @@ function toIndexEntry(item: Item): IndexEntry {
   return {
     _pack: item.pack!,
     _id: item.data._id!,
+    _uuid: item.uuid,
     name: item.name!,
     type: item.type,
     img: item.img ?? '',
@@ -158,9 +160,18 @@ function parseUuid(uuid: string): { pack: any; id: any } {
   return { pack, id };
 }
 
+function buildUuid(id: string, pack?: string): string {
+  //'Compendium.dnd5e.spells.04nMsTWkIFvkbXlY'
+  //'Item.PbEAMotRyx4yLbNq'
+  if (!id) throw new Error('UUID needs a Document id');
+  const location = pack ? 'Compendium.' + pack : 'Item';
+  return `${location}.${id}`;
+}
+
 export type IndexEntry = {
   _id: string;
   _pack: string;
+  _uuid: string;
   type: string;
   name: string;
   img: string;
