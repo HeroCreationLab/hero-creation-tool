@@ -28,7 +28,7 @@ export default class QuantifiableOption implements HeroOption {
   }
 
   applyToHero(actor: ActorDataConstructorData) {
-    this.itemOption.data.quantity = this.settings.quantity;
+    this.itemOption.system.quantity = this.settings.quantity;
     apply(actor, this.key, [this.itemOption], this.settings.addValues, false);
   }
 
@@ -98,7 +98,7 @@ export default class QuantifiableOption implements HeroOption {
 
 function buildText(itemOption: any, quantity: number, showTotal: boolean) {
   if (showTotal) {
-    const totalPrice = Math.round((itemOption.data.price * quantity + Number.EPSILON) * 100) / 100;
+    const totalPrice = Math.round((itemOption.system.price * quantity + Number.EPSILON) * 100) / 100;
     return `<p class="hct-grow">${itemOption.name} x${quantity} (${totalPrice}gp)</p>`;
   } else {
     return `<p class="hct-grow">${itemOption.name} x${quantity}</p>`;

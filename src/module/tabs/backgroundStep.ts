@@ -46,7 +46,8 @@ class _BackgroundTab extends Step {
     const rulesCompendiumName = game.i18n.localize('HCT.Background.RulesJournalName');
     this.backgroundRules = await getRuleJournalEntryByName(rulesCompendiumName);
     if (this.backgroundRules) {
-      this.enrichedRules = TextEditor.enrichHTML(this.backgroundRules.content);
+      //@ts-expect-error TextEditor TS def not updated yet
+      this.enrichedRules = TextEditor.enrichHTML(this.backgroundRules.content, { async: true });
       this.$backgroundDesc.html(this.enrichedRules);
     } else {
       console.error(`Unable to find backgrounds' rule journal on compendium ${rulesCompendiumName}`);
@@ -98,7 +99,10 @@ class _BackgroundTab extends Step {
 
     // update icon and description
     this.$backgroundIcon.attr('src', selectedBackground.img || MYSTERY_MAN);
-    this.$backgroundDesc.html(TextEditor.enrichHTML((backgroundItem as any).data.data.description?.value ?? ''));
+    this.$backgroundDesc.html(
+      //@ts-expect-error TextEditor TS def not updated yet
+      TextEditor.enrichHTML((backgroundItem as any).data.data.description?.value ?? '', { async: true }),
+    );
 
     if (Advancements.hasAdvancements(backgroundItem)) {
       const itemGrantAdvancements = backgroundItem.advancement.byType.ItemGrant;

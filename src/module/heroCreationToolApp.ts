@@ -179,7 +179,11 @@ export default class HeroCreationTool extends Application {
       if (backgroundItem) itemsWithAdvancements.push(this.buildAdvancements(backgroundItem, createdItems));
       await newActor.createEmbeddedDocuments('Item', itemsWithAdvancements as any); // adding the class after Advancements have been filled in
 
-      await (newActor as any).longRest({ dialog: false, chat: false, newDay: true });
+      try {
+        await (newActor as any).longRest({ dialog: false, chat: false, newDay: true });
+      } catch (error) {
+        console.error(error);
+      }
       this.close();
     }
 
@@ -189,18 +193,20 @@ export default class HeroCreationTool extends Application {
   }
 
   private buildAdvancements(itemWithAdvancements: Item, createdItems?: any) {
-    (itemWithAdvancements.data as any).advancement = (itemWithAdvancements.data as any).advancement.map((a: any) => {
-      if (a.type === 'ItemGrant') {
-        a.configuration.items.forEach((itemUuid: string) => {
-          const linkedItem = createdItems.find((i: any) => i?.data?.flags?.core?.sourceId === itemUuid);
-          if (linkedItem) {
-            if (!a.value.added) a.value.added = {};
-            a.value.added[linkedItem.id] = itemUuid;
-          }
-        });
-      }
-      return a;
-    });
+    (itemWithAdvancements as any).system.advancement = (itemWithAdvancements as any).system.advancement.map(
+      (a: any) => {
+        if (a.type === 'ItemGrant') {
+          a.configuration.items.forEach((itemUuid: string) => {
+            const linkedItem = createdItems.find((i: any) => i?.flags?.core?.sourceId === itemUuid);
+            if (linkedItem) {
+              if (!a.value.added) a.value.added = {};
+              a.value.added[linkedItem.id] = itemUuid;
+            }
+          });
+        }
+        return a;
+      },
+    );
     return itemWithAdvancements;
   }
 
@@ -305,6 +311,6 @@ function getItemOfType(itemsFromCompendia: Item[], itemType: 'class' | 'subclass
 }
 
 function setClassLevel(item: Item, classLevel: number) {
-  (item as any).data.levels = classLevel;
+  (item as any).system.levels = classLevel;
   return item;
 }

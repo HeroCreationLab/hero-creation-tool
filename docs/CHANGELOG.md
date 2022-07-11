@@ -1,5 +1,8 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.9.0 (2022-mm-dd)
+- Compatibility version for Foundry 10 and DnD5e 1.7.x
+
 ## 1.8.2 (2022-07-20)
 - Fixed breaking issue when a Background had no ItemGrant advancement.
 - Added module setting to trim subclass names - *for DDB Importer subclasses like "Assassin (Rogue)"*

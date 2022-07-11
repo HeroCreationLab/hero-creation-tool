@@ -54,7 +54,7 @@ class _Race extends Step {
 
   async setSourceData() {
     this.raceEntries = await getRaceEntries();
-    const raceNames = this.raceEntries.filter((entry) => entry.data?.requirements == '').map((race) => race.name);
+    const raceNames = this.raceEntries.filter((entry) => entry.system?.requirements == '').map((race) => race.name);
 
     const raceFeatureIndexEntries = await getRaceFeatureEntries();
     this.raceFeatures = raceFeatureIndexEntries?.filter((entry) => !raceNames.includes(entry.name)); //filters out subraces from features
@@ -107,10 +107,13 @@ class _Race extends Step {
         // update icon and description
         this.$raceIcon.attr('src', selectedRace.img || MYSTERY_MAN);
         if (parentRace) {
-          this.$raceDesc.html(TextEditor.enrichHTML(parentRace.data.description.value));
-          this.$subraceDesc.html(TextEditor.enrichHTML(selectedRace.data.description.value));
+          //@ts-expect-error TextEditor TS def not updated yet
+          this.$raceDesc.html(TextEditor.enrichHTML(parentRace.system.description.value, { async: true }));
+          //@ts-expect-error TextEditor TS def not updated yet
+          this.$subraceDesc.html(TextEditor.enrichHTML(selectedRace.system.description.value, { async: true }));
         } else {
-          this.$raceDesc.html(TextEditor.enrichHTML(selectedRace.data.description.value));
+          //@ts-expect-error TextEditor TS def not updated yet
+          this.$raceDesc.html(TextEditor.enrichHTML(selectedRace.system.description.value, { async: true }));
           this.$subraceDesc.empty();
         }
         $subraceSeparator.toggle(!!parentRace);
@@ -262,7 +265,7 @@ class _Race extends Step {
     const options: HeroOption[] = [];
     const raceFeatures: RacialFeatureEntry[] = Utils.filterItemList({
       filterValues: raceItems.map((r) => r.name!),
-      filterField: 'data.requirements',
+      filterField: 'system.requirements',
       itemList: this.raceFeatures!,
     });
     raceFeatures.forEach((feature) => {
@@ -328,13 +331,13 @@ function subraceNameIsPartOfRaceName(subraceName: string, parentName: string): b
 }
 
 function parentListedAsRequirement(subrace: RaceEntry, parentName: string): boolean {
-  return parentName.includes(subrace.data.requirements);
+  return parentName.includes(subrace.system.requirements);
 }
 
 function getPickableRaces(raceEntries: RaceEntry[], misleadingFeatureNames: string[]): IndexEntry[] {
-  const pickableRaces = raceEntries.filter((e) => e.data.requirements == ''); // start with parent races / races without subclasses
+  const pickableRaces = raceEntries.filter((e) => e.system.requirements == ''); // start with parent races / races without subclasses
 
-  const notParentEntries = raceEntries.filter((e) => e.data.requirements !== '');
+  const notParentEntries = raceEntries.filter((e) => e.system.requirements !== '');
   const parentsToRemove: Set<RaceEntry> = new Set(); // all classes with children are deleted at the end
   notParentEntries.forEach((e) => {
     if (validSubraceName(e.name, misleadingFeatureNames)) {
@@ -354,7 +357,7 @@ function getPickableRaces(raceEntries: RaceEntry[], misleadingFeatureNames: stri
 }
 
 function getParentRace(selectedRace: RaceEntry, raceEntries: RaceEntry[]) {
-  if (selectedRace.data.requirements == '') return null;
+  if (selectedRace.system.requirements == '') return null;
 
-  return raceEntries.find((e) => e.name === selectedRace.data.requirements);
+  return raceEntries.find((e) => e.name === selectedRace.system.requirements);
 }
