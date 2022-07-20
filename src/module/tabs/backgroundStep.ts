@@ -102,11 +102,13 @@ class _BackgroundTab extends Step {
 
     if (Advancements.hasAdvancements(backgroundItem)) {
       const itemGrantAdvancements = backgroundItem.advancement.byType.ItemGrant;
-      if (itemGrantAdvancements.length) {
+      if (itemGrantAdvancements?.length) {
         const grantedItems = (await Promise.all(
           itemGrantAdvancements.flatMap((iga) => iga.data.configuration.items).map(getIndexEntryByUuid),
         )) as BackgroundEntry[];
         this.setBackgroundFeatureUi(grantedItems);
+      } else {
+        this.setBackgroundFeatureUi([]);
       }
     }
 

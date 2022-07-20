@@ -1,5 +1,9 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.8.2 (2022-07-20)
+- Fixed breaking issue when a Background had no ItemGrant advancement.
+- Added module setting to trim subclass names - *for DDB Importer subclasses like "Assassin (Rogue)"*
+
 ## 1.8.1 (2022-07-11)
 - Fixed subclasses not being linked to their features from Advancements (prevented them from being deleted when removing the subclass)
 

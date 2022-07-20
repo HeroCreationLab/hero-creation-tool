@@ -1,7 +1,6 @@
 {
   "private": true,
   "name": "hero-creation-tool",
-  "version": "1.8.0",
   "license": "MIT",
   "scripts": {
     "start": "gulp watch",
