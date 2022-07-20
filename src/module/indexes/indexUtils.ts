@@ -1,6 +1,6 @@
 import { DEFAULT_PACKS, LOG_PREFIX, MODULE_ID } from '../constants';
 import SettingKeys, { Source, SourceType } from '../settings';
-import { getGame } from '../utils';
+import { getGame, getModuleSetting } from '../utils';
 
 /***
  * Builds the indexes for all sources.
@@ -318,9 +318,18 @@ export function addSubclassFields(fieldsToIndex: Set<string>, source: Source, pa
   }
 }
 export async function getSubclassEntries() {
-  const classEntries = await (getIndexEntriesForSource(SourceType.SUBCLASSES) as unknown as Promise<SubclassEntry[]>);
+  const sourceEntries = await (getIndexEntriesForSource(SourceType.SUBCLASSES) as unknown as Promise<SubclassEntry[]>);
   // sanitize entries to remove anything nonconforming to a Subclass
-  return classEntries.filter((c) => c.type == 'subclass');
+  const subclassEntries = sourceEntries.filter((c) => c.type == 'subclass');
+  if (getModuleSetting(SettingKeys.TRIM_SUBCLASSES)) {
+    // Mostly for DDBImporter stuff: e.g "Assassin (Rogue)" > "Assassin"
+    return subclassEntries.map((e) => ({ ...e, name: clearClassName(e.name) }));
+  }
+  return subclassEntries;
+}
+
+function clearClassName(name: string) {
+  return name.substring(0, name.lastIndexOf('(') - 1).trim();
 }
 
 // Background

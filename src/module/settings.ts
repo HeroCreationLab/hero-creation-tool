@@ -20,11 +20,11 @@ const enum SettingKeys {
   FIGHTING_STYLE_STRING = 'fightingStyleLookupString',
   EQUIPMENTS_BLACKLIST = 'equipmentsBlackList',
   SUBRACES_BLACKLIST = 'subracesBlacklist',
-  SPELL_GRANTING_STRING = 'spellGrantingLookupString',
   BUTTON_ON_DIALOG = 'buttonOnDialog',
   POINT_BUY_LIMIT = 'pointBuyLimit',
   ABILITY_ROLL_FORMULA = 'abiiltyRollFormula',
   SOURCES = 'compendiumSources',
+  TRIM_SUBCLASSES = 'trimSubclasses',
 }
 export default SettingKeys;
 
@@ -60,10 +60,10 @@ export function registerSettings(): void {
   tokenDisplayNameMode();
   tokenDisplayBarsMode();
   fightingStyleLookupString();
-  spellGrantingLookupString();
   equipmentBlacklist();
   subraceNameBlacklist();
   buttonOnDialogInsteadOfActorsDirectory();
+  trimSubclasses();
   // custom packs
   sourcesConfiguration();
   // integrations
@@ -110,17 +110,6 @@ function fightingStyleLookupString() {
   });
 }
 
-function spellGrantingLookupString() {
-  game.settings.register(MODULE_ID, SettingKeys.SPELL_GRANTING_STRING, {
-    name: game.i18n.localize('HCT.Setting.spellcastingString.Name'),
-    hint: game.i18n.localize('HCT.Setting.spellcastingString.Hint'),
-    scope: 'world',
-    config: true,
-    default: 'Spellcasting; Pact Magic',
-    type: String,
-  });
-}
-
 function equipmentBlacklist() {
   game.settings.register(MODULE_ID, SettingKeys.EQUIPMENTS_BLACKLIST, {
     name: game.i18n.localize('HCT.Setting.EquipmentBlacklist.Name'),
@@ -141,6 +130,17 @@ function subraceNameBlacklist() {
     config: true,
     default: 'Gnome Cunning; Halfling Nimbleness',
     type: String,
+  });
+}
+
+function trimSubclasses() {
+  game.settings.register(MODULE_ID, SettingKeys.TRIM_SUBCLASSES, {
+    name: game.i18n.localize('HCT.Setting.TrimSubclasses.Name'),
+    hint: game.i18n.localize('HCT.Setting.TrimSubclasses.Hint'),
+    scope: 'world',
+    config: true,
+    default: true,
+    type: Boolean,
   });
 }
 
