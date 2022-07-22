@@ -17,6 +17,17 @@ export const enum DEFAULT_PACKS {
   BACKGROUNDS = 'dnd5e.backgrounds',
 }
 
+export const DEFAULT_SOURCES = {
+  races: [DEFAULT_PACKS.RACES],
+  racialFeatures: [DEFAULT_PACKS.RACE_FEATURES],
+  classes: [DEFAULT_PACKS.CLASSES],
+  subclasses: [DEFAULT_PACKS.SUBCLASSES],
+  backgrounds: [DEFAULT_PACKS.BACKGROUNDS],
+  spells: [DEFAULT_PACKS.SPELLS],
+  feats: [],
+  items: [DEFAULT_PACKS.ITEMS],
+};
+
 export const INTEGRATION = {
   TOKENIZER: {
     VERSION: '3.3.0',

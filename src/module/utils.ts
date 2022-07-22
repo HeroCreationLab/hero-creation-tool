@@ -1,5 +1,5 @@
 import CompendiumSourcesSubmenu from './compendiumSourcesSubmenu';
-import { MODULE_ID, LOG_PREFIX } from './constants';
+import { MODULE_ID, LOG_PREFIX, DEFAULT_SOURCES } from './constants';
 import HeroCreationTool from './heroCreationToolApp';
 import SettingKeys, { PrivateSettingKeys } from './settings';
 
@@ -116,6 +116,7 @@ interface ModuleDataWithApi extends Game.ModuleData<foundry.packages.ModuleData>
   api?: {
     selectSources: () => void;
     openForNewActor: () => void;
+    resetSources: () => void;
   };
 }
 export function setPublicApi(app: HeroCreationTool) {
@@ -126,6 +127,7 @@ export function setPublicApi(app: HeroCreationTool) {
       sourcesApp.render(true);
     },
     openForNewActor: () => app.openForNewActor(),
+    resetSources: () => setModuleSetting(SettingKeys.SOURCES, DEFAULT_SOURCES),
   };
 }
 

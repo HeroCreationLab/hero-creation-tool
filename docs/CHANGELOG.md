@@ -2,6 +2,10 @@
 
 ## 1.9.0 (2022-mm-dd)
 - Compatibility version for Foundry 10 and DnD5e 1.7.x
+- Added new API call to reset Compendium Sources to defaults (I used it for testing, but it could be useful for someone else): 
+```
+    game.modules.get('hero-creation-tool').api.resetSources() // returns a Promise<void>
+```
 
 ## 1.8.2 (2022-07-20)
 - Fixed breaking issue when a Background had no ItemGrant advancement.
