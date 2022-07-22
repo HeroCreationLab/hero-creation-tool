@@ -1,5 +1,5 @@
 import CompendiumSourcesSubmenu from './compendiumSourcesSubmenu';
-import { MODULE_ID, LOG_PREFIX, DEFAULT_PACKS } from './constants';
+import { MODULE_ID, LOG_PREFIX, DEFAULT_SOURCES } from './constants';
 
 // settings not shown on the Module Settings - not modifiable by users
 export const enum PrivateSettingKeys {
@@ -77,16 +77,7 @@ function sourcesConfiguration() {
     scope: 'world',
     config: false,
     type: Object,
-    default: {
-      races: [DEFAULT_PACKS.RACES],
-      racialFeatures: [DEFAULT_PACKS.RACE_FEATURES],
-      classes: [DEFAULT_PACKS.CLASSES],
-      subclasses: [DEFAULT_PACKS.SUBCLASSES],
-      backgrounds: [DEFAULT_PACKS.BACKGROUNDS],
-      spells: [DEFAULT_PACKS.SPELLS],
-      feats: [],
-      items: [DEFAULT_PACKS.ITEMS],
-    },
+    default: DEFAULT_SOURCES,
   });
   // Define a settings submenu which handles advanced configuration needs
   game.settings.registerMenu(MODULE_ID, SettingKeys.SOURCES, {

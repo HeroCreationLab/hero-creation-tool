@@ -2,6 +2,10 @@
 
 ## 1.9.0 (2022-09-dd)
 - Compatibility version for Foundry 10 and DnD5e 1.7.x
+- Added new API call to reset Compendium Sources to defaults (I used it for testing, but it could be useful for someone else): 
+```
+    game.modules.get('hero-creation-tool').api.resetSources() // returns a Promise<void>
+```
 
 ## 1.8.3 (2022-09-01)
 - Fixed bug with subclass names looking empty + added missing i18n values for new 1.8.2 setting [(#114)](https://github.com/HeroCreationLab/hero-creation-tool/issues/114)
