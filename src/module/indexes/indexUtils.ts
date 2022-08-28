@@ -329,7 +329,7 @@ export async function getSubclassEntries() {
 }
 
 function clearClassName(name: string) {
-  return name.substring(0, name.lastIndexOf('(') - 1).trim();
+  return name.lastIndexOf('(') > 0 ? name.substring(0, name.lastIndexOf('(') - 1).trim() : name;
 }
 
 // Background
