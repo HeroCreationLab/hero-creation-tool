@@ -75,6 +75,10 @@
         "SpellCompendia": "Spell Compendia",
         "FeatCompendia": "Feat Compendia",
         "EquipmentCompendia": "Equipment Compendia"
+      },
+      "TrimSubclasses": {
+        "Name": "Trim Subclass names",
+        "Hint": "Shows subclass names without any last part in parenthesis, mostly for DDBImporter subclasses like 'Assassin (Rogue)' to be just 'Assassin' (does NOT modify the items added to actor, just show they are shown in the tool)"
       }
     },
     "Permissions": {
