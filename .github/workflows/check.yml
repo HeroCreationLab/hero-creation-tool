@@ -30,5 +30,5 @@ jobs:
 
       - run: npm ci --cache .npm --prefer-offline
 
-      - name: Compile Typescript
-        run: tsc
+      - name: Build Project
+        run: npm run build
