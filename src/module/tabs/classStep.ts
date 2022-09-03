@@ -250,7 +250,7 @@ class _Class extends Step {
         pushTo: this.stepOptions,
         filteredOptions: this._class!.system.skills.choices.map((s: string) => ({
           key: s,
-          value: foundrySkills[s],
+          value: `${foundrySkills[s].label} (${Utils.getLocalizedAbility(foundrySkills[s].ability)})`,
         })),
         quantity: this._class!.system.skills.number,
         addValues: true,

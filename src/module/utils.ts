@@ -50,6 +50,10 @@ export function getModuleSetting(key: SettingKeys | PrivateSettingKeys) {
   return game.settings.get(MODULE_ID, key);
 }
 
+export function getLocalizedAbility(ability: string) {
+  return game.i18n.localize(`DND5E.Ability${ability.capitalize()}Abbr`);
+}
+
 export function getAbilityModifierValue(value: number) {
   return Math.floor((value - 10) / 2);
 }
