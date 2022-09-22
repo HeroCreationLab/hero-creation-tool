@@ -1,4 +1,4 @@
-import { DEFAULT_PACKS, LOG_PREFIX, MODULE_ID } from '../constants';
+import { LOG_PREFIX, MODULE_ID } from '../constants';
 import SettingKeys, { Source, SourceType } from '../settings';
 import { getGame, getModuleSetting } from '../utils';
 
@@ -34,22 +34,6 @@ export async function buildSourceIndexes() {
       }
     });
   await Promise.all(itemsPromises);
-}
-
-export async function buildJournalIndexes() {
-  console.info(`${LOG_PREFIX} | Indexing journals (rules)`);
-  const rulesPack = game.packs.get(DEFAULT_PACKS.RULES);
-  if (!rulesPack) {
-    throw new Error(
-      `${LOG_PREFIX} | Cannot find default DnD5e rules compendium (for indexing sidepanel rules) under name ${DEFAULT_PACKS.RULES}`,
-    );
-  }
-  await (rulesPack as any).getIndex({ fields: ['name', 'content'] });
-}
-
-export async function getRuleJournalEntryByName(journalName: string) {
-  const entries = await (game.packs.get(DEFAULT_PACKS.RULES)?.index as unknown as Promise<RuleEntry[]>);
-  return entries.find((e) => e.name === journalName);
 }
 
 export async function getIndexEntriesForSource(source: keyof Source) {
@@ -411,10 +395,3 @@ export async function getFeatEntries() {
   // sanitize entries to remove anything nonconforming to a Feature (for now at least, if Feats become a type in the future)
   return featEntries.filter((f) => f.type == 'feat');
 }
-
-// Rule
-export type RuleEntry = {
-  _id: string;
-  name: string;
-  content: string;
-};

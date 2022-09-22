@@ -67,7 +67,7 @@ class _Race extends Step {
       .map((e) => e.trim());
   }
 
-  renderData(): void {
+  async renderData() {
     Utils.setPanelScrolls(this.section());
     const $dataSection = $('[data-hct_race_data]').hide();
     this.$raceIcon = $('[data-hct_race_icon]', this.section());
@@ -84,7 +84,7 @@ class _Race extends Step {
       this.step,
       'items',
       getPickableRaces(this.raceEntries, this.subraceBlacklist ?? []),
-      (raceId) => {
+      async (raceId) => {
         if (!raceId) {
           $dataSection.hide();
           this.$raceIcon.attr('src', NONE_ICON);
@@ -108,12 +108,12 @@ class _Race extends Step {
         this.$raceIcon.attr('src', selectedRace.img || MYSTERY_MAN);
         if (parentRace) {
           //@ts-expect-error TextEditor TS def not updated yet
-          this.$raceDesc.html(TextEditor.enrichHTML(parentRace.system.description.value, { async: true }));
+          this.$raceDesc.html(await TextEditor.enrichHTML(parentRace.system.description.value, { async: true }));
           //@ts-expect-error TextEditor TS def not updated yet
-          this.$subraceDesc.html(TextEditor.enrichHTML(selectedRace.system.description.value, { async: true }));
+          this.$subraceDesc.html(await TextEditor.enrichHTML(selectedRace.system.description.value, { async: true }));
         } else {
           //@ts-expect-error TextEditor TS def not updated yet
-          this.$raceDesc.html(TextEditor.enrichHTML(selectedRace.system.description.value, { async: true }));
+          this.$raceDesc.html(await TextEditor.enrichHTML(selectedRace.system.description.value, { async: true }));
           this.$subraceDesc.empty();
         }
         $subraceSeparator.toggle(!!parentRace);

@@ -5,7 +5,7 @@ import SettingKeys from '../settings';
 import HeroOption from '../options/heroOption';
 import OptionContainer from '../options/optionContainer';
 import DeletableOption from '../options/deletableOption';
-import { EquipmentEntry, getEquipmentEntries, getRuleJournalEntryByName } from '../indexes/indexUtils';
+import { EquipmentEntry, getEquipmentEntries } from '../indexes/indexUtils';
 import QuantifiableOption from '../options/quantifiableOption';
 import { MODULE_ID } from '../constants';
 
@@ -13,6 +13,8 @@ type itemOrPack = {
   itemName?: string;
   item?: EquipmentEntry;
 };
+
+const rules = { journalId: 'BYFd9hiJGo9L5aOM', pageId: 'R9nWciuL1bon7BuY' };
 
 class _Equipment extends Step {
   constructor() {
@@ -446,15 +448,12 @@ class _Equipment extends Step {
   async renderData() {
     Utils.setPanelScrolls(this.section());
     // Show rules on the side panel
-    const rulesCompendiumName = game.i18n.localize('HCT.Equipment.RulesJournalName');
-    const equipmentRules = await getRuleJournalEntryByName(rulesCompendiumName);
+    const equipmentRules = await Utils.getRules(rules);
     if (equipmentRules) {
       $('[data-hct_equipment_description]', this.section()).html(
         //@ts-expect-error TextEditor TS def not updated yet
-        TextEditor.enrichHTML(equipmentRules.content, { async: true }),
+        await TextEditor.enrichHTML(equipmentRules.content, { async: true }),
       );
-    } else {
-      console.error(`Unable to find equipment's rule journal on compendium ${rulesCompendiumName}`);
     }
 
     this.searchableList = [...packs, ...this.items.filter((data) => data.name)];

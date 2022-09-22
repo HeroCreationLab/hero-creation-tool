@@ -133,7 +133,7 @@ class _Class extends Step {
     // icon, description and class item
     this.$classIcon.attr('src', this._class?.img || MYSTERY_MAN);
     //@ts-expect-error TextEditor TS def not updated yet
-    this.$classDesc.html(TextEditor.enrichHTML(this._class?.system?.description?.value ?? '', { async: true }));
+    this.$classDesc.html(await TextEditor.enrichHTML(this._class?.system?.description?.value ?? '', { async: true }));
     if (!this._class) {
       throw new Error(`Error finding current class`);
     }

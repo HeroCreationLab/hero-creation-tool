@@ -1,5 +1,5 @@
 import CompendiumSourcesSubmenu from './compendiumSourcesSubmenu';
-import { MODULE_ID, LOG_PREFIX, DEFAULT_SOURCES } from './constants';
+import { MODULE_ID, LOG_PREFIX, DEFAULT_SOURCES, DEFAULT_PACKS } from './constants';
 import HeroCreationTool from './heroCreationToolApp';
 import SettingKeys, { PrivateSettingKeys } from './settings';
 
@@ -18,6 +18,17 @@ export function getGame(): DnD5eGame {
     throw new Error('game is not initialized yet!');
   }
   return game as DnD5eGame;
+}
+
+export async function getRules(rule: { journalId: string; pageId: string }) {
+  const { journalId, pageId } = rule;
+  const rules = await game.packs.get('dnd5e.rules');
+  const journal = await rules?.getDocument(journalId);
+  const text = (journal as any)?.pages?.get(pageId).text;
+  if (!text) {
+    console.error(`Unable to find spells' rule journal on compendium ${DEFAULT_PACKS.RULES}`);
+  }
+  return text;
 }
 
 export function setPanelScrolls($section: JQuery) {

@@ -2,8 +2,10 @@ import * as Utils from '../utils';
 import { Step, StepEnum } from '../step';
 import FixedOption, { OptionType } from '../options/fixedOption';
 import DeletableOption from '../options/deletableOption';
-import { SpellEntry, getSpellEntries, getRuleJournalEntryByName } from '../indexes/indexUtils';
+import { SpellEntry, getSpellEntries } from '../indexes/indexUtils';
 import { ClassSpellcastingData as ClassSpellcastingData } from './classStep';
+
+const rules = { journalId: 'QvPDSUsAiEn3hD8s', pageId: 'evx9TWix4wYU51a5' };
 
 class _Spells extends Step {
   constructor() {
@@ -143,14 +145,11 @@ class _Spells extends Step {
   async renderData() {
     Utils.setPanelScrolls(this.section());
     // Show rules on the side panel
-    const rulesCompendiumName = game.i18n.localize('HCT.Spells.RulesJournalName');
-    const spellsRules = await getRuleJournalEntryByName(rulesCompendiumName);
+    const spellsRules = await Utils.getRules(rules);
     if (spellsRules) {
       //@ts-expect-error TextEditor TS def not updated yet
-      this.rules = TextEditor.enrichHTML(spellsRules.content, { async: true });
+      this.rules = await TextEditor.enrichHTML(spellsRules.content, { async: true });
       $('[data-hct_spells_description]', this.section()).html(this.rules);
-    } else {
-      console.error(`Unable to find spells' rule journal on compendium ${rulesCompendiumName}`);
     }
   }
 

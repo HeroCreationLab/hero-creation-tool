@@ -59,7 +59,6 @@ export function registerSettings(): void {
   abilityRollFormula();
   tokenDisplayNameMode();
   tokenDisplayBarsMode();
-  fightingStyleLookupString();
   equipmentBlacklist();
   subraceNameBlacklist();
   buttonOnDialogInsteadOfActorsDirectory();
@@ -87,17 +86,6 @@ function sourcesConfiguration() {
     icon: 'fas fa-atlas',
     type: CompendiumSourcesSubmenu,
     restricted: true,
-  });
-}
-
-function fightingStyleLookupString() {
-  game.settings.register(MODULE_ID, SettingKeys.FIGHTING_STYLE_STRING, {
-    name: game.i18n.localize('HCT.Setting.FightingStyleString.Name'),
-    hint: game.i18n.localize('HCT.Setting.FightingStyleString.Hint'),
-    scope: 'world',
-    config: true,
-    default: 'Fighting Style',
-    type: String,
   });
 }
 
