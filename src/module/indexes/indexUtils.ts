@@ -1,4 +1,4 @@
-import { DEFAULT_PACKS, LOG_PREFIX, MODULE_ID } from '../constants';
+import { LOG_PREFIX, MODULE_ID } from '../constants';
 import SettingKeys, { Source, SourceType } from '../settings';
 import { getGame, getModuleSetting } from '../utils';
 
@@ -36,22 +36,6 @@ export async function buildSourceIndexes() {
   await Promise.all(itemsPromises);
 }
 
-export async function buildJournalIndexes() {
-  console.info(`${LOG_PREFIX} | Indexing journals (rules)`);
-  const rulesPack = game.packs.get(DEFAULT_PACKS.RULES);
-  if (!rulesPack) {
-    throw new Error(
-      `${LOG_PREFIX} | Cannot find default DnD5e rules compendium (for indexing sidepanel rules) under name ${DEFAULT_PACKS.RULES}`,
-    );
-  }
-  await (rulesPack as any).getIndex({ fields: ['name', 'content'] });
-}
-
-export async function getRuleJournalEntryByName(journalName: string) {
-  const entries = await (game.packs.get(DEFAULT_PACKS.RULES)?.index as unknown as Promise<RuleEntry[]>);
-  return entries.find((e) => e.name === journalName);
-}
-
 export async function getIndexEntriesForSource(source: keyof Source) {
   const sources: Source = (await game.settings.get(MODULE_ID, SettingKeys.SOURCES)) as Source;
 
@@ -63,7 +47,7 @@ export async function getIndexEntriesForSource(source: keyof Source) {
     const itemPack = pack as CompendiumCollection<CompendiumCollection.Metadata & { entity: 'Item' }>;
     if ((itemPack as any).indexed) {
       const packIndexEntries = [...(await itemPack.index)];
-      indexEntries.push(...packIndexEntries.map((e) => ({ ...e, _pack: packName })));
+      indexEntries.push(...packIndexEntries.map((e) => ({ ...e, _pack: packName, _uuid: buildUuid(e._id, packName) })));
     } else {
       console.error(`Index not built for pack [${packName}] - skipping it`);
     }
@@ -80,13 +64,13 @@ export async function hydrateItems(indexEntries: Array<IndexEntry>): Promise<Ite
     if ((indexEntry as any).custom) {
       return indexEntry; // return custom items as-is
     }
-    const quantity = (indexEntry as any).data?.quantity;
+    const quantity = (indexEntry as any).system?.quantity;
     // if the entry has a local item, use that instead of fetching it from a compendium
     const item = indexEntry.local ?? (await game.packs.get(indexEntry._pack)?.getDocument(indexEntry._id));
     if (!item) throw new Error(`No item for id ${indexEntry._id}!`);
     const itemForEmbedding = worldItems.fromCompendium(item as Item);
     if (quantity) {
-      (itemForEmbedding!.data as any).quantity = quantity;
+      (itemForEmbedding! as any).system.quantity = quantity;
     }
     if ((indexEntry as any)._advancement) {
       (itemForEmbedding as any)._advancement = (indexEntry as any)._advancement;
@@ -122,6 +106,7 @@ export async function getIndexEntryByUuid(uuid: string): Promise<IndexEntry> {
   return {
     ...indexedEntry,
     _pack: pack,
+    _uuid: uuid,
   };
 }
 
@@ -142,6 +127,7 @@ function toIndexEntry(item: Item): IndexEntry {
   return {
     _pack: item.pack!,
     _id: item.data._id!,
+    _uuid: item.uuid,
     name: item.name!,
     type: item.type,
     img: item.img ?? '',
@@ -158,9 +144,18 @@ function parseUuid(uuid: string): { pack: any; id: any } {
   return { pack, id };
 }
 
+function buildUuid(id: string, pack?: string): string {
+  //'Compendium.dnd5e.spells.04nMsTWkIFvkbXlY'
+  //'Item.PbEAMotRyx4yLbNq'
+  if (!id) throw new Error('UUID needs a Document id');
+  const location = pack ? 'Compendium.' + pack : 'Item';
+  return `${location}.${id}`;
+}
+
 export type IndexEntry = {
   _id: string;
   _pack: string;
+  _uuid: string;
   type: string;
   name: string;
   img: string;
@@ -197,15 +192,15 @@ export type EntryScaleValueAdvancement = EntryAdvancement & {
 
 // Race
 export type RaceEntry = IndexEntry & {
-  data: {
+  system: {
     requirements: string;
     description: { value: string };
   };
 };
 export function addRaceFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
   if (source[SourceType.RACES].includes(packName)) {
-    fieldsToIndex.add('data.requirements'); // for figuring subraces
-    fieldsToIndex.add('data.description.value'); // for sidebar
+    fieldsToIndex.add('system.requirements'); // for figuring subraces
+    fieldsToIndex.add('system.description.value'); // for sidebar
   }
 }
 export async function getRaceEntries() {
@@ -216,11 +211,11 @@ export async function getRaceEntries() {
 
 // Race Feature
 export type RacialFeatureEntry = IndexEntry & {
-  data: { requirements: string };
+  system: { requirements: string };
 };
 export function addRacialFeaturesFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
   if (source[SourceType.RACIAL_FEATURES].includes(packName)) {
-    fieldsToIndex.add('data.requirements'); // for mapping racial features to races/subraces
+    fieldsToIndex.add('system.requirements'); // for mapping racial features to races/subraces
   }
 }
 export async function getRaceFeatureEntries() {
@@ -228,12 +223,12 @@ export async function getRaceFeatureEntries() {
     RacialFeatureEntry[]
   >);
   // sanitize entries to remove anything nonconforming to a Feature (for now at least, if Race Features become a type in the future)
-  return raceFeatureEntries.filter((f) => f.type == 'feat' && f?.data?.requirements !== '');
+  return raceFeatureEntries.filter((f) => f.type == 'feat' && f?.system?.requirements !== '');
 }
 
 // Class
 export type ClassEntry = IndexEntry & {
-  data: {
+  system: {
     advancement: (EntryHitPointsAdvancement | EntryItemGrantAdvancement | EntryScaleValueAdvancement)[];
     description: { value: string };
     identifier: string;
@@ -253,13 +248,13 @@ export type ClassEntry = IndexEntry & {
 };
 export function addClassFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
   if (source[SourceType.CLASSES].includes(packName)) {
-    fieldsToIndex.add('data.advancement');
-    fieldsToIndex.add('data.description.value'); // for sidebar
-    fieldsToIndex.add('data.identifier');
-    fieldsToIndex.add('data.hitDice');
-    fieldsToIndex.add('data.saves');
-    fieldsToIndex.add('data.skills');
-    fieldsToIndex.add('data.spellcasting');
+    fieldsToIndex.add('system.advancement');
+    fieldsToIndex.add('system.description.value'); // for sidebar
+    fieldsToIndex.add('system.identifier');
+    fieldsToIndex.add('system.hitDice');
+    fieldsToIndex.add('system.saves');
+    fieldsToIndex.add('system.skills');
+    fieldsToIndex.add('system.spellcasting');
   }
 }
 export async function getClassEntries() {
@@ -270,7 +265,7 @@ export async function getClassEntries() {
 
 // Class Feature
 export type ClassFeatureEntry = IndexEntry & {
-  data: {
+  system: {
     description: { value: string };
     requirements: string;
   };
@@ -282,8 +277,8 @@ export type ClassFeatureEntry = IndexEntry & {
 };
 // export function addClassFeaturesFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
 //   if (source[SourceType.CLASS_FEATURES].includes(packName)) {
-//     fieldsToIndex.add('data.requirements'); // for mapping class features to classes
-//     fieldsToIndex.add('data.description'); // used to show Spellcasting/Pact Magic features on the Spells tab
+//     fieldsToIndex.add('system.requirements'); // for mapping class features to classes
+//     fieldsToIndex.add('system.description'); // used to show Spellcasting/Pact Magic features on the Spells tab
 //   }
 // }
 export async function getClassFeatureEntries() {
@@ -291,12 +286,12 @@ export async function getClassFeatureEntries() {
     ClassFeatureEntry[]
   >);
   // sanitize entries to remove anything nonconforming to a Feature (for now at least, if Class Features become a type in the future)
-  return classFeatureEntries.filter((f) => f.type == 'feat' && f?.data?.requirements !== '');
+  return classFeatureEntries.filter((f) => f.type == 'feat' && f?.system?.requirements !== '');
 }
 
 // Subclass
 export type SubclassEntry = IndexEntry & {
-  data: {
+  system: {
     advancement: (EntryItemGrantAdvancement | EntryScaleValueAdvancement)[];
     description: { value: string };
     identifier: string;
@@ -309,12 +304,12 @@ export type SubclassEntry = IndexEntry & {
 };
 export function addSubclassFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
   if (source[SourceType.SUBCLASSES].includes(packName)) {
-    fieldsToIndex.add('data.advancement');
-    fieldsToIndex.add('data.description.value'); // for sidebar
-    fieldsToIndex.add('data.identifier');
-    fieldsToIndex.add('data.classIdentifier');
-    fieldsToIndex.add('data.spellcasting.ability');
-    fieldsToIndex.add('data.spellcasting.progression');
+    fieldsToIndex.add('system.advancement');
+    fieldsToIndex.add('system.description.value'); // for sidebar
+    fieldsToIndex.add('system.identifier');
+    fieldsToIndex.add('system.classIdentifier');
+    fieldsToIndex.add('system.spellcasting.ability');
+    fieldsToIndex.add('system.spellcasting.progression');
   }
 }
 export async function getSubclassEntries() {
@@ -349,7 +344,7 @@ export async function getBackgroundEntries() {
 
 // Equipment
 export type EquipmentEntry = IndexEntry & {
-  data: {
+  system: {
     price: number;
     rarity: string;
     quantity?: number;
@@ -357,10 +352,10 @@ export type EquipmentEntry = IndexEntry & {
 };
 export function addEquipmentFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
   if (source[SourceType.ITEMS].includes(packName)) {
-    fieldsToIndex.add('data.price');
-    fieldsToIndex.add('data.rarity');
-    fieldsToIndex.add('data.quantity');
-    //fieldsToIndex.add('data.description'); maybe description to find Spellcasting Foci ?
+    fieldsToIndex.add('system.price');
+    fieldsToIndex.add('system.rarity');
+    fieldsToIndex.add('system.quantity');
+    //fieldsToIndex.add('system.description'); maybe description to find Spellcasting Foci ?
   }
 }
 export async function getEquipmentEntries() {
@@ -371,13 +366,13 @@ export async function getEquipmentEntries() {
 
 // Spell
 export type SpellEntry = IndexEntry & {
-  data: {
+  system: {
     level: number;
   };
 };
 export function addSpellFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
   if (source[SourceType.SPELLS].includes(packName)) {
-    fieldsToIndex.add('data.level');
+    fieldsToIndex.add('system.level');
   }
 }
 export async function getSpellEntries() {
@@ -388,11 +383,11 @@ export async function getSpellEntries() {
 
 // Feat
 export type FeatEntry = IndexEntry & {
-  data: { requirements: string };
+  system: { requirements: string };
 };
 export function addFeatFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
   if (source[SourceType.FEATS].includes(packName)) {
-    fieldsToIndex.add('data.requirements'); // TODO if feat has a requirement show it.
+    fieldsToIndex.add('system.requirements'); // TODO if feat has a requirement show it.
   }
 }
 export async function getFeatEntries() {
@@ -400,10 +395,3 @@ export async function getFeatEntries() {
   // sanitize entries to remove anything nonconforming to a Feature (for now at least, if Feats become a type in the future)
   return featEntries.filter((f) => f.type == 'feat');
 }
-
-// Rule
-export type RuleEntry = {
-  _id: string;
-  name: string;
-  content: string;
-};

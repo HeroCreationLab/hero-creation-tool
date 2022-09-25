@@ -2,8 +2,10 @@ import * as Utils from '../utils';
 import { Step, StepEnum } from '../step';
 import FixedOption, { OptionType } from '../options/fixedOption';
 import DeletableOption from '../options/deletableOption';
-import { SpellEntry, getSpellEntries, getRuleJournalEntryByName } from '../indexes/indexUtils';
+import { SpellEntry, getSpellEntries } from '../indexes/indexUtils';
 import { ClassSpellcastingData as ClassSpellcastingData } from './classStep';
+
+const rules = { journalId: 'QvPDSUsAiEn3hD8s', pageId: 'evx9TWix4wYU51a5' };
 
 class _Spells extends Step {
   constructor() {
@@ -96,7 +98,7 @@ class _Spells extends Step {
     const removedItem = this.spells.splice(this.spells.indexOf(item), 1);
     this.archived.push(...removedItem);
 
-    this.changeSpellCount((item.data as any).level, CountChange.UP);
+    this.changeSpellCount(item.system.level, CountChange.UP);
   }
 
   onDelete(item: SpellEntry) {
@@ -110,7 +112,7 @@ class _Spells extends Step {
     if (optionToDelete) {
       this.stepOptions.splice(this.stepOptions.indexOf(optionToDelete), 1);
     }
-    this.changeSpellCount((item.data as any).level, CountChange.DOWN);
+    this.changeSpellCount(item.system.level, CountChange.DOWN);
   }
 
   showSuggestions(list: SpellEntry[]) {
@@ -131,7 +133,7 @@ class _Spells extends Step {
   async setSourceData() {
     const spellIndexEntries = await getSpellEntries();
     const maxLevel = 9;
-    this.spells = spellIndexEntries.filter((item) => item.data.level <= maxLevel);
+    this.spells = spellIndexEntries.filter((item) => item.system.level <= maxLevel);
   }
 
   changeSpellCount(spellLevel: number, change: CountChange) {
@@ -143,13 +145,11 @@ class _Spells extends Step {
   async renderData() {
     Utils.setPanelScrolls(this.section());
     // Show rules on the side panel
-    const rulesCompendiumName = game.i18n.localize('HCT.Spells.RulesJournalName');
-    const spellsRules = await getRuleJournalEntryByName(rulesCompendiumName);
+    const spellsRules = await Utils.getRules(rules);
     if (spellsRules) {
-      this.rules = TextEditor.enrichHTML(spellsRules.content);
+      //@ts-expect-error TextEditor TS def not updated yet
+      this.rules = await TextEditor.enrichHTML(spellsRules.content, { async: true });
       $('[data-hct_spells_description]', this.section()).html(this.rules);
-    } else {
-      console.error(`Unable to find spells' rule journal on compendium ${rulesCompendiumName}`);
     }
   }
 
