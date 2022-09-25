@@ -1,16 +1,27 @@
 {
-  "name": "hero-creation-tool",
+  "id": "hero-creation-tool",
   "title": "Hero Creation Tool for DnD5E",
   "description": "A step-by-step tool for creating player characters on DnD5e-based games",
-  "version": "1.8.3",
-  "minimumCoreVersion": "9",
-  "compatibleCoreVersion": "9",
-  "system": ["dnd5e"],
-  "minimumSystemVersion": "1.6.0",
+  "version": "1.9.0",
+  "compatibility": {
+    "minimum": 10,
+    "verified": "10.284"
+  },
+  "relationships": {
+    "systems": [
+      {
+        "id": "dnd5e",
+        "type": "system",
+        "compatibility": {
+          "minimum": "2.0.2",
+          "verified": "2.0.2"
+        }
+      }
+    ]
+  },
   "esmodules": ["module/hero-creation-tool.js"],
   "styles": ["styles/hero-creation-tool.css"],
   "packs": [],
-  "dependencies": [],
   "languages": [
     {
       "lang": "en",
@@ -30,6 +41,10 @@
   },
   "authors": [
     {
+      "name": "ccjmk (Iñaki)",
+      "discord": "ccjmk#0141"
+    },
+    {
       "name": "Alex"
     },
     {
@@ -46,9 +61,6 @@
     },
     {
       "name": "Lyle"
-    },
-    {
-      "name": "ccjmk (Iñaki)"
     }
   ]
 }

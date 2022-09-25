@@ -2,8 +2,8 @@ import { Step, StepEnum } from '../step';
 import HeroOption from '../options/heroOption';
 import FixedOption, { OptionType } from '../options/fixedOption';
 import SettingKeys from '../settings';
-import { getRuleJournalEntryByName } from '../indexes/indexUtils';
-import { getAbilityModifierValue, getModuleSetting, setPanelScrolls } from '../utils';
+// import { getRuleJournalEntryByName } from '../indexes/indexUtils';
+import { getAbilityModifierValue, getModuleSetting, getRules, setPanelScrolls } from '../utils';
 
 const enum EntryMode {
   ROLL = 'roll',
@@ -11,6 +11,8 @@ const enum EntryMode {
   POINT_BUY = 'point-buy',
   MANUAL_ENTRY = 'manual',
 }
+
+const rules = { journalId: '0AGfrwZRzSG0vNKb', pageId: 'yuSwUFIjK31Mr3DI' };
 
 class _Abilities extends Step {
   constructor() {
@@ -73,12 +75,12 @@ class _Abilities extends Step {
     $('[data-mode="roll"]', $methodsContext).html(dice);
 
     // Show rules on the side panel
-    const rulesCompendiumName = game.i18n.localize('HCT.Abilities.RulesJournalName');
-    const abilitiesRules = await getRuleJournalEntryByName(rulesCompendiumName);
-    if (abilitiesRules) {
-      $('[data-hct_abilities_description]', this.section()).html(TextEditor.enrichHTML(abilitiesRules.content));
-    } else {
-      console.error(`Unable to find abilities' rule journal on compendium ${rulesCompendiumName}`);
+    const abilityRules = await getRules(rules);
+    if (abilityRules) {
+      $('[data-hct_abilities_description]', this.section()).html(
+        //@ts-expect-error TextEditor TS def not updated yet
+        await TextEditor.enrichHTML(abilityRules.content, { async: true }),
+      );
     }
 
     // setting default values

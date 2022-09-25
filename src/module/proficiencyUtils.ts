@@ -2,6 +2,7 @@ import { ProficiencyChoicesType } from './dnd5e';
 import HeroOption from './options/heroOption';
 import MultiOption from './options/multiOption';
 import { StepEnum } from './step';
+import { getLocalizedAbility } from './utils';
 
 export type OptionSettings = {
   step: StepEnum;
@@ -21,7 +22,10 @@ type KeyValue = {
 
 export function prepareSkillOptions(optionSettings: OptionSettings): MultiOption {
   const foundrySkills = (game as any).dnd5e.config.skills;
-  const skillChoices: KeyValue[] = Object.keys(foundrySkills).map((k) => ({ key: k, value: foundrySkills[k] }));
+  const skillChoices: KeyValue[] = Object.keys(foundrySkills).map((k) => ({
+    key: k,
+    value: `${foundrySkills[k].label} (${getLocalizedAbility(foundrySkills[k].ability)})`,
+  }));
   return prepareOptions(
     optionSettings,
     'skills',

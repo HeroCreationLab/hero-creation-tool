@@ -2,13 +2,7 @@ import * as Utils from '../utils';
 import * as ProficiencyUtils from '../proficiencyUtils';
 import { Step, StepEnum } from '../step';
 import SelectableOption from '../options/selectableOption';
-import {
-  getIndexEntryByUuid,
-  getRuleJournalEntryByName,
-  getBackgroundEntries,
-  RuleEntry,
-  BackgroundEntry,
-} from '../indexes/indexUtils';
+import { getIndexEntryByUuid, getBackgroundEntries, BackgroundEntry } from '../indexes/indexUtils';
 import { MYSTERY_MAN, NONE_ICON } from '../constants';
 import SearchableIndexEntryOption from '../options/searchableIndexEntryOption';
 import * as Advancements from '../advancementUtils';
@@ -23,13 +17,10 @@ class _BackgroundTab extends Step {
   section = () => $('#backgroundDiv');
 
   private backgrounds!: BackgroundEntry[];
-  private backgroundRules?: RuleEntry;
 
   private $backgroundIcon!: JQuery<HTMLElement>;
   private $backgroundDesc!: JQuery<HTMLElement>;
   private $backgroundData!: JQuery;
-
-  private enrichedRules!: string;
 
   async setSourceData() {
     this.backgrounds = await getBackgroundEntries();
@@ -41,16 +32,6 @@ class _BackgroundTab extends Step {
     this.$backgroundIcon = $('[data-hct_background_icon]');
     this.$backgroundDesc = $('[data-hct_background_description]');
     this.$backgroundData = $('[data-hct_background_data]').hide();
-
-    // Show rules on the side panel
-    const rulesCompendiumName = game.i18n.localize('HCT.Background.RulesJournalName');
-    this.backgroundRules = await getRuleJournalEntryByName(rulesCompendiumName);
-    if (this.backgroundRules) {
-      this.enrichedRules = TextEditor.enrichHTML(this.backgroundRules.content);
-      this.$backgroundDesc.html(this.enrichedRules);
-    } else {
-      console.error(`Unable to find backgrounds' rule journal on compendium ${rulesCompendiumName}`);
-    }
 
     const searchableOption = new SearchableIndexEntryOption(
       this.step,
@@ -70,7 +51,7 @@ class _BackgroundTab extends Step {
   private async updateBackground(backgroundId: string | null) {
     if (!backgroundId) {
       this.$backgroundIcon.attr('src', NONE_ICON);
-      this.$backgroundDesc.html(this.enrichedRules);
+      this.$backgroundDesc.html(game.i18n.localize('HCT.Background.DescriptionPlaceholder'));
       this.$backgroundData.hide();
       this.clearOptions();
       return;
@@ -98,7 +79,10 @@ class _BackgroundTab extends Step {
 
     // update icon and description
     this.$backgroundIcon.attr('src', selectedBackground.img || MYSTERY_MAN);
-    this.$backgroundDesc.html(TextEditor.enrichHTML((backgroundItem as any).data.data.description?.value ?? ''));
+    this.$backgroundDesc.html(
+      //@ts-expect-error TextEditor TS def not updated yet
+      await TextEditor.enrichHTML((backgroundItem as any).system.description?.value ?? '', { async: true }),
+    );
 
     if (Advancements.hasAdvancements(backgroundItem)) {
       const itemGrantAdvancements = backgroundItem.advancement.byType.ItemGrant;

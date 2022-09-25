@@ -39,10 +39,6 @@
       "TokenBarMode": {
         "Name": "Token bar 1 display mode"
       },
-      "FightingStyleString": {
-        "Name": "Fighting Style feature name",
-        "Hint": "Name used to identify and handle Fighting Style features (in case you are using feature items in another language). Default - 'Fighting Style'"
-      },
       "EquipmentBlacklist": {
         "Name": "Equipment Blacklist",
         "Hint": "Items (Equipment) not shown for purchase, by name (case-sensitive, separated by ';', spaces are ok). Only 'common' rarity items are shown, but this list excludes the few magical/unreasonable common items. Default - 'Potion of Climbing; Potion of Healing; Spell Scroll 1st Level; Spell Scroll Cantrip Level; Unarmed Strike'"
@@ -185,7 +181,6 @@
     },
     "Abilities": {
       "Title": "Abilities",
-      "RulesJournalName": "Ability Scores and Modifiers",
       "Method": "How are abilities calculated?",
       "Values": "Ability Values",
       "Str": "Strength",
@@ -210,14 +205,13 @@
     },
     "Background": {
       "Title": "Background",
-      "RulesJournalName": "Backgrounds",
+      "DescriptionPlaceholder": "Please select a background to see its description",
       "Select.Default": "Select background..",
       "Alignment": "Alignment",
       "NoFeatureSelected": "No background feature selected"
     },
     "Equipment": {
       "Title": "Equipment",
-      "RulesJournalName": "05. Equipment",
       "StartingGoldTitle": "Starting Gold",
       "Roll": "Roll",
       "RollChatFlavor": "Rolled starting gold",
@@ -230,7 +224,6 @@
     },
     "Spells": {
       "Title": "Spells",
-      "RulesJournalName": "10. Spellcasting",
       "SpellcastingAbilityBlob": "<p>You selected {class} - your Spellcasting Ability is <b>{spa}</b></p>",
       "NoSpellcastingClass": "No spellcasting class selected",
       "SpellCount": "Number of Spells",

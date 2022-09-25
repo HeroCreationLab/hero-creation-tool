@@ -52,18 +52,18 @@ export function hasAdvancements(item: any): item is { advancement: AdvancementCo
 }
 
 export function getItemGrantAdvancementsUpToLevel(
-  entry: IndexEntry & { data: { advancement: EntryAdvancement[] } },
+  entry: IndexEntry & { system: { advancement: EntryAdvancement[] } },
   maxLevel: number,
 ): EntryItemGrantAdvancement[] {
-  return entry.data.advancement.filter(
+  return entry.system.advancement.filter(
     (a) => a.type === 'ItemGrant' && maxLevel >= (a as EntryItemGrantAdvancement).level,
   ) as EntryItemGrantAdvancement[];
 }
 
 export function getScaleValueAdvancements(
-  entry: IndexEntry & { data: { advancement: EntryAdvancement[] } },
+  entry: IndexEntry & { system: { advancement: EntryAdvancement[] } },
 ): EntryItemGrantAdvancement[] {
-  return entry.data.advancement.filter((a) => a.type === 'ScaleValue') as EntryItemGrantAdvancement[];
+  return entry.system.advancement.filter((a) => a.type === 'ScaleValue') as EntryItemGrantAdvancement[];
 }
 
 export async function buildAdvancementMetadataForEntry(entry: {

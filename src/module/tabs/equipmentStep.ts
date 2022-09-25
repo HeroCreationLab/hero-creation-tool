@@ -5,7 +5,7 @@ import SettingKeys from '../settings';
 import HeroOption from '../options/heroOption';
 import OptionContainer from '../options/optionContainer';
 import DeletableOption from '../options/deletableOption';
-import { EquipmentEntry, getEquipmentEntries, getRuleJournalEntryByName } from '../indexes/indexUtils';
+import { EquipmentEntry, getEquipmentEntries } from '../indexes/indexUtils';
 import QuantifiableOption from '../options/quantifiableOption';
 import { MODULE_ID } from '../constants';
 
@@ -13,6 +13,8 @@ type itemOrPack = {
   itemName?: string;
   item?: EquipmentEntry;
 };
+
+const rules = { journalId: 'BYFd9hiJGo9L5aOM', pageId: 'R9nWciuL1bon7BuY' };
 
 class _Equipment extends Step {
   constructor() {
@@ -136,7 +138,7 @@ class _Equipment extends Step {
       this.addPackToSelection(item.name as PackNames);
     } else {
       const id = foundry.utils.randomID();
-      this.addItemOptionToSelection(id, this.makeItemOption(id, item, 1, true, true, true), item.data.price, 1);
+      this.addItemOptionToSelection(id, this.makeItemOption(id, item, 1, true, true, true), item.system.price, 1);
     }
   }
 
@@ -148,7 +150,7 @@ class _Equipment extends Step {
       listData = list
         .map(
           (item) =>
-            `<li><div class="hct-icon-with-context" data-item_name=\"${item.name}\"><img class="hct-icon-square-med hct-bg-black hct-border-0" src="${item.img}"><span>${item.name} (${item.data.price}gp)</span></div></li>`,
+            `<li><div class="hct-icon-with-context" data-item_name=\"${item.name}\"><img class="hct-icon-square-med hct-bg-black hct-border-0" src="${item.img}"><span>${item.name} (${item.system.price}gp)</span></div></li>`,
         )
         .join('');
     }
@@ -388,7 +390,7 @@ class _Equipment extends Step {
     const option = new QuantifiableOption(StepEnum.Equipment, item, {
       addValues: true,
       quantity: quantity ?? 1,
-      price: item.data.price,
+      price: item.system.price,
       id: id,
       canChangeQuantity: canChangeQuantity,
       showTotalCost: showTotalCost,
@@ -437,7 +439,7 @@ class _Equipment extends Step {
       .split(';')
       .map((e) => e.trim());
     this.items = filteredItems
-      .filter((item) => item?.data?.rarity.toLowerCase() == 'common') // get only common items
+      .filter((item) => item?.system?.rarity.toLowerCase() == 'common') // get only common items
       .filter((item) => !itemBlackList.includes(item.name)); // remove some punctual "common" but magical/special items
 
     this.defaultGoldDice = game.settings.get(MODULE_ID, SettingKeys.DEFAULT_GOLD_DICE) as string;
@@ -446,12 +448,12 @@ class _Equipment extends Step {
   async renderData() {
     Utils.setPanelScrolls(this.section());
     // Show rules on the side panel
-    const rulesCompendiumName = game.i18n.localize('HCT.Equipment.RulesJournalName');
-    const equipmentRules = await getRuleJournalEntryByName(rulesCompendiumName);
+    const equipmentRules = await Utils.getRules(rules);
     if (equipmentRules) {
-      $('[data-hct_equipment_description]', this.section()).html(TextEditor.enrichHTML(equipmentRules.content));
-    } else {
-      console.error(`Unable to find equipment's rule journal on compendium ${rulesCompendiumName}`);
+      $('[data-hct_equipment_description]', this.section()).html(
+        //@ts-expect-error TextEditor TS def not updated yet
+        await TextEditor.enrichHTML(equipmentRules.content, { async: true }),
+      );
     }
 
     this.searchableList = [...packs, ...this.items.filter((data) => data.name)];
@@ -509,58 +511,65 @@ const PackPrices = {
 const packs: EquipmentEntry[] = [
   {
     name: PackNames.BURGLAR,
-    data: { price: PackPrices.BURGLAR, rarity: '' },
+    system: { price: PackPrices.BURGLAR, rarity: '' },
     img: 'icons/tools/hand/lockpicks-steel-grey.webp',
     _id: '',
     _pack: '',
+    _uuid: '',
     type: '',
   },
   {
     name: PackNames.DIPLOMAT,
-    data: { price: PackPrices.DIPLOMAT, rarity: '' },
+    system: { price: PackPrices.DIPLOMAT, rarity: '' },
     img: 'icons/commodities/treasure/medal-ribbon-gold-red.webp',
     _id: '',
     _pack: '',
+    _uuid: '',
     type: '',
   },
   {
     name: PackNames.DUNGEONEER,
-    data: { price: PackPrices.DUNGEONEER, rarity: '' },
+    system: { price: PackPrices.DUNGEONEER, rarity: '' },
     img: 'icons/sundries/lights/torch-brown-lit.webp',
     _id: '',
     _pack: '',
+    _uuid: '',
     type: '',
   },
   {
     name: PackNames.ENTERTAINER,
-    data: { price: PackPrices.ENTERTAINER, rarity: '' },
+    system: { price: PackPrices.ENTERTAINER, rarity: '' },
     img: 'icons/tools/instruments/lute-gold-brown.webp',
     _id: '',
     _pack: '',
+    _uuid: '',
     type: '',
   },
   {
     name: PackNames.EXPLORER,
-    data: { price: PackPrices.EXPLORER, rarity: '' },
+    system: { price: PackPrices.EXPLORER, rarity: '' },
     img: 'icons/tools/navigation/map-marked-green.webp',
     _id: '',
     _pack: '',
+    _uuid: '',
     type: '',
   },
   {
     name: PackNames.PRIEST,
-    data: { price: PackPrices.PRIEST, rarity: '' },
+    system: { price: PackPrices.PRIEST, rarity: '' },
     img: 'icons/commodities/treasure/token-gold-cross.webp',
     _id: '',
     _pack: '',
+    _uuid: '',
     type: '',
   },
   {
     name: PackNames.SCHOLAR,
-    data: { price: PackPrices.SCHOLAR, rarity: '' },
+    system: { price: PackPrices.SCHOLAR, rarity: '' },
     img: 'icons/skills/trades/academics-merchant-scribe.webp',
     _id: '',
     _pack: '',
+    _uuid: '',
     type: '',
   },
 ];
