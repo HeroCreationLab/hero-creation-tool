@@ -142,7 +142,10 @@ export function setPublicApi(app: HeroCreationTool) {
       sourcesApp.render(true);
     },
     openForNewActor: () => app.openForNewActor(),
-    resetSources: () => setModuleSetting(SettingKeys.SOURCES, DEFAULT_SOURCES),
+    resetSources: () => {
+      console.info(`${LOG_PREFIX} | Restoring compendium sources to default`);
+      setModuleSetting(SettingKeys.SOURCES, DEFAULT_SOURCES);
+    },
   };
 }
 
