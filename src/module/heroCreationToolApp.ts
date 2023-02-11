@@ -148,8 +148,8 @@ export default class HeroCreationTool extends Application {
     }
     if (!errors) {
       // calculate whatever needs inter-tab values like HP
+      const classUpdateData = this.steps[StepIndex.Class].getUpdateData();
       cleanUpErroneousItems(newActorData);
-      await calculateStartingHp(newActorData, this.steps[StepIndex.Class].getUpdateData());
       setTokenSettings(newActorData);
       const itemsFromActor = newActorData.items; // moving item index entries to a different variable
       newActorData.items = [];
@@ -169,14 +169,15 @@ export default class HeroCreationTool extends Application {
 
       const classItem = getItemOfType(itemsFromCompendia, 'class');
       if (classItem) {
-        setClassLevel(classItem, getLevelFromClass(this.steps[StepIndex.Class].getUpdateData()));
-        itemsWithAdvancements.push(this.buildAdvancements(classItem, createdItems));
+        setClassLevel(classItem, getLevelFromClass(classUpdateData));
+        await setHpAdvancement(classItem, classUpdateData);
+        itemsWithAdvancements.push(this.buildItemGrantAdvancements(classItem, createdItems));
       }
       const subclassItem = getItemOfType(itemsFromCompendia, 'subclass');
-      if (subclassItem) itemsWithAdvancements.push(this.buildAdvancements(subclassItem, createdItems));
+      if (subclassItem) itemsWithAdvancements.push(this.buildItemGrantAdvancements(subclassItem, createdItems));
 
       const backgroundItem = getItemOfType(itemsFromCompendia, 'background');
-      if (backgroundItem) itemsWithAdvancements.push(this.buildAdvancements(backgroundItem, createdItems));
+      if (backgroundItem) itemsWithAdvancements.push(this.buildItemGrantAdvancements(backgroundItem, createdItems));
       await newActor.createEmbeddedDocuments('Item', itemsWithAdvancements as any); // adding the class after Advancements have been filled in
 
       try {
@@ -192,18 +193,18 @@ export default class HeroCreationTool extends Application {
     }
   }
 
-  private buildAdvancements(itemWithAdvancements: Item, createdItems?: any) {
+  private buildItemGrantAdvancements(itemWithAdvancements: Item, createdItems?: any) {
     (itemWithAdvancements as any).system.advancement = (itemWithAdvancements as any).system.advancement.map(
       (a: any) => {
-        if (a.type === 'ItemGrant') {
-          a.configuration.items.forEach((itemUuid: string) => {
-            const linkedItem = createdItems.find((i: any) => i?.flags?.core?.sourceId === itemUuid);
-            if (linkedItem) {
-              if (!a.value.added) a.value.added = {};
-              a.value.added[linkedItem.id] = itemUuid;
-            }
-          });
-        }
+        if (a.type !== 'ItemGrant') return a;
+
+        a.configuration.items.forEach((itemUuid: string) => {
+          const linkedItem = createdItems.find((i: any) => i?.flags?.core?.sourceId === itemUuid);
+          if (linkedItem) {
+            if (!a.value.added) a.value.added = {};
+            a.value.added[linkedItem.id] = itemUuid;
+          }
+        });
         return a;
       },
     );
@@ -259,20 +260,6 @@ export default class HeroCreationTool extends Application {
   }
 }
 
-async function calculateStartingHp(newActor: ActorDataConstructorData, classUpdateData: any) {
-  const totalCon = getProperty(newActor, 'data.abilities.con.value');
-  const conModifier: number = totalCon ? Utils.getAbilityModifierValue(totalCon) : 0;
-  if (!classUpdateData) return 10 + conModifier; // release valve in case there's no class selected
-
-  const hitDie: HitDie = classUpdateData?.hitDie;
-  const startingLevel: CLASS_LEVEL = classUpdateData?.level;
-  const method: HpCalculation = classUpdateData?.hpMethod;
-
-  const startingHp = await hitDie.calculateHpAtLevel(startingLevel, method, conModifier);
-  setProperty(newActor, 'data.attributes.hp.max', startingHp);
-  setProperty(newActor, 'data.attributes.hp.value', startingHp);
-}
-
 function setTokenSettings(newActor: ActorDataConstructorData) {
   const displayBarsSetting = game.settings.get(MODULE_ID, SettingKeys.TOKEN_BAR);
   setProperty(newActor, 'token.displayBars', displayBarsSetting);
@@ -313,4 +300,35 @@ function getItemOfType(itemsFromCompendia: Item[], itemType: 'class' | 'subclass
 function setClassLevel(item: Item, classLevel: number) {
   (item as any).system.levels = classLevel;
   return item;
+}
+
+async function setHpAdvancement(classItem: Item, classUpdateData: any) {
+  const hitDie: HitDie = classUpdateData?.hitDie;
+  const startingLevel: CLASS_LEVEL = classUpdateData?.level || 1;
+  const method: HpCalculation = classUpdateData?.hpMethod || 'avg';
+
+  const advancement = (classItem as any).system.advancement.find((adv: any) => adv.type === 'HitPoints');
+
+  if (!advancement) {
+    ui.notifications?.warn(
+      game.i18n.format('HCT.Class.HitPointsAdvancementMissingError', { className: classItem.name }),
+    );
+    return;
+  }
+
+  const hp: { [level: number]: number | 'max' | 'avg' } = { 1: 'max' };
+
+  for (let lv = 2; lv <= startingLevel; lv++) {
+    if (method === 'avg') {
+      hp[lv] = 'avg';
+      continue;
+    }
+
+    const roll = await new Roll(`${hitDie.getVal()}`).evaluate({ async: true });
+    if (Utils.getModuleSetting(SettingKeys.SHOW_ROLLS_AS_MESSAGES)) {
+      roll.toMessage({ flavor: game.i18n.format('HCT.Class.HpRollChatFlavor', { lv }) });
+    }
+    hp[lv] = parseInt(roll.result);
+  }
+  advancement.value = hp;
 }

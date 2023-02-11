@@ -177,7 +177,8 @@
       "HpCalcRoll": "Roll",
       "HitPointsBlob": " + your Constitution modifier",
       "HpRollChatFlavor": "Rolled hp for level {lv}",
-      "Level": "Level {lv}"
+      "Level": "Level {lv}",
+      "HitPointsAdvancementMissingError": "Class {className} has no HitPointsAdvancement; skipping configuration."
     },
     "Abilities": {
       "Title": "Abilities",
