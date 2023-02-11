@@ -2,10 +2,10 @@
   "id": "hero-creation-tool",
   "title": "Hero Creation Tool for DnD5E",
   "description": "A step-by-step tool for creating player characters on DnD5e-based games",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "compatibility": {
     "minimum": 10,
-    "verified": "10.284"
+    "verified": "10.291"
   },
   "relationships": {
     "systems": [
@@ -13,8 +13,8 @@
         "id": "dnd5e",
         "type": "system",
         "compatibility": {
-          "minimum": "2.0.2",
-          "verified": "2.0.2"
+          "minimum": "2.1.0",
+          "verified": "2.1.4"
         }
       }
     ]

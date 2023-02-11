@@ -1,5 +1,12 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.9.1 (2023-02-11)
+- Compatibility update for Foundry 10.291 and DnD5e 2.1.4; replaced some dnd5e deprecated calls.
+- Added log message when calling the new `resetSources` API to have some evidence the API was actually called.
+- Replaced in-module HP calculation during creation with the current HitPointsAdvancement processing, as the previous one was static and didn't play along when modifying the actor. (for example, creating a character via the module, and then removing/leveling down the Class item would keep the HP, while now using Advancements, the HP is adjusted accordingly)
+
+Please notice that the HP change now makes the module follow vanilla Foundry+dnd5e system behavior where an actor without a Class item has 0 hp instead of 10.
+
 ## 1.9.0 (2022-09-25)
 - Compatibility version for Foundry 10 and DnD5e 2.0.x
 - Added new API call to reset Compendium Sources to defaults (I used it for testing, but it could be useful for someone else): 

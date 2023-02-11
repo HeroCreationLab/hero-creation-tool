@@ -126,7 +126,7 @@ const onceAsync = (() => {
 function toIndexEntry(item: Item): IndexEntry {
   return {
     _pack: item.pack!,
-    _id: item.data._id!,
+    _id: (item as any)._id!,
     _uuid: item.uuid,
     name: item.name!,
     type: item.type,
