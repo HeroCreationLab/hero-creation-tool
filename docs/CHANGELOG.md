@@ -1,5 +1,9 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.9.2 (2023-03-07)
+- Ability scores that are rolled are now sorted
+- Fixed gold management when buying items (it was accidentally broken for all items but packs)
+
 ## 1.9.1 (2023-02-11)
 - Compatibility update for Foundry 10.291 and DnD5e 2.1.4; replaced some dnd5e deprecated calls.
 - Added log message when calling the new `resetSources` API to have some evidence the API was actually called.

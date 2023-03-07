@@ -10,6 +10,11 @@ interface DnD5eGame extends Game {
         [key: string]: any;
       };
     };
+    config: {
+      currencies: {
+        [id: string]: { conversion: number };
+      };
+    };
   };
 }
 
@@ -173,4 +178,13 @@ function userHasRightPermissions(): boolean {
     ui.notifications?.warn(game.i18n.localize('HCT.Permissions.NeedFileBrowseWarn'));
   }
   return true;
+}
+
+export type Price = { value: number; denomination: string };
+export function normalizePriceInGp(price: Price): Price {
+  const priceInGp = price.value / getGame().dnd5e.config.currencies[price.denomination].conversion;
+  return {
+    value: priceInGp,
+    denomination: 'gp',
+  };
 }

@@ -345,7 +345,7 @@ export async function getBackgroundEntries() {
 // Equipment
 export type EquipmentEntry = IndexEntry & {
   system: {
-    price: number;
+    price: { value: number; denomination: string };
     rarity: string;
     quantity?: number;
   };

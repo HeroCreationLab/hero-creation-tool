@@ -138,7 +138,12 @@ class _Equipment extends Step {
       this.addPackToSelection(item.name as PackNames);
     } else {
       const id = foundry.utils.randomID();
-      this.addItemOptionToSelection(id, this.makeItemOption(id, item, 1, true, true, true), item.system.price, 1);
+      this.addItemOptionToSelection(
+        id,
+        this.makeItemOption(id, item, 1, true, true, true),
+        Utils.normalizePriceInGp(item.system.price),
+        1,
+      );
     }
   }
 
@@ -150,7 +155,7 @@ class _Equipment extends Step {
       listData = list
         .map(
           (item) =>
-            `<li><div class="hct-icon-with-context" data-item_name=\"${item.name}\"><img class="hct-icon-square-med hct-bg-black hct-border-0" src="${item.img}"><span>${item.name} (${item.system.price}gp)</span></div></li>`,
+            `<li><div class="hct-icon-with-context" data-item_name=\"${item.name}\"><img class="hct-icon-square-med hct-bg-black hct-border-0" src="${item.img}"><span>${item.name} (${item.system.price.value}${item.system.price.denomination})</span></div></li>`,
         )
         .join('');
     }
@@ -394,8 +399,8 @@ class _Equipment extends Step {
       id: id,
       canChangeQuantity: canChangeQuantity,
       showTotalCost: showTotalCost,
-      changeCallback: (id, num) => {
-        this.spentMap.set(id, num);
+      changeCallback: (id, price) => {
+        this.spentMap.set(id, price.value);
         this.updateGold();
       },
     });
@@ -413,8 +418,8 @@ class _Equipment extends Step {
     }
   }
 
-  addItemOptionToSelection(id: string, itemOption: HeroOption, cost: number, quantity = 1) {
-    this.spentMap.set(id, cost * quantity);
+  addItemOptionToSelection(id: string, itemOption: HeroOption, price: Utils.Price, quantity = 1) {
+    this.spentMap.set(id, price.value * quantity);
     itemOption.render(this.$itemList);
     this.stepOptions.push(itemOption);
     this.updateGold();
@@ -500,13 +505,13 @@ const enum PackNames {
 }
 
 const PackPrices = {
-  BURGLAR: 16,
-  DIPLOMAT: 39,
-  DUNGEONEER: 12,
-  ENTERTAINER: 40,
-  EXPLORER: 10,
-  PRIEST: 19,
-  SCHOLAR: 40,
+  BURGLAR: { value: 16, denomination: 'gp' },
+  DIPLOMAT: { value: 39, denomination: 'gp' },
+  DUNGEONEER: { value: 12, denomination: 'gp' },
+  ENTERTAINER: { value: 40, denomination: 'gp' },
+  EXPLORER: { value: 10, denomination: 'gp' },
+  PRIEST: { value: 19, denomination: 'gp' },
+  SCHOLAR: { value: 40, denomination: 'gp' },
 };
 const packs: EquipmentEntry[] = [
   {
