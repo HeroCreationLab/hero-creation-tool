@@ -2,6 +2,7 @@ import { StepEnum } from '../step';
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 import HeroOption, { apply } from './heroOption';
 import { EquipmentEntry } from '../indexes/indexUtils';
+import { Price, normalizePriceInGp } from '../utils';
 
 /**
  * Represents a value with a selectable quantity that will be imprinted into the created actor
@@ -16,9 +17,9 @@ export default class QuantifiableOption implements HeroOption {
       quantity: number;
       canChangeQuantity: boolean;
       showTotalCost: boolean;
-      price?: number;
+      price?: Price;
       id?: string;
-      changeCallback?: (id: string, newQuantity: number) => any;
+      changeCallback?: (id: string, newQuantity: Price) => any;
     } = { addValues: true, quantity: 1, canChangeQuantity: false, showTotalCost: false },
   ) {}
   key = 'items';
@@ -67,7 +68,11 @@ export default class QuantifiableOption implements HeroOption {
         } else {
           this.settings.quantity++;
         }
-        this.settings.changeCallback!(this.settings.id!, this.settings.quantity * this.settings.price!);
+        const priceInGp = normalizePriceInGp({
+          value: this.settings.quantity * this.settings.price!.value,
+          denomination: this.settings.price!.denomination,
+        });
+        this.settings.changeCallback!(this.settings.id!, priceInGp);
         this.$text.html(buildText(this.itemOption, this.settings.quantity, this.settings.showTotalCost));
       });
       this.$down.on('click', (ev) => {
@@ -77,7 +82,11 @@ export default class QuantifiableOption implements HeroOption {
           } else {
             this.settings.quantity--;
           }
-          this.settings.changeCallback!(this.settings.id!, this.settings.quantity * this.settings.price!);
+          const priceInGp = normalizePriceInGp({
+            value: this.settings.quantity * this.settings.price!.value,
+            denomination: this.settings.price!.denomination,
+          });
+          this.settings.changeCallback!(this.settings.id!, priceInGp);
           this.$text.html(buildText(this.itemOption, this.settings.quantity, this.settings.showTotalCost));
         }
       });
@@ -96,8 +105,12 @@ export default class QuantifiableOption implements HeroOption {
 
 function buildText(itemOption: any, quantity: number, showTotal: boolean) {
   if (showTotal) {
-    const totalPrice = Math.round((itemOption.system.price * quantity + Number.EPSILON) * 100) / 100;
-    return `<p class="hct-grow">${itemOption.name} x${quantity} (${totalPrice}gp)</p>`;
+    const totalPrice = Math.round((itemOption.system.price.value * quantity + Number.EPSILON) * 100) / 100;
+    const normalizedPrice = normalizePriceInGp({
+      value: totalPrice,
+      denomination: itemOption.system.price.denomination,
+    });
+    return `<p class="hct-grow">${itemOption.name} x${quantity} (${normalizedPrice.value}${normalizedPrice.denomination})</p>`;
   } else {
     return `<p class="hct-grow">${itemOption.name} x${quantity}</p>`;
   }

@@ -137,7 +137,10 @@ async function prepareRolls() {
   if (getModuleSetting(SettingKeys.SHOW_ROLLS_AS_MESSAGES)) {
     roll.toMessage({ flavor: game.i18n.localize('HCT.Abilities.RollChatFlavor') });
   }
-  return roll.result.split('+').map((r) => Number.parseInt(r.trim()));
+  return roll.result
+    .split('+')
+    .map((r) => Number.parseInt(r.trim()))
+    .sort((a: number, b: number) => b - a);
 }
 
 function fillAbilitySelects(possibleValues: number[], $section: any, isPointBuy: boolean) {
