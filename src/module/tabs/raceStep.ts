@@ -246,14 +246,15 @@ class _Race extends Step {
   }
 
   setAbilityScoresUi(): void {
-    const foundryAbilities = (game as any).dnd5e.config.abilities;
+    const foundryAbilities = (game as any).dnd5e.config.abilities as { [key: string]: dnd5eConfigAbility };
     const options = Object.keys(foundryAbilities).map((key) => {
-      return new InputOption(StepEnum.Race, `data.abilities.${(key as string).toLowerCase()}.value`, '', 0, {
+      const ability = foundryAbilities[key];
+      return new InputOption(StepEnum.Race, `data.abilities.${ability.abbreviation.toLowerCase()}.value`, '', 0, {
         addValues: true,
         type: 'number',
-        preLabel: `${foundryAbilities[key]}`,
+        preLabel: ability.label,
         class: 'hct-w-6/12',
-        data: `data-hct-race-ability='${key}'`,
+        data: `data-hct-race-ability='${ability.abbreviation}'`,
       });
     });
     const $abilityScoreSection = $('[data-hct_race_area=abilityScores]', this.$context).empty();
@@ -360,3 +361,9 @@ function getParentRace(selectedRace: RaceEntry, raceEntries: RaceEntry[]) {
 
   return raceEntries.find((e) => e.name === selectedRace.system.requirements);
 }
+
+type dnd5eConfigAbility = {
+  label: string;
+  abbreviation: string;
+  type: 'physical' | 'mental';
+};
