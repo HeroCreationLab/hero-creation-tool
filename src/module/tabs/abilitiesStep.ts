@@ -3,7 +3,7 @@ import HeroOption from '../options/heroOption';
 import FixedOption, { OptionType } from '../options/fixedOption';
 import SettingKeys from '../settings';
 // import { getRuleJournalEntryByName } from '../indexes/indexUtils';
-import { getAbilityModifierValue, getModuleSetting, getRules, setPanelScrolls } from '../utils';
+import { getAbilityModifierValue, getModuleSetting, getRules, localize, setPanelScrolls } from '../utils';
 
 const enum EntryMode {
   ROLL = 'roll',
@@ -11,6 +11,8 @@ const enum EntryMode {
   POINT_BUY = 'point-buy',
   MANUAL_ENTRY = 'manual',
 }
+
+const STANDARD_ARRAY = [15, 14, 13, 12, 10, 8];
 
 const rules = { journalId: '0AGfrwZRzSG0vNKb', pageId: 'yuSwUFIjK31Mr3DI' };
 
@@ -36,7 +38,7 @@ class _Abilities extends Step {
           this.possibleValues = await prepareRolls();
           break;
         case EntryMode.STANDARD_ARRAY:
-          this.possibleValues = [15, 14, 13, 12, 10, 8];
+          this.possibleValues = getStandardArray();
           break;
         case EntryMode.POINT_BUY:
           this.possibleValues = [15, 14, 13, 12, 11, 10, 9, 8];
@@ -128,6 +130,19 @@ class _Abilities extends Step {
 }
 const AbilitiesTab: Step = new _Abilities();
 export default AbilitiesTab;
+
+function getStandardArray(): number[] {
+  const arrayAsString = getModuleSetting(SettingKeys.ABILITY_ARRAY) as string;
+  try {
+    const customArray = arrayAsString.split(';').map((s) => Number(s.trim()));
+    if (customArray.length !== 6) throw new Error(localize('Setting.AbilityArray.WrongSizeError'));
+    return customArray;
+  } catch (err) {
+    ui.notifications?.error(localize('Setting.AbilityArray.GenericError', { values: STANDARD_ARRAY }));
+    console.error(err);
+    return STANDARD_ARRAY;
+  }
+}
 
 async function prepareRolls() {
   const abilityRoll = getModuleSetting(SettingKeys.ABILITY_ROLL_FORMULA) as string;

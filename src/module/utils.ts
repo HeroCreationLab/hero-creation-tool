@@ -66,6 +66,18 @@ export function getModuleSetting(key: SettingKeys | PrivateSettingKeys) {
   return game.settings.get(MODULE_ID, key);
 }
 
+const I18N_ROOT = 'HCT.';
+/**
+ * Translates an i18n key from the module
+ * @param key the key to be translated, WITHOUT the module root ("HCT.")
+ * @param data
+ * @returns
+ */
+export function localize(key: string, data?: any) {
+  key = I18N_ROOT + key;
+  return data ? getGame().i18n.format(key, data) : getGame().i18n.localize(key);
+}
+
 export function getLocalizedAbility(ability: string) {
   return game.i18n.localize(`DND5E.Ability${ability.capitalize()}Abbr`);
 }

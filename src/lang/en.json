@@ -17,6 +17,12 @@
         "Name": "Individual panel scrolls",
         "Hint": "In tabs with left and right panels, make each side have independent scrolls"
       },
+      "AbilityArray": {
+        "Name": "Standard Array for ability scores",
+        "Hint": "Allows for customizing the standard array, if the DM wants all players using a common set but without needing to use point-buy or manual entry for each. Receives a list of 6 numbers separated by ; (e.g. '[15;14;13;12;10;8]')",
+        "GenericError": "An error ocurred when fetching or parsing the module setting for Standard Array values; using default values {values} instead. Check the console for more information",
+        "WrongSizeError": "The value defined as custom Ability Array in the module settings does not have exactly 6 scores"
+      },
       "AllowAbilityRolling": {
         "Name": "Allow ability score rolling"
       },
@@ -74,7 +80,7 @@
       },
       "TrimSubclasses": {
         "Name": "Trim Subclass names",
-        "Hint": "Shows subclass names without any last part in parenthesis, mostly for DDBImporter subclasses like 'Assassin (Rogue)' to be just 'Assassin' (does NOT modify the items added to actor, just show they are shown in the tool)"
+        "Hint": "Shows subclass names without any last part in parenthesis, mostly for DDBImporter subclasses like 'Assassin (Rogue)' to be just 'Assassin' (does NOT modify the items added to actor, just how they are shown in the tool)"
       }
     },
     "Permissions": {

@@ -23,6 +23,7 @@ const enum SettingKeys {
   BUTTON_ON_DIALOG = 'buttonOnDialog',
   POINT_BUY_LIMIT = 'pointBuyLimit',
   ABILITY_ROLL_FORMULA = 'abiiltyRollFormula',
+  ABILITY_ARRAY = 'abilityArray',
   SOURCES = 'compendiumSources',
   TRIM_SUBCLASSES = 'trimSubclasses',
 }
@@ -55,6 +56,7 @@ export function registerSettings(): void {
   showRollsAsChatMessages();
   individualPanelScrolls();
   abilityScoreMethods();
+  customizeAbilityArray();
   pointBuyLimit();
   abilityRollFormula();
   tokenDisplayNameMode();
@@ -245,6 +247,24 @@ function abilityScoreMethods() {
     config: true,
     type: Boolean,
     default: true,
+  });
+}
+
+function customizeAbilityArray() {
+  game.settings.register(MODULE_ID, SettingKeys.ABILITY_ARRAY, {
+    name: game.i18n.localize('HCT.Setting.AbilityArray.Name'),
+    hint: game.i18n.localize('HCT.Setting.AbilityArray.Hint'),
+    scope: 'world',
+    config: true,
+    type: String,
+    default: '15;14;13;12;10;8',
+    onChange: (value) => {
+      try {
+        value.split(';').forEach(Number);
+      } catch (err) {
+        ui.notifications?.error(game.i18n.localize('HCT.Setting.AbilityArray.GenericError'));
+      }
+    },
   });
 }
 
