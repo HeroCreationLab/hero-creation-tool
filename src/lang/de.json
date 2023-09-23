@@ -1,0 +1,269 @@
+{
+  "HCT": {
+    "ActorsDirectoryButton": "Hero Creation Tool",
+    "ActorLevelUpButton": "Level Up",
+    "CreationWindowTitle": "Hero Creation",
+    "LevelUpWindowTitle": "Level Up - {actorName}",
+    "Setting": {
+      "DefaultGoldDice": {
+        "Name": "Default starting gold roll",
+        "Hint": "Here you can customize the starting gold dice rolled on the tool"
+      },
+      "ShowRolls": {
+        "Name": "Show rolls on chat",
+        "Hint": "Show ability score, hp per level and starting gold rolls as chat messages"
+      },
+      "IndividualPanelScroll": {
+        "Name": "Individual panel scrolls",
+        "Hint": "In tabs with left and right panels, make each side have independent scrolls"
+      },
+      "AllowAbilityRolling": {
+        "Name": "Allow ability score rolling"
+      },
+      "AllowAbilityStandardArray": {
+        "Name": "Allow ability score Standard Array"
+      },
+      "AllowAbilityPointBuy": {
+        "Name": "Allow ability score Point-Buy"
+      },
+      "AllowAbilityInput": {
+        "Name": "Allow ability score manual entry"
+      },
+      "UseTokenizer": {
+        "Name": "Use Tokenizer if available",
+        "Hint": "The tool will try to use the Tokenizer module, if found, as default to generate avatar and token pictures"
+      },
+      "TokenNameMode": {
+        "Name": "Token name display mode"
+      },
+      "TokenBarMode": {
+        "Name": "Token bar 1 display mode"
+      },
+      "EquipmentBlacklist": {
+        "Name": "Equipment Blacklist",
+        "Hint": "Items (Equipment) not shown for purchase, by name (case-sensitive, separated by ';', spaces are ok). Only 'common' rarity items are shown, but this list excludes the few magical/unreasonable common items. Default - 'Potion of Climbing; Potion of Healing; Spell Scroll 1st Level; Spell Scroll Cantrip Level; Unarmed Strike'"
+      },
+      "SubraceNameBlacklist": {
+        "Name": "Subrace Names Blacklist",
+        "Hint": "Items excluded by name from been Subraces (case-sensitive, separated by ';', spaces are ok). Used by default to exclude things like Gnome Cunning from registering as Gnome subclasses. Default - 'Gnome Cunning; Halfling Nimbleness'"
+      },
+      "ButtonOnDialogInsteadOfActorsDirectory": {
+        "Name": "Create Actor dialog button",
+        "Hint": "If the button interferes with other modules, or you prefer the aesthetic of having a single 'create actor' button to not confuse your players"
+      },
+      "PointBuyLimit": {
+        "Name": "Point Buy Limit"
+      },
+      "AbilityRollFormula": {
+        "Name": "Formula used to roll stats (per stat)"
+      },
+      "Sources": {
+        "Name": "Compendium Sources",
+        "Hint": "Select the compendia that will serve as data source for the different creation steps",
+        "Label": "Select sources",
+        "Save": "Save",
+        "RaceCompendia": "Race Compendia",
+        "RacialFeatureCompendia": "Racial Features Compendia",
+        "ClassCompendia": "Class Compendia",
+        "SubclassCompendia": "Subclass Compendia",
+        "ClassFeatureCompendia": "Class Features Compendia",
+        "BackgroundCompendia": "Background Compendia",
+        "SpellCompendia": "Spell Compendia",
+        "FeatCompendia": "Feat Compendia",
+        "EquipmentCompendia": "Equipment Compendia"
+      },
+      "TrimSubclasses": {
+        "Name": "Trim Subclass names",
+        "Hint": "Shows subclass names without any last part in parenthesis, mostly for DDBImporter subclasses like 'Assassin (Rogue)' to be just 'Assassin' (does NOT modify the items added to actor, just show they are shown in the tool)"
+      }
+    },
+    "Permissions": {
+      "NeedCreateActorError": "User requires the 'Create New Actors' permission. Ask your DM to add it to your role",
+      "NeedCreateItemWarn": "User without 'Create New Items' permission. You will not be able to create custom Features",
+      "NeedFileUploadWarn": "User without 'Use File Browser' permission. You might experience issues selecting images",
+      "NeedFileBrowseWarn": "User without 'Upload New Files' permission. You might experience issues selecting images"
+    },
+    "Integration": {
+      "Tokenizer": {
+        "WarningOn": "Tokenizer module is set as preferred, you can shift-click to use the default File Picker",
+        "NeedActorName": "Tokenizer needs a character name; please complete that first",
+        "Error": {
+          "ModuleNotFound": "Tokenizer not found, using default FilePicker",
+          "ModuleInactive": "Tokenizer found but not active, using default FilePicker",
+          "VersionUnobtainable": "Error getting Tokenizer version, using default FilePicker",
+          "VersionIncompatible": "Tokenizer version needs to be newer than {version}"
+        }
+      }
+    },
+    "Common": {
+      "RequiredName": "Name (required)",
+      "Desc": "Description",
+      "ProfDialogTitle": "Add proficiency",
+      "ProfDialogContent": "Select existing proficiency or define a custom one?",
+      "Proficiencies": "Proficiencies",
+      "ProficiencyMulti": "Proficiency in ",
+      "SelectPlaceholder": "Choose..",
+      "SelectCreateOne": "Create a new one",
+      "SkillProficiencies": "Skill Proficiencies",
+      "LanguageProficiencies": "Language Proficiencies",
+      "ToolProficiencies": "Tool Proficiencies",
+      "WeaponProficiencies": "Weapon Proficiencies",
+      "ArmorProficiencies": "Armor Proficiencies",
+      "AddCustom": "Custom",
+      "AddStandard": "Select",
+      "Feat": "Feat",
+      "Feature": "Feature",
+      "Features": "Features",
+      "Movement": {
+        "walk": "Walk"
+      },
+      "Senses": {
+        "darkvision": "Darkvision"
+      },
+      "Searchbar": {
+        "Placeholder": "Type to search..",
+        "ClearList": "Clear list"
+      }
+    },
+    "Error": {
+      "IndexEntryNotFound": "No index entry for uuid {uuid}",
+      "ActorCreationError": "An error occurred when creating the actor with name {name}, aborting..",
+      "UpdateValueLoad": "{value} not loaded for updating values",
+      "RenderLoad": "{value} not loaded for render data",
+      "CustomItemWithoutName": "Can't create custom feature on {origin} - Item name is mandatory (Item will be skipped)",
+      "RequiredOptionNotFulfilled": "Option {opt} is required but not fulfilled."
+    },
+    "Custom": "Custom",
+    "Next": "Next",
+    "Back": "Back",
+    "Start": {
+      "Title": "Start",
+      "Welcome": "Welcome to the Hero Creation Tool for DnD 5e",
+      "p1": "The Hero Creation Tool is a step-by-step process for creating a brand-new character for your games. Changes are saved as you progress, but the character is only created upon completion.",
+      "p2": "The tool supports SRD material available within FoundryVTT by default. You can add further content by defining compendia in the settings with your own custom races, classes, features and others.",
+      "Remark": "Your Adventure Awaits! Get started by clicking Next.",
+      "Faq": "If you have any doubts, please check our FAQ.",
+      "HowTo": "If you are a DM wanting to add custom races, classes and etc, you can read our How-To."
+    },
+    "Basics": {
+      "Title": "Basics",
+      "Avatar": "Avatar",
+      "Token": "Token",
+      "Preview": "Preview",
+      "PickButton": "Select",
+      "NoName": "Hero has no name"
+    },
+    "Race": {
+      "Title": "Race",
+      "DescriptionPlaceholder": "Please select a race to see its description (subrace would show at the end)",
+      "Select.Default": "Select your race..",
+      "ASI": "Ability Score Increase",
+      "Size": "Size",
+      "Senses": "Senses",
+      "Movement": "Movement",
+      "InvalidProfKeys": "Invalid proficiency values for modeKey[{modeKey}], proficiencyKey[{proficiencyKey}] and proficiency[{proficiency}]"
+    },
+    "Class": {
+      "Title": "Class",
+      "DescriptionPlaceholder": "Please select a class to see its description",
+      "Select.Default": "Select your class..",
+      "Subclass": "Subclass",
+      "Select.DefaultSubclass": "Select your subclass..",
+      "SavingThrows": "Saving Throws",
+      "HitPoints": "Hit Points",
+      "FirstLevelHp": "First level",
+      "HigherLevelsHp": "Higher levels",
+      "HpCalcAvg": "Average",
+      "HpCalcRoll": "Roll",
+      "HitPointsBlob": " + your Constitution modifier",
+      "HpRollChatFlavor": "Rolled hp for level {lv}",
+      "Level": "Level {lv}",
+      "HitPointsAdvancementMissingError": "Class {className} has no HitPointsAdvancement; skipping configuration."
+    },
+    "Abilities": {
+      "Title": "Abilities",
+      "Method": "How are abilities calculated?",
+      "Values": "Ability Values",
+      "Str": "Strength",
+      "Dex": "Dexterity",
+      "Con": "Constitution",
+      "Int": "Intelligence",
+      "Wis": "Wisdom",
+      "Cha": "Charisma",
+      "Buttons": {
+        "Info": "Info",
+        "Roll": "Roll {dice}",
+        "StandardArray": "Standard Array",
+        "PointBuy": "Point Buy",
+        "ManualEntry": "Manual Entry"
+      },
+      "RollChatFlavor": "Rolled ability scores",
+      "SelectPlaceholder": "Select..",
+      "PointBuy": {
+        "Score": " Point Buy Score: ",
+        "OverLimit": "You have gone over the maximum points allowed for Point Buy"
+      }
+    },
+    "Background": {
+      "Title": "Background",
+      "DescriptionPlaceholder": "Please select a background to see its description",
+      "Select.Default": "Select background..",
+      "Alignment": "Alignment",
+      "NoFeatureSelected": "No background feature selected"
+    },
+    "Equipment": {
+      "Title": "Equipment",
+      "StartingGoldTitle": "Starting Gold",
+      "Roll": "Roll",
+      "RollChatFlavor": "Rolled starting gold",
+      "ManualInput": "Manual",
+      "Additional": "Additional",
+      "TotalGoldLabel": "Total: ",
+      "RemainingGoldLabel": "Remaining: ",
+      "RemainingGoldCheckboxLabel": "Add remaining gold to actor",
+      "StartingItemsTitle": "Starting Items"
+    },
+    "Spells": {
+      "Title": "Spells",
+      "SpellcastingAbilityBlob": "<p>You selected {class} - your Spellcasting Ability is <b>{spa}</b></p>",
+      "NoSpellcastingClass": "No spellcasting class selected",
+      "SpellCount": "Number of Spells",
+      "SpellList": "Starting Spells",
+      "Spellcasting": "Spellcasting",
+      "SelectItemError": "Incorrect itemName on Spells tab search entry",
+      "Cantrips": "Can",
+      "Superscript": {
+        "1": "st",
+        "2": "nd",
+        "3": "rd",
+        "4": "th",
+        "5": "th",
+        "6": "th",
+        "7": "th",
+        "8": "th",
+        "9": "th"
+      }
+    },
+    "Bio": {
+      "Title": "Biography",
+      "AppearanceTitle": "Appearance",
+      "PersonalityTraitsTitle": "Personality Traits",
+      "IdealsTitle": "Ideals",
+      "BondsTitle": "Bonds",
+      "FlawsTitle": "Flaws",
+      "BiographyPlaceholder": "Biography.."
+    },
+    "Submit": {
+      "Button": "Submit",
+      "Title": "Confirm choices?",
+      "Content": "<p>You can go back and review and/or change anything before the hero is created.</p>",
+      "YesLabel": "Create Hero",
+      "NoLabel": "Go Back"
+    },
+    "Migrations": {
+      "Info1": "Hero Creation Tool :: Migration 1 - Restoring Compendia sources setting to default to prevent errors when moving from v0.8.x to v9",
+      "Info2": "Hero Creation Tool :: Migration 2 - Adding default 5e Items and Rules compendia to sources",
+      "Info3": "Hero Creation Tool :: Migration 3 - Updating sources for Advancements"
+    }
+  }
+}
