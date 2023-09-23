@@ -220,7 +220,7 @@
       "Additional": "Zusätzlich",
       "TotalGoldLabel": "Gesamt: ",
       "RemainingGoldLabel": "Übrig: ",
-      "RemainingGoldCheckboxLabel": "Übriges Gold zum Schauspieler hinzufügen",
+      "RemainingGoldCheckboxLabel": "Übriges Gold zum Charakter hinzufügen",
       "StartingItemsTitle": "Startausrüstung"
     },
     "Spells": {
@@ -233,15 +233,15 @@
       "SelectItemError": "Falscher Gegenstandsname im Sucheingabefeld des Zauber-Tabs",
       "Cantrips": "Zaubertrick",
       "Superscript": {
-        "1": ".",
-        "2": ".",
-        "3": ".",
-        "4": ".",
-        "5": ".",
-        "6": ".",
-        "7": ".",
-        "8": ".",
-        "9": "."
+        "1": "te",
+        "2": "te",
+        "3": "te",
+        "4": "te",
+        "5": "te",
+        "6": "te",
+        "7": "te",
+        "8": "te",
+        "9": "te"
       }
     },
     "Bio": {
