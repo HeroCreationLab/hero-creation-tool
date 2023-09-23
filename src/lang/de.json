@@ -1,0 +1,269 @@
+{
+  "HCT": {
+    "ActorsDirectoryButton": "Hero Creation Tool",
+    "ActorLevelUpButton": "Level Up",
+    "CreationWindowTitle": "Heldenerstellung",
+    "LevelUpWindowTitle": "Level Up - {actorName}",
+    "Setting": {
+      "DefaultGoldDice": {
+        "Name": "Standard Startgold-Wurf",
+        "Hint": "Hier kannst du den Wurf für dein Startgold anpassen."
+      },
+      "ShowRolls": {
+        "Name": "Zeige Würfe im Chat",
+        "Hint": "Zeigt Fähigkeitspunkte, LP pro Stufe und Startgold-Würfe als Chatnachrichten."
+      },
+      "IndividualPanelScroll": {
+        "Name": "Eigene Scroll-Leisten für Panels",
+        "Hint": "In Tabs mit linken und rechten Panels haben beide ihre eigenen Scroll-Leisten."
+      },
+      "AllowAbilityRolling": {
+        "Name": "Erlauben Fähigkeitspunkte zu würfeln."
+      },
+      "AllowAbilityStandardArray": {
+        "Name": "Standard-Fähigkeitspunkte-Array erlauben."
+      },
+      "AllowAbilityPointBuy": {
+        "Name": "Fähigkeitspunkte per Punkt-Kauf erlauben."
+      },
+      "AllowAbilityInput": {
+        "Name": "Manuelle Eingabe der Fähigkeitspunkte erlauben."
+      },
+      "UseTokenizer": {
+        "Name": "Tokenizer nutzen, wenn verfügbar",
+        "Hint": "Das Tool versucht, das Tokenizer-Modul zu verwenden, wenn es vorhanden ist, um Standard-Avatare und Token-Bilder zu generieren."
+      },
+      "TokenNameMode": {
+        "Name": "Anzeige-Modus für Token-Namen"
+      },
+      "TokenBarMode": {
+        "Name": "Anzeige-Modus für Token-Leiste 1"
+      },
+      "EquipmentBlacklist": {
+        "Name": "Ausrüstungs-Sperrliste",
+        "Hint": "Gegenstände (Ausrüstung), die nicht angezeigt werden sollen, nach Namen (Groß-/Kleinschreibung beachten, durch ';' getrennt, Leerzeichen sind okay). Es werden nur 'gewöhnliche' Gegenstände angezeigt, aber die Liste schließt einige magische/unrealistische gewöhnliche Gegenstände aus. Standardmäßig: 'Trank des Kletterns; Trank der Heilung; Zauberschriftrolle 1. Ebene; Zauberschriftrolle Zauberspruch 0. Ebene; Unbewaffneter Schlag'"
+      },
+      "SubraceNameBlacklist": {
+        "Name": "Sperrliste für Unterrasse-Namen",
+        "Hint": "Gegenstände, die nach Namen von Unterrassen ausgeschlossen werden sollen (Groß-/Kleinschreibung beachten, durch ';' getrennt, Leerzeichen sind okay). Standardmäßig verwendet, um Dinge wie 'Gnomische Gerissenheit' davon abzuhalten, sich als Gnom-Unterklasse zu registrieren. Standardmäßig: 'Gnomische Gerissenheit; Halblingsgewandheit'"
+      },
+      "ButtonOnDialogInsteadOfActorsDirectory": {
+        "Name": "Schaltfläche 'Character erstellen' im Dialogfeld",
+        "Hint": "Wenn die Schaltfläche mit anderen Modulen kollidiert oder du das Aussehen einer einzelnen 'Character erstellen'-Schaltfläche bevorzugst, um deine Spieler nicht zu verwirren."
+      },
+      "PointBuyLimit": {
+        "Name": "Punkt-Kauf-Limit"
+      },
+      "AbilityRollFormula": {
+        "Name": "Formel für das Würfeln von Attributen (pro Attribut)"
+      },
+      "Sources": {
+        "Name": "Quellen im Kompendium",
+        "Hint": "Wähle die Kompendien aus, die als Datenquelle für die verschiedenen Erstellungsschritte dienen sollen",
+        "Label": "Quellen auswählen",
+        "Save": "Speichern",
+        "RaceCompendia": "Kompendium für Rassen",
+        "RacialFeatureCompendia": "Kompendium für Rasseneigenschaften",
+        "ClassCompendia": "Kompendium für Klassen",
+        "SubclassCompendia": "Kompendium für Unterklassen",
+        "ClassFeatureCompendia": "Kompendium für Klassenfähigkeiten",
+        "BackgroundCompendia": "Kompendium für Hintergründe",
+        "SpellCompendia": "Kompendium für Zauber",
+        "FeatCompendia": "Kompendium für Talente",
+        "EquipmentCompendia": "Kompendium für Ausrüstung"
+      },
+      "TrimSubclasses": {
+        "Name": "Unterklassen-Namen kürzen",
+        "Hint": "Zeigt Unterklassennamen ohne den letzten Teil in Klammern an, hauptsächlich für DDBImporter-Unterklassen wie 'Assassine (Schurke)' als 'Assassine' (verändert NICHT die zu einem Charakter hinzugefügten Gegenstände, sondern zeigt nur an, wie sie im Tool angezeigt werden)."
+      }
+    },
+    "Permissions": {
+      "NeedCreateActorError": "Benutzer benötigt die Berechtigung 'Neue Charakter erstellen'. Bitte frage deinen SL, dies deiner Rolle hinzuzufügen.",
+      "NeedCreateItemWarn": "Benutzer ohne Berechtigung 'Neue Gegenstände erstellen'. Du kannst keine benutzerdefinierten Gegenstände erstellen.",
+      "NeedFileUploadWarn": "Benutzer ohne Berechtigung 'Datei-Browser verwenden'. Du könntest Probleme beim Auswählen von Bildern haben.",
+      "NeedFileBrowseWarn": "Benutzer ohne Berechtigung 'Neue Dateien hochladen'. Du könntest Probleme beim Auswählen von Bildern haben."
+    },
+    "Integration": {
+      "Tokenizer": {
+        "WarningOn": "Das Tokenizer-Modul ist als bevorzugt festgelegt. Du kannst mit Shift-Klick den Standard-Dateiauswähler verwenden.",
+        "NeedActorName": "Der Tokenizer benötigt einen Charakternamen; bitte fülle diesen zuerst aus.",
+        "Error": {
+          "ModuleNotFound": "Tokenizer nicht gefunden, es wird der Standard-Dateiauswähler verwendet.",
+          "ModuleInactive": "Tokenizer gefunden, aber nicht aktiv, es wird der Standard-Dateiauswähler verwendet.",
+          "VersionUnobtainable": "Fehler beim Abrufen der Tokenizer-Version, es wird der Standard-Dateiauswähler verwendet.",
+          "VersionIncompatible": "Die Tokenizer-Version muss neuer sein als {version}."
+        }
+      }
+    },
+    "Common": {
+      "RequiredName": "Name (erforderlich)",
+      "Desc": "Beschreibung",
+      "ProfDialogTitle": "Fähigkeit hinzufügen",
+      "ProfDialogContent": "Existierende Fähigkeit auswählen oder eine benutzerdefinierte definieren?",
+      "Proficiencies": "Übungen",
+      "ProficiencyMulti": "Geübt in ",
+      "SelectPlaceholder": "Auswählen..",
+      "SelectCreateOne": "Neue erstellen",
+      "SkillProficiencies": "Attributsübungen",
+      "LanguageProficiencies": "Sprachfähigkeiten",
+      "ToolProficiencies": "Werkzeugsübungen",
+      "WeaponProficiencies": "Waffenfähigkeiten",
+      "ArmorProficiencies": "Rüstungsfähigkeiten",
+      "AddCustom": "Benutzerdefiniert",
+      "AddStandard": "Auswählen",
+      "Feat": "Talent",
+      "Feature": "Eigenschaft",
+      "Features": "Eigenschaften",
+      "Movement": {
+        "walk": "Gehen"
+      },
+      "Senses": {
+        "darkvision": "Dunkelsicht"
+      },
+      "Searchbar": {
+        "Placeholder": "Hier suchen..",
+        "ClearList": "Liste leeren"
+      }
+    },
+    "Error": {
+      "IndexEntryNotFound": "Kein Indexeintrag für UUID {uuid} gefunden",
+      "ActorCreationError": "Beim Erstellen des Charakters mit dem Namen {name} ist ein Fehler aufgetreten, Abbruch...",
+      "UpdateValueLoad": "{value} wurde nicht geladen, um Werte zu aktualisieren",
+      "RenderLoad": "{value} wurde nicht geladen, um Renderdaten zu generieren",
+      "CustomItemWithoutName": "Es kann keine benutzerdefinierte Eigenschaft in {origin} erstellt werden - Der Gegenstandsname ist obligatorisch (Der Gegenstand wird übersprungen)",
+      "RequiredOptionNotFulfilled": "Die Option {opt} ist erforderlich, wurde jedoch nicht erfüllt."
+    },
+    "Custom": "Benutzerdefiniert",
+    "Next": "Weiter",
+    "Back": "Zurück",
+    "Start": {
+      "Title": "Start",
+      "Welcome": "Willkommen beim Helden-Erstellungstool für D&D 5e",
+      "p1": "Das Helden-Erstellungstool ist ein schrittweiser Prozess zur Erstellung eines brandneuen Charakters für deine Spiele. Änderungen werden gespeichert, während du fortschreitest, aber der Charakter wird erst bei Abschluss erstellt.",
+      "p2": "Das Tool unterstützt Standardmaterialien (SRD), die in FoundryVTT standardmäßig verfügbar sind. Du kannst weiteren Inhalt hinzufügen, indem du im Einstellungsbereich eigene Kompendien mit benutzerdefinierten Rassen, Klassen, Fähigkeiten und anderen definierst.",
+      "Remark": "Dein Abenteuer wartet! Beginne, indem du auf Weiter klickst.",
+      "Faq": "Wenn du Fragen hast, schaue bitte in unsere FAQ.",
+      "HowTo": "Wenn du ein Spielleiter bist und benutzerdefinierte Rassen, Klassen usw. hinzufügen möchtest, lies unsere Anleitung."
+    },
+    "Basics": {
+      "Title": "Grundlagen",
+      "Avatar": "Avatar",
+      "Token": "Token",
+      "Preview": "Vorschau",
+      "PickButton": "Auswählen",
+      "NoName": "Der Held hat keinen Namen"
+    },
+    "Race": {
+      "Title": "Rasse",
+      "DescriptionPlaceholder": "Bitte wähle eine Rasse aus, um ihre Beschreibung zu sehen (Unterrassen werden am Ende angezeigt)",
+      "Select.Default": "Wähle deine Rasse aus..",
+      "ASI": "Attributswerterhöhung",
+      "Size": "Größe",
+      "Senses": "Sinne",
+      "Movement": "Bewegung",
+      "InvalidProfKeys": "Ungültige Werte für Attributsschlüssel [{modeKey}], Übungsschlüssel [{proficiencyKey}] und Fertigkeit [{proficiency}]"
+    },
+    "Class": {
+      "Title": "Klasse",
+      "DescriptionPlaceholder": "Bitte wähle eine Klasse aus, um ihre Beschreibung zu sehen",
+      "Select.Default": "Wähle deine Klasse aus..",
+      "Subclass": "Unterklasse",
+      "Select.DefaultSubclass": "Wähle deine Unterklasse aus..",
+      "SavingThrows": "Rettungswürfe",
+      "HitPoints": "Trefferpunkte",
+      "FirstLevelHp": "1. Stufe",
+      "HigherLevelsHp": "Höhere Stufen",
+      "HpCalcAvg": "Durchschnitt",
+      "HpCalcRoll": "Wurf",
+      "HitPointsBlob": " + deinem Konstitutionsmodifikator",
+      "HpRollChatFlavor": "Geworfene Trefferpunkte für Stufe {lv}",
+      "Level": "Stufe {lv}",
+      "HitPointsAdvancementMissingError": "Die Klasse {className} hat keine Fortschritt für Trefferpunkte; Konfiguration wird übersprungen."
+    },
+    "Abilities": {
+      "Title": "Attribute",
+      "Method": "Wie werden Attribute berechnet?",
+      "Values": "Attributswerte",
+      "Str": "Stärke",
+      "Dex": "Geschicklichkeit",
+      "Con": "Konstitution",
+      "Int": "Intelligenz",
+      "Wis": "Weisheit",
+      "Cha": "Charisma",
+      "Buttons": {
+        "Info": "Info",
+        "Roll": "Wurf {dice}",
+        "StandardArray": "Standard-Array",
+        "PointBuy": "Punktekauf",
+        "ManualEntry": "Manuelle Eingabe"
+      },
+      "RollChatFlavor": "Geworfene Attributspunkte",
+      "SelectPlaceholder": "Auswählen..",
+      "PointBuy": {
+        "Score": " Punktekauf-Wert: ",
+        "OverLimit": "Du hast die maximale Punkteanzahl für den Punktekauf überschritten"
+      }
+    },
+    "Background": {
+      "Title": "Hintergrund",
+      "DescriptionPlaceholder": "Bitte wähle einen Hintergrund aus, um seine Beschreibung zu sehen",
+      "Select.Default": "Hintergrund auswählen..",
+      "Alignment": "Ausrichtung",
+      "NoFeatureSelected": "Keine Hintergrund-Eigenschaft ausgewählt"
+    },
+    "Equipment": {
+      "Title": "Ausrüstung",
+      "StartingGoldTitle": "Startgold",
+      "Roll": "Wurf",
+      "RollChatFlavor": "Geworfenes Startgold",
+      "ManualInput": "Manuell",
+      "Additional": "Zusätzlich",
+      "TotalGoldLabel": "Gesamt: ",
+      "RemainingGoldLabel": "Übrig: ",
+      "RemainingGoldCheckboxLabel": "Übriges Gold zum Charakter hinzufügen",
+      "StartingItemsTitle": "Startausrüstung"
+    },
+    "Spells": {
+      "Title": "Zauber",
+      "SpellcastingAbilityBlob": "<p>Du hast {class} ausgewählt - deine Zauberfähigkeit ist <b>{spa}</b></p>",
+      "NoSpellcastingClass": "Keine zaubernde Klasse ausgewählt",
+      "SpellCount": "Anzahl der Zauber",
+      "SpellList": "Startzauber",
+      "Spellcasting": "Zauberkunde",
+      "SelectItemError": "Falscher Gegenstandsname im Sucheingabefeld des Zauber-Tabs",
+      "Cantrips": "Zaubertrick",
+      "Superscript": {
+        "1": "te",
+        "2": "te",
+        "3": "te",
+        "4": "te",
+        "5": "te",
+        "6": "te",
+        "7": "te",
+        "8": "te",
+        "9": "te"
+      }
+    },
+    "Bio": {
+      "Title": "Biografie",
+      "AppearanceTitle": "Erscheinungsbild",
+      "PersonalityTraitsTitle": "Persönlichkeitsmerkmale",
+      "IdealsTitle": "Ideale",
+      "BondsTitle": "Bindungen",
+      "FlawsTitle": "Schwächen",
+      "BiographyPlaceholder": "Biografie.."
+    },
+    "Submit": {
+      "Button": "Bestätigen",
+      "Title": "Entscheidungen bestätigen?",
+      "Content": "<p>Du kannst zurückgehen und alles überprüfen und/oder ändern, bevor der Held erstellt wird.</p>",
+      "YesLabel": "Helden erstellen",
+      "NoLabel": "Zurückgehen"
+    },
+    "Migrations": {
+      "Info1": "Helden-Erstellungstool :: Migration 1 - Wiederherstellung der Einstellung für Kompendium-Quellen auf Standard, um Fehler beim Wechsel von v0.8.x auf v9 zu verhindern.",
+      "Info2": "Helden-Erstellungstool :: Migration 2 - Hinzufügen von Standard-5e-Gegenständen und Regel-Kompendien zu den Quellen.",
+      "Info3": "Helden-Erstellungstool :: Migration 3 - Aktualisieren der Quellen für Fortschritte."
+    }
+  }
+}

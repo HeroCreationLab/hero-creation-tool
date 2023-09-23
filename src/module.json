@@ -27,6 +27,11 @@
       "lang": "en",
       "name": "English",
       "path": "lang/en.json"
+    },
+    {
+      "lang": "de",
+      "name": "German",
+      "path": "lang/de.json"
     }
   ],
   "url": "https://github.com/HeroCreationLab/hero-creation-tool",
