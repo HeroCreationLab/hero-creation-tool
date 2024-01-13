@@ -163,7 +163,7 @@ class _Spells extends Step {
       return;
     }
     const classSpellcasting = data.class.spellcasting as ClassSpellcastingData;
-    const spa = (game as any).dnd5e.config.abilities[classSpellcasting.ability];
+    const spa = (game as any).dnd5e.config.abilities[classSpellcasting.ability].label;
 
     $spellCastingAbilityElem.html(
       game.i18n.format('HCT.Spells.SpellcastingAbilityBlob', { class: data.class.name, spa: spa }),

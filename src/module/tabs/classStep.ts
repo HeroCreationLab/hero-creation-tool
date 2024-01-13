@@ -349,7 +349,7 @@ class _Class extends Step {
         ClassTab.step,
         `data.abilities.${save}.proficient`,
         1,
-        foundryAbilities[save],
+        foundryAbilities[save].label,
       );
       savingThrowOption.render($savingThrowsSection);
       this.stepOptions.push(savingThrowOption);

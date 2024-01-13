@@ -21,6 +21,7 @@ import { IndexEntry, hydrateItems } from './indexes/indexUtils';
 import { LOG_PREFIX, MODULE_ID, MYSTERY_MAN, CLASS_LEVEL } from './constants';
 
 enum StepIndex {
+  Intro = -1,
   Basics,
   Race,
   Class,
@@ -58,7 +59,7 @@ export default class HeroCreationTool extends Application {
     this.options.title = game.i18n.localize('HCT.CreationWindowTitle');
     console.info(`${LOG_PREFIX} | Opening for new actor${actorName ? ' with name: ' + actorName : ''}`);
     this.steps.forEach((step) => step.clearOptions());
-    this.currentTab = -1;
+    this.currentTab = StepIndex.Intro;
     this.render(true);
   }
 
@@ -95,7 +96,7 @@ export default class HeroCreationTool extends Application {
     });
     $('[data-hct_submit]').on('click', () => this.confirmSubmittion());
 
-    this.openTab(-1);
+    this.openTab(StepIndex.Intro);
   }
 
   async setupData() {
@@ -135,62 +136,53 @@ export default class HeroCreationTool extends Application {
   private async buildActor() {
     console.info(`${LOG_PREFIX} | Building actor - data used:`);
     const newActorData = this.initializeActorData();
-    let errors = false;
-    // yeah, a loop label, sue me.
-    mainloop: for (const step of this.steps) {
+
+    for (const step of this.steps) {
       for (const opt of step.getOptions()) {
-        if (this.requiredOptionNotFulfilled(opt)) {
-          errors = true;
-          break mainloop;
-        }
+        if (this.requiredOptionNotFulfilled(opt)) return;
         await opt.applyToHero(newActorData);
       }
     }
-    if (!errors) {
-      // calculate whatever needs inter-tab values like HP
-      const classUpdateData = this.steps[StepIndex.Class].getUpdateData();
-      cleanUpErroneousItems(newActorData);
-      setTokenSettings(newActorData);
-      const itemsFromActor = newActorData.items; // moving item index entries to a different variable
-      newActorData.items = [];
-      const cls = getDocumentClass('Actor');
-      const actor = new cls(newActorData);
 
-      const newActor = await Actor.create(actor.toObject());
-      if (!newActor) {
-        ui.notifications?.error(game.i18n.format('HCT.Error.ActorCreationError', { name: newActorData?.name }));
-        return;
-      }
-      const itemsFromCompendia = await hydrateItems(itemsFromActor); // hydrating index entries for the actual items
-      const itemsWithoutAdvancements = keepItemsWithoutAdvancements(itemsFromCompendia);
-      const createdItems = await newActor.createEmbeddedDocuments('Item', itemsWithoutAdvancements as any); // adding items after actor creation to process active effects
+    // calculate whatever needs inter-tab values like HP
+    const classUpdateData = this.steps[StepIndex.Class].getUpdateData();
+    cleanUpErroneousItems(newActorData);
+    setTokenSettings(newActorData);
+    const itemsFromActor = newActorData.items; // moving item index entries to a different variable
+    newActorData.items = [];
+    const cls = getDocumentClass('Actor');
+    const actor = new cls(newActorData);
 
-      const itemsWithAdvancements: Item[] = [];
-
-      const classItem = getItemOfType(itemsFromCompendia, 'class');
-      if (classItem) {
-        setClassLevel(classItem, getLevelFromClass(classUpdateData));
-        await setHpAdvancement(classItem, classUpdateData);
-        itemsWithAdvancements.push(this.buildItemGrantAdvancements(classItem, createdItems));
-      }
-      const subclassItem = getItemOfType(itemsFromCompendia, 'subclass');
-      if (subclassItem) itemsWithAdvancements.push(this.buildItemGrantAdvancements(subclassItem, createdItems));
-
-      const backgroundItem = getItemOfType(itemsFromCompendia, 'background');
-      if (backgroundItem) itemsWithAdvancements.push(this.buildItemGrantAdvancements(backgroundItem, createdItems));
-      await newActor.createEmbeddedDocuments('Item', itemsWithAdvancements as any); // adding the class after Advancements have been filled in
-
-      try {
-        await (newActor as any).longRest({ dialog: false, chat: false, newDay: true });
-      } catch (error) {
-        console.error(error);
-      }
-      this.close();
+    const newActor = await Actor.create(actor.toObject());
+    if (!newActor) {
+      ui.notifications?.error(game.i18n.format('HCT.Error.ActorCreationError', { name: newActorData?.name }));
+      return;
     }
+    const itemsFromCompendia = await hydrateItems(itemsFromActor); // hydrating index entries for the actual items
+    const itemsWithoutAdvancements = keepItemsWithoutAdvancements(itemsFromCompendia);
+    const createdItems = await newActor.createEmbeddedDocuments('Item', itemsWithoutAdvancements as any); // adding items after actor creation to process active effects
 
-    function getLevelFromClass(updateData: any): number {
-      return updateData?.level ?? 0;
+    const itemsWithAdvancements: Item[] = [];
+
+    const classItem = getItemOfType(itemsFromCompendia, 'class');
+    if (classItem) {
+      setClassLevel(classItem, getLevelFromClass(classUpdateData));
+      await setHpAdvancement(classItem, classUpdateData);
+      itemsWithAdvancements.push(this.buildItemGrantAdvancements(classItem, createdItems));
     }
+    const subclassItem = getItemOfType(itemsFromCompendia, 'subclass');
+    if (subclassItem) itemsWithAdvancements.push(this.buildItemGrantAdvancements(subclassItem, createdItems));
+
+    const backgroundItem = getItemOfType(itemsFromCompendia, 'background');
+    if (backgroundItem) itemsWithAdvancements.push(this.buildItemGrantAdvancements(backgroundItem, createdItems));
+    await newActor.createEmbeddedDocuments('Item', itemsWithAdvancements as any); // adding the class after Advancements have been filled in
+
+    try {
+      await (newActor as any).longRest({ dialog: false, chat: false, newDay: true });
+    } catch (error) {
+      console.error(error);
+    }
+    this.close();
   }
 
   private buildItemGrantAdvancements(itemWithAdvancements: Item, createdItems?: any) {
@@ -280,7 +272,7 @@ function cleanUpErroneousItems(newActor: ActorDataConstructorData) {
 
 function handleNavs(index: number) {
   // hides the nav if switching to startDiv, else show them.
-  $('#hct_nav').toggle(index !== -1);
+  $('#hct_nav').toggle(index !== StepIndex.Intro);
 
   // disables back/next buttons where appropriate
   const $footer = $('#hct_footer');
@@ -331,4 +323,8 @@ async function setHpAdvancement(classItem: Item, classUpdateData: any) {
     hp[lv] = parseInt(roll.result);
   }
   advancement.value = hp;
+}
+
+function getLevelFromClass(updateData: any): number {
+  return updateData?.level ?? 0;
 }

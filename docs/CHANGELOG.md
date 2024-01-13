@@ -1,5 +1,10 @@
 # Hero Creation Tool for Foundry VTT - DnD5e
 
+## 1.10.0 (2023-06-dd)
+- Compatibility update to `Foundry v11.325` & `dnd5e 2.4.1`.
+- Added setting to define a custom Standard Array [(#138)](https://github.com/HeroCreationLab/hero-creation-tool/issues/138)
+- Fixed dnd5e warning about using `CONFIG.DND5E.abilities` as a string
+
 ## 1.9.2 (2023-03-07)
 - Ability scores that are rolled are now sorted
 - Fixed gold management when buying items (it was accidentally broken for all items but packs)

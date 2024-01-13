@@ -41,7 +41,7 @@ export const enum SourceType {
   ITEMS = 'items',
 }
 
-export type Source = {
+export type Sources = {
   [key in SourceType]: any;
 };
 

@@ -2,8 +2,9 @@ import SettingKeys, { registerSettings } from './settings';
 import { preloadTemplates } from './preloadTemplates';
 import HeroCreationTool from './heroCreationToolApp';
 import { buildSourceIndexes } from './indexes/indexUtils';
-import { addActorDirectoryButton, addCreateNewActorButton, getModuleSetting, setPublicApi } from './utils';
+import { addActorDirectoryButton, addCreateNewActorButton, getModuleSetting } from './utils';
 import performMigrations from './migrations/migrationsHandler';
+import { setPublicApi } from './api';
 
 const heroCreationTool = new HeroCreationTool();
 

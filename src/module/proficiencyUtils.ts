@@ -17,7 +17,7 @@ export type OptionSettings = {
 
 type KeyValue = {
   key: string;
-  value: string;
+  value: any;
 };
 
 export function prepareSkillOptions(optionSettings: OptionSettings): MultiOption {

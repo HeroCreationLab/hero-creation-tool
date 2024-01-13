@@ -14,7 +14,7 @@ export default class MultiOption implements HeroOption {
   constructor(
     readonly origin: StepEnum,
     readonly key: string,
-    private options: { key: string; value: string }[],
+    private options: { key: string; value: any }[],
     private quantity: number,
     private label: string,
     readonly settings: {

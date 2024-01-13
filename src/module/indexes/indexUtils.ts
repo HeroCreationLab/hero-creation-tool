@@ -1,5 +1,5 @@
 import { LOG_PREFIX, MODULE_ID } from '../constants';
-import SettingKeys, { Source, SourceType } from '../settings';
+import SettingKeys, { Sources, SourceType } from '../settings';
 import { getGame, getModuleSetting } from '../utils';
 
 /***
@@ -9,7 +9,7 @@ import { getGame, getModuleSetting } from '../utils';
  */
 export async function buildSourceIndexes() {
   console.info(`${LOG_PREFIX} | Indexing source compendiums`);
-  const sourcePacks: Source = (await game.settings.get(MODULE_ID, SettingKeys.SOURCES)) as Source;
+  const sourcePacks: Sources = (await game.settings.get(MODULE_ID, SettingKeys.SOURCES)) as Sources;
   const itemsPromises: Promise<Item | null | undefined>[] = [];
   game.packs
     .filter((p) => p.documentName == 'Item')
@@ -36,8 +36,8 @@ export async function buildSourceIndexes() {
   await Promise.all(itemsPromises);
 }
 
-export async function getIndexEntriesForSource(source: keyof Source) {
-  const sources: Source = (await game.settings.get(MODULE_ID, SettingKeys.SOURCES)) as Source;
+export async function getIndexEntriesForSource(source: keyof Sources) {
+  const sources: Sources = (await game.settings.get(MODULE_ID, SettingKeys.SOURCES)) as Sources;
 
   const indexEntries = [];
   for (const packName of sources[source]) {
@@ -197,7 +197,7 @@ export type RaceEntry = IndexEntry & {
     description: { value: string };
   };
 };
-export function addRaceFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
+export function addRaceFields(fieldsToIndex: Set<string>, source: Sources, packName: string) {
   if (source[SourceType.RACES].includes(packName)) {
     fieldsToIndex.add('system.requirements'); // for figuring subraces
     fieldsToIndex.add('system.description.value'); // for sidebar
@@ -213,7 +213,7 @@ export async function getRaceEntries() {
 export type RacialFeatureEntry = IndexEntry & {
   system: { requirements: string };
 };
-export function addRacialFeaturesFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
+export function addRacialFeaturesFields(fieldsToIndex: Set<string>, source: Sources, packName: string) {
   if (source[SourceType.RACIAL_FEATURES].includes(packName)) {
     fieldsToIndex.add('system.requirements'); // for mapping racial features to races/subraces
   }
@@ -246,7 +246,7 @@ export type ClassEntry = IndexEntry & {
     };
   };
 };
-export function addClassFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
+export function addClassFields(fieldsToIndex: Set<string>, source: Sources, packName: string) {
   if (source[SourceType.CLASSES].includes(packName)) {
     fieldsToIndex.add('system.advancement');
     fieldsToIndex.add('system.description.value'); // for sidebar
@@ -302,7 +302,7 @@ export type SubclassEntry = IndexEntry & {
     };
   };
 };
-export function addSubclassFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
+export function addSubclassFields(fieldsToIndex: Set<string>, source: Sources, packName: string) {
   if (source[SourceType.SUBCLASSES].includes(packName)) {
     fieldsToIndex.add('system.advancement');
     fieldsToIndex.add('system.description.value'); // for sidebar
@@ -329,7 +329,7 @@ function clearClassName(name: string) {
 
 // Background
 export type BackgroundEntry = IndexEntry & unknown;
-export function addBackgroundFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
+export function addBackgroundFields(fieldsToIndex: Set<string>, source: Sources, packName: string) {
   if (source[SourceType.BACKGROUNDS].includes(packName)) {
     fieldsToIndex.add('name');
   }
@@ -350,7 +350,7 @@ export type EquipmentEntry = IndexEntry & {
     quantity?: number;
   };
 };
-export function addEquipmentFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
+export function addEquipmentFields(fieldsToIndex: Set<string>, source: Sources, packName: string) {
   if (source[SourceType.ITEMS].includes(packName)) {
     fieldsToIndex.add('system.price');
     fieldsToIndex.add('system.rarity');
@@ -370,7 +370,7 @@ export type SpellEntry = IndexEntry & {
     level: number;
   };
 };
-export function addSpellFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
+export function addSpellFields(fieldsToIndex: Set<string>, source: Sources, packName: string) {
   if (source[SourceType.SPELLS].includes(packName)) {
     fieldsToIndex.add('system.level');
   }
@@ -385,7 +385,7 @@ export async function getSpellEntries() {
 export type FeatEntry = IndexEntry & {
   system: { requirements: string };
 };
-export function addFeatFields(fieldsToIndex: Set<string>, source: Source, packName: string) {
+export function addFeatFields(fieldsToIndex: Set<string>, source: Sources, packName: string) {
   if (source[SourceType.FEATS].includes(packName)) {
     fieldsToIndex.add('system.requirements'); // TODO if feat has a requirement show it.
   }
