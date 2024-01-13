@@ -2,7 +2,8 @@ import * as Utils from '../utils';
 import { Step, StepEnum } from '../step';
 import FixedOption, { OptionType } from '../options/fixedOption';
 import DeletableOption from '../options/deletableOption';
-import { SpellEntry, getSpellEntries } from '../indexes/indexUtils';
+import { getSpellEntries } from '../indexes/spellEntry';
+import { SpellEntry } from '../indexes/spellEntry';
 import { ClassSpellcastingData as ClassSpellcastingData } from './classStep';
 
 const rules = { journalId: 'QvPDSUsAiEn3hD8s', pageId: 'evx9TWix4wYU51a5' };

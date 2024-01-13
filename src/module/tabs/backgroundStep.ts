@@ -2,10 +2,12 @@ import * as Utils from '../utils';
 import * as ProficiencyUtils from '../proficiencyUtils';
 import { Step, StepEnum } from '../step';
 import SelectableOption from '../options/selectableOption';
-import { getIndexEntryByUuid, getBackgroundEntries, BackgroundEntry } from '../indexes/indexUtils';
+import { getIndexEntryByUuid } from '../indexes/indexUtils';
+import { getBackgroundEntries } from '../indexes/backgroundEntry';
+import { BackgroundEntry } from '../indexes/backgroundEntry';
 import { MYSTERY_MAN, NONE_ICON } from '../constants';
 import SearchableIndexEntryOption from '../options/searchableIndexEntryOption';
-import * as Advancements from '../advancementUtils';
+import * as Advancements from '../advancements/advancementUtils';
 import { getGame } from '../utils';
 import FixedOption, { OptionType } from '../options/fixedOption';
 

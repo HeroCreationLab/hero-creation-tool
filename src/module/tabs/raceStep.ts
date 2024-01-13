@@ -10,15 +10,13 @@ import SelectableOption from '../options/selectableOption';
 import FixedOption, { OptionType } from '../options/fixedOption';
 import InputOption from '../options/inputOption';
 import SearchableIndexEntryOption from '../options/searchableIndexEntryOption';
-import {
-  IndexEntry,
-  FeatEntry,
-  getFeatEntries,
-  RaceEntry,
-  getRaceEntries,
-  RacialFeatureEntry,
-  getRaceFeatureEntries,
-} from '../indexes/indexUtils';
+import { getRaceEntries } from '../indexes/raceEntry';
+import { RaceEntry } from '../indexes/raceEntry';
+import { getRaceFeatureEntries } from '../indexes/racialFeatureEntry';
+import { RacialFeatureEntry } from '../indexes/racialFeatureEntry';
+import { getFeatEntries } from '../indexes/featEntry';
+import { FeatEntry } from '../indexes/featEntry';
+import { IndexEntry } from '../indexes/indexEntry';
 import SettingKeys from '../settings';
 import { MYSTERY_MAN, NONE_ICON } from '../constants';
 import { getGame } from '../utils';

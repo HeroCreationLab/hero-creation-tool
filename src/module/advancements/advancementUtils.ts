@@ -1,4 +1,5 @@
-import { EntryAdvancement, EntryItemGrantAdvancement, getIndexEntryByUuid, IndexEntry } from './indexes/indexUtils';
+import { EntryAdvancement, EntryItemGrantAdvancement, getIndexEntryByUuid } from '../indexes/indexUtils';
+import { IndexEntry } from '../indexes/indexEntry';
 
 interface AdvancementConfiguration {
   byId: {

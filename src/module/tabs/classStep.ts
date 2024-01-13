@@ -8,19 +8,17 @@ import HiddenOption from '../options/hiddenOption';
 import FixedOption, { OptionType } from '../options/fixedOption';
 import SearchableIndexEntryOption from '../options/searchableIndexEntryOption';
 import { HitDie } from '../hitDie';
-import {
-  getIndexEntryByUuid,
-  ClassEntry,
-  getClassEntries,
-  ClassFeatureEntry,
-  SubclassEntry,
-  getSubclassEntries,
-} from '../indexes/indexUtils';
+import { getIndexEntryByUuid } from '../indexes/indexUtils';
+import { getClassEntries } from '../indexes/classEntry';
+import { getSubclassEntries } from '../indexes/subclassEntry';
+import { SubclassEntry } from '../indexes/subclassEntry';
+import { ClassFeatureEntry } from '../indexes/classFeatureEntry';
+import { ClassEntry } from '../indexes/classEntry';
 import { MYSTERY_MAN, CLASS_LEVEL, NONE_ICON } from '../constants';
-import * as Advancements from '../advancementUtils';
+import * as Advancements from '../advancements/advancementUtils';
 import { getGame } from '../utils';
 import HeroOption from '../options/heroOption';
-import { buildAdvancementMetadataForEntry } from '../advancementUtils';
+import { buildAdvancementMetadataForEntry } from '../advancements/advancementUtils';
 
 export type ClassSpellcastingData = {
   description?: string;
