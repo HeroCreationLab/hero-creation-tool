@@ -1,7 +1,7 @@
 import { StepEnum } from '../step';
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 import HeroOption, { apply } from './heroOption';
-import { IndexEntry } from '../indexes/indexEntry';
+import { IndexEntry } from '../indexes/entries/indexEntry';
 import { MYSTERY_MAN, NONE_ICON } from '../constants';
 
 /**

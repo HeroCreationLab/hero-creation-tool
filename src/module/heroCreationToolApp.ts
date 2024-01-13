@@ -18,7 +18,7 @@ import HeroOption from './options/heroOption';
 import type { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 import { HitDie, HpCalculation } from './hitDie';
 import { hydrateItems } from './indexes/indexUtils';
-import { IndexEntry } from './indexes/indexEntry';
+import { IndexEntry } from './indexes/entries/indexEntry';
 import { LOG_PREFIX, MODULE_ID, MYSTERY_MAN, CLASS_LEVEL } from './constants';
 
 enum StepIndex {

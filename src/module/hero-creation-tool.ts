@@ -1,7 +1,7 @@
 import SettingKeys, { registerSettings } from './settings';
 import { preloadTemplates } from './preloadTemplates';
 import HeroCreationTool from './heroCreationToolApp';
-import { buildSourceIndexes } from './indexes/indexUtils';
+import { buildIndexes } from './indexes/buildIndexes';
 import { addActorDirectoryButton, addCreateNewActorButton, getModuleSetting } from './utils';
 import performMigrations from './migrations/migrationsHandler';
 import { setPublicApi } from './api';
@@ -21,7 +21,7 @@ Hooks.once('ready', async () => {
 });
 
 Hooks.on('renderHeroCreationTool', async function (app: any, html: any, data: any) {
-  await buildSourceIndexes();
+  await buildIndexes();
   await heroCreationTool.setupData();
   heroCreationTool.renderChildrenData();
 });

@@ -1,5 +1,6 @@
-import { EntryAdvancement, EntryItemGrantAdvancement, getIndexEntryByUuid } from '../indexes/indexUtils';
-import { IndexEntry } from '../indexes/indexEntry';
+import { getIndexEntryByUuid } from '../indexes/indexUtils';
+import { AdvancementEntry, ItemGrantAdvancementEntry } from '../indexes/entries/advancementEntry';
+import { IndexEntry } from '../indexes/entries/indexEntry';
 
 interface AdvancementConfiguration {
   byId: {
@@ -53,18 +54,18 @@ export function hasAdvancements(item: any): item is { advancement: AdvancementCo
 }
 
 export function getItemGrantAdvancementsUpToLevel(
-  entry: IndexEntry & { system: { advancement: EntryAdvancement[] } },
+  entry: IndexEntry & { system: { advancement: AdvancementEntry[] } },
   maxLevel: number,
-): EntryItemGrantAdvancement[] {
+): ItemGrantAdvancementEntry[] {
   return entry.system.advancement.filter(
-    (a) => a.type === 'ItemGrant' && maxLevel >= (a as EntryItemGrantAdvancement).level,
-  ) as EntryItemGrantAdvancement[];
+    (a) => a.type === 'ItemGrant' && maxLevel >= (a as ItemGrantAdvancementEntry).level,
+  ) as ItemGrantAdvancementEntry[];
 }
 
 export function getScaleValueAdvancements(
-  entry: IndexEntry & { system: { advancement: EntryAdvancement[] } },
-): EntryItemGrantAdvancement[] {
-  return entry.system.advancement.filter((a) => a.type === 'ScaleValue') as EntryItemGrantAdvancement[];
+  entry: IndexEntry & { system: { advancement: AdvancementEntry[] } },
+): ItemGrantAdvancementEntry[] {
+  return entry.system.advancement.filter((a) => a.type === 'ScaleValue') as ItemGrantAdvancementEntry[];
 }
 
 export async function buildAdvancementMetadataForEntry(entry: {

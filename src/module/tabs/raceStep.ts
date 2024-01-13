@@ -10,25 +10,17 @@ import SelectableOption from '../options/selectableOption';
 import FixedOption, { OptionType } from '../options/fixedOption';
 import InputOption from '../options/inputOption';
 import SearchableIndexEntryOption from '../options/searchableIndexEntryOption';
-import { getRaceEntries } from '../indexes/raceEntry';
-import { RaceEntry } from '../indexes/raceEntry';
-import { getRaceFeatureEntries } from '../indexes/racialFeatureEntry';
-import { RacialFeatureEntry } from '../indexes/racialFeatureEntry';
-import { getFeatEntries } from '../indexes/featEntry';
-import { FeatEntry } from '../indexes/featEntry';
-import { IndexEntry } from '../indexes/indexEntry';
+import { getRaceEntries, getRaceFeatureEntries, getFeatEntries } from '../indexes/getEntries';
+import { RaceEntry } from '../indexes/entries/raceEntry';
+import { RacialFeatureEntry } from '../indexes/entries/racialFeatureEntry';
+import { FeatEntry } from '../indexes/entries/featEntry';
+import { IndexEntry } from '../indexes/entries/indexEntry';
 import SettingKeys from '../settings';
 import { MYSTERY_MAN, NONE_ICON } from '../constants';
 import { getGame } from '../utils';
 
-type KeyValue = {
-  key: string;
-  value: string;
-};
-
 class _Race extends Step {
   private raceEntries?: RaceEntry[];
-  // private pickableRaces?: RaceEntry[];
   private raceFeatures?: RacialFeatureEntry[];
 
   private feats?: FeatEntry[];
@@ -310,7 +302,7 @@ class _Race extends Step {
 const RaceTab: Step = new _Race();
 export default RaceTab;
 
-function getSizeOptions(): KeyValue[] {
+function getSizeOptions(): Record<string, string>[] {
   const foundrySizes = (game as any).dnd5e.config.actorSizes;
 
   return Object.keys(foundrySizes).map((k) => ({ key: k, value: foundrySizes[k] }));

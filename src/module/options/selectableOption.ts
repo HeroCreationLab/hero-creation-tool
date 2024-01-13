@@ -11,7 +11,7 @@ export default class SelectableOption implements HeroOption {
   constructor(
     readonly origin: StepEnum,
     readonly key: string,
-    private options: { key: string; value: string }[],
+    private options: Record<string, string>[],
     private label: string,
     readonly settings: {
       addValues: boolean;
