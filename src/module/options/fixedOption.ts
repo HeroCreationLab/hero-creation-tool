@@ -1,4 +1,4 @@
-import { StepEnum } from '../step';
+import { StepEnum } from '../tabs/step';
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 import HeroOption, { apply } from './heroOption';
 import { IndexEntry } from '../indexes/entries/indexEntry';
@@ -47,7 +47,7 @@ export default class FixedOption implements HeroOption {
    * @param {JQuery} parent
    */
   render(parent: JQuery): void {
-    if (this.settings.type === OptionType.TEXT) {
+    if ([OptionType.TEXT, OptionType.NUMBER, OptionType.CURRENCY].includes(this.settings.type)) {
       parent.append(this.$textElem);
     } else {
       const $container = $('<div class="hct-icon-with-context">');

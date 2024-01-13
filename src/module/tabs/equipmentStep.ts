@@ -1,5 +1,5 @@
 import * as Utils from '../utils';
-import { Step, StepEnum } from '../step';
+import { Step, StepEnum } from './step';
 import FixedOption from '../options/fixedOption';
 import SettingKeys from '../settings';
 import HeroOption from '../options/heroOption';

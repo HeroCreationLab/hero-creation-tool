@@ -1,4 +1,4 @@
-import { StepEnum } from '../step';
+import { StepEnum } from '../tabs/step';
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 import HeroOption, { apply } from './heroOption';
 
@@ -23,6 +23,7 @@ export default class InputOption implements HeroOption {
       postLabel?: string;
       class?: string;
       data?: string;
+      disabled?: boolean;
     } = { addValues: false, type: 'text' },
   ) {}
 
@@ -52,9 +53,14 @@ export default class InputOption implements HeroOption {
       }
       $container.append($wrapper);
     } else {
-      this.$elem = $(`<input class="${this.settings.class ?? ''}"
-        type="${this.settings.type}" placeholder="${this.placeholder}"  ${data ?? ''}  
-        value=${this.val} ${this.settings.type == 'number' ? `${min} ${max}` : ''}>`);
+      this.$elem = $(`<input 
+        class="${this.settings.class ?? ''}"
+        type="${this.settings.type}"
+        placeholder="${this.placeholder}"
+        ${data ?? ''}  
+        value=${this.val}
+        ${this.settings.type == 'number' ? `${min} ${max}` : ''}
+        ${this.settings.disabled ? 'disabled' : ''}>`);
       $container.append(this.$elem);
     }
 

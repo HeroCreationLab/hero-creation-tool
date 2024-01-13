@@ -5,6 +5,23 @@ export type AdvancementEntry = {
   title: string;
 };
 
+export type AbilityScoreAdvancementEntry = AdvancementEntry & {
+  type: 'AbilityScoreImprovement';
+  level: number;
+  configuration: {
+    cap: number;
+    points: number;
+    fixed: {
+      str: number;
+      dex: number;
+      con: number;
+      int: number;
+      wis: number;
+      cha: number;
+    };
+  };
+};
+
 export type HitPointsAdvancementEntry = AdvancementEntry & {
   type: 'HitPoints';
 };

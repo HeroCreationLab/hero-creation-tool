@@ -1,6 +1,6 @@
 import * as Utils from '../utils';
 import * as ProficiencyUtils from '../proficiencyUtils';
-import { Step, StepEnum } from '../step';
+import { Step, StepEnum } from './step';
 import SelectableOption from '../options/selectableOption';
 import { getIndexEntryByUuid } from '../indexes/indexUtils';
 import { getBackgroundEntries } from '../indexes/getEntries';

@@ -1,6 +1,6 @@
 import FixedOption from '../options/fixedOption';
 import HeroOption from '../options/heroOption';
-import { Step, StepEnum } from '../step';
+import { Step, StepEnum } from './step';
 
 class _Bio extends Step {
   constructor() {

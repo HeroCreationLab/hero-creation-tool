@@ -1,4 +1,4 @@
-import { Step, StepEnum } from '../step';
+import { Step, StepEnum } from './step';
 import HeroOption from '../options/heroOption';
 import FixedOption, { OptionType } from '../options/fixedOption';
 import SettingKeys from '../settings';

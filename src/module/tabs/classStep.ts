@@ -1,7 +1,7 @@
 /*
   Functions used exclusively on the Class tab
 */
-import { Step, StepEnum } from '../step';
+import { Step, StepEnum } from './step';
 import * as Utils from '../utils';
 import * as ProficiencyUtils from '../proficiencyUtils';
 import HiddenOption from '../options/hiddenOption';

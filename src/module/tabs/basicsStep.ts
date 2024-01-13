@@ -1,7 +1,7 @@
 /*
   Functions used exclusively on the Basics tab
 */
-import { Step, StepEnum } from '../step';
+import { Step, StepEnum } from './step';
 import InputOption from '../options/inputOption';
 import SettingKeys from '../settings';
 import { INTEGRATION, MODULE_ID, MYSTERY_MAN } from '../constants';

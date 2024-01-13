@@ -76,7 +76,7 @@ export async function getRaceFeatureEntries() {
     RacialFeatureEntry[]
   >);
   // sanitize entries to remove anything nonconforming to a Feature (for now at least, if Race Features become a type in the future)
-  return raceFeatureEntries.filter((f) => f.type == 'feat' && f?.system?.requirements !== '');
+  return raceFeatureEntries.filter((f) => f.type == 'feat' && f?.system?.type?.value == 'race');
 }
 
 export async function getSpellEntries() {

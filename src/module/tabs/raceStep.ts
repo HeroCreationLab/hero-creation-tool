@@ -1,7 +1,7 @@
 /*
   Functions used exclusively on the Race tab
 */
-import { Step, StepEnum } from '../step';
+import { Step, StepEnum } from './step';
 import * as Utils from '../utils';
 import * as ProficiencyUtils from '../proficiencyUtils';
 import HeroOption from '../options/heroOption';
@@ -14,10 +14,9 @@ import { getRaceEntries, getRaceFeatureEntries, getFeatEntries } from '../indexe
 import { RaceEntry } from '../indexes/entries/raceEntry';
 import { RacialFeatureEntry } from '../indexes/entries/racialFeatureEntry';
 import { FeatEntry } from '../indexes/entries/featEntry';
-import { IndexEntry } from '../indexes/entries/indexEntry';
-import SettingKeys from '../settings';
 import { MYSTERY_MAN, NONE_ICON } from '../constants';
 import { getGame } from '../utils';
+import { AbilityScoreAdvancementEntry } from '../indexes/entries/advancementEntry';
 
 class _Race extends Step {
   private raceEntries?: RaceEntry[];
@@ -28,9 +27,6 @@ class _Race extends Step {
   private $context!: JQuery;
   private $raceIcon!: JQuery;
   private $raceDesc!: JQuery;
-  private $subraceDesc!: JQuery;
-
-  private subraceBlacklist?: string[];
 
   constructor() {
     super(StepEnum.Race);
@@ -44,17 +40,9 @@ class _Race extends Step {
 
   async setSourceData() {
     this.raceEntries = await getRaceEntries();
-    const raceNames = this.raceEntries.filter((entry) => entry.system?.requirements == '').map((race) => race.name);
-
-    const raceFeatureIndexEntries = await getRaceFeatureEntries();
-    this.raceFeatures = raceFeatureIndexEntries?.filter((entry) => !raceNames.includes(entry.name)); //filters out subraces from features
-
+    this.raceFeatures = await getRaceFeatureEntries();
     const featIndexEntries = await getFeatEntries();
     this.feats = featIndexEntries.sort((a, b) => a.name.localeCompare(b.name));
-
-    this.subraceBlacklist = (Utils.getModuleSetting(SettingKeys.SUBRACES_BLACKLIST) as string)
-      .split(';')
-      .map((e) => e.trim());
   }
 
   async renderData() {
@@ -62,8 +50,6 @@ class _Race extends Step {
     const $dataSection = $('[data-hct_race_data]').hide();
     this.$raceIcon = $('[data-hct_race_icon]', this.section());
     this.$raceDesc = $('[data-hct_race_description]', this.section());
-    this.$subraceDesc = $('[data-hct_subrace_description]', this.section());
-    const $subraceSeparator = $('[data-hct_subrace_separator]', this.section());
 
     if (!this.raceEntries) {
       ui.notifications!.error(game.i18n.format('HCT.Error.UpdateValueLoad', { value: 'Races' }));
@@ -73,14 +59,12 @@ class _Race extends Step {
     const searchableOption = new SearchableIndexEntryOption(
       this.step,
       'items',
-      getPickableRaces(this.raceEntries, this.subraceBlacklist ?? []),
+      this.raceEntries,
       async (raceId) => {
         if (!raceId) {
           $dataSection.hide();
           this.$raceIcon.attr('src', NONE_ICON);
           this.$raceDesc.html(getGame().i18n.localize('HCT.Race.DescriptionPlaceholder'));
-          this.$subraceDesc.empty();
-          $subraceSeparator.toggle(false);
           return;
         }
         if (!this.raceEntries) {
@@ -91,22 +75,13 @@ class _Race extends Step {
         if (!selectedRace) {
           throw new Error(`No race found for id ${raceId}`);
         }
-        const parentRace = getParentRace(selectedRace, this.raceEntries);
-        this.updateRace(selectedRace.name, parentRace ? [parentRace, selectedRace] : [selectedRace]);
+        console.log('selected race: ', selectedRace);
+        this.updateRace(selectedRace.name, selectedRace);
 
         // update icon and description
         this.$raceIcon.attr('src', selectedRace.img || MYSTERY_MAN);
-        if (parentRace) {
-          //@ts-expect-error TextEditor TS def not updated yet
-          this.$raceDesc.html(await TextEditor.enrichHTML(parentRace.system.description.value, { async: true }));
-          //@ts-expect-error TextEditor TS def not updated yet
-          this.$subraceDesc.html(await TextEditor.enrichHTML(selectedRace.system.description.value, { async: true }));
-        } else {
-          //@ts-expect-error TextEditor TS def not updated yet
-          this.$raceDesc.html(await TextEditor.enrichHTML(selectedRace.system.description.value, { async: true }));
-          this.$subraceDesc.empty();
-        }
-        $subraceSeparator.toggle(!!parentRace);
+        //@ts-expect-error TextEditor TS def not updated yet
+        this.$raceDesc.html(await TextEditor.enrichHTML(selectedRace.system.description.value, { async: true }));
       },
       game.i18n.localize('HCT.Race.Select.Default'),
       true,
@@ -114,20 +89,20 @@ class _Race extends Step {
     searchableOption.render($('[data-hct-race-search]'));
   }
 
-  updateRace(raceName: string, raceItems: RaceEntry[]) {
+  updateRace(raceName: string, raceItem: RaceEntry) {
     this.clearOptions();
 
-    this.setAbilityScoresUi();
+    this.setAbilityScoresUi(raceItem);
     this.setSizeUi();
     this.setSensesUi();
     this.setMovementUi();
     this.setProficienciesUi();
-    this.setRaceFeaturesUi(raceItems);
+    this.setRaceFeaturesUi(raceItem);
     this.setFeatsUi();
 
     this.$context.show();
 
-    this.stepOptions.push(new HiddenOption(StepEnum.Race, 'items', raceItems, { addValues: true }));
+    this.stepOptions.push(new HiddenOption(StepEnum.Race, 'items', raceItem, { addValues: true }));
     this.stepOptions.push(new HiddenOption(StepEnum.Race, 'data.details.race', raceName));
   }
 
@@ -235,27 +210,56 @@ class _Race extends Step {
     this.stepOptions.push(sizeOption);
   }
 
-  setAbilityScoresUi(): void {
+  setAbilityScoresUi(entry: RaceEntry): void {
     const foundryAbilities = (game as any).dnd5e.config.abilities as { [key: string]: dnd5eConfigAbility };
-    const options = Object.keys(foundryAbilities).map((key) => {
-      const ability = foundryAbilities[key];
-      return new InputOption(StepEnum.Race, `data.abilities.${ability.abbreviation.toLowerCase()}.value`, '', 0, {
-        addValues: true,
-        type: 'number',
-        preLabel: ability.label,
-        class: 'hct-w-6/12',
-        data: `data-hct-race-ability='${ability.abbreviation}'`,
+    let options;
+
+    const raceAsiAdvancement = entry.system.advancement.find(
+      (adv) => adv.type == 'AbilityScoreImprovement',
+    ) as AbilityScoreAdvancementEntry;
+
+    if (raceAsiAdvancement) {
+      options = Object.keys(foundryAbilities).map((key) => {
+        const ability = foundryAbilities[key];
+        const fixedBonus = (raceAsiAdvancement.configuration.fixed as any)[ability.abbreviation];
+        return new InputOption(
+          StepEnum.Race,
+          `data.abilities.${ability.abbreviation.toLowerCase()}.value`,
+          '',
+          fixedBonus,
+          {
+            addValues: true,
+            type: 'number',
+            preLabel: ability.label,
+            class: 'hct-w-6/12',
+            data: `data-hct-race-ability='${ability.abbreviation}'`,
+            disabled: true,
+          },
+        );
       });
-    });
+    } else {
+      // FALLBACK :: race has no AbilityScoreAdvancement
+      options = Object.keys(foundryAbilities).map((key) => {
+        const ability = foundryAbilities[key];
+        return new InputOption(StepEnum.Race, `data.abilities.${ability.abbreviation.toLowerCase()}.value`, '', 0, {
+          addValues: true,
+          type: 'number',
+          preLabel: ability.label,
+          class: 'hct-w-6/12',
+          data: `data-hct-race-ability='${ability.abbreviation}'`,
+        });
+      });
+    }
+
     const $abilityScoreSection = $('[data-hct_race_area=abilityScores]', this.$context).empty();
     options.forEach((o) => o.render($abilityScoreSection));
     this.stepOptions.push(...options);
   }
 
-  setRaceFeaturesUi(raceItems: IndexEntry[]): void {
+  setRaceFeaturesUi(raceItem: RaceEntry): void {
     const options: HeroOption[] = [];
     const raceFeatures: RacialFeatureEntry[] = Utils.filterItemList({
-      filterValues: raceItems.map((r) => r.name!),
+      filterValues: [raceItem.name],
       filterField: 'system.requirements',
       itemList: this.raceFeatures!,
     });
@@ -306,50 +310,6 @@ function getSizeOptions(): Record<string, string>[] {
   const foundrySizes = (game as any).dnd5e.config.actorSizes;
 
   return Object.keys(foundrySizes).map((k) => ({ key: k, value: foundrySizes[k] }));
-}
-
-function validSubraceName(name: string, misleadingFeatureNames: string[]): boolean {
-  return !misleadingFeatureNames.includes(name);
-}
-
-function subraceNameIsPartOfRaceName(subraceName: string, parentName: string): boolean {
-  if (parentName.includes(' ')) {
-    return subraceName.includes(parentName);
-  } else {
-    return subraceName.includes(' ') ? subraceName.split(' ').includes(parentName) : subraceName.includes(parentName);
-  }
-}
-
-function parentListedAsRequirement(subrace: RaceEntry, parentName: string): boolean {
-  return parentName.includes(subrace.system.requirements);
-}
-
-function getPickableRaces(raceEntries: RaceEntry[], misleadingFeatureNames: string[]): IndexEntry[] {
-  const pickableRaces = raceEntries.filter((e) => e.system.requirements == ''); // start with parent races / races without subclasses
-
-  const notParentEntries = raceEntries.filter((e) => e.system.requirements !== '');
-  const parentsToRemove: Set<RaceEntry> = new Set(); // all classes with children are deleted at the end
-  notParentEntries.forEach((e) => {
-    if (validSubraceName(e.name, misleadingFeatureNames)) {
-      const parent = pickableRaces.find(
-        (p) => parentListedAsRequirement(e, p.name) && subraceNameIsPartOfRaceName(e.name, p.name),
-      );
-      if (parent) {
-        // if parent found, add it to the set so main races with children are later removed from the list
-        parentsToRemove.add(parent);
-        pickableRaces.push(e);
-      }
-    }
-  });
-  parentsToRemove.forEach((p) => pickableRaces.splice(pickableRaces.indexOf(p), 1));
-
-  return pickableRaces.sort((a, b) => a.name.localeCompare(b.name));
-}
-
-function getParentRace(selectedRace: RaceEntry, raceEntries: RaceEntry[]) {
-  if (selectedRace.system.requirements == '') return null;
-
-  return raceEntries.find((e) => e.name === selectedRace.system.requirements);
 }
 
 type dnd5eConfigAbility = {

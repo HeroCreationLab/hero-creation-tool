@@ -1,5 +1,5 @@
 import * as Utils from '../utils';
-import { Step, StepEnum } from '../step';
+import { Step, StepEnum } from './step';
 import FixedOption, { OptionType } from '../options/fixedOption';
 import DeletableOption from '../options/deletableOption';
 import { getSpellEntries } from '../indexes/getEntries';

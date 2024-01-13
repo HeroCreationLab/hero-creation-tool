@@ -1,5 +1,5 @@
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
-import { StepEnum } from '../step';
+import { StepEnum } from '../tabs/step';
 import HeroOption from './heroOption';
 
 export default class DeletableOption implements HeroOption {

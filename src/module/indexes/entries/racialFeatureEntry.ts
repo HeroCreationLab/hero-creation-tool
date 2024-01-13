@@ -1,5 +1,9 @@
 import { IndexEntry } from './indexEntry';
 
 export type RacialFeatureEntry = IndexEntry & {
-  system: { requirements: string };
+  type: 'feat';
+  system: {
+    type: { value: 'race' };
+    requirements: string;
+  };
 };
