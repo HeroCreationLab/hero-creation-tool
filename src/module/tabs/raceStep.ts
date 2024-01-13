@@ -219,9 +219,11 @@ class _Race extends Step {
     ) as AbilityScoreAdvancementEntry;
 
     if (raceAsiAdvancement) {
+      const config = raceAsiAdvancement.configuration;
       options = Object.keys(foundryAbilities).map((key) => {
         const ability = foundryAbilities[key];
-        const fixedBonus = (raceAsiAdvancement.configuration.fixed as any)[ability.abbreviation];
+        const fixedBonus = (config.fixed as any)[ability.abbreviation];
+
         return new InputOption(
           StepEnum.Race,
           `data.abilities.${ability.abbreviation.toLowerCase()}.value`,
@@ -233,7 +235,7 @@ class _Race extends Step {
             preLabel: ability.label,
             class: 'hct-w-6/12',
             data: `data-hct-race-ability='${ability.abbreviation}'`,
-            disabled: true,
+            disabled: !!fixedBonus,
           },
         );
       });
