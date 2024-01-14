@@ -43,3 +43,15 @@ export const MERGE_OPTIONS = {
 };
 
 export type CLASS_LEVEL = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20;
+
+export enum STEP_INDEX {
+  Intro = -1,
+  Basics,
+  Race,
+  Class,
+  Abilities,
+  Background,
+  Equipment,
+  Spells,
+  Bio,
+}

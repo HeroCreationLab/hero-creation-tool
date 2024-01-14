@@ -235,7 +235,7 @@ class _Race extends Step {
             preLabel: ability.label,
             class: 'hct-w-6/12',
             data: `data-hct-race-ability='${ability.abbreviation}'`,
-            disabled: !!fixedBonus,
+            disabled: !!fixedBonus || !config.points,
           },
         );
       });
