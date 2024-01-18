@@ -1,3 +1,5 @@
+import { AdvancementType } from '../../advancements/advancementType';
+
 export type AdvancementEntry = {
   _id: string;
   icon: string;
@@ -6,7 +8,7 @@ export type AdvancementEntry = {
 };
 
 export type AbilityScoreAdvancementEntry = AdvancementEntry & {
-  type: 'AbilityScoreImprovement';
+  type: AdvancementType.ABILITY_SCORE_IMPROVEMENT;
   level: number;
   configuration: {
     cap: number;
@@ -23,11 +25,11 @@ export type AbilityScoreAdvancementEntry = AdvancementEntry & {
 };
 
 export type HitPointsAdvancementEntry = AdvancementEntry & {
-  type: 'HitPoints';
+  type: AdvancementType.HIT_POINTS;
 };
 
 export type ItemGrantAdvancementEntry = AdvancementEntry & {
-  type: 'ItemGrant';
+  type: AdvancementType.ITEM_GRANT;
   level: number;
   configuration: {
     items: string[];
@@ -35,7 +37,7 @@ export type ItemGrantAdvancementEntry = AdvancementEntry & {
 };
 
 export type ScaleValueAdvancementEntry = AdvancementEntry & {
-  type: 'ScaleValue';
+  type: AdvancementType.SCALE_VALUE;
   title: string;
   configuration: {
     identifier: string;

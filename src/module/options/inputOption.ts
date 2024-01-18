@@ -1,6 +1,7 @@
 import { StepEnum } from '../tabs/step';
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 import HeroOption, { apply } from './heroOption';
+import { AdvancementType } from '../advancements/advancementType';
 
 /**
  * Represents a manually inputed value by the player for the created actor.
@@ -17,6 +18,7 @@ export default class InputOption implements HeroOption {
     readonly settings: {
       addValues: boolean;
       type: 'text' | 'number';
+      advancement?: { type: AdvancementType; origin: string; exclude: boolean }; // exclude: don't apply this value when applying options
       min?: number;
       max?: number;
       preLabel?: string;
@@ -82,6 +84,7 @@ export default class InputOption implements HeroOption {
   }
 
   applyToHero(actor: ActorDataConstructorData) {
+    if (this.settings.advancement?.exclude) return;
     apply(actor, this.key, this.value(), this.settings.addValues, this.settings.type === 'number');
   }
 }

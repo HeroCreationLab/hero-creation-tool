@@ -8,7 +8,7 @@ import SpellsTab from './tabs/spellsStep';
 import BioTab from './tabs/bioStep';
 import { Step } from './tabs/step';
 import { LOG_PREFIX, MODULE_ID } from './constants';
-import { buildActor } from './buildActor';
+import { buildActor } from './actor/buildActor';
 import { STEP_INDEX } from './constants';
 
 export default class HeroCreationTool extends Application {
@@ -111,8 +111,7 @@ export default class HeroCreationTool extends Application {
   }
 
   private handleActorCreation = async () => {
-    buildActor(this.steps);
-    this.close();
+    if (await buildActor(this.steps)) this.close();
   };
 
   private openTab(index: STEP_INDEX): void {

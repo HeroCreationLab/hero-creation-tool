@@ -10,6 +10,9 @@ export default interface HeroOption {
   value(): any;
   isFulfilled(): boolean;
   applyToHero(actor: ActorDataConstructorData): void;
+  // getApplier():
+  //   | { applierType: 'key'; apply: (actor: ActorDataConstructorData, key: string) => void }
+  //   | { applierType: 'custom'; apply: (args: any) => any };
   key: string;
   origin: StepEnum;
   settings: {

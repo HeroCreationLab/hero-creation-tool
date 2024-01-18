@@ -17,6 +17,7 @@ import { FeatEntry } from '../indexes/entries/featEntry';
 import { MYSTERY_MAN, NONE_ICON } from '../constants';
 import { getGame } from '../utils';
 import { AbilityScoreAdvancementEntry } from '../indexes/entries/advancementEntry';
+import { AdvancementType } from '../advancements/advancementType';
 
 class _Race extends Step {
   private raceEntries?: RaceEntry[];
@@ -102,7 +103,7 @@ class _Race extends Step {
 
     this.$context.show();
 
-    this.stepOptions.push(new HiddenOption(StepEnum.Race, 'items', raceItem, { addValues: true }));
+    this.stepOptions.push(new HiddenOption(StepEnum.Race, 'items', [raceItem], { addValues: true }));
     this.stepOptions.push(new HiddenOption(StepEnum.Race, 'data.details.race', raceName));
   }
 
@@ -224,20 +225,15 @@ class _Race extends Step {
         const ability = foundryAbilities[key];
         const fixedBonus = (config.fixed as any)[ability.abbreviation];
 
-        return new InputOption(
-          StepEnum.Race,
-          `data.abilities.${ability.abbreviation.toLowerCase()}.value`,
-          '',
-          fixedBonus,
-          {
-            addValues: true,
-            type: 'number',
-            preLabel: ability.label,
-            class: 'hct-w-6/12',
-            data: `data-hct-race-ability='${ability.abbreviation}'`,
-            disabled: !!fixedBonus || !config.points,
-          },
-        );
+        return new InputOption(StepEnum.Race, `data.abilities.${ability.abbreviation}.value`, '', fixedBonus, {
+          advancement: { type: AdvancementType.ABILITY_SCORE_IMPROVEMENT, origin: 'race', exclude: false },
+          addValues: true,
+          type: 'number',
+          preLabel: ability.label,
+          class: 'hct-w-6/12',
+          data: `data-hct-race-ability='${ability.abbreviation}'`,
+          disabled: !!fixedBonus || !config.points,
+        });
       });
     } else {
       // FALLBACK :: race has no AbilityScoreAdvancement
