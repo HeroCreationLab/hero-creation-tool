@@ -1,5 +1,4 @@
 import { Advancement } from './advancement';
-import { AdvancementType } from './advancementType';
 
 export interface AbilityScoreAdvancement extends Advancement {
   type: AdvancementType.ABILITY_SCORE_IMPROVEMENT;

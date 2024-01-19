@@ -1,6 +1,6 @@
-import { ScaleValueAdvancement } from './ScaleValueAdvancement';
-import { ItemGrantAdvancement } from './ItemGrantAdvancement';
-import { HitPointsAdvancement } from './HitPointsAdvancement';
+import { ScaleValueAdvancement } from './scaleValueAdvancement';
+import { ItemGrantAdvancement } from './itemGrantAdvancement';
+import { HitPointsAdvancement } from './hitPointsAdvancement';
 import { Advancement } from './advancement';
 
 export interface AdvancementConfiguration {

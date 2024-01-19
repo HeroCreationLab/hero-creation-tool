@@ -15,8 +15,8 @@ import { RaceEntry } from '../indexes/entries/raceEntry';
 import { RacialFeatureEntry } from '../indexes/entries/racialFeatureEntry';
 import { FeatEntry } from '../indexes/entries/featEntry';
 import { MYSTERY_MAN, NONE_ICON } from '../constants';
-import { getGame } from '../utils';
-import { AbilityScoreAdvancementEntry } from '../indexes/entries/advancementEntry';
+import { DND5E, getGame } from '../system.utils';
+import { AbilityScoreAdvancementEntry, SizeAdvancementEntry } from '../indexes/entries/advancementEntry';
 import { AdvancementType } from '../advancements/advancementType';
 
 class _Race extends Step {
@@ -94,7 +94,7 @@ class _Race extends Step {
     this.clearOptions();
 
     this.setAbilityScoresUi(raceItem);
-    this.setSizeUi();
+    this.setSizeUi(raceItem);
     this.setSensesUi();
     this.setMovementUi();
     this.setProficienciesUi();
@@ -200,13 +200,42 @@ class _Race extends Step {
     this.stepOptions.push(sensesOption);
   }
 
-  setSizeUi(): void {
-    const sizeOption = new SelectableOption(StepEnum.Race, 'data.traits.size', getSizeOptions(), '', {
-      addValues: false,
-      default: 'med',
-      customizable: false,
-    });
+  setSizeUi(entry: RaceEntry): void {
+    const raceSizeAdvancement = entry.system.advancement.find(
+      (adv) => adv.type == AdvancementType.SIZE,
+    ) as SizeAdvancementEntry;
+
+    const foundrySizes = getGame().dnd5e.config.actorSizes;
+
+    // TODO handle selectable size
+    console.log(raceSizeAdvancement.configuration.sizes);
+    const sizeOption = raceSizeAdvancement
+      ? new SelectableOption(
+          StepEnum.Race,
+          'data.traits.size',
+          getSizeOptions(raceSizeAdvancement.configuration.sizes),
+          '',
+          {
+            addValues: false,
+            default: raceSizeAdvancement.configuration.sizes[0],
+            advancement: { type: AdvancementType.SIZE, origin: StepEnum.Race, exclude: false },
+            customizable: false,
+          },
+        )
+      : // FALLBACK :: race has no SizeAdvancement
+        new SelectableOption(StepEnum.Race, 'data.traits.size', getSizeOptions(), '', {
+          addValues: false,
+          default: 'med',
+          customizable: false,
+        });
+
     const $sizeSection = $('[data-hct_race_area=size]', this.$context).empty();
+
+    if (raceSizeAdvancement.configuration.hint) {
+      const hintText = highlightActorSizesInText(raceSizeAdvancement.configuration.hint, foundrySizes);
+      $sizeSection.append($(`<p>${hintText}</p>`));
+    }
+
     sizeOption.render($sizeSection);
     this.stepOptions.push(sizeOption);
   }
@@ -216,7 +245,7 @@ class _Race extends Step {
     let options;
 
     const raceAsiAdvancement = entry.system.advancement.find(
-      (adv) => adv.type == 'AbilityScoreImprovement',
+      (adv) => adv.type == AdvancementType.ABILITY_SCORE_IMPROVEMENT,
     ) as AbilityScoreAdvancementEntry;
 
     if (raceAsiAdvancement) {
@@ -226,7 +255,7 @@ class _Race extends Step {
         const fixedBonus = (config.fixed as any)[ability.abbreviation];
 
         return new InputOption(StepEnum.Race, `data.abilities.${ability.abbreviation}.value`, '', fixedBonus, {
-          advancement: { type: AdvancementType.ABILITY_SCORE_IMPROVEMENT, origin: 'race', exclude: false },
+          advancement: { type: AdvancementType.ABILITY_SCORE_IMPROVEMENT, origin: StepEnum.Race, exclude: false },
           addValues: true,
           type: 'number',
           preLabel: ability.label,
@@ -304,10 +333,10 @@ class _Race extends Step {
 const RaceTab: Step = new _Race();
 export default RaceTab;
 
-function getSizeOptions(): Record<string, string>[] {
+function getSizeOptions(raceSizeKeys?: string[]): Record<string, string>[] {
   const foundrySizes = (game as any).dnd5e.config.actorSizes;
 
-  return Object.keys(foundrySizes).map((k) => ({ key: k, value: foundrySizes[k] }));
+  return (raceSizeKeys ?? foundrySizes.keys()).map((k: string) => ({ key: k, value: foundrySizes[k] }));
 }
 
 type dnd5eConfigAbility = {
@@ -315,3 +344,9 @@ type dnd5eConfigAbility = {
   abbreviation: string;
   type: 'physical' | 'mental';
 };
+
+function highlightActorSizesInText(hint: string, foundrySizes: typeof DND5E.SIZES): string {
+  return Object.values(foundrySizes).reduce((accHint, currentSize) => {
+    return accHint.replace(currentSize, `<b>${currentSize}</b>`);
+  }, hint);
+}

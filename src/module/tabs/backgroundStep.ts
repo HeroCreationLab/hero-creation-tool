@@ -8,7 +8,7 @@ import { BackgroundEntry } from '../indexes/entries/backgroundEntry';
 import { MYSTERY_MAN, NONE_ICON } from '../constants';
 import SearchableIndexEntryOption from '../options/searchableIndexEntryOption';
 import * as Advancements from '../advancements/advancementUtils';
-import { getGame } from '../utils';
+import { getGame } from '../system.utils';
 import FixedOption, { OptionType } from '../options/fixedOption';
 
 class _BackgroundTab extends Step {

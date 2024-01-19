@@ -46,7 +46,7 @@ export async function buildActor(steps: Array<Step>): Promise<boolean> {
 
   const itemsWithAdvancements = itemsFromCompendia.filter(itemHasAdvancements).map((item) => {
     console.log('item pre: ', item);
-    // FIXME: amaybe not make this nasty workaround ?
+    // FIXME: maybe not make this nasty workaround ?
     const step = steps.find((s) => s.step === item.type); // for Race items fetches 'race' step, etc
     const stepAdvancementOptions = step!.getOptions().filter((opt: any) => opt.settings.advancement);
 

@@ -1,28 +1,7 @@
 import { MODULE_ID, LOG_PREFIX, DEFAULT_PACKS } from './constants';
 import HeroCreationTool from './heroCreationToolApp';
 import SettingKeys, { PrivateSettingKeys } from './settings';
-
-interface DnD5eGame extends Game {
-  dnd5e: {
-    advancement: {
-      types: {
-        [key: string]: any;
-      };
-    };
-    config: {
-      currencies: {
-        [id: string]: { conversion: number };
-      };
-    };
-  };
-}
-
-export function getGame(): DnD5eGame {
-  if (!(game instanceof Game)) {
-    throw new Error('game is not initialized yet!');
-  }
-  return game as DnD5eGame;
-}
+import { getGame } from './system.utils';
 
 export async function getRules(rule: { journalId: string; pageId: string }) {
   const { journalId, pageId } = rule;
@@ -144,26 +123,26 @@ export function addCreateNewActorButton(app: HeroCreationTool, html: any, dialog
 }
 
 function userHasRightPermissions(): boolean {
-  const userRole = (game as any).user.role;
+  const userRole = getGame().user?.role ?? 0;
 
   // create actor (REQUIRED)
-  if (!((game as any).permissions.ACTOR_CREATE as Array<number>).includes(userRole)) {
+  if (!(getGame().permissions?.ACTOR_CREATE as Array<number>).includes(userRole)) {
     ui.notifications?.error(game.i18n.localize('HCT.Permissions.NeedCreateActorError'));
     return false;
   }
 
   // create item (optional)
-  if (!((game as any).permissions.ITEM_CREATE as Array<number>).includes(userRole)) {
+  if (!(getGame().permissions?.ITEM_CREATE as Array<number>).includes(userRole)) {
     ui.notifications?.warn(game.i18n.localize('HCT.Permissions.NeedCreateItemWarn'));
   }
 
   // upload files (optional)
-  if (!((game as any).permissions.FILES_UPLOAD as Array<number>).includes(userRole)) {
+  if (!(getGame().permissions?.FILES_UPLOAD as Array<number>).includes(userRole)) {
     ui.notifications?.warn(game.i18n.localize('HCT.Permissions.NeedFileUploadWarn'));
   }
 
   // browse files (optional)
-  if (!((game as any).permissions.FILES_BROWSE as Array<number>).includes(userRole)) {
+  if (!(getGame().permissions?.FILES_BROWSE as Array<number>).includes(userRole)) {
     ui.notifications?.warn(game.i18n.localize('HCT.Permissions.NeedFileBrowseWarn'));
   }
   return true;

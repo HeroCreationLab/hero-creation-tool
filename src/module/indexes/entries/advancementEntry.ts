@@ -1,4 +1,5 @@
 import { AdvancementType } from '../../advancements/advancementType';
+import { DND5E } from '../../system.utils';
 
 export type AdvancementEntry = {
   _id: string;
@@ -21,6 +22,14 @@ export type AbilityScoreAdvancementEntry = AdvancementEntry & {
       wis: number;
       cha: number;
     };
+  };
+};
+
+export type SizeAdvancementEntry = AdvancementEntry & {
+  type: AdvancementType.SIZE;
+  configuration: {
+    hint?: string;
+    sizes: [keyof typeof DND5E.SIZES];
   };
 };
 

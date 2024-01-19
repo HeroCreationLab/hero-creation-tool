@@ -1,5 +1,5 @@
-import { Advancement } from './advancement';
 import { AdvancementType } from './advancementType';
+import { Advancement } from './advancement';
 
 export interface HitPointsAdvancement extends Advancement {
   type: AdvancementType.HIT_POINTS;

@@ -15,7 +15,7 @@ import { ClassFeatureEntry } from '../indexes/entries/classFeatureEntry';
 import { ClassEntry } from '../indexes/entries/classEntry';
 import { MYSTERY_MAN, CLASS_LEVEL, NONE_ICON } from '../constants';
 import * as Advancements from '../advancements/advancementUtils';
-import { getGame } from '../utils';
+import { getGame } from '../system.utils';
 import HeroOption from '../options/heroOption';
 import { buildAdvancementMetadataForEntry } from '../advancements/advancementUtils';
 

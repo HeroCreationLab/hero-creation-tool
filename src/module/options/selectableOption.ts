@@ -1,6 +1,7 @@
 import { StepEnum } from '../tabs/step';
 import { ActorDataConstructorData } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/data.mjs/actorData';
 import HeroOption, { apply } from './heroOption';
+import { AdvancementType } from '../advancements/advancementType';
 
 /**
  * Represents a value needs to be selected by the player with a single output onto the created actor.
@@ -15,13 +16,14 @@ export default class SelectableOption implements HeroOption {
     private label: string,
     readonly settings: {
       addValues: boolean;
+      advancement?: { type: AdvancementType; origin: string; exclude: boolean }; // exclude: don't apply this value when applying options
       default?: string;
       customizable: boolean;
     } = { addValues: false, customizable: false },
     readonly changeCallback?: (data?: any) => void,
     readonly callbackMapping?: Map<string, string>,
   ) {
-    this.$elem = $(`<select class="hct-grow">`);
+    this.$elem = $(`<select class="hct-grow" ${this.options.length === 1 ? 'disabled' : ''}>`);
     if (!settings.default) {
       this.$elem.append(
         $(`<option value="" selected disabled hidden>
@@ -64,6 +66,7 @@ export default class SelectableOption implements HeroOption {
   }
 
   applyToHero(actor: ActorDataConstructorData) {
+    if (this.settings.advancement?.exclude) return;
     apply(actor, this.key, this.value(), this.settings.addValues);
   }
 

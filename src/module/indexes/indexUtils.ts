@@ -1,5 +1,5 @@
 import { LOG_PREFIX } from '../constants';
-import { getGame } from '../utils';
+import { getGame } from '../system.utils';
 import { IndexEntry } from './entries/indexEntry';
 
 export async function hydrateItems(indexEntries: Array<IndexEntry>): Promise<Item[]> {
