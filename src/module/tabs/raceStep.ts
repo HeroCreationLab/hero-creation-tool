@@ -16,7 +16,11 @@ import { RacialFeatureEntry } from '../indexes/entries/racialFeatureEntry';
 import { FeatEntry } from '../indexes/entries/featEntry';
 import { MYSTERY_MAN, NONE_ICON } from '../constants';
 import { DND5E, getGame } from '../system.utils';
-import { AbilityScoreAdvancementEntry, SizeAdvancementEntry } from '../indexes/entries/advancementEntry';
+import {
+  AbilityScoreAdvancementEntry,
+  SizeAdvancementEntry,
+  TraitAdvancementEntry,
+} from '../indexes/entries/advancementEntry';
 import { AdvancementType } from '../advancements/advancementType';
 
 class _Race extends Step {
@@ -97,7 +101,7 @@ class _Race extends Step {
     this.setSizeUi(raceItem);
     this.setSensesUi();
     this.setMovementUi();
-    this.setProficienciesUi();
+    this.setTraitsUi(raceItem);
     this.setRaceFeaturesUi(raceItem);
     this.setFeatsUi();
 
@@ -107,70 +111,35 @@ class _Race extends Step {
     this.stepOptions.push(new HiddenOption(StepEnum.Race, 'data.details.race', raceName));
   }
 
-  async setProficienciesUi() {
-    const $proficienciesSection = $('[data-hct_race_area=proficiencies]', this.$context).empty();
+  async setTraitsUi(entry: RaceEntry) {
+    const $traitsSection = $('[data-hct_race_area=traits]', this.$context).empty();
     const options = [];
-    options.push(
-      ProficiencyUtils.prepareSkillOptions({
-        step: this.step,
-        $parent: $proficienciesSection,
-        pushTo: this.stepOptions,
-        quantity: 0,
-        addValues: true,
-        expandable: true,
-        customizable: false,
-      }),
-    );
 
-    options.push(
-      await ProficiencyUtils.prepareWeaponOptions({
-        step: this.step,
-        $parent: $proficienciesSection,
-        pushTo: this.stepOptions,
-        quantity: 0,
-        addValues: true,
-        expandable: true,
-        customizable: true,
-      }),
-    );
+    const traitAdvancements = entry?.system?.advancement?.filter(
+      (adv) => adv.type == AdvancementType.TRAIT,
+    ) as TraitAdvancementEntry[];
 
-    options.push(
-      await ProficiencyUtils.prepareArmorOptions({
-        step: this.step,
-        $parent: $proficienciesSection,
-        pushTo: this.stepOptions,
-        quantity: 0,
-        addValues: true,
-        expandable: true,
-        customizable: true,
-      }),
-    );
+    if (!traitAdvancements || traitAdvancements.length === 0) {
+      // FALLBACK :  show hand-picked trait selectors
+      options.push(...(await _getFallbackTraitSelectorOptions(this.step, $traitsSection)));
+      options.forEach((o) => o.render($traitsSection));
+    } else {
+      console.log(traitAdvancements);
+      const traitTypes = ['saves', 'skills', 'languages', 'weapon', 'armor', 'tool', 'di', 'dr', 'dv', 'ci'];
 
-    options.push(
-      await ProficiencyUtils.prepareToolOptions({
-        step: this.step,
-        $parent: $proficienciesSection,
-        pushTo: this.stepOptions,
-        quantity: 0,
-        addValues: true,
-        expandable: true,
-        customizable: true,
-      }),
-    );
+      traitTypes.forEach((traitType) => {
+        console.log('handling trait type ', traitType);
+        const saveOptions = _buildTraitOptions(traitAdvancements, traitType);
 
-    options.push(
-      ProficiencyUtils.prepareLanguageOptions({
-        step: this.step,
-        $parent: $proficienciesSection,
-        pushTo: this.stepOptions,
-        quantity: 0,
-        addValues: true,
-        expandable: true,
-        customizable: true,
-      }),
-    );
+        if (saveOptions.length) {
+          $traitsSection.append($(`<h3>${Utils.localize('Traits.' + traitType)}</h3>`));
+        }
 
-    options.forEach((o) => o.render($proficienciesSection));
+        saveOptions.forEach((o) => o.render($traitsSection));
+        options.push(...saveOptions);
+      });
+    }
+
     this.stepOptions.push(...options);
   }
 
@@ -207,8 +176,6 @@ class _Race extends Step {
 
     const foundrySizes = getGame().dnd5e.config.actorSizes;
 
-    // TODO handle selectable size
-    console.log(raceSizeAdvancement.configuration.sizes);
     const sizeOption = raceSizeAdvancement
       ? new SelectableOption(
           StepEnum.Race,
@@ -231,7 +198,7 @@ class _Race extends Step {
 
     const $sizeSection = $('[data-hct_race_area=size]', this.$context).empty();
 
-    if (raceSizeAdvancement.configuration.hint) {
+    if (raceSizeAdvancement?.configuration?.hint) {
       const hintText = highlightActorSizesInText(raceSizeAdvancement.configuration.hint, foundrySizes);
       $sizeSection.append($(`<p>${hintText}</p>`));
     }
@@ -248,6 +215,7 @@ class _Race extends Step {
       (adv) => adv.type == AdvancementType.ABILITY_SCORE_IMPROVEMENT,
     ) as AbilityScoreAdvancementEntry;
 
+    // TODO add prefix for "+2" instead of "2" for added clarity this is a bonus
     if (raceAsiAdvancement) {
       const config = raceAsiAdvancement.configuration;
       options = Object.keys(foundryAbilities).map((key) => {
@@ -336,7 +304,7 @@ export default RaceTab;
 function getSizeOptions(raceSizeKeys?: string[]): Record<string, string>[] {
   const foundrySizes = (game as any).dnd5e.config.actorSizes;
 
-  return (raceSizeKeys ?? foundrySizes.keys()).map((k: string) => ({ key: k, value: foundrySizes[k] }));
+  return (raceSizeKeys ?? Object.keys(foundrySizes)).map((k: string) => ({ key: k, value: foundrySizes[k] }));
 }
 
 type dnd5eConfigAbility = {
@@ -349,4 +317,120 @@ function highlightActorSizesInText(hint: string, foundrySizes: typeof DND5E.SIZE
   return Object.values(foundrySizes).reduce((accHint, currentSize) => {
     return accHint.replace(currentSize, `<b>${currentSize}</b>`);
   }, hint);
+}
+
+async function _getFallbackTraitSelectorOptions(step: StepEnum, $traitsSection: JQuery): Promise<HeroOption[]> {
+  const options = [];
+
+  options.push(
+    ProficiencyUtils.prepareLanguageOptions({
+      step,
+      $parent: $traitsSection,
+      quantity: 0,
+      addValues: true,
+      expandable: true,
+      customizable: true,
+    }),
+  );
+
+  options.push(
+    ProficiencyUtils.prepareSkillOptions({
+      step,
+      $parent: $traitsSection,
+      quantity: 0,
+      addValues: true,
+      expandable: true,
+      customizable: false,
+    }),
+  );
+
+  options.push(
+    await ProficiencyUtils.prepareWeaponOptions({
+      step,
+      $parent: $traitsSection,
+      quantity: 0,
+      addValues: true,
+      expandable: true,
+      customizable: true,
+    }),
+  );
+
+  options.push(
+    await ProficiencyUtils.prepareArmorOptions({
+      step,
+      $parent: $traitsSection,
+      quantity: 0,
+      addValues: true,
+      expandable: true,
+      customizable: true,
+    }),
+  );
+
+  options.push(
+    await ProficiencyUtils.prepareToolOptions({
+      step,
+      $parent: $traitsSection,
+      quantity: 0,
+      addValues: true,
+      expandable: true,
+      customizable: true,
+    }),
+  );
+
+  return options;
+}
+
+function _filterTraitAdvancementsForKey(
+  traitAdvancements: TraitAdvancementEntry[],
+  traitKey: string,
+): TraitAdvancementEntry[] {
+  return traitAdvancements.filter(
+    (t) =>
+      [...t.configuration.grants].every((g) => g?.startsWith(traitKey)) &&
+      [...t.configuration.choices].every((c) => [...c.pool].every((cp) => cp?.startsWith(traitKey))),
+  );
+}
+
+function _buildTraitOptions(opts: {
+  step: StepEnum;
+  traitAdvancements: TraitAdvancementEntry[];
+  traitKey: string;
+}): HeroOption[] {
+  const { step } = opts;
+  const traitsAdvsForKey = _filterTraitAdvancementsForKey(opts.traitAdvancements, opts.traitKey);
+  console.log(`traits for ${opts.traitKey} `, traitsAdvsForKey);
+
+  const options: HeroOption[] = [];
+  traitsAdvsForKey.forEach((trait) => {
+    // add disabled select with single option
+    const grantOptions = [...trait.configuration.grants].map((grantedTrait) => {
+      const opt = new SelectableOption(
+        step,
+        _getActorKeyForTrait(trait.type),
+        _getOptionsForTrait(trait.type),
+        'label for trait ' + trait.title,
+        {
+          addValues: false,
+          default: grantedTrait.substring(grantedTrait.indexOf(':') + 1),
+          advancement: { type: AdvancementType.SIZE, origin: step, exclude: false },
+          customizable: false,
+        },
+      );
+      return opt;
+    });
+    options.push(...grantOptions);
+
+    // add select with choices
+    // const choiceOptions = [...trait.configuration.choices].map((chosenTrait) => {});
+    // options.push(...choiceOptions);
+  });
+
+  return options;
+}
+function _getActorKeyForTrait(type: AdvancementType): string {
+  throw new Error('Function not implemented.');
+}
+
+function _getOptionsForTrait(type: AdvancementType): Record<string, string>[] {
+  throw new Error('Function not implemented.');
 }

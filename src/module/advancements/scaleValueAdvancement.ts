@@ -1,7 +1,7 @@
+import { ScaleValueAdvancementEntry } from '../indexes/entries/advancementEntry';
 import { AdvancementType } from './advancementType';
-import { Advancement } from './advancement';
 
-export interface ScaleValueAdvancement extends Advancement {
+export interface ScaleValueAdvancement extends ScaleValueAdvancementEntry {
   type: AdvancementType.SCALE_VALUE;
   identifier: string;
   data: {

@@ -1,7 +1,7 @@
+import { ItemGrantAdvancementEntry } from '../indexes/entries/advancementEntry';
 import { AdvancementType } from './advancementType';
-import { Advancement } from './advancement';
 
-export interface ItemGrantAdvancement extends Advancement {
+export interface ItemGrantAdvancement extends ItemGrantAdvancementEntry {
   type: AdvancementType.ITEM_GRANT;
   data: {
     configuration: {

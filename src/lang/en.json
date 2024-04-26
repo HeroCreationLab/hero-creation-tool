@@ -106,7 +106,7 @@
       "Desc": "Description",
       "ProfDialogTitle": "Add proficiency",
       "ProfDialogContent": "Select existing proficiency or define a custom one?",
-      "Proficiencies": "Proficiencies",
+      "Traits": "Traits",
       "ProficiencyMulti": "Proficiency in ",
       "SelectPlaceholder": "Choose..",
       "SelectCreateOne": "Create a new one",
@@ -249,6 +249,9 @@
         "8": "th",
         "9": "th"
       }
+    },
+    "Traits": {
+      "saves": "Saving Throws"
     },
     "Bio": {
       "Title": "Biography",

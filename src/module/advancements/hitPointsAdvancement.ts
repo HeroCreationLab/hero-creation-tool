@@ -1,7 +1,7 @@
+import { HitPointsAdvancementEntry } from '../indexes/entries/advancementEntry';
 import { AdvancementType } from './advancementType';
-import { Advancement } from './advancement';
 
-export interface HitPointsAdvancement extends Advancement {
+export interface HitPointsAdvancement extends HitPointsAdvancementEntry {
   type: AdvancementType.HIT_POINTS;
   hitDie: string;
   hitDieValue: number;

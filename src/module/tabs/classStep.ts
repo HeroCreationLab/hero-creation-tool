@@ -244,7 +244,6 @@ class _Class extends Step {
       ProficiencyUtils.prepareSkillOptions({
         step: this.step,
         $parent: $proficiencySection,
-        pushTo: this.stepOptions,
         filteredOptions: this._class!.system.skills.choices.map((s: string) => ({
           key: s,
           value: `${foundrySkills[s].label} (${Utils.getLocalizedAbility(foundrySkills[s].ability)})`,
@@ -260,7 +259,6 @@ class _Class extends Step {
       await ProficiencyUtils.prepareWeaponOptions({
         step: this.step,
         $parent: $proficiencySection,
-        pushTo: this.stepOptions,
         quantity: 0,
         addValues: true,
         expandable: true,
@@ -272,7 +270,6 @@ class _Class extends Step {
       await ProficiencyUtils.prepareArmorOptions({
         step: this.step,
         $parent: $proficiencySection,
-        pushTo: this.stepOptions,
         quantity: 0,
         addValues: true,
         expandable: true,
@@ -284,7 +281,6 @@ class _Class extends Step {
       await ProficiencyUtils.prepareToolOptions({
         step: this.step,
         $parent: $proficiencySection,
-        pushTo: this.stepOptions,
         quantity: 0,
         addValues: true,
         expandable: true,
@@ -296,7 +292,6 @@ class _Class extends Step {
       ProficiencyUtils.prepareLanguageOptions({
         step: this.step,
         $parent: $proficiencySection,
-        pushTo: this.stepOptions,
         quantity: 0,
         addValues: true,
         expandable: true,

@@ -33,6 +33,17 @@ export type SizeAdvancementEntry = AdvancementEntry & {
   };
 };
 
+export type TraitAdvancementEntry = AdvancementEntry & {
+  type: AdvancementType.TRAIT;
+  configuration: {
+    allowReplacements: boolean;
+    choices: { count: number; pool: Set<string> }[];
+    grants: Set<string>;
+    hint?: string;
+    mode: 'default'; // gain trait or proficiency
+  };
+};
+
 export type HitPointsAdvancementEntry = AdvancementEntry & {
   type: AdvancementType.HIT_POINTS;
 };

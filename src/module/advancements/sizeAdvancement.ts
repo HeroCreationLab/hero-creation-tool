@@ -1,13 +1,7 @@
 import { DND5E } from '../system.utils';
-import { AdvancementType } from './advancementType';
-import { Advancement } from './advancement';
+import { SizeAdvancementEntry } from '../indexes/entries/advancementEntry';
 
-export interface SizeAdvancement extends Advancement {
-  type: AdvancementType.SIZE;
-  configuration: {
-    hint?: string;
-    sizes: Set<keyof typeof DND5E.SIZES>;
-  };
+export interface SizeAdvancement extends SizeAdvancementEntry {
   value: {
     size: keyof typeof DND5E.SIZES;
   };

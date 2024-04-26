@@ -109,7 +109,6 @@ class _BackgroundTab extends Step {
       ProficiencyUtils.prepareSkillOptions({
         step: this.step,
         $parent: $proficienciesArea,
-        pushTo: this.stepOptions,
         quantity: 2,
         addValues: true,
         expandable: true,
@@ -120,7 +119,6 @@ class _BackgroundTab extends Step {
       await ProficiencyUtils.prepareToolOptions({
         step: this.step,
         $parent: $proficienciesArea,
-        pushTo: this.stepOptions,
         quantity: 0,
         addValues: true,
         expandable: true,
@@ -131,7 +129,6 @@ class _BackgroundTab extends Step {
       ProficiencyUtils.prepareLanguageOptions({
         step: this.step,
         $parent: $proficienciesArea,
-        pushTo: this.stepOptions,
         quantity: 0,
         addValues: true,
         expandable: true,

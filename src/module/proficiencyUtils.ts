@@ -1,5 +1,4 @@
 import { ProficiencyChoicesType } from './dnd5e';
-import HeroOption from './options/heroOption';
 import MultiOption from './options/multiOption';
 import { StepEnum } from './tabs/step';
 import { getLocalizedAbility } from './utils';
@@ -7,7 +6,6 @@ import { getLocalizedAbility } from './utils';
 export type OptionSettings = {
   step: StepEnum;
   $parent: JQuery;
-  pushTo: HeroOption[];
   quantity: number;
   filteredOptions?: KeyValue[];
   addValues: boolean;
