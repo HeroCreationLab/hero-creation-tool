@@ -127,12 +127,12 @@ class _Race extends Step {
       console.log(traitAdvancements);
       const traitTypes = ['saves', 'skills', 'languages', 'weapon', 'armor', 'tool', 'di', 'dr', 'dv', 'ci'];
 
-      traitTypes.forEach((traitType) => {
-        console.log('handling trait type ', traitType);
-        const saveOptions = _buildTraitOptions(traitAdvancements, traitType);
+      traitTypes.forEach((traitKey) => {
+        console.log('handling trait type ', traitKey);
+        const saveOptions = _buildTraitOptions({ traitAdvancements, traitKey });
 
         if (saveOptions.length) {
-          $traitsSection.append($(`<h3>${Utils.localize('Traits.' + traitType)}</h3>`));
+          $traitsSection.append($(`<h3>${Utils.localize('Traits.' + traitKey)}</h3>`));
         }
 
         saveOptions.forEach((o) => o.render($traitsSection));
@@ -391,15 +391,12 @@ function _filterTraitAdvancementsForKey(
   );
 }
 
-function _buildTraitOptions(opts: {
-  step: StepEnum;
-  traitAdvancements: TraitAdvancementEntry[];
-  traitKey: string;
-}): HeroOption[] {
-  const { step } = opts;
-  const traitsAdvsForKey = _filterTraitAdvancementsForKey(opts.traitAdvancements, opts.traitKey);
+function _buildTraitOptions(opts: { traitAdvancements: TraitAdvancementEntry[]; traitKey: string }): HeroOption[] {
+  const { traitAdvancements, traitKey } = opts;
+  const traitsAdvsForKey = _filterTraitAdvancementsForKey(traitAdvancements, traitKey);
   console.log(`traits for ${opts.traitKey} `, traitsAdvsForKey);
 
+  const step = StepEnum.Race;
   const options: HeroOption[] = [];
   traitsAdvsForKey.forEach((trait) => {
     // add disabled select with single option
