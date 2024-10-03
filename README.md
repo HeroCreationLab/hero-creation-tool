@@ -7,8 +7,12 @@
 ![Core Version](https://img.shields.io/endpoint?url=https://foundryshields.com/version?url=https%3A%2F%2Fgithub.com%2FHeroCreationLab%2Fhero-creation-tool%2Freleases%2Fdownload%2Flatest%2Fmodule.json)
 ![System](https://img.shields.io/endpoint?url=https%3A%2F%2Ffoundryshields.com%2Fsystem%3FnameType%3Dfoundry%26showVersion%3D1%26url%3Dhttps%3A%2F%2Fgithub.com%2FHeroCreationLab%2Fhero-creation-tool%2Freleases%2Fdownload%2Flatest%2Fmodule.json)
 
-
+<!--
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/N4N88281M)
+-->
+
+# IMPORTANT NOTICE ⚠️
+Hero Creation Tool has been deprecated, and a new module replacing it is now in place, the [Actor Studio](https://foundryvtt.com/packages/foundryvtt-actor-studio). I like to thank everyone for the support and interest, and I hope that Actor Studio serves your needs and continues the legacy moving forward!
 
 <img src="src/assets/logo.png" width="400">
 
